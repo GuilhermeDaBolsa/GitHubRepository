@@ -1,6 +1,6 @@
 package executavel;
 
-import ObjetosBase.visibleObjects.Descricao;
+import Biblioteca.OrganizadoresDeNodos.Descricao;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;

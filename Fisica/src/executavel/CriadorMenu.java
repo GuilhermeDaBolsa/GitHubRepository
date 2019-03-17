@@ -1,8 +1,8 @@
 package executavel;
 
 import ObjetosBase.Animacoes;
-import ObjetosBase.TabelaMenu;
-import ObjetosBase.visibleObjects.Caixa;
+import Biblioteca.OrganizadoresDeNodos.TabelaMenu;
+import Biblioteca.OrganizadoresDeNodos.Caixa;
 import static executavel.Acoes_Botoes.*;
 import java.util.ArrayList;
 import javafx.geometry.Pos;
@@ -15,9 +15,9 @@ import javafx.scene.paint.Color;
 public class CriadorMenu {
 
     public static Scene scene;
-    static double largura_menu = 100;
+    static double largura_menu = 75;
     static double espacinho = 20;
-    static double porcentagem_btn = 0.4;
+    static double porcentagem_btn = 0.5;
     static double tempo_animacao_menu = 0.3;
     public static ArrayList<Caixa> botoes = new ArrayList();
 
@@ -76,7 +76,7 @@ public class CriadorMenu {
      * @return O menu.
      */
     public static Caixa cria_menu() {
-        TabelaMenu junta = new TabelaMenu(0, 90, 0, cria_botao_add(), cria_botao_config(), cria_botao_remove());
+        TabelaMenu junta = new TabelaMenu(0, 50, 0, 40, 0, false, cria_botao_add(), cria_botao_config(), cria_botao_remove());
         junta.setButtonTypes(-2,2,-2);
         junta.setEventosVisuais(Color.BLACK, Color.WHITE, Color.CHARTREUSE);
         Caixa menu = new Caixa(largura_menu, 100, 2, Color.BLACK, Color.BLACK);
@@ -96,7 +96,7 @@ public class CriadorMenu {
      * @return O botão.
      */
     public static Caixa cria_botao_menu(Caixa menu) {
-        Caixa btn_menu = new Caixa(largura_menu * 0.6, largura_menu * 0.6, 2, Color.WHITE, Color.BLACK);
+        Caixa btn_menu = new Caixa(largura_menu * 0.8, largura_menu * 0.8, 2, Color.WHITE, Color.BLACK);
         btn_menu.setTranslateX(0);
         btn_menu.setTranslateY(0);
         btn_menu.setOnMouseEntered((event) -> {

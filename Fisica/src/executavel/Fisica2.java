@@ -1,7 +1,8 @@
 package executavel;
 
-import ObjetosBase.MathGrid;
-import ObjetosBase.visibleObjects.Caixa;
+
+import Biblioteca.OrganizadoresDeNodos.MathGrid;
+import Biblioteca.OrganizadoresDeNodos.Caixa;
 import static executavel.CriadorMenu.espacinho;
 import static executavel.CriadorMenu.largura_menu;
 import static executavel.CriadorMenu.scene;

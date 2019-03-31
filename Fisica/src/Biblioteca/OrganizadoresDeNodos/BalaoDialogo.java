@@ -1,7 +1,7 @@
 package Biblioteca.OrganizadoresDeNodos;
 
-import Biblioteca.BasicObjects.Texto;
-import ObjetosBase.Animacoes;
+import Biblioteca.BasicObjects.Formas.Texto;
+import Biblioteca.Animacoes;
 import static Biblioteca.OrganizadoresDeNodos.ConstantesBalaoDialogo.*;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.Pane;
@@ -86,7 +86,7 @@ public class BalaoDialogo extends Pane {
         texto.setTranslateX(8);
         texto.setTranslateY(8 * 2 +5);//???????? *2 ??????? só aceita que funfa//
 
-        Rectangle retangulo = new Rectangle(texto.getLarguraTexto() + 8 + 2, texto.getAlturaTexto() + 8 + 2);
+        Rectangle retangulo = new Rectangle(texto.getLargura() + 8 + 2, texto.getAltura() + 8 + 2);
         if (cor_fundo == null) {
             retangulo.setFill(Color.ALICEBLUE);
         } else {

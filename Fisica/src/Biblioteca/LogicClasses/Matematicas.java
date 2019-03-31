@@ -3,14 +3,24 @@ package Biblioteca.LogicClasses;
     public class Matematicas {
 
     /**
-     * Gera um valor aleatório entre 0 (inclusive) e o valor de parametro (inclusive).
+     * Gera um valor aleatório entre 0 (inclusive) e o valor de parametro (not inclusive).
      * @param max - valor máximo
-     * @return Qualquer nunmero de [1...max]
+     * @return Qualquer nunmero de [0...max[
      */
     public static int random(int max) {
         return (int) (Math.random()*max);
     }
 
+    /**
+     * Gera um valor aleatório entre 0 (inclusive) e o valor de parametro.
+     * @param min Valor mínimo.
+     * @param max Valor máximo.
+     * @return Qualquer número de [1...max[
+     */
+    public static int random(int min, int max) {
+        return (int) (Math.random()*max + min) % max;
+    }
+    
     /**
      * "Rolls" a dice and checks it against the chance percentage
      * @param chance - the chance against which the roll is checked

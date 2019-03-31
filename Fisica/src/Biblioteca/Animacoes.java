@@ -1,4 +1,4 @@
-package ObjetosBase;
+package Biblioteca;
 
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;

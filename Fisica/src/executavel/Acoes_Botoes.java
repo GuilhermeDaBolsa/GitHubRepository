@@ -24,6 +24,6 @@ public class Acoes_Botoes {
         Runtime runtime = Runtime.getRuntime();
         //runtime.gc();
         long memory = runtime.totalMemory() - runtime.freeMemory();
-        System.out.println("Used memory is bytes: " + memory/1024/1024);
+        System.out.println("Used memory in MB: " + memory/1024/1024);
     }
 }

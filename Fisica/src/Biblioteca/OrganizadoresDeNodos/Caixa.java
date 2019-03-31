@@ -1,7 +1,7 @@
 package Biblioteca.OrganizadoresDeNodos;
 
-import Biblioteca.BasicObjects.VisibleObjectHandler;
-import Biblioteca.InteractiveObjects.InteractiveObject;
+import Biblioteca.BasicObjects.ObjetoVisivelManipulador;
+import Biblioteca.InteractiveObjects.ObjetoInteragivel;
 import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -14,7 +14,7 @@ import javafx.scene.shape.Shape;
  * Esta classe serve para criar Shapes que contém elementos dentro (Nodos), //FAZER PRA TER BORDAS INDEPENDENTES (BORDA INFERIOR, DIREITA, SUPERIOR..) E ARREDONDAR AS BORDAS
  * que podem aparecer na frente da caixa.
  */
-public class Caixa extends InteractiveObject {
+public class Caixa extends ObjetoInteragivel {
     public Shape caixa = null;
     public Pane container;
     public ArrayList<Node> conteudo_caixa = new ArrayList();
@@ -27,8 +27,8 @@ public class Caixa extends InteractiveObject {
         forma.setStrokeWidth(grossura_borda);
 
         caixa = forma;
-        mudar_cor_fundo(cor_fundo);
-        mudar_cor_borda(cor_borda);
+        setBackgroundColor(cor_fundo);
+        setStrokeColor(cor_borda);
 
         container = new Pane();
         container.setTranslateY(-grossura_borda/2);
@@ -82,7 +82,7 @@ public class Caixa extends InteractiveObject {
         ContructorHelper(forma, grossura_borda, cor_fundo, cor_borda);
     }
     
-    public Caixa(Node elemento, Paint cor_fundo, Paint cor_borda, double grossura_borda, boolean retangular){
+    public Caixa(Node elemento, Paint cor_fundo, Paint cor_borda, double grossura_borda, boolean retangular){//FALTOU ADICIONAR O ELEMENTO????
         double larguraObjeto = elemento.getBoundsInLocal().getWidth();
         double alturaObjeto = elemento.getBoundsInLocal().getHeight();
         Shape forma;
@@ -112,23 +112,41 @@ public class Caixa extends InteractiveObject {
      * Método para mudar a cor da borda da caixa.
      * @param cor Nova cor.
      */
-    public void mudar_cor_borda(Paint cor) {
+    public void setStrokeColor(Paint cor) {
         caixa.setStroke(cor);
+    }
+    
+    public void setStrokeWidth(double grossura){
+        caixa.setStrokeWidth(grossura);
     }
     
     /**
      * Método para mudar a cor do fundo da caixa.
      * @param cor Nova cor.
      */
-    public void mudar_cor_fundo(Paint cor) {
+    public void setBackgroundColor(Paint cor) {
         caixa.setFill(cor);
     }
    
-    public void resizeBoxWithItsContent(boolean resizeWidth, boolean resizeHeight){
-        double width = resizeWidth ? container.getBoundsInLocal().getWidth() + 12 : Double.NaN;
-        double height = resizeHeight ? container.getBoundsInLocal().getHeight() + 12 : Double.NaN;
+    public void resizeBoxWithItsContent(){
         
-        VisibleObjectHandler.mudarTamanhoNodo(caixa, width, height);
+    }
+    
+    public void reajustContentWithBoxSize(){
+        /*if(caixa instanceof Circle){
+                translateInX += caixa.getBoundsInLocal().getWidth()/2;
+                translateInY += caixa.getBoundsInLocal().getHeight()/2;
+            }else if(caixa instanceof Text || caixa instanceof Texto){
+                translateInY += caixa.getBoundsInLocal().getHeight()/2;
+            }
+        
+        for (int i = 0; i < todosOSELEMENTOS; i++) {
+            if(caixa instanceof Circle){
+
+            }else if(caixa instanceof Text || caixa instanceof Texot){
+
+            }else if().......
+        }*/
     }
     
     /**
@@ -136,8 +154,8 @@ public class Caixa extends InteractiveObject {
      * dependendo do elemento).
      */
     public void alinhar_conteudos_centro(){
-        realocar_conteudos((caixa.getBoundsInLocal().getWidth() - container.getBoundsInLocal().getWidth())/2,
-                (caixa.getBoundsInLocal().getHeight() - container.getBoundsInLocal().getHeight())/2);
+        realocar_conteudos((getLargura_caixa() - ObjetoVisivelManipulador.getLargura(container))/2,
+                (getAltura_caixa() - ObjetoVisivelManipulador.getAltura(container))/2);
     }
     
     /**
@@ -146,20 +164,19 @@ public class Caixa extends InteractiveObject {
      * @param Y Distância em pixels para mover no eixo Y.
      */
      public void mover_conteudos(double X, double Y){
-        container.setTranslateX(container.getTranslateX() + X);
-        container.setTranslateY(container.getTranslateY() + Y);
+         realocar_conteudos(container.getTranslateX() + X, container.getTranslateY() + Y);
     }
     
      /**
-     * Move os conteúdos da caixa de acordo com a posição inicial dos mesmos (0,0).
+     * Move os conteúdos da caixa para a posição desejada.
      * @param X Distância em pixels para mover no eixo X.
      * @param Y Distância em pixels para mover no eixo Y.
      */
     public void realocar_conteudos(double X, double Y){
-        container.setTranslateX(0);
-        container.setTranslateY(0);
-        container.setTranslateX(X);
-        container.setTranslateY(Y);
+        if(X != Double.NaN)
+            container.setTranslateX(X);
+        if(Y != Double.NaN)
+            container.setTranslateY(Y);
     }
 
     /**

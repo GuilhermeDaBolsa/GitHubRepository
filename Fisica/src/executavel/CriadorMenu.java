@@ -1,6 +1,7 @@
 package executavel;
 
-import ObjetosBase.Animacoes;
+import Biblioteca.InteractiveObjects.InterligaElementos;
+import Biblioteca.Animacoes;
 import Biblioteca.OrganizadoresDeNodos.TabelaMenu;
 import Biblioteca.OrganizadoresDeNodos.Caixa;
 import static executavel.Acoes_Botoes.*;
@@ -13,7 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
 public class CriadorMenu {
-
     public static Scene scene;
     static double largura_menu = 75;
     static double espacinho = 20;
@@ -22,11 +22,11 @@ public class CriadorMenu {
     public static ArrayList<Caixa> botoes = new ArrayList();
 
     /**
-     * Cria o botao para adicionar pontoss.
+     * Cria a barra de menu com os botões de ações.
      *
-     * @return O botão.
+     * @return O menu.
      */
-    private static Caixa cria_botao_add() {
+    public static Caixa cria_menu() {
         Caixa btn_add = new Caixa(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, 2, Color.CADETBLUE, Color.BLACK);
         btn_add.actionRelease.addRunnable(() -> {
             acao_btn_adicionar(btn_add.is_selected);
@@ -36,51 +36,25 @@ public class CriadorMenu {
             acao_btn_adicionar(btn_add.is_selected);
         });
         botoes.add(btn_add);
-
-        return btn_add;
-    }
-
-    /**
-     * Cria o botao para alterar posição ou valor de cargas eletricas já
-     * colocadas.
-     *
-     * @return O botão.
-     */
-    private static Caixa cria_botao_config() {
+        
         Caixa btn_config = new Caixa(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, 2, Color.DARKGRAY, Color.BLACK);
         btn_config.actionRelease.addRunnable(() -> {
             acao_btn_configuracao(true);
         });
         botoes.add(btn_config);
-
-        return btn_config;
-    }
-
-    /**
-     * Cria o botao para remover cargas eletricas já colocadas.
-     *
-     * @return O botão.
-     */
-    private static Caixa cria_botao_remove() {
+        
         Caixa btn_remove = new Caixa(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, 2, Color.FIREBRICK, Color.BLACK);
         botoes.add(btn_remove);
         btn_remove.actionRelease.addRunnable(() -> {
             acao_btn_remover(true);
         });
-        return btn_remove;
-    }
-
-    /**
-     * Cria a barra de menu com os botões de ações.
-     *
-     * @return O menu.
-     */
-    public static Caixa cria_menu() {
-        TabelaMenu junta = new TabelaMenu(0, 50, 0, 40, 0, false, cria_botao_add(), cria_botao_config(), cria_botao_remove());
+        
+        TabelaMenu tabela = new TabelaMenu(0, 50, 0, 40, 1, false, btn_add, btn_config, btn_remove);
+        InterligaElementos junta = new InterligaElementos(btn_add, btn_config, btn_remove);
         junta.setButtonTypes(-2,2,-2);
         junta.setEventosVisuais(Color.BLACK, Color.WHITE, Color.CHARTREUSE);
         Caixa menu = new Caixa(largura_menu, 100, 2, Color.BLACK, Color.BLACK);
-        menu.adicionar_conteudo(junta);
+        menu.adicionar_conteudo(tabela);
         menu.alinhar_conteudos_centro();
         menu.mover_conteudos(-2, espacinho * 2);
         menu.setTranslateX(-largura_menu);
@@ -108,13 +82,13 @@ public class CriadorMenu {
 
         btn_menu.setOnMouseClicked((event) -> {
             if (btn_menu.getTranslateX() == 0 + btn_menu.caixa.getStrokeWidth()) {
-                btn_menu.mudar_cor_borda(Color.WHITE);
-                btn_menu.mudar_cor_fundo(Color.BLACK);
+                btn_menu.setStrokeColor(Color.WHITE);
+                btn_menu.setBackgroundColor(Color.BLACK);
                 Animacoes.animacaoMovimento(btn_menu, tempo_animacao_menu, largura_menu + btn_menu.caixa.getStrokeWidth(), Double.NaN);
                 Animacoes.animacaoMovimento(menu, tempo_animacao_menu, 0, Double.NaN);
             } else {
-                btn_menu.mudar_cor_borda(Color.BLACK);
-                btn_menu.mudar_cor_fundo(Color.WHITE);
+                btn_menu.setStrokeColor(Color.BLACK);
+                btn_menu.setBackgroundColor(Color.WHITE);
                 Animacoes.animacaoMovimento(btn_menu, tempo_animacao_menu, 0 + btn_menu.caixa.getStrokeWidth(), Double.NaN);
                 Animacoes.animacaoMovimento(menu, tempo_animacao_menu, -largura_menu, Double.NaN);
             }

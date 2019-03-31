@@ -1,7 +1,8 @@
 package Biblioteca.BasicObjects;
 
+import Biblioteca.BasicObjects.Formas.Texto;
 import Biblioteca.OrganizadoresDeNodos.Caixa;
-import Biblioteca.InteractiveObjects.InteractiveObject;
+import Biblioteca.InteractiveObjects.ObjetoInteragivel;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.EventHandler;
@@ -10,8 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
-public class BarraDeslisanteGOD extends InteractiveObject {
-
+public class BarraDeslisanteGOD extends ObjetoInteragivel {
     private Rectangle fundo;
     private Rectangle path;
     private Caixa bolinha;
@@ -29,7 +29,7 @@ public class BarraDeslisanteGOD extends InteractiveObject {
     private double deltaX;
     private double deltaY;
     
-    private boolean is_pressed = false;
+    public boolean is_pressed = false;
 
     public BarraDeslisanteGOD(double altura, double largura, double min, double max, double start_number, double incremento, Runnable action) {
         this.altura = altura;
@@ -54,7 +54,6 @@ public class BarraDeslisanteGOD extends InteractiveObject {
 
     private void criar_tudo_e_a_bolinha(double tamanho, boolean eixoX, Runnable action) {
         bolinha = new Caixa(tamanho, tamanho, 0, Color.BLACK, Color.TRANSPARENT);
-        
 
         if(eixoX){
             fundo.setScaleX((largura+bolinha.getAltura_caixa())/largura);
@@ -65,7 +64,7 @@ public class BarraDeslisanteGOD extends InteractiveObject {
             
             mostra_valor.setTranslateY(20);
             mostra_valor.translateXProperty().bind(bolinha.layoutXProperty());
-            mostra_valor.nodoTexto.textProperty().bind(
+            mostra_valor.texto.textProperty().bind(
                 Bindings.format("%.1f",(bolinha.layoutXProperty().add(bolinha.getAltura_caixa()/2)).multiply((max-min)/largura).add(min))
             );
         }else{
@@ -76,8 +75,8 @@ public class BarraDeslisanteGOD extends InteractiveObject {
             path.heightProperty().bind(bolinha.layoutYProperty());
             
             mostra_valor.translateXProperty().bind(mostra_valor.widthProperty().multiply(-1).add(-4));
-            mostra_valor.translateYProperty().bind(bolinha.layoutYProperty().add(mostra_valor.getAlturaTexto()/1.5));
-            mostra_valor.nodoTexto.textProperty().bind(
+            mostra_valor.translateYProperty().bind(bolinha.layoutYProperty().subtract(mostra_valor.getAltura()/2 - 2));
+            mostra_valor.texto.textProperty().bind(
                 Bindings.format("%.1f",(bolinha.layoutYProperty().add(bolinha.getLargura_caixa()/2)).multiply((max-min)/altura).add(min))
             );
         }
@@ -122,10 +121,6 @@ public class BarraDeslisanteGOD extends InteractiveObject {
         });
     }
     
-    public boolean is_pressed(){
-        return is_pressed;
-    }
-    
     public double getValor(){
         return bolinha.layoutYProperty().add(bolinha.getLargura_caixa()/2).multiply((max-min)/altura).add(min).doubleValue();
     }
@@ -134,7 +129,7 @@ public class BarraDeslisanteGOD extends InteractiveObject {
         return bolinha.layoutYProperty().doubleValue();
     }
     
-    public void bind_objeto(DoubleProperty objeto){
+    public void bind_valor(DoubleProperty objeto){
         objeto.bind((bolinha.layoutYProperty().add(bolinha.getLargura_caixa()/2)).multiply((max-min)/altura).add(min));
     }
     

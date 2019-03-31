@@ -1,22 +1,27 @@
-package Biblioteca.BasicObjects;
+package Biblioteca.BasicObjects.Formas;
 
-import Biblioteca.InteractiveObjects.InteractiveObject;
+import Biblioteca.InteractiveObjects.ObjetoInteragivel;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
 
-public class Linha extends InteractiveObject {
+public class Linha extends ObjetoInteragivel {
     public Line linha;
     
-    public Linha(double Xfinal, double Yfinal, double grossura, Paint cor){
-        this(0, 0, Xfinal, Yfinal, grossura, cor);
+    public Linha(Linha line){
+        this.linha = new Line(line.linha.getStartX(), line.linha.getStartY(), line.linha.getEndX(), line.linha.getEndY());
+        this.linha.setStrokeWidth(line.linha.getStrokeWidth());
+        this.linha.setStroke(line.linha.getStroke());
+        
+        //this.linha = linha.linha;?
+        
+        this.getChildren().add(this.linha);
     }
-
+    
     /**
      * Cria uma linha.
      * @param Xinicial Coordenada X do inicio da linha.
@@ -36,7 +41,11 @@ public class Linha extends InteractiveObject {
         linha.setStroke(cor);
         linha.setStrokeWidth(grossura);
 
-        getChildren().addAll(linha);
+        this.getChildren().add(linha);
+    }
+    
+    public Linha(double Xfinal, double Yfinal, double grossura, Paint cor){
+        this(0, 0, Xfinal, Yfinal, grossura, cor);
     }
     
     public void setInitialPoint(double Xinicial, double Yinicial){
@@ -52,31 +61,7 @@ public class Linha extends InteractiveObject {
         if(Yfinal != Double.NaN)
             linha.setEndY(Yfinal);
     }
-    
-    public void setLineStrokeWidth(double strokeWidth){
-        linha.setStrokeWidth(strokeWidth);
-    }
-    
-    public void setStrokeColor(Color cor){
-        linha.setStroke(cor);
-    }
-    
-    public void bindXinicial(){
-        
-    }
-    
-    public void bindYinicial(){
-        
-    }
-    
-    public void bindXfinal(){
-        
-    }
-    
-    public void bindYfinal(){
-        
-    }
-    
+
     /**
      * Faz a animação de crescimento da linha a partir do centro.
      * @param segundos Quantos segundos dura a animação

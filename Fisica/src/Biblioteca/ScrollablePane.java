@@ -1,4 +1,4 @@
-package ObjetosBase;
+package Biblioteca;
 
 import javafx.scene.layout.Pane;
 

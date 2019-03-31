@@ -1,11 +1,11 @@
 package Biblioteca.InteractiveObjects;
 
-import Biblioteca.BasicObjects.VisibleObject;
+import Biblioteca.BasicObjects.ObjetoVisivel;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
-public abstract class InteractiveObject extends VisibleObject{
+public class ObjetoInteragivel extends ObjetoVisivel{//VER SE A HITBOX NAO FICA QUADRADONA PCAUSA DO PANE E VER SE DA PRA RESOLVER........
     public Runnables actionRelease = new Runnables();
     public Runnables actionPressed = new Runnables(); //TROCAR PROS HANDLEBLES??
     public Runnables focus = new Runnables();
@@ -16,23 +16,23 @@ public abstract class InteractiveObject extends VisibleObject{
     
     
     public void setUpInteractiveObject(){
-        this.setOnMouseEntered((event) -> {
+        objetoVisivel.setOnMouseEntered((event) -> {
             focus.run();
         });
-        this.setOnMouseExited((event) -> {
+        objetoVisivel.setOnMouseExited((event) -> {
             outFocus.run();
         });
-        this.setOnMousePressed((event) -> {
+        objetoVisivel.setOnMousePressed((event) -> {
             actionPressed.run();
         });
-        this.setOnMouseReleased((event) -> {
+        objetoVisivel.setOnMouseReleased((event) -> {
             actionRelease.run();
         });
     }
     
     public void setOnKeyEMouseAction(EventHandler<? super MouseEvent> value) {
         //this.ActionPressed.addRunnable(value); //FAZER A CLASSE EVENTHANDLES PRA ESSES CASO AQUI QUE USA EVENTOS DE MOUSE E TECLADO
-        this.setOnMousePressed(value);
+        objetoVisivel.setOnMousePressed(value);
     }
     
     public void setOnKeyEMouseActionRelease(EventHandler<? super MouseEvent> value, Runnable acao){

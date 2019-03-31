@@ -1,14 +1,14 @@
 package Biblioteca.OrganizadoresDeNodos;
 
-import Biblioteca.BasicObjects.Texto;
-import Biblioteca.InteractiveObjects.InteractiveObject;
+import Biblioteca.BasicObjects.Formas.Texto;
+import Biblioteca.InteractiveObjects.ObjetoInteragivel;
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
 
 /**
  * Classe para criar uma descrição de algum item.
 */
-public class Descricao extends InteractiveObject{
+public class Descricao extends ObjetoInteragivel{
     private Caixa caixa;
     private Texto titulo;
     private ArrayList<Texto> descricao = new ArrayList();
@@ -33,20 +33,20 @@ public class Descricao extends InteractiveObject{
         }
         
         posicionar_conteudos();
-        caixa.resizeBoxWithItsContent(true, true);
+        //caixa.resizeBoxWithItsContent(true, true);
         
         getChildren().addAll(caixa);
     }
     
     private void posicionar_conteudos(){
-        titulo.setTranslateX((caixa.getLargura_caixa() - titulo.largura_texto_total)/2);
-        titulo.setTranslateY(titulo.altura_texto_total+6);
+        titulo.setTranslateX((caixa.getLargura_caixa() - titulo.getLargura())/2);
+        titulo.setTranslateY(6);
         double posicionamento = titulo.getTranslateY();
         /*imagem.setTranslateX((largura_exterior - ((Rectangle) imagem.caixa).getWidth())/2);
         imagem.setTranslateY(titulo.getTranslateY()+titulo.altura_texto_total);*/
         for (int i = 0; i < descricao.size(); i++) {
-            descricao.get(i).setTranslateX((caixa.getLargura_caixa() - descricao.get(i).largura_texto_total)/2);
-            descricao.get(i).setTranslateY(posicionamento + descricao.get(i).altura_texto_total + 6/*imagem.getTranslateY()+((Rectangle) imagem.caixa).getHeight()+*/);
+            descricao.get(i).setTranslateX((caixa.getLargura_caixa() - descricao.get(i).getLargura())/2);
+            descricao.get(i).setTranslateY(posicionamento + descricao.get(i).getAltura() + 6/*imagem.getTranslateY()+((Rectangle) imagem.caixa).getHeight()+*/);
             posicionamento = descricao.get(i).getTranslateY();
         }
     }

@@ -1,8 +1,8 @@
 package Biblioteca.BasicObjects;
 
 import Biblioteca.BasicObjects.Formas.Texto;
-import Biblioteca.OrganizadoresDeNodos.Caixa;
 import Biblioteca.InteractiveObjects.ObjetoInteragivel;
+import Biblioteca.OrganizadoresDeNodos.Caixa;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.EventHandler;
@@ -165,4 +165,117 @@ public class BarraDeslisanteGOD extends ObjetoInteragivel {
         return altura-bolinha.getLargura_caixa()/2;
     }
 
+    public Rectangle getFundo() {
+        return fundo;
+    }
+
+    public void setFundo(Rectangle fundo) {
+        this.fundo = fundo;
+    }
+
+    public Rectangle getPath() {
+        return path;
+    }
+
+    public void setPath(Rectangle path) {
+        this.path = path;
+    }
+
+    public Caixa getBolinha() {
+        return bolinha;
+    }
+
+    public void setBolinha(Caixa bolinha) {
+        this.bolinha = bolinha;
+    }
+
+    public Texto getMostra_valor() {
+        return mostra_valor;
+    }
+
+    public void setMostra_valor(Texto mostra_valor) {
+        this.mostra_valor = mostra_valor;
+    }
+
+    public Runnable getAcao() {
+        return acao;
+    }
+
+    public void setAcao(Runnable acao) {
+        this.acao = acao;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getLargura() {
+        return largura;
+    }
+
+    public void setLargura(double largura) {
+        this.largura = largura;
+    }
+
+    public double getMin() {
+        return min;
+    }
+
+    public void setMin(double min) {
+        this.min = min;
+    }
+
+    public double getMax() {
+        return max;
+    }
+
+    public void setMax(double max) {
+        this.max = max;
+    }
+
+    public double getStart_number() {
+        return start_number;
+    }
+
+    public void setStart_number(double start_number) {
+        this.start_number = start_number;
+    }
+
+    public double getIncremento() {
+        return incremento;
+    }
+
+    public void setIncremento(double incremento) {
+        this.incremento = incremento;
+    }
+
+    public double getDeltaX() {
+        return deltaX;
+    }
+
+    public void setDeltaX(double deltaX) {
+        this.deltaX = deltaX;
+    }
+
+    public double getDeltaY() {
+        return deltaY;
+    }
+
+    public void setDeltaY(double deltaY) {
+        this.deltaY = deltaY;
+    }
+
+    public boolean isIs_pressed() {
+        return is_pressed;
+    }
+
+    public void setIs_pressed(boolean is_pressed) {
+        this.is_pressed = is_pressed;
+    }
+
+    
 }

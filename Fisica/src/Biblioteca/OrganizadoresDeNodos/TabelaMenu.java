@@ -67,8 +67,8 @@ public class TabelaMenu extends ObjetoInteragivel{
             if(modelo == null){
                
             }else{
-                modelo.limpar_conteudo_caixa();
-                modelo.adicionar_conteudo(elemento);
+                modelo.limpar_caixa();
+                modelo.add(elemento);
                 nodo = modelo;
             }
         }

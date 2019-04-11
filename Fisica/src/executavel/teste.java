@@ -1,6 +1,9 @@
 package executavel;
 
 import Biblioteca.BasicObjects.Formas.Circulo;
+import Biblioteca.Midia.Audio;
+import Biblioteca.Midia.VisualizadorImagemEgif;
+import Biblioteca.Midia.VisualizadorVideo;
 import Biblioteca.OrganizadoresDeNodos.Caixa;
 import Biblioteca.OrganizadoresDeNodos.MathGrid;
 import Biblioteca.OrganizadoresDeNodos.Tabela;
@@ -11,42 +14,67 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-
 public class teste extends Application {
 
     @Override
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
-        MathGrid grade = new MathGrid(1, 20, 22);
         
         Tabela testeTabela = new Tabela(20, 20, true, true, true);
+        MathGrid grade = new MathGrid(100,100);
+        VisualizadorImagemEgif portal = new VisualizadorImagemEgif("assets/ac.png", 200, 150);
+        VisualizadorImagemEgif chara = new VisualizadorImagemEgif("assets/chara.jpg", 130, 200);
+        VisualizadorImagemEgif dados = new VisualizadorImagemEgif("assets/dados.png", 50, 50);
+        VisualizadorImagemEgif gif = new VisualizadorImagemEgif("assets/giphy.gif", 200, 200);
+        VisualizadorVideo video = new VisualizadorVideo("assets/sample.mp4", 200, 200);
+        Audio musica = new Audio("assets/teste.mp3");
         
         testeTabela.add(new Circulo(50, Color.CORNFLOWERBLUE), 2, 1);
-        testeTabela.add(new Circulo(5, Color.CORNFLOWERBLUE), 2, 4);
+        testeTabela.add(new Circulo(5, Color.CORNFLOWERBLUE), 3, 2);
         testeTabela.add(new Rectangle(80, 80, Color.LAVENDER), 1, 2);
-        
+        testeTabela.add(dados, 3, 3);
+        testeTabela.add(chara, 2, 2);
+        Caixa cc = new Caixa(40, 45, 1, Color.WHITE, Color.BLACK);
+        cc.add(new Circulo(5, Color.CORNFLOWERBLUE));
+        cc.alinhar_conteudos_centro();
+        testeTabela.add(cc, 4, 3);
         testeTabela.add(grade, 4, 2);
-        //grade.mathgridSetedUp();
         
-        testeTabela.add(new Caixa(40, 45, 2, Color.WHITE, Color.BLACK), 5, 3);
+        Caixa caixaGrade = testeTabela.elementos_nas_celulas.get(testeTabela.elementos.indexOf(grade));
+        grade.bind_rodinha_mouse();
+        grade.bind_tela_movel();
+        grade.binda_tamanho(((Rectangle) caixaGrade.caixa).widthProperty(),((Rectangle) caixaGrade.caixa).heightProperty());//DAR UM JEITO NESSES CAST DE RECTANGLE
+        //E VER cOMO MUDAR PQ O BINDA TAMANHO TEM Q TA ANTES DO MONTAR TABELA, SE NAO O NEGOCIO ENLOUQUECE :P
         
-        testeTabela.montarTabela(0, 0);
+        testeTabela.setModeloFundoEBorda(12, 12, Color.DIMGRAY, Color.WHITE);
+        testeTabela.setModeloLinhaX(16, null);
+        testeTabela.setModeloLinhaY(2, null);
         
-        testeTabela.setTranslateX(100);
-        testeTabela.setTranslateY(100);
+        portal.setTranslateX(30);
+        portal.setTranslateY(testeTabela.getTranslateY() + testeTabela.getAltura() + 10);
+        gif.setTranslateX(portal.getTranslateX() + portal.getFitWidth() + 30);
+        gif.setTranslateY(portal.getTranslateY());
+        video.setTranslateX(gif.getTranslateX() + gif.getFitWidth() + 30);
+        video.setTranslateY(gif.getTranslateY());
         
-        teste.getChildren().add(testeTabela);
+        teste.getChildren().addAll(testeTabela, portal, gif, video);
+        video.player.play();
+        
+        dados.setOnMouseClicked((event) -> {
+            if(musica.player.getStatus() != musica.player.getStatus().PLAYING){
+                musica.player.play();
+            }else{
+                musica.player.pause();
+            } 
+        });
 
         Scene scene = new Scene(teste, 800, 800);
         primaryStage.setTitle("Física 0.65");
         primaryStage.setScene(scene);
-        primaryStage.show();
-        grade.mathgridSetedUp();
+        primaryStage.show();  
     }
 
     public static void main(String[] args) {
         launch(args);
     }
-
-
 }

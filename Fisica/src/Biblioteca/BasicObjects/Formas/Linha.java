@@ -12,16 +12,6 @@ import javafx.util.Duration;
 public class Linha extends ObjetoInteragivel {
     public Line linha;
     
-    public Linha(Linha line){
-        this.linha = new Line(line.linha.getStartX(), line.linha.getStartY(), line.linha.getEndX(), line.linha.getEndY());
-        this.linha.setStrokeWidth(line.linha.getStrokeWidth());
-        this.linha.setStroke(line.linha.getStroke());
-        
-        //this.linha = linha.linha;?
-        
-        this.getChildren().add(this.linha);
-    }
-    
     /**
      * Cria uma linha.
      * @param Xinicial Coordenada X do inicio da linha.
@@ -31,21 +21,19 @@ public class Linha extends ObjetoInteragivel {
      * @param grossura É a grossura da linha
      * @param cor Cor da linha
      */
-    public Linha(double Xinicial, double Yinicial, double Xfinal, double Yfinal, double grossura, Paint cor) {
-        linha = new Line();
-        
-        linha.setStartX(Xinicial);
-        linha.setStartY(Yinicial);
-        linha.setEndX(Xfinal);
-        linha.setEndY(Yfinal);
-        linha.setStroke(cor);
-        linha.setStrokeWidth(grossura);
+    public Linha(double Xinicial, double Yinicial, double Xfinal, double Yfinal, double grossura, Paint cor){
+        linha = new Line(Xinicial, Yinicial, Xfinal, Yfinal);
+        setBorda(grossura, cor);
 
         this.getChildren().add(linha);
     }
     
     public Linha(double Xfinal, double Yfinal, double grossura, Paint cor){
         this(0, 0, Xfinal, Yfinal, grossura, cor);
+    }
+    
+    public Linha(Linha line){
+        this(line.linha.getStartX(), line.linha.getStartY(), line.linha.getEndX(), line.linha.getEndY(), line.linha.getStrokeWidth(), line.linha.getStroke());
     }
     
     public void setInitialPoint(double Xinicial, double Yinicial){
@@ -60,6 +48,13 @@ public class Linha extends ObjetoInteragivel {
             linha.setEndX(Xfinal);
         if(Yfinal != Double.NaN)
             linha.setEndY(Yfinal);
+    }
+    
+    public void setBorda(double grossura, Paint cor){
+        linha.setStroke(cor);
+        linha.setStrokeWidth(grossura);
+        linha.setTranslateX(grossura/2);
+        linha.setTranslateY(grossura/2);
     }
 
     /**

@@ -2,7 +2,6 @@ package Biblioteca.InteractiveObjects;
 
 import static Biblioteca.LogicClasses.Matematicas.modulo;
 import Biblioteca.OrganizadoresDeNodos.Caixa;
-import static executavel.CriadorMenu.scene;
 import java.util.ArrayList;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -64,7 +63,7 @@ public class InterligaElementos {
     
     //ver tbm como usar o action cleaner no outoffocus e release, ja que é bem plausivel
     //O RELEASE E O PRESSED TAO BUGANDO, MESMO SE TU NAO TIVER COM O MOUSE NO ELEMENTO ELES VAO FUNCIONAR AAAAAAAAAAAAAAAAAAAAAAAAA
-    public void setEventosVisuais(Paint corBordaPadrao, Paint corBordaFoco, Paint corBordaClick){
+    /*public void setEventosVisuais(Paint corBordaPadrao, Paint corBordaFoco, Paint corBordaClick){
         for (int i = 0; i < elementos.size(); i++) {
             if(elementos.get(i) instanceof Caixa){
                 Caixa elemento = (Caixa) elementos.get(i);
@@ -121,14 +120,14 @@ public class InterligaElementos {
                 }
             }
         }  
-    }
+    }*/
     
     private void descelecionaOutrosElementos(Paint corBordaPadrao, int ID){
         for (int i = 0; i < elementos.size(); i++) {
             if(elementos.get(i) instanceof Caixa && modulo(numeroDeConexao.get(i)) == modulo(ID)){
                 Caixa elemento = (Caixa) elementos.get(i);
                 elemento.is_selected = false;
-                elemento.setStrokeColor(corBordaPadrao);
+                elemento.setBorda(Double.NaN, corBordaPadrao);
                 elemento.actionCleaner.run();
             }
         }

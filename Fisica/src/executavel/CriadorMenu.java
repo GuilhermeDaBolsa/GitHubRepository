@@ -7,14 +7,11 @@ import Biblioteca.OrganizadoresDeNodos.Caixa;
 import static executavel.Acoes_Botoes.*;
 import java.util.ArrayList;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
-import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
 public class CriadorMenu {
-    public static Scene scene;
     static double largura_menu = 75;
     static double espacinho = 20;
     static double porcentagem_btn = 0.5;
@@ -52,9 +49,9 @@ public class CriadorMenu {
         TabelaMenu tabela = new TabelaMenu(0, 50, 0, 40, 1, false, btn_add, btn_config, btn_remove);
         InterligaElementos junta = new InterligaElementos(btn_add, btn_config, btn_remove);
         junta.setButtonTypes(-2,2,-2);
-        junta.setEventosVisuais(Color.BLACK, Color.WHITE, Color.CHARTREUSE);
+        //junta.setEventosVisuais(Color.BLACK, Color.WHITE, Color.CHARTREUSE);
         Caixa menu = new Caixa(largura_menu, 100, 2, Color.BLACK, Color.BLACK);
-        menu.adicionar_conteudo(tabela);
+        menu.add(tabela);
         menu.alinhar_conteudos_centro();
         menu.mover_conteudos(-2, espacinho * 2);
         menu.setTranslateX(-largura_menu);
@@ -73,21 +70,15 @@ public class CriadorMenu {
         Caixa btn_menu = new Caixa(largura_menu * 0.8, largura_menu * 0.8, 2, Color.WHITE, Color.BLACK);
         btn_menu.setTranslateX(0);
         btn_menu.setTranslateY(0);
-        btn_menu.setOnMouseEntered((event) -> {
-            scene.setCursor(Cursor.HAND);
-        });
-        btn_menu.setOnMouseExited((event) -> {
-            scene.setCursor(Cursor.DEFAULT);
-        });
 
         btn_menu.setOnMouseClicked((event) -> {
             if (btn_menu.getTranslateX() == 0 + btn_menu.caixa.getStrokeWidth()) {
-                btn_menu.setStrokeColor(Color.WHITE);
+                btn_menu.setBorda(Double.NaN, Color.WHITE);
                 btn_menu.setBackgroundColor(Color.BLACK);
                 Animacoes.animacaoMovimento(btn_menu, tempo_animacao_menu, largura_menu + btn_menu.caixa.getStrokeWidth(), Double.NaN);
                 Animacoes.animacaoMovimento(menu, tempo_animacao_menu, 0, Double.NaN);
             } else {
-                btn_menu.setStrokeColor(Color.BLACK);
+                btn_menu.setBorda(Double.NaN, Color.BLACK);
                 btn_menu.setBackgroundColor(Color.WHITE);
                 Animacoes.animacaoMovimento(btn_menu, tempo_animacao_menu, 0 + btn_menu.caixa.getStrokeWidth(), Double.NaN);
                 Animacoes.animacaoMovimento(menu, tempo_animacao_menu, -largura_menu, Double.NaN);
@@ -134,11 +125,11 @@ public class CriadorMenu {
             Fisica2.grade.adicionar_objeto(corpo_eletrico, X, Y);
         });
 
-        adicionar.adicionar_conteudo(nome);
-        adicionar.adicionar_conteudo(posicao);
-        adicionar.adicionar_conteudo(forca);
-        adicionar.adicionar_conteudo(btn_confirm);
-        adicionar.adicionar_conteudo(cor);
+        adicionar.add(nome);
+        adicionar.add(posicao);
+        adicionar.add(forca);
+        adicionar.add(btn_confirm);
+        adicionar.add(cor);
 
         adicionar.realocar_conteudos(0, 0);
         adicionar.conteudo_caixa.get(0).setTranslateX(10);

@@ -15,7 +15,7 @@ public class ObjetoInteragivel extends ObjetoVisivel{//VER SE A HITBOX NAO FICA 
     public boolean is_selected = false;
     
     
-    public void setUpInteractiveObject(){
+    public void setUpInteractiveObject(){//TEM Q VE OS ELEMENTOS Q EXTENDEM ISSO SE TAO USANDO ESSE METODO PRA STARTA O INTERAGIVEL DA VIDA
         objetoVisivel.setOnMouseEntered((event) -> {
             focus.run();
         });
@@ -49,5 +49,9 @@ public class ObjetoInteragivel extends ObjetoVisivel{//VER SE A HITBOX NAO FICA 
     
     public void setKeyActionCleaner(EventHandler<? super KeyEvent> value, Runnable acao){
         
+    }
+    
+    public void moveOnClickAndDrag(){
+        //FAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZZZZZZZZZZZZZZZZZZZZZZZZzz
     }
 }

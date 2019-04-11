@@ -10,7 +10,7 @@ import javafx.scene.shape.Rectangle;
 public class Retangulo extends ObjetoInteragivel{
     public Rectangle retangulo;
     
-    private void construtorPai(double largura, double altura, double grossuraBorda, Paint corFundo, Paint corBorda){
+    public Retangulo(double largura, double altura, double grossuraBorda, Paint corFundo, Paint corBorda){
         objetoVisivel = new Rectangle(largura, altura, corFundo);
         retangulo.setStrokeWidth(grossuraBorda);
         retangulo.setStroke(corBorda);
@@ -30,14 +30,10 @@ public class Retangulo extends ObjetoInteragivel{
     }
     
     public Retangulo(double largura, double altura){
-        construtorPai(largura, altura, 0, Color.color(random(1), random(1), random(1)), Color.BLACK);
+        this(largura, altura, 0, Color.color(random(1), random(1), random(1)), Color.BLACK);
     }
     
     public Retangulo(double largura, double altura, Paint cor){
-        construtorPai(largura, altura, 0, cor, Color.BLACK);
-    }
-    
-    public Retangulo(double largura, double altura, double grossuraBorda, Paint corFundo, Paint corBorda){
-        construtorPai(largura, altura, grossuraBorda, corFundo, corBorda);
+        this(largura, altura, 0, cor, Color.BLACK);
     }
 }

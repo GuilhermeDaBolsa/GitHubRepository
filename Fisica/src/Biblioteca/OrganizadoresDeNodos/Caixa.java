@@ -11,28 +11,30 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**
- * Esta classe serve para criar Shapes que contém elementos dentro (Nodos), //FAZER PRA TER BORDAS INDEPENDENTES (BORDA INFERIOR, DIREITA, SUPERIOR..) E ARREDONDAR AS BORDAS
+ * Esta classe serve para criar Shapes que contém elementos dentro (Nodos), //SE PUDER FAZER PRA TER BORDAS INDEPENDENTES (BORDA INFERIOR, DIREITA, SUPERIOR..) E ARREDONDAR AS BORDAS
  * que podem aparecer na frente da caixa.
+ * VER PRA ARREDONDAR OS CANTOS DE UMA CAIXA QUADRADA E ATE QUEM SABE ELIMINAR O CONSTRUTOR DO CIRCLE
+ * USAR MINHAS FORMAS AO INVES DAS DO JAVA :P
  */
 public class Caixa extends ObjetoInteragivel {
     public Shape caixa = null;
     public Pane container;
     public ArrayList<Node> conteudo_caixa = new ArrayList();
     
-    //public DescricaoStatus descricao;
-    
-    //VER PRA ARREDONDAR OS CANTOS DE UMA CAIXA QUADRADA E ATE QUEM SABE ELIMINAR O CONSTRUTOR DO CIRCLE
-
-    private void ContructorHelper(Shape forma, double grossura_borda, Paint cor_fundo, Paint cor_borda){
-        forma.setStrokeWidth(grossura_borda);
-
-        caixa = forma;
-        setBackgroundColor(cor_fundo);
-        setStrokeColor(cor_borda);
-
+    /**
+     * Cria uma caixa com forma personalizada.
+     * @param grossura_borda Grossura da borda da caixa.
+     * @param cor_fundo Cor do fundo da caixa.
+     * @param cor_borda Cor da borda da caixa.
+     */
+    public Caixa(Shape forma, double grossura_borda, Paint cor_fundo, Paint cor_borda){
         container = new Pane();
-        container.setTranslateY(-grossura_borda/2);
-        setUpInteractiveObject();//E SE O CARA NAO QUIZER?
+        caixa = forma;
+        setBorda(grossura_borda, cor_borda);
+        setBackgroundColor(cor_fundo);
+        
+        setUpInteractiveObject();//E SE O CARA NAO QUIZER? E BOTAR ISSO NAS OUTRAS CLASSES PQ N BOTEI :P
+        
         getChildren().addAll(caixa, container);
     }
     
@@ -43,8 +45,7 @@ public class Caixa extends ObjetoInteragivel {
      * @param cor_borda Cor da borda da caixa.
      */
     public Caixa(double grossura_borda, Paint cor_fundo, Paint cor_borda) {
-        Shape forma = new Rectangle(50, 50);
-        ContructorHelper(forma, grossura_borda, cor_fundo, cor_borda);
+        this(new Rectangle(50, 50), grossura_borda, cor_fundo, cor_borda);
     }
     
     /**
@@ -56,8 +57,7 @@ public class Caixa extends ObjetoInteragivel {
      * @param cor_borda Cor da borda da caixa.
      */
     public Caixa(double tamanhoX, double tamanhoY, double grossura_borda, Paint cor_fundo, Paint cor_borda) {
-        Shape forma = new Rectangle(tamanhoX, tamanhoY);
-        ContructorHelper(forma, grossura_borda, cor_fundo, cor_borda);
+        this(new Rectangle(tamanhoX, tamanhoY), grossura_borda, cor_fundo, cor_borda);
     }
     
     /**
@@ -68,37 +68,7 @@ public class Caixa extends ObjetoInteragivel {
      * @param cor_borda Cor da borda da caixa.
      */
     public Caixa(double raio, double grossura_borda, Paint cor_fundo, Paint cor_borda) {
-        Shape forma = new Circle(raio);
-        ContructorHelper(forma, grossura_borda, cor_fundo, cor_borda);
-    }
-    
-    /**
-     * Cria uma caixa com forma personalizada.
-     * @param grossura_borda Grossura da borda da caixa.
-     * @param cor_fundo Cor do fundo da caixa.
-     * @param cor_borda Cor da borda da caixa.
-     */
-    public Caixa(Shape forma, double grossura_borda, Paint cor_fundo, Paint cor_borda) {
-        ContructorHelper(forma, grossura_borda, cor_fundo, cor_borda);
-    }
-    
-    public Caixa(Node elemento, Paint cor_fundo, Paint cor_borda, double grossura_borda, boolean retangular){//FALTOU ADICIONAR O ELEMENTO????
-        double larguraObjeto = elemento.getBoundsInLocal().getWidth();
-        double alturaObjeto = elemento.getBoundsInLocal().getHeight();
-        Shape forma;
-        if(retangular){
-            forma = new Rectangle(larguraObjeto + 10, alturaObjeto + 10);
-        }else{
-            forma = new Circle((larguraObjeto > alturaObjeto) ? larguraObjeto+10 : alturaObjeto+10);
-        }
-        ContructorHelper(forma, grossura_borda, cor_fundo, cor_borda);
-    }
-    
-    /**
-     * @return A altura da caixa em pixels.
-     */
-    public double getAltura_caixa(){
-        return caixa.getBoundsInLocal().getHeight();
+        this(new Circle(raio), grossura_borda, cor_fundo, cor_borda);
     }
     
     /**
@@ -109,15 +79,31 @@ public class Caixa extends ObjetoInteragivel {
     }
     
     /**
-     * Método para mudar a cor da borda da caixa.
+     * @return A altura da caixa em pixels.
+     */
+    public double getAltura_caixa(){
+        return caixa.getBoundsInLocal().getHeight();
+    }
+
+    /**
+     * Muda a grossura e a cor da borda da caixa.
+     * @param grossura Nova grossura da borda.
      * @param cor Nova cor.
      */
-    public void setStrokeColor(Paint cor) {
-        caixa.setStroke(cor);
+    public void setBorda(double grossura, Paint cor){//TERIA Q AUMENTAR O TAMANHO DA CAIXA PQ A GROSSURA BORDA VAI PRA PORRA DE DENTRO DA CAIXA TBM AAAAAa
+        if(cor != null)                              //MUDA NAS FORMAS, AI SE FOR INSTACE OF DAS FORMA MINHA FICA D BOA SE N USA SCALE......
+            caixa.setStroke(cor);
+        if(grossura != Double.NaN){
+            caixa.setStrokeWidth(grossura);
+            caixa.setTranslateX(grossura/2);///grossura borda?????????
+            caixa.setTranslateY(grossura/2);///grossura borda?????????
+            container.setTranslateX(grossura);///grossura borda?????????
+            container.setTranslateY(grossura);///grossura borda?????????
+        }
     }
     
-    public void setStrokeWidth(double grossura){
-        caixa.setStrokeWidth(grossura);
+    public double getGrossuraBorda(){
+        return caixa.getStrokeWidth();
     }
     
     /**
@@ -129,7 +115,7 @@ public class Caixa extends ObjetoInteragivel {
     }
    
     public void resizeBoxWithItsContent(){
-        
+        //TALVEZ ATÉ UMA BIND... OU TUDO NA MAO TODA HR Q MUDA O CONTEUDO TBM
     }
     
     public void reajustContentWithBoxSize(){
@@ -154,8 +140,8 @@ public class Caixa extends ObjetoInteragivel {
      * dependendo do elemento).
      */
     public void alinhar_conteudos_centro(){
-        realocar_conteudos((getLargura_caixa() - ObjetoVisivelManipulador.getLargura(container))/2,
-                (getAltura_caixa() - ObjetoVisivelManipulador.getAltura(container))/2);
+        realocar_conteudos((getLargura_caixa() - 2*getGrossuraBorda() - ObjetoVisivelManipulador.getLargura(container))/2,
+                (getAltura_caixa() - 2*getGrossuraBorda() - ObjetoVisivelManipulador.getAltura(container))/2);
     }
     
     /**
@@ -174,16 +160,16 @@ public class Caixa extends ObjetoInteragivel {
      */
     public void realocar_conteudos(double X, double Y){
         if(X != Double.NaN)
-            container.setTranslateX(X);
+            container.setTranslateX(X + getGrossuraBorda());
         if(Y != Double.NaN)
-            container.setTranslateY(Y);
+            container.setTranslateY(Y + getGrossuraBorda());
     }
 
     /**
        * Adiciona determinados elementos a caixa (Nodo(s)).
        * @param conteudo Conteúdo a ser adicionado.
     */
-    public void adicionar_conteudo(Node... conteudo) {
+    public void add(Node... conteudo) {
         for (int i = 0; i < conteudo.length; i++) {
             conteudo_caixa.add(conteudo[i]);
             container.getChildren().add(conteudo[i]);
@@ -194,9 +180,9 @@ public class Caixa extends ObjetoInteragivel {
        * Adiciona uma array de Texto a caixa.
        * @param conteudo Array com os elementos a serem adicionados.
     */
-    public void adicionar_conteudo(ArrayList<Node> conteudo) {
+    public void add(ArrayList<Node> conteudo) {
         for (int i = 0; i < conteudo.size(); i++) {
-            adicionar_conteudo(conteudo.get(i));  
+            add(conteudo.get(i));  
         }
     }
     
@@ -204,19 +190,17 @@ public class Caixa extends ObjetoInteragivel {
      * Remove um conteúdo da caixa.
      * @param conteudo Conteúdo a ser removido.
      */
-    public void remover_conteudo(Node conteudo){
-        container.getChildren().clear();
+    public void remover(Node conteudo){
+        container.getChildren().remove(conteudo);
         conteudo_caixa.remove(conteudo);
-        container.getChildren().addAll(conteudo_caixa);
     }
     
     /**
      * Remove todos os conteúdos da caixa.
      */
-    public void limpar_conteudo_caixa(){
+    public void limpar_caixa(){
         container.getChildren().clear();
         conteudo_caixa.clear();
-        container.getChildren().addAll(conteudo_caixa);
     }
     
     /**
@@ -225,12 +209,12 @@ public class Caixa extends ObjetoInteragivel {
      * @param conteudo_velho O conteúdo velho.
      * @param conteudo_novo O conteúdo novo;
      */
-    public void alterar_conteudo(Node conteudo_velho, Node conteudo_novo) {
+    public void alterar(Node conteudo_velho, Node conteudo_novo) {
         realocar_conteudos(0, 0);
         container.getChildren().clear();
         if(conteudo_velho == null){
             conteudo_caixa.clear();
-            adicionar_conteudo(conteudo_novo);
+            Caixa.this.add(conteudo_novo);
         }else{
             for (int i = 0; i < conteudo_caixa.size(); i++) {
                 if(conteudo_caixa.get(i) == conteudo_velho){
@@ -240,14 +224,4 @@ public class Caixa extends ObjetoInteragivel {
             container.getChildren().addAll(conteudo_caixa);
         }
     }
-    
-
-    /**
-     * Coloca uma descrição na caixa.
-     * @param oquefaz Descrição da caixa.
-     */
-    //public void setDescricaoCaixa(DescricaoStatus oquefaz){
-      //  descricao = oquefaz;
-    //}
-    
 }

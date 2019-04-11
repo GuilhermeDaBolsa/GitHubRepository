@@ -45,7 +45,7 @@ public class Texto extends ObjetoInteragivel {
      * @return Retorna a largura do espaço que o texto ocupa.
      */
     @Override
-    public double getLargura() {//VER SE COM OS METODOS JA DO OBJETO VISIVEL JA N FUNFA, Q DAI SE FUNFA GOD
+    public double getLargura() {
         return texto.getLayoutBounds().getWidth();
     }
 
@@ -53,7 +53,7 @@ public class Texto extends ObjetoInteragivel {
      * @return Retorna a altura do espaço que o texto ocupa.
      */
     @Override
-    public double getAltura() {//VER SE COM OS METODOS JA DO OBJETO VISIVEL JA N FUNFA, Q DAI SE FUNFA GOD
+    public double getAltura() {
         return texto.getLayoutBounds().getHeight();
     }
 

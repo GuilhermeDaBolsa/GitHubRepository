@@ -5,58 +5,49 @@ import static Biblioteca.LogicClasses.Matematicas.modulo;
 import Biblioteca.BasicObjects.Formas.Texto;
 import Biblioteca.InteractiveObjects.ObjetoInteragivel;
 import java.util.ArrayList;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class MathGrid extends ObjetoInteragivel {
-    Node nodoPai;
+    public ArrayList<Node> objetos = new ArrayList();
+    private ArrayList<Point2D> posicoes_objetos = new ArrayList();
     
-    private final double MIN_DISTANCIA_LINHAS = 30;
-    private final double MAX_DISTANCIA_LINHAS = 150;
-    private final double INCREMENTO_DIST_LINHAS = 2.5;
-    private double distancia_linhas = 50;
-    private double escala_grade = 5;
+    public double MIN_DISTANCIA_LINHAS = 30;
+    public double MAX_DISTANCIA_LINHAS = 150;
+    public double INCREMENTO_DIST_LINHAS = 2.5;
+    public double distancia_linhas = 50;
+    public double escala_grade = 5;
     
-    private double grossura_linhas;
-    private double tamanho_numeros = 10;
+    public double grossura_linhas = 1;
+    public double tamanho_numeros = 10;
 
     private double zeroX = 0;
     private double zeroY = 0;
-    private double final_da_telaX;
-    private double final_da_telaY;
+    public double largura_grade;
+    public double altura_grade;
 
     private double deltaZeroX = 0;
     private double deltaZeroY = 0;
     private double mousePositionX = 0;
     private double mousePositionY = 0;
 
-    private ArrayList<Node> objetos = new ArrayList();
-    private ArrayList<Point2D> posicoes_objetos = new ArrayList();
-
     private final String formatoNumeros = "%.2f";
 
     /**
      * Construtor para criar a grade matemática (as medidas são baseadas no PANE (PRECISA ESTAR EN YN PANE) cuja grade está inserida).
-     * @param grossuraLinhas A grossura das linhas da grade.
      */
-    public MathGrid(double grossuraLinhas, double largura, double altura) {
-        grossura_linhas = grossuraLinhas;
-        final_da_telaX = largura;
-        final_da_telaY = altura;
-    }
-    
-    public void mathgridSetedUp(){
-        this.nodoPai = this.getParent();
-        
-        bind_rodinha_mouse();
-        bind_tela_movel();
-        refresh();
+    public MathGrid(double largura, double altura) {
+        largura_grade = largura;
+        altura_grade = altura;
+        atualizar();
     }
 
     /**
@@ -70,62 +61,62 @@ public class MathGrid extends ObjetoInteragivel {
         double finalR_telaX = final_tela_relativoX();
         double finalR_telaY = final_tela_relativoY();
 
-        //Onde é o 'eixo central' agora
-        int numeroZeroX = (int) (-zeroX_escalado() / distancia_linhas);
-        int numeroZeroY = (int) (-zeroY_escalado() / distancia_linhas);
+        //Onde é o 'eixo central' agora e o numero q esta nele
+        int numeroZeroX = (int) Math.round(-zeroX_escalado() / distancia_linhas);
+        int numeroZeroY = (int) Math.round(-zeroY_escalado() / distancia_linhas);
         double eixoX = meioR_telaX + numeroZeroX * distancia_linhas;
         double eixoY = meioR_telaY + numeroZeroY * distancia_linhas;
 
-        double finalTelaX = final_da_telaX*1.2;
-        double finalTelaY = final_da_telaY*1.2;
-
         /*verifica se a tela está numa localização próxima a origem da grade (o ponto 0,0) em ambos os eixos.
         Muda a localização dos numeros dependendo da onde a tela está.*/
-        double posNumerosXemY = 20;
-        double posNumerosYemX = 15;
+        double posNumerosXemY = tamanho_numeros*2;
+        double posNumerosYemX = tamanho_numeros*2;
                                             //MUDAR ESSES TESTES PQ TAO MEIO BUGADO
-        if (modulo(zeroX_escalado()) < final_da_telaX / 2 - 42) {
+        if (modulo(zeroX_escalado()) < largura_grade / 2 - tamanho_numeros*2) {
             posNumerosYemX = meioR_telaX + 3;
         }else if (zeroX_escalado() > 0) {
-            posNumerosYemX = (int) final_da_telaX - 42;
+            posNumerosYemX = (int) largura_grade - tamanho_numeros*2;
         }
-        if (modulo(zeroY_escalado()) < final_da_telaY / 2 - 68) {
+        if (modulo(zeroY_escalado()) < altura_grade / 2 - tamanho_numeros*2) {
             posNumerosXemY = meioR_telaY + 3;
         }else if (zeroY_escalado() > 0) {
-            posNumerosXemY = (int) final_da_telaY - 68;
+            posNumerosXemY = (int) altura_grade - tamanho_numeros*2;
         }
 
         //Desenha as linhas e os numeros do eixo X em pares um antes de um eixo e um depois.
-        adicionar_linha(eixoX, 0, 0, final_da_telaY, Color.GAINSBORO);
+        adicionar_linha(eixoX, 0, 0, altura_grade, Color.GAINSBORO);
         adicionar_numero(String.format(formatoNumeros, numeroZeroX * escala_grade), eixoX - tamanho_numeros, posNumerosXemY);
         int cont = 1;
-        while (final_da_telaX/2 + cont * distancia_linhas < finalTelaX) {
-            adicionar_linha(eixoX + cont * distancia_linhas, 0, 0, final_da_telaY, Color.GAINSBORO);
-            adicionar_linha(eixoX - cont * distancia_linhas, 0, 0, final_da_telaY, Color.GAINSBORO);
-
+        while (largura_grade/2 + cont * distancia_linhas < largura_grade) {
+            adicionar_linha(eixoX + cont * distancia_linhas, 0, 0, altura_grade, Color.GAINSBORO);
             adicionar_numero(String.format(formatoNumeros, numeroZeroX * escala_grade + cont * escala_grade), eixoX + cont * distancia_linhas - tamanho_numeros, posNumerosXemY);
+            
+            adicionar_linha(eixoX - cont * distancia_linhas, 0, 0, altura_grade, Color.GAINSBORO);
             adicionar_numero(String.format(formatoNumeros, numeroZeroX * escala_grade - cont * escala_grade), eixoX - cont * distancia_linhas - tamanho_numeros, posNumerosXemY);
 
             cont++;
         }
+        
         //Desenha as linhas e os numeros do eixo Y em pares um antes de um eixo e um depois.
-        adicionar_linha(0, eixoY, final_da_telaX, 0, Color.GAINSBORO);
+        adicionar_linha(0, eixoY, largura_grade, 0, Color.GAINSBORO);
         adicionar_numero(String.format(formatoNumeros, -numeroZeroY * escala_grade), posNumerosYemX, eixoY - tamanho_numeros);
         cont = 1;
-        while (final_da_telaY/2 + cont * distancia_linhas < finalTelaY) {
-            adicionar_linha(0, eixoY + cont * distancia_linhas, final_da_telaX, 0, Color.GAINSBORO);
-            adicionar_linha(0, eixoY - cont * distancia_linhas, final_da_telaX, 0, Color.GAINSBORO);
+        while (altura_grade/2 + cont * distancia_linhas < altura_grade) {
+            adicionar_linha(0, eixoY + cont * distancia_linhas, largura_grade, 0, Color.GAINSBORO);
+            adicionar_linha(0, eixoY - cont * distancia_linhas, largura_grade, 0, Color.GAINSBORO);
 
             adicionar_numero(String.format(formatoNumeros, -numeroZeroY * escala_grade + cont * escala_grade), posNumerosYemX, eixoY - cont * distancia_linhas - tamanho_numeros);
             adicionar_numero(String.format(formatoNumeros, -numeroZeroY * escala_grade - cont * escala_grade), posNumerosYemX, eixoY + cont * distancia_linhas - tamanho_numeros);
 
             cont++;
         }
-
+        
         //Desenhas as linhas do ponto de origem (0,0) em maior destaque.
-        adicionar_linha(meioR_telaX, 0, 0, final_da_telaY, Color.BLACK);
+        if(zeroX_escalado() <= largura_grade/2 && zeroX_escalado() >= -largura_grade/2)
+            adicionar_linha(meioR_telaX, 0, 0, altura_grade, Color.BLACK);
         //adicionar_numero(numeros_x, "0", meioR_telaX + 3, meioR_telaY + tamanho_numeros + 3);
-        adicionar_linha(0, meioR_telaY, final_da_telaX, 0, Color.BLACK);
+        if(zeroY_escalado() <= altura_grade/2 && zeroY_escalado() >= -altura_grade/2)
+            adicionar_linha(0, meioR_telaY, largura_grade, 0, Color.BLACK);
         //adicionar_numero(numeros_y, "0", meioR_telaX - tamanho_numeros, meioR_telaY - 3);
     }
 
@@ -143,7 +134,7 @@ public class MathGrid extends ObjetoInteragivel {
         objeto.setTranslateX(meio_tela_relativoX() + adaptedX);
         objeto.setTranslateY(meio_tela_relativoY() + adaptedY);
         posicoes_objetos.add(new Point2D(X, -Y));
-        refresh();
+        atualizar();
     }
 
     /**
@@ -169,23 +160,66 @@ public class MathGrid extends ObjetoInteragivel {
         this.getChildren().add(texto);
     }
 
+    //JUNTAR OS 3 METODOS ABAIXO SE POSSIVEL PLSSSSS
+    
     /**
      * Coloca uma thread para verificar quando o tamanho da aplicação é alterada
      * para alterar o tamanho da grade.
      */
-    public void binda_tamanho() {
-        /*nodoPai.widthProperty().addListener((obs, oldVal, newVal) -> {
-            final_da_telaX = nodoPai.getWidth();
-            refresh();
+    public void binda_tamanho(DoubleProperty largura, DoubleProperty altura) {
+        largura_grade = largura.doubleValue();
+        altura_grade = altura.doubleValue();
+        largura.addListener((obs, oldVal, newVal) -> {
+            largura_grade = largura.doubleValue();
+            atualizar();
         });
 
-        nodoPai.heightProperty().addListener((obs, oldVal, newVal) -> {
-            final_da_telaY = nodoPai.getHeight();
-            refresh();
-        });*/
+        altura.addListener((obs, oldVal, newVal) -> {
+            altura_grade = altura.doubleValue();
+            atualizar();
+        });
+        atualizar();
+    }
+    
+    /**
+     * Coloca uma thread para verificar quando o tamanho da aplicação é alterada
+     * para alterar o tamanho da grade.
+     */
+    public void binda_tamanho(ReadOnlyDoubleProperty largura, ReadOnlyDoubleProperty altura) {
+        largura_grade = largura.doubleValue();
+        altura_grade = altura.doubleValue();
+        largura.addListener((obs, oldVal, newVal) -> {
+            largura_grade = largura.doubleValue();
+            atualizar();
+        });
+
+        altura.addListener((obs, oldVal, newVal) -> {
+            altura_grade = altura.doubleValue();
+            atualizar();
+        });
+        atualizar();
+    }
+    
+    /**
+     * Coloca uma thread para verificar quando o tamanho da aplicação é alterada
+     * para alterar o tamanho da grade.
+     */
+    public void binda_tamanho(ObservableValue<Double> largura, ObservableValue<Double> altura) {
+        largura_grade = largura.getValue();
+        altura_grade = altura.getValue();
+        largura.addListener((obs, oldVal, newVal) -> {
+            largura_grade = largura.getValue();
+            atualizar();
+        });
+
+        altura.addListener((obs, oldVal, newVal) -> {
+            altura_grade = altura.getValue();
+            atualizar();
+        });
+        atualizar();
     }
 
-    private void bind_tela_movel() {
+    public void bind_tela_movel() {
         this.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -199,17 +233,17 @@ public class MathGrid extends ObjetoInteragivel {
             public void handle(MouseEvent mouseEvent) {
                 zeroX = (mouseEvent.getSceneX() + deltaZeroX)/distancia_linhas*escala_grade;
                 zeroY = (mouseEvent.getSceneY() + deltaZeroY)/distancia_linhas*escala_grade;
-                refresh();
+                atualizar();
             }
         });
     }
     
-    //public void bind_tela_movel(Bind em um Node pivo){};
+    //public void bind_tela_movel(Bind em um Node pivo){}; TIPO UM PERSONAGEM QUE SE MEXE
    
-    private void bind_rodinha_mouse() {
+    public void bind_rodinha_mouse() {
         this.setOnScroll((ScrollEvent event) -> {
-            mousePositionX = (event.getSceneX() - meio_tela_relativoX())/distancia_linhas*escala_grade;
-            mousePositionY = (event.getSceneY() - meio_tela_relativoY())/distancia_linhas*escala_grade;
+            mousePositionX = (event.getSceneX() - this.localToScene(this.getBoundsInLocal()).getMinX() - meio_tela_relativoX())/distancia_linhas*escala_grade;
+            mousePositionY = (event.getSceneY() - this.localToScene(this.getBoundsInLocal()).getMinY() - meio_tela_relativoY())/distancia_linhas*escala_grade;
             
             double deltaY = event.getDeltaY();
             if (deltaY > 0) {
@@ -229,32 +263,38 @@ public class MathGrid extends ObjetoInteragivel {
                 distancia_linhas = MAX_DISTANCIA_LINHAS;
                 escala_grade *= MAX_DISTANCIA_LINHAS / MIN_DISTANCIA_LINHAS;
             }
-            refresh();
+            atualizar();
         });
     }
     
     //public void bind_rodinha_mouse(Bind em um Node pivo){};
 
     private double meio_tela_relativoX() {
-        return final_da_telaX/2 + zeroX_escalado();
+        return largura_grade/2 + zeroX_escalado();
     }
 
     private double meio_tela_relativoY() {
-        return final_da_telaY/2 + zeroY_escalado();
+        return altura_grade/2 + zeroY_escalado();
     }
 
     private double final_tela_relativoX() {
-        return final_da_telaX + zeroX_escalado();
+        return largura_grade + zeroX_escalado();
     }
 
     private double final_tela_relativoY() {
-        return final_da_telaY + zeroY_escalado();
+        return altura_grade + zeroY_escalado();
     }
     
+    /**
+     * @return O quanto o ponto 0 foi deslocado no eixo X em pixels.
+     */
     private double zeroX_escalado(){      
         return (zeroX / escala_grade)*distancia_linhas;
     }
     
+    /**
+     * @return O quanto o ponto 0 foi deslocado no eixo Y em pixels.
+     */
     private double zeroY_escalado(){
         return (zeroY / escala_grade)*distancia_linhas;
     }
@@ -262,7 +302,7 @@ public class MathGrid extends ObjetoInteragivel {
     /**
      * Método para atualizar a grade e tudo nela.
      */
-    public void refresh() {
+    public void atualizar() {
         this.getChildren().clear();
 
         configurar_linhasEmarcadores();

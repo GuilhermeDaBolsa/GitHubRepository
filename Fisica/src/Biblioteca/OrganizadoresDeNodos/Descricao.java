@@ -27,9 +27,9 @@ public class Descricao extends ObjetoInteragivel{
         /*imagem = new Caixa(largura_exterior/3, altura_exterior/5, 3, null, null, false);
         imagem.adicionar_conteudo(conteudo, false);*/
         caixa = new Caixa(largura_caixa, altura_caixa, 6, Color.ALICEBLUE, Color.CADETBLUE);
-        caixa.adicionar_conteudo(this.titulo);
+        caixa.add(this.titulo);
         for (int i = 0; i < descricao.length; i++) {
-            caixa.adicionar_conteudo(this.descricao.get(i));
+            caixa.add(this.descricao.get(i));
         }
         
         posicionar_conteudos();

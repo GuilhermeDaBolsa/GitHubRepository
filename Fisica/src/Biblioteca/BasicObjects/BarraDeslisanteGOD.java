@@ -3,6 +3,7 @@ package Biblioteca.BasicObjects;
 import Biblioteca.BasicObjects.Formas.Texto;
 import Biblioteca.InteractiveObjects.ObjetoInteragivel;
 import Biblioteca.OrganizadoresDeNodos.Caixa;
+import java.util.Objects;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.EventHandler;
@@ -277,5 +278,80 @@ public class BarraDeslisanteGOD extends ObjetoInteragivel {
         this.is_pressed = is_pressed;
     }
 
-    
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 13 * hash + Objects.hashCode(this.fundo);
+        hash = 13 * hash + Objects.hashCode(this.path);
+        hash = 13 * hash + Objects.hashCode(this.bolinha);
+        hash = 13 * hash + Objects.hashCode(this.mostra_valor);
+        hash = 13 * hash + Objects.hashCode(this.acao);
+        hash = 13 * hash + (int) (Double.doubleToLongBits(this.altura) ^ (Double.doubleToLongBits(this.altura) >>> 32));
+        hash = 13 * hash + (int) (Double.doubleToLongBits(this.largura) ^ (Double.doubleToLongBits(this.largura) >>> 32));
+        hash = 13 * hash + (int) (Double.doubleToLongBits(this.min) ^ (Double.doubleToLongBits(this.min) >>> 32));
+        hash = 13 * hash + (int) (Double.doubleToLongBits(this.max) ^ (Double.doubleToLongBits(this.max) >>> 32));
+        hash = 13 * hash + (int) (Double.doubleToLongBits(this.start_number) ^ (Double.doubleToLongBits(this.start_number) >>> 32));
+        hash = 13 * hash + (int) (Double.doubleToLongBits(this.incremento) ^ (Double.doubleToLongBits(this.incremento) >>> 32));
+        hash = 13 * hash + (int) (Double.doubleToLongBits(this.deltaX) ^ (Double.doubleToLongBits(this.deltaX) >>> 32));
+        hash = 13 * hash + (int) (Double.doubleToLongBits(this.deltaY) ^ (Double.doubleToLongBits(this.deltaY) >>> 32));
+        hash = 13 * hash + (this.is_pressed ? 1 : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final BarraDeslisanteGOD other = (BarraDeslisanteGOD) obj;
+        if (Double.doubleToLongBits(this.altura) != Double.doubleToLongBits(other.altura)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.largura) != Double.doubleToLongBits(other.largura)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.min) != Double.doubleToLongBits(other.min)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.max) != Double.doubleToLongBits(other.max)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.start_number) != Double.doubleToLongBits(other.start_number)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.incremento) != Double.doubleToLongBits(other.incremento)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.deltaX) != Double.doubleToLongBits(other.deltaX)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.deltaY) != Double.doubleToLongBits(other.deltaY)) {
+            return false;
+        }
+        if (this.is_pressed != other.is_pressed) {
+            return false;
+        }
+        if (!Objects.equals(this.fundo, other.fundo)) {
+            return false;
+        }
+        if (!Objects.equals(this.path, other.path)) {
+            return false;
+        }
+        if (!Objects.equals(this.bolinha, other.bolinha)) {
+            return false;
+        }
+        if (!Objects.equals(this.mostra_valor, other.mostra_valor)) {
+            return false;
+        }
+        if (!Objects.equals(this.acao, other.acao)) {
+            return false;
+        }
+        return true;
+    }
 }

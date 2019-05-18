@@ -128,7 +128,7 @@ public class TabelaMenu extends CenaVisivel{
      */
     public void colocarProximosObjetoEmCaixa(Paint corFundo, Paint corBorda, double strokeWidth){
         inscreverElementosEmCaixas = true;
-        modelo = new Caixa(strokeWidth, corFundo, corBorda);
+        modelo = new Caixa(corFundo, strokeWidth, corBorda);
     }
     
     /**

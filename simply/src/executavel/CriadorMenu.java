@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.StrokeType;
 
 public class CriadorMenu {
     static double largura_menu = 75;
@@ -23,7 +24,7 @@ public class CriadorMenu {
      * @return O menu.
      */
     public static Caixa cria_menu() {
-        Caixa btn_add = new Caixa(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, 1, Color.CADETBLUE, Color.BLACK);
+        Caixa btn_add = new Caixa(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, Color.CADETBLUE, 1, Color.BLACK);
         btn_add.events_handler.onMouseButtonReleased().addRunnable(() -> {
             Fisica2.caixa_adicionar_carga.switchAtivarDesativar();
         }); 
@@ -33,7 +34,7 @@ public class CriadorMenu {
         });
         botoes.add(btn_add);
         
-        Caixa btn_config = new Caixa(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, 1, Color.DARKGRAY, Color.BLACK);
+        Caixa btn_config = new Caixa(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, Color.DARKGRAY, 1, Color.BLACK);
         btn_config.events_handler.onMouseButtonReleased().addRunnable(() -> {
             for (int i = -150; i < 151; i++) {
                 Fisica2.grade.adicionar_objeto(new Entidade(6, 12, Color.AQUA, i + ", " + i), i, i);
@@ -41,7 +42,7 @@ public class CriadorMenu {
         });
         botoes.add(btn_config);
         
-        Caixa btn_remove = new Caixa(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, 1, Color.FIREBRICK, Color.BLACK);
+        Caixa btn_remove = new Caixa(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, Color.FIREBRICK, 1, Color.BLACK);
         botoes.add(btn_remove);
         btn_remove.events_handler.onMouseButtonReleased().addRunnable(() -> {
             Runtime runtime = Runtime.getRuntime();
@@ -54,7 +55,7 @@ public class CriadorMenu {
         InterligaElementos junta = new InterligaElementos(btn_add, btn_config, btn_remove);
         junta.setButtonTypes(-2,2,-2);
         junta.setEventosVisuais(Color.BLACK, Color.WHITE, Color.CHARTREUSE);
-        Caixa menu = new Caixa(largura_menu, 100, 2, Color.BLACK, Color.BLACK);
+        Caixa menu = new Caixa(largura_menu, 100, Color.BLACK, 2, Color.BLACK);
         menu.add(tabela);
         menu.alinhar_conteudos_centro();
         menu.mover_conteudos(-2, espacinho * 2);
@@ -71,18 +72,18 @@ public class CriadorMenu {
      * @return O botão.
      */
     public static Caixa cria_botao_menu(Caixa menu) {
-        Caixa btn_menu = new Caixa(largura_menu * 0.8, largura_menu * 0.8, 2, Color.WHITE, Color.BLACK);
+        Caixa btn_menu = new Caixa(largura_menu * 0.8, largura_menu * 0.8, Color.WHITE, 2, Color.BLACK);
         btn_menu.setTranslateX(0);
         btn_menu.setTranslateY(0);
 
         btn_menu.setOnMouseClicked((event) -> {
             if (btn_menu.getTranslateX() == 0 + btn_menu.caixa.getStrokeWidth()) {
-                btn_menu.setStroke(null, Color.WHITE);
+                btn_menu.ySetStroke(null, Color.WHITE, StrokeType.CENTERED, true);
                 btn_menu.caixa.setFill(Color.BLACK);
                 Animacoes.animacaoMovimento(btn_menu, tempo_animacao_menu, largura_menu + btn_menu.caixa.getStrokeWidth(), null);
                 Animacoes.animacaoMovimento(menu, tempo_animacao_menu, 0.0, null);
             } else {
-                btn_menu.setStroke(null, Color.BLACK);
+                btn_menu.ySetStroke(null, Color.BLACK, StrokeType.CENTERED, true);
                 btn_menu.caixa.setFill(Color.WHITE);
                 Animacoes.animacaoMovimento(btn_menu, tempo_animacao_menu, 0 + btn_menu.caixa.getStrokeWidth(), null);
                 Animacoes.animacaoMovimento(menu, tempo_animacao_menu, -largura_menu, null);
@@ -98,7 +99,7 @@ public class CriadorMenu {
      * @return A caixa.
      */
     public static Caixa criar_caixa_adicionar() {
-        Caixa adicionar = new Caixa(largura_menu * 2 - 30, largura_menu + 80, 0, Color.WHITE, Color.BLACK);
+        Caixa adicionar = new Caixa(largura_menu * 2 - 30, largura_menu + 80, Color.WHITE, 0, Color.BLACK);
 
         ColorPicker cor = new ColorPicker(Color.WHITE);
         //cor.setMinSize(espacinho, espacinho); cor.setMaxSize(espacinho, espacinho);
@@ -110,12 +111,11 @@ public class CriadorMenu {
         posicao.setAlignment(Pos.CENTER);
         TextField forca = new TextField("Potência da carga");
         forca.setAlignment(Pos.CENTER);
-        Caixa btn_confirm = new Caixa(adicionar.getAlturaCaixa()/ 10, adicionar.caixa.getStrokeWidth(), Color.CADETBLUE, Color.CADETBLUE.darker());
+        Caixa btn_confirm = new Caixa(adicionar.getAlturaCaixa()/ 10, Color.CADETBLUE, adicionar.caixa.getStrokeWidth(), Color.CADETBLUE.darker());
         btn_confirm.caixa.setTranslateX(0);
         btn_confirm.caixa.setTranslateY(0);
         btn_confirm.setOnMouseClicked((event) -> {
-            int posicao_procura[] = new int[1];
-            posicao_procura[0] = 0;
+            int posicao_procura[] = {0};
             char string[] = posicao.getText().toCharArray();
 
             double X = encontrar_numero(string, posicao_procura, string.length, posicao_procura);

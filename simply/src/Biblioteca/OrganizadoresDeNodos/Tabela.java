@@ -34,7 +34,7 @@ public class Tabela extends CenaVisivel{
     public int n_colunas = -1;
     
     private double espacinho = 4;
-    private Caixa caixaCelulasPadrao = new Caixa(0, Color.WHITE, Color.BLACK);
+    private Caixa caixaCelulasPadrao = new Caixa(Color.WHITE, 0, Color.BLACK);
     private double grossuraLinhaX = 1;
     private Paint corLinhaX = Color.CORNFLOWERBLUE.darker().desaturate();
     private double grossuraLinhaY = 1;
@@ -126,7 +126,7 @@ public class Tabela extends CenaVisivel{
         if(mostrarLinhasX){
             for (int i = 1; i < Nlinhas; i++) {
                 Linha linhaX = new Linha(0, 0, larguraLinhas, 0, grossuraLinhaX, corLinhaX);
-                linhaX.setTranslateY((espacoEntreElementosY + alturaCelulas)*i);
+                linhaX.ySetTranslateY((espacoEntreElementosY + alturaCelulas)*i, 0);
                 this.getChildren().add(linhaX);
             }
         }
@@ -135,7 +135,7 @@ public class Tabela extends CenaVisivel{
         if(mostrarLinhasY){
             for (int i = 1; i < Ncolunas; i++) {
                 Linha linhaY = new Linha(0, 0, 0, alturaLinhas, grossuraLinhaY, corLinhaY);
-                linhaY.setTranslateX((espacoEntreElementosX + larguraCelulas)*i);
+                linhaY.ySetTranslateX((espacoEntreElementosX + larguraCelulas)*i, 0);
                 this.getChildren().add(linhaY);
             }
         }

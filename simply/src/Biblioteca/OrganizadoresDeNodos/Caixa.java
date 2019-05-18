@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
+import javafx.scene.shape.StrokeType;
 
 /**
  * Esta classe serve para criar Shapes que contém elementos dentro (Nodos). //VER PRA TER BORDAS INDEPENDENTES (BORDA INFERIOR, DIREITA, SUPERIOR..)
@@ -25,11 +26,11 @@ public class Caixa extends CenaVisivel {
      * @param cor_fundo Cor do fundo da caixa.
      * @param cor_borda Cor da borda da caixa.
      */
-    public Caixa(Shape forma, double grossura_borda, Paint cor_fundo, Paint cor_borda){
+    public Caixa(Shape forma, Paint cor_fundo, double grossura_borda, Paint cor_borda){
         caixa = forma;
         container = new Pane();
-        setStroke(grossura_borda, cor_borda);
         caixa.setFill(cor_fundo);
+        ySetStroke(grossura_borda, cor_borda, StrokeType.CENTERED, true);
         
         events_handler.setUpInteractiveObject();//E SE O CARA NAO QUIZER? E BOTAR ISSO NAS OUTRAS CLASSES PQ N BOTEI :P
         
@@ -39,8 +40,8 @@ public class Caixa extends CenaVisivel {
     /**
      * Cria uma caixa quadrada apenas para servir de modelo.
      */
-    public Caixa(double grossura_borda, Paint cor_fundo, Paint cor_borda) {
-        this(new Retangulo(10, 10), grossura_borda, cor_fundo, cor_borda);
+    public Caixa(Paint cor_fundo, double grossura_borda, Paint cor_borda) {
+        this(new Retangulo(10, 10), cor_fundo, grossura_borda, cor_borda);
     }
     
     /**
@@ -48,29 +49,38 @@ public class Caixa extends CenaVisivel {
      * @param tamanhoX Largura da caixa.
      * @param tamanhoY Altura da caixa.
      */
-    public Caixa(double tamanhoX, double tamanhoY, double grossura_borda, Paint cor_fundo, Paint cor_borda) {
-        this(new Retangulo(tamanhoX, tamanhoY), grossura_borda, cor_fundo, cor_borda);
+    public Caixa(double tamanhoX, double tamanhoY, Paint cor_fundo, double grossura_borda, Paint cor_borda) {
+        this(new Retangulo(tamanhoX, tamanhoY), cor_fundo, grossura_borda, cor_borda);
     }
     
     /**
      * Cria uma caixa redonda.
      * @param raio Raio da caixa.
      */
-    public Caixa(double raio, double grossura_borda, Paint cor_fundo, Paint cor_borda) {
-        this(new Circulo(raio), grossura_borda, cor_fundo, cor_borda);
+    public Caixa(double raio, Paint cor_fundo, double grossura_borda, Paint cor_borda) {
+        this(new Circulo(raio), cor_fundo, grossura_borda, cor_borda);
     }
     
     public Caixa(Caixa caixa){
-        this(caixa.caixa, caixa.caixa.getStrokeWidth(), caixa.caixa.getFill(), caixa.caixa.getStroke());
+        this(caixa.caixa, caixa.caixa.getFill(), caixa.caixa.getStrokeWidth(), caixa.caixa.getStroke());
     }
     
-    public void setStroke(Double grossura, Paint cor) {
-        if(cor != null)
-            caixa.setStroke(cor);
-        if(grossura != null){
-            caixa.setStrokeWidth(grossura);
-            setTranslateX(getTranslateX() + grossura/2);///grossura borda?????????
-            setTranslateY(getTranslateY() + grossura/2);///grossura borda?????????
+    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width) {//VER PRA FAZER ASSIM NAS FORMAS, COM O WIDTH E HEIGHT
+        double width = getLarguraCaixa();
+        double height = getAlturaCaixa();
+        
+        if(stroke_color != null)
+            caixa.setStroke(stroke_color);
+        if(stroke_width != null)
+            caixa.setStrokeWidth(stroke_width);
+        if(stroke_type != null)
+            caixa.setStrokeType(stroke_type);
+        
+        if(move_with_new_stroke_width){
+            width = getLarguraCaixa() - width;
+            height = getAlturaCaixa() - height;
+            this.setTranslateX(this.getTranslateX() + width/2);
+            this.setTranslateY(this.getTranslateY() + height/2);
         }
     }
 
@@ -198,16 +208,34 @@ public class Caixa extends CenaVisivel {
         
         if(proportion){
             if(largura > altura){
-                altura = largura;
+                altura *= largura/getLarguraCaixa();
             }else{
-                largura = altura;
+                largura *= altura/getAlturaCaixa();
             }
         }
         
-        setWidthWithScale(largura, plusBorderX);
-        setHeigthWithScale(altura, plusBorderY);
-        //TALVEZ ATÉ UMA BIND... OU TUDO NA MAO TODA HR Q MUDA O CONTEUDO TBM
-        //TENTAR NAO USAR O SCALE....
+        setBoxWidth(largura, plusBorderX);
+        setBoxHeight(altura, plusBorderY);
+    }
+    
+    public void setBoxWidth(double width, boolean plusBorder){
+        //usar o plusBorder né
+        
+        if(caixa instanceof Forma){
+            ((Forma) caixa).ySetWidth(width, true);
+        }else{
+            setWidthWithScale(width, plusBorder);
+        }
+    }
+    
+    public void setBoxHeight(double height, boolean plusBorder){
+        //usar o plusBorder né
+        
+        if(caixa instanceof Forma){
+            ((Forma) caixa).ySetHeight(height, true);
+        }else{
+            setHeigthWithScale(height, plusBorder);
+        }
     }
     
     public void setWidthWithScale(double width, boolean plusBorder){

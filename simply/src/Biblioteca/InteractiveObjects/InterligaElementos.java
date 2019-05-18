@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.StrokeType;
 
 
 //POR ENQUANTO SO FUNCIONA PRA CAIXAS
@@ -68,24 +69,24 @@ public class InterligaElementos {
             if(elementos.get(i) instanceof Caixa){
                 Caixa elemento = (Caixa) elementos.get(i);
                 
-                elemento.setStroke(null, corBordaPadrao);
+                elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                 int num = numeroDeConexao.get(i);
                 if(num < 0){
                     elemento.events_handler.onMouseEntered().addRunnable(0, () -> {
                         if(!elemento.events_handler.is_selected)
-                            elemento.setStroke(null, corBordaFoco);
+                            elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.HAND);
                     });
                     elemento.events_handler.onMouseExited().addRunnable(0, () -> {
                         if(!elemento.events_handler.is_selected)
-                            elemento.setStroke(null, corBordaPadrao);
+                            elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.DEFAULT);
                     });
                     elemento.events_handler.onMouseButtonPressed().addRunnable(0, () -> {
                         if(!elemento.events_handler.is_selected){
-                            elemento.setStroke(null, corBordaClick);
+                            elemento.ySetStroke(null, corBordaClick, StrokeType.CENTERED, true);
                         }else{
-                            elemento.setStroke(null, corBordaFoco);
+                            elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
                         }
                     });
                     elemento.events_handler.onMouseButtonReleased().addRunnable(0, () -> {
@@ -93,29 +94,29 @@ public class InterligaElementos {
                             if(num < -1){
                                 descelecionaOutrosElementos(corBordaPadrao, num);
                             }
-                            elemento.setStroke(null, corBordaClick);
+                            elemento.ySetStroke(null, corBordaClick, StrokeType.CENTERED, true);
                         }else{
-                            elemento.setStroke(null, corBordaPadrao);//ÉEEÈÈÈÈÈ``E
+                            elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);//ÉEEÈÈÈÈÈ``E
                         }
                         elemento.events_handler.is_selected = !elemento.events_handler.is_selected;
                     });
                 }else{
                     elemento.events_handler.onMouseEntered().addRunnable(0, () -> {
-                        elemento.setStroke(null, corBordaFoco);
+                        elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.HAND);
                     });
                     elemento.events_handler.onMouseExited().addRunnable(0, () -> {
-                        elemento.setStroke(null, corBordaPadrao);
+                        elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.DEFAULT);
                     });
                     elemento.events_handler.onMouseButtonPressed().addRunnable(0, () -> {
-                        elemento.setStroke(null, corBordaClick);
+                        elemento.ySetStroke(null, corBordaClick, StrokeType.CENTERED, true);
                     });
                     elemento.events_handler.onMouseButtonReleased().addRunnable(0, () -> {
                         if(num > 1){
                             descelecionaOutrosElementos(corBordaPadrao, num);
                         }
-                        elemento.setStroke(null, corBordaPadrao);
+                        elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                     });
                 }
             }
@@ -127,7 +128,7 @@ public class InterligaElementos {
             if(elementos.get(i) instanceof Caixa && modulo(numeroDeConexao.get(i)) == modulo(ID)){
                 Caixa elemento = (Caixa) elementos.get(i);
                 elemento.events_handler.is_selected = false;
-                elemento.setStroke(null, corBordaPadrao);
+                elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                 elemento.events_handler.actionCleaner().run();
             }
         }

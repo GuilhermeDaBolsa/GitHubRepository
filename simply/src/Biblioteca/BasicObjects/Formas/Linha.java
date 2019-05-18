@@ -1,18 +1,20 @@
 package Biblioteca.BasicObjects.Formas;
 
 import Biblioteca.BasicObjects.VisibleObjectHandler;
+import Biblioteca.LogicClasses.Matematicas;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.StrokeType;
 import javafx.util.Duration;
 
 public class Linha extends Line implements Forma{
     
     /**
-     * Cria uma linha. (OBS: SEMPRE CRIE UMA LINHA DA ESQUERDA PRA DIREITA, OU DE CIMA PARA BAIXO, NUNCA O CONTRÁRIO).
+     * Cria uma linha. (OBS: Não há setFIll nas linhas, sua cor é definida por setStroke e apenas).
      * @param Xinicial Coordenada X do inicio da linha.
      * @param Yinicial Coordenada Y do inicio da linha
      * @param Xfinal Coordenada X do final da linha.
@@ -20,9 +22,14 @@ public class Linha extends Line implements Forma{
      * @param grossura É a grossura da linha
      * @param cor Cor da linha
      */
+    public Linha(double Xinicial, double Yinicial, double Xfinal, double Yfinal, double grossura, Paint cor, StrokeType stroke_type, boolean move_with_new_stroke_width){
+        setPontoInicial(Xinicial, Yinicial);
+        setPontoFinal(Xfinal, Yfinal);
+        ySetStroke(grossura, cor, stroke_type, move_with_new_stroke_width);
+    }
+    
     public Linha(double Xinicial, double Yinicial, double Xfinal, double Yfinal, double grossura, Paint cor){
-        super(Xinicial, Yinicial, Xfinal, Yfinal);
-        setStroke(grossura, cor);
+        this(Xinicial, Yinicial, Xfinal, Yfinal, grossura, cor, StrokeType.CENTERED, false);
     }
     
     public Linha(double Xfinal, double Yfinal, double grossura, Paint cor){
@@ -34,23 +41,7 @@ public class Linha extends Line implements Forma{
     }
     
     public Linha(Linha line){
-        this(line.getInicioX(), line.getInicioY(), line.getFimX(), line.getFimY(), line.getStrokeWidth(), line.getStroke());
-    }
-    
-    public double getInicioX(){
-        return getStartX();
-    }
-    
-    public double getInicioY(){
-        return getStartY();
-    }
-    
-    public double getFimX(){
-        return getEndX();
-    }
-    
-    public double getFimY(){
-        return getEndY();
+        this((Line) line);
     }
     
     public void setPontoInicial(double Xinicial, double Yinicial){
@@ -112,40 +103,101 @@ public class Linha extends Line implements Forma{
         XYtransicao.setToY(Y);
         XYtransicao.play();
     }
+    
+    public double getWidth(){
+        return Matematicas.modulo(getEndX() - getStartX());
+    }
+    
+    public double getHeight(){
+        return Matematicas.modulo(getEndY() - getStartY());
+    }
 
     @Override
-    public double getWidth() {//DA PRA CALCULAR COM BASE NO RADIUS E NO STROKE
+    public double yGetWidth() {//DA PRA CALCULAR COM BASE NO COMPRIMENTO E NO STROKE
         return VisibleObjectHandler.getWidth(this);
     }
 
     @Override
-    public double getHeight() {//DA PRA CALCULAR COM BASE NO RADIUS E NO STROKE
+    public double yGetHeight() {//DA PRA CALCULAR COM BASE NO COMPRIMENTO E NO STROKE
         return VisibleObjectHandler.getHeigth(this);
     }
-
+    
     @Override
-    public void setTranslateX(double position, double pivo) {
-        VisibleObjectHandler.setTranslateX(this, pivo, position);
+    public void ySetWidth(double width, boolean stroke_included) {
+        double new_width = width;
+        
+        if(stroke_included){
+            if(getStrokeType() == StrokeType.CENTERED)
+                new_width -= getStrokeWidth();
+            else if(getStrokeType() == StrokeType.OUTSIDE)
+                new_width -= getStrokeWidth()*2;
+        }
+        
+        setEndX(getStartX() + new_width);
     }
 
     @Override
-    public void setTranslateY(double position, double pivo) {
-        VisibleObjectHandler.setTranslateY(this, pivo, position);
+    public void ySetHeight(double height, boolean stroke_included) {
+        double new_height = height;
+        
+        if(stroke_included){
+            if(getStrokeType() == StrokeType.CENTERED)
+                new_height -= getStrokeWidth();
+            else if(getStrokeType() == StrokeType.OUTSIDE)
+                new_height -= getStrokeWidth()*2;
+        }
+        
+        setEndY(getStartY() + new_height);
+    }
+    
+    @Override
+    public double yGetTranslateX(double pivo) {
+        return (getTranslateX() + getWidth()/2) + yGetWidth()*(pivo - 0.5);
     }
 
     @Override
-    public void setTranslateZ(double position, double pivo) {
-        VisibleObjectHandler.setTranslateZ(this, pivo, position);
+    public double yGetTranslateY(double pivo) {
+        return (getTranslateY() + getHeight()/2) + yGetHeight()*(pivo - 0.5);
     }
 
     @Override
-    public void setStroke(Double grossura, Paint cor) {
-        if(cor != null)
-            setStroke(cor);
-        if(grossura != null){
-            setStrokeWidth(grossura);
-            setTranslateX(getTranslateX() + grossura/2);///grossura borda?????????
-            setTranslateY(getTranslateY() + grossura/2);///grossura borda?????????
+    public void ySetTranslateX(double position, double pivo) {
+        VisibleObjectHandler.setTranslateX(this, (position - getWidth()/2) + yGetWidth()/2, pivo);
+    }
+
+    @Override
+    public void ySetTranslateY(double position, double pivo) {
+        VisibleObjectHandler.setTranslateY(this, (position - getHeight()/2) + yGetHeight()/2, pivo);
+    }
+
+    @Override
+    public void ySetTranslateZ(double position, double pivo) {
+        VisibleObjectHandler.setTranslateZ(this, position, pivo);
+    }
+    
+    /**
+     * 
+     * @param stroke_width
+     * @param stroke_color
+     * @param stroke_type 
+     * @param move_with_new_stroke_width If a new stroke_width is defined, it will "grow from inside" keeping the object where it was, unless this parameter is true.
+     * @see #setStrokeType(javafx.scene.shape.StrokeType) 
+     */
+    @Override
+    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width) {
+        double where_wasX = yGetTranslateX(0);
+        double where_wasY = yGetTranslateY(0);
+        
+        if(stroke_color != null)
+            setStroke(stroke_color);
+        if(stroke_width != null)
+            setStrokeWidth(stroke_width);
+        if(stroke_type != null)
+            setStrokeType(stroke_type);
+            
+        if(move_with_new_stroke_width){
+            ySetTranslateX(where_wasX, 0);
+            ySetTranslateY(where_wasY, 0);
         }
     }
 }

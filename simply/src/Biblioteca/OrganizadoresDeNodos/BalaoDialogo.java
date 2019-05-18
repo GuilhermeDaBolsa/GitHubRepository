@@ -86,7 +86,7 @@ public class BalaoDialogo extends Pane {
         texto.setTranslateX(8);
         texto.setTranslateY(8 * 2 +5);//???????? *2 ??????? só aceita que funfa//
 
-        Rectangle retangulo = new Rectangle(texto.getWidth()+ 8 + 2, texto.getHeight()+ 8 + 2);
+        Rectangle retangulo = new Rectangle(texto.yGetWidth()+ 8 + 2, texto.yGetHeight()+ 8 + 2);
         if (cor_fundo == null) {
             retangulo.setFill(Color.ALICEBLUE);
         } else {

@@ -1,6 +1,7 @@
 package Biblioteca.InteractiveObjects;
 
 import Biblioteca.BasicObjects.CenaVisivel;
+import Biblioteca.BasicObjects.Formas.Retangulo;
 import Biblioteca.BasicObjects.Formas.Texto;
 import Biblioteca.OrganizadoresDeNodos.Caixa;
 import javafx.beans.binding.Bindings;
@@ -8,12 +9,11 @@ import javafx.beans.property.DoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 public class BarraDeslisante extends CenaVisivel {
-    private Rectangle fundo;
-    private Rectangle path;
+    private Retangulo fundo;
+    private Retangulo path;
     private Caixa bolinha;
     private Texto mostra_valor;
     private Runnable acao;
@@ -40,13 +40,14 @@ public class BarraDeslisante extends CenaVisivel {
         this.incremento = incremento;
         this.acao = action;
         
-        fundo = new Rectangle(largura, altura,Color.GRAY);
-        path = new Rectangle(largura, altura, Color.DARKCYAN);
-        mostra_valor = new Texto(""+start_number);
-        mostra_valor.setFont(Font.font((largura>altura)? altura:largura));
+        fundo = new Retangulo(largura, altura,Color.GRAY);
+        path = new Retangulo(largura, altura, Color.DARKCYAN);
+        
         if (altura > largura) {
+            mostra_valor = new Texto(""+start_number, Font.font(largura), Color.BLACK);
             criar_tudo_e_a_bolinha(largura, false, action);
         } else {
+            mostra_valor = new Texto(""+start_number, Font.font(altura), Color.BLACK);
             criar_tudo_e_a_bolinha(altura, true, action);
         }
         
@@ -54,41 +55,35 @@ public class BarraDeslisante extends CenaVisivel {
     }
 
     private void criar_tudo_e_a_bolinha(double tamanho, boolean eixoX, Runnable action) {
-        bolinha = new Caixa(tamanho, tamanho, 0, Color.BLACK, Color.TRANSPARENT);
+        bolinha = new Caixa(tamanho, tamanho, Color.BLACK, 0, Color.TRANSPARENT);
 
         if(eixoX){
-            fundo.setScaleX((largura+bolinha.getAltura())/largura);
-            path.setScaleX(fundo.getScaleX());
-            
             path.widthProperty().bind(bolinha.layoutXProperty());
-            bolinha.setLayoutX((largura/(max-min))*(start_number - min) - bolinha.getAltura()/2);
+            bolinha.setLayoutX((largura/(max-min))*(start_number - min) - bolinha.yGetHeight()/2);
             
             mostra_valor.setTranslateY(20);
             mostra_valor.translateXProperty().bind(bolinha.layoutXProperty());
             mostra_valor.textProperty().bind(
-                Bindings.format("%.1f",(bolinha.layoutXProperty().add(bolinha.getAltura()/2)).multiply((max-min)/largura).add(min))
+                Bindings.format("%.1f",(bolinha.layoutXProperty().add(bolinha.yGetHeight()/2)).multiply((max-min)/largura).add(min))
             );
         }else{
-            fundo.setScaleY((altura+bolinha.getLargura())/altura);
-            path.setScaleY(fundo.getScaleY());
-            
-            bolinha.setLayoutY((altura/(max-min))*(start_number - min) - bolinha.getLargura()/2);
+            bolinha.setLayoutY((altura/(max-min))*(start_number - min) - bolinha.yGetWidth()/2);
             path.heightProperty().bind(bolinha.layoutYProperty());
             
             mostra_valor.setTranslateX(mostra_valor.getBoundsInLocal().getWidth()*-1 -4);
             mostra_valor.translateYProperty().bind(bolinha.layoutYProperty().add(mostra_valor.getBoundsInLocal().getWidth()/2 - 2));
             mostra_valor.textProperty().bind(
-                Bindings.format("%.1f",(bolinha.layoutYProperty().add(bolinha.getLargura()/2)).multiply((max-min)/altura).add(min))
+                Bindings.format("%.1f",(bolinha.layoutYProperty().add(bolinha.yGetWidth()/2)).multiply((max-min)/altura).add(min))
             );
         }
         
         bolinha.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                is_pressed = true;
                 // record a delta distance for the drag and drop operation.
                 deltaX = bolinha.getLayoutX() - mouseEvent.getSceneX();
                 deltaY = bolinha.getLayoutY() - mouseEvent.getSceneY();
-                is_pressed = true;
             }
         });
         bolinha.setOnMouseDragged(new EventHandler<MouseEvent>() {
@@ -123,7 +118,7 @@ public class BarraDeslisante extends CenaVisivel {
     }
     
     public double getValor(){
-        return bolinha.layoutYProperty().add(bolinha.getLargura()/2).multiply((max-min)/altura).add(min).doubleValue();
+        return bolinha.layoutYProperty().add(bolinha.yGetWidth()/2).multiply((max-min)/altura).add(min).doubleValue();
     }
     
     public double getPosicao(){
@@ -131,7 +126,7 @@ public class BarraDeslisante extends CenaVisivel {
     }
     
     public void bind_valor(DoubleProperty objeto){
-        objeto.bind((bolinha.layoutYProperty().add(bolinha.getLargura()/2)).multiply((max-min)/altura).add(min));
+        objeto.bind((bolinha.layoutYProperty().add(bolinha.yGetWidth()/2)).multiply((max-min)/altura).add(min));
     }
     
     public void setAction(Runnable action){
@@ -151,19 +146,19 @@ public class BarraDeslisante extends CenaVisivel {
     }
     
     private double limiteEsquerda(){
-        return -bolinha.getAltura()/2;
+        return -bolinha.yGetHeight()/2;
     }
     
     private double limiteDireita(){
-        return largura-bolinha.getAltura()/2;
+        return largura-bolinha.yGetHeight()/2;
     }
     
     private double limiteCima(){
-        return -bolinha.getLargura()/2;
+        return -bolinha.yGetWidth()/2;
     }
     
     private double limiteBaixo(){
-        return altura-bolinha.getLargura()/2;
+        return altura-bolinha.yGetWidth()/2;
     }
 
 }

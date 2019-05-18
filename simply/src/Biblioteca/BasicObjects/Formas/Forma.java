@@ -1,25 +1,34 @@
 package Biblioteca.BasicObjects.Formas;
 
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.StrokeType;
 
 public interface Forma{
 
-    public double getWidth();
+    public double yGetWidth();
     
-    public double getHeight();
+    public double yGetHeight();
     
-    public void setTranslateX(double position, double pivo);
+    public void ySetWidth(double width, boolean stroke_included);
     
-    public void setTranslateY(double position, double pivo);
+    public void ySetHeight(double height, boolean stroke_included);
     
-    public void setTranslateZ(double position, double pivo);
+    public void ySetTranslateX(double position, double pivo);//ESSES PIVOS VAO DE 0 a 1 PRA FAZER A PORCENTAGEM DO OBJETO 0 é 0% e 1 é 100%
+    
+    public void ySetTranslateY(double position, double pivo);
+    
+    public void ySetTranslateZ(double position, double pivo);
+    
+    public double yGetTranslateX(double pivo);
+    
+    public double yGetTranslateY(double pivo);
     
     /**
      * Muda a grossura e a cor da borda do retangulo.
-     * @param grossura Nova grossura da borda.
-     * @param cor Nova cor.
+     * @param stroke_width Nova grossura da borda.
+     * @param stroke_color Nova cor.
      */
-    public void setStroke(Double grossura, Paint cor);
+    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width);//VER ESSES METODOS PQ TA TUDO IGAUL EM TODOS, NAO DA PRA JUNTA OU SLAAAA?
     
     /*public void setWidthWithScale(double width, boolean plusBorder){
         double scale = width/getLargura();

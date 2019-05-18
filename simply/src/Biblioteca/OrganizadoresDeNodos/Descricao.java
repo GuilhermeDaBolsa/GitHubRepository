@@ -26,7 +26,7 @@ public class Descricao extends CenaVisivel{
                 
         /*imagem = new Caixa(largura_exterior/3, altura_exterior/5, 3, null, null, false);
         imagem.adicionar_conteudo(conteudo, false);*/
-        caixa = new Caixa(largura_caixa, altura_caixa, 6, Color.ALICEBLUE, Color.CADETBLUE);
+        caixa = new Caixa(largura_caixa, altura_caixa, Color.ALICEBLUE, 6, Color.CADETBLUE);
         caixa.add(this.titulo);
         for (int i = 0; i < descricao.length; i++) {
             caixa.add(this.descricao.get(i));
@@ -39,14 +39,14 @@ public class Descricao extends CenaVisivel{
     }
     
     private void posicionar_conteudos(){
-        titulo.setTranslateX((caixa.getLarguraCaixa()- titulo.getWidth())/2, 0);
-        titulo.setTranslateY(6, 0);
+        titulo.ySetTranslateX((caixa.getLarguraCaixa()- titulo.yGetWidth())/2, 0);
+        titulo.ySetTranslateY(6, 0);
         double posicionamento = titulo.getTranslateY();
         /*imagem.setTranslateX((largura_exterior - ((Rectangle) imagem.caixa).getWidth())/2);
         imagem.setTranslateY(titulo.getTranslateY()+titulo.altura_texto_total);*/
         for (int i = 0; i < descricao.size(); i++) {
-            descricao.get(i).setTranslateX((caixa.getLarguraCaixa() - descricao.get(i).getWidth())/2, 0);
-            descricao.get(i).setTranslateY(posicionamento + 6/*imagem.getTranslateY()+((Rectangle) imagem.caixa).getHeight()+*/, 0);
+            descricao.get(i).ySetTranslateX((caixa.getLarguraCaixa() - descricao.get(i).yGetWidth())/2, 0);
+            descricao.get(i).ySetTranslateY(posicionamento + 6/*imagem.getTranslateY()+((Rectangle) imagem.caixa).getHeight()+*/, 0);
             posicionamento = descricao.get(i).getTranslateY();
         }
     }

@@ -34,7 +34,7 @@ public class teste extends Application {
         testeTabela.add(new Rectangle(80, 80, Color.LAVENDER), 1, 2);
         testeTabela.add(dados, 3, 3);
         testeTabela.add(chara, 2, 2);
-        Caixa cc = new Caixa(40, 45, 1, Color.WHITE, Color.BLACK);
+        Caixa cc = new Caixa(40, 45, Color.WHITE, 1, Color.BLACK);
         cc.add(new Circulo(5, Color.CORNFLOWERBLUE));
         cc.alinhar_conteudos_centro();
         testeTabela.add(cc, 4, 3);
@@ -52,11 +52,11 @@ public class teste extends Application {
         testeTabela.setModeloLinhaX(20, null);
         testeTabela.setModeloLinhaY(2, null);
         
-        Caixa envolocro = new Caixa(0.1, Color.WHITE, Color.DIMGRAY);
+        Caixa envolocro = new Caixa(Color.WHITE, 6, Color.DIMGRAY);
         envolocro.add(testeTabela);
         envolocro.resizeBoxWithItsContent(true, true, false);//AS LINHA NAO TAO SE SOBREPONTO PCAUSA DISSO AQUI, E FAZ UM METODO SEM SCALE PELO AMOR DE DEUS
-        envolocro.setTranslateX(envolocro.getLarguraCaixa()/2 * envolocro.caixa.getScaleX());
-        envolocro.setTranslateY(envolocro.getAlturaCaixa()/2 * envolocro.caixa.getScaleY());
+        //envolocro.setTranslateX(envolocro.getLarguraCaixa()/2 * envolocro.caixa.getScaleX());
+        //envolocro.setTranslateY(envolocro.getAlturaCaixa()/2 * envolocro.caixa.getScaleY());//O ESCALE FODE COM A POSICAO DO OBJETO
         envolocro.alinhar_conteudos_centro();
 
         teste.getChildren().addAll(envolocro);
@@ -71,7 +71,7 @@ public class teste extends Application {
             } 
         });
 
-        Scene scene = new Scene(teste, 800, 800);
+        Scene scene = new Scene(teste, 1100, 800);
         primaryStage.setTitle("Física 0.65");
         primaryStage.setScene(scene);
         primaryStage.show();  

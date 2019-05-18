@@ -160,7 +160,7 @@ public class MathGrid extends CenaVisivel {
     private void adicionar_numero(String numero, double X, double Y) {
         Texto text = new Texto(numero, Font.font(tamanho_numeros), Color.BLACK);
         text.setTranslateX(X);
-        text.setTranslateY(Y, 0);
+        text.ySetTranslateY(Y, 0);
         this.getChildren().add(text);
     }
 

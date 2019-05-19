@@ -22,14 +22,14 @@ public class Linha extends Line implements Forma{
      * @param grossura É a grossura da linha
      * @param cor Cor da linha
      */
-    public Linha(double Xinicial, double Yinicial, double Xfinal, double Yfinal, double grossura, Paint cor, StrokeType stroke_type, boolean move_with_new_stroke_width){
+    public Linha(double Xinicial, double Yinicial, double Xfinal, double Yfinal, double grossura, Paint cor, StrokeType stroke_type, boolean correct_location, boolean correct_size){
         setPontoInicial(Xinicial, Yinicial);
         setPontoFinal(Xfinal, Yfinal);
-        ySetStroke(grossura, cor, stroke_type, move_with_new_stroke_width);
+        ySetStroke(grossura, cor, stroke_type, correct_location, correct_size);
     }
     
     public Linha(double Xinicial, double Yinicial, double Xfinal, double Yfinal, double grossura, Paint cor){
-        this(Xinicial, Yinicial, Xfinal, Yfinal, grossura, cor, StrokeType.CENTERED, false);
+        this(Xinicial, Yinicial, Xfinal, Yfinal, grossura, cor, StrokeType.CENTERED, false, true);
     }
     
     public Linha(double Xfinal, double Yfinal, double grossura, Paint cor){
@@ -44,18 +44,29 @@ public class Linha extends Line implements Forma{
         this((Line) line);
     }
     
-    public void setPontoInicial(double Xinicial, double Yinicial){
-        if(Xinicial != Double.NaN)
+    public void setPontoInicial(Double Xinicial, Double Yinicial){
+        if(Xinicial != null)
             setStartX(Xinicial);
-        if(Yinicial != Double.NaN)
+        if(Yinicial != null)
             setStartY(Yinicial);
     }
     
-    public void setPontoFinal(double Xfinal, double Yfinal){
-        if(Xfinal != Double.NaN)
+    public void setPontoFinal(Double Xfinal, Double Yfinal){
+        if(Xfinal != null)
             setEndX(Xfinal);
-        if(Yfinal != Double.NaN)
+        if(Yfinal != null)
             setEndY(Yfinal);
+        
+        if(getStartX() > Xfinal){
+            double aux = getStartX();
+            setStartX(Xfinal);
+            setEndX(aux);
+        }
+        if(getStartY() > Yfinal){
+            double aux = getStartY();
+            setStartY(Yfinal);
+            setEndY(aux);
+        }
     }
 
     /**
@@ -175,29 +186,52 @@ public class Linha extends Line implements Forma{
         VisibleObjectHandler.setTranslateZ(this, position, pivo);
     }
     
+    //COMO Q EU FAÇO PRA T UM SO E N DA PROBLEMA DE OVERIDE BLABLBALBLA
+    
     /**
      * 
      * @param stroke_width
      * @param stroke_color
      * @param stroke_type 
-     * @param move_with_new_stroke_width If a new stroke_width is defined, it will "grow from inside" keeping the object where it was, unless this parameter is true.
+     * @param correct_location If a new stroke_width is defined, it will "grow from inside" keeping the object where it was, unless this parameter is true.
      * @see #setStrokeType(javafx.scene.shape.StrokeType) 
      */
     @Override
-    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width) {
-        double where_wasX = yGetTranslateX(0);
-        double where_wasY = yGetTranslateY(0);
+    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, correct_location);
+    }
+    
+    /**
+     * 
+     * @param stroke_width
+     * @param stroke_color
+     * @param stroke_type 
+     * @param correct_location If a new stroke_width is defined, it will "grow from inside" keeping the object where it was, unless this parameter is true.
+     * @see #setStrokeType(javafx.scene.shape.StrokeType) 
+     */
+    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location, boolean correct_size) {
+        double coeficient = 0.5;
         
         if(stroke_color != null)
             setStroke(stroke_color);
         if(stroke_width != null)
             setStrokeWidth(stroke_width);
-        if(stroke_type != null)
+        if(stroke_type != null){
             setStrokeType(stroke_type);
-            
-        if(move_with_new_stroke_width){
-            ySetTranslateX(where_wasX, 0);
-            ySetTranslateY(where_wasY, 0);
+            if(stroke_type == StrokeType.OUTSIDE)
+                coeficient = 1;
+            else if(stroke_type == StrokeType.INSIDE)
+                coeficient = 0;
+        }
+        
+        coeficient *= stroke_width;
+        
+        if(correct_location){
+            setTranslateX(getTranslateX() + coeficient);
+            setTranslateY(getTranslateY() + coeficient);
+        }
+        if(correct_size){
+            setPontoFinal(getEndX() - coeficient, getEndY() - coeficient);//ta errado, tem uma proporção ai no meio
         }
     }
 }

@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeType;
 import javafx.util.Duration;
 
@@ -22,14 +23,14 @@ public class Linha extends Line implements Forma{
      * @param grossura É a grossura da linha
      * @param cor Cor da linha
      */
-    public Linha(double Xinicial, double Yinicial, double Xfinal, double Yfinal, double grossura, Paint cor, StrokeType stroke_type, boolean correct_location, boolean correct_size){
+    public Linha(double Xinicial, double Yinicial, double Xfinal, double Yfinal, double grossura, Paint cor, StrokeType stroke_type, boolean correct_location){
         setPontoInicial(Xinicial, Yinicial);
         setPontoFinal(Xfinal, Yfinal);
-        ySetStroke(grossura, cor, stroke_type, correct_location, correct_size);
+        ySetStroke(grossura, cor, stroke_type, correct_location);
     }
     
     public Linha(double Xinicial, double Yinicial, double Xfinal, double Yfinal, double grossura, Paint cor){
-        this(Xinicial, Yinicial, Xfinal, Yfinal, grossura, cor, StrokeType.CENTERED, false, true);
+        this(Xinicial, Yinicial, Xfinal, Yfinal, grossura, cor, StrokeType.CENTERED, true);
     }
     
     public Linha(double Xfinal, double Yfinal, double grossura, Paint cor){
@@ -62,13 +63,105 @@ public class Linha extends Line implements Forma{
             setStartX(Xfinal);
             setEndX(aux);
         }
-        if(getStartY() > Yfinal){
-            double aux = getStartY();
-            setStartY(Yfinal);
-            setEndY(aux);
-        }
+    }
+    
+    /**
+     * @return The lenght of the line, in other words, the hypotenuses created by the deltaX and deltaY lengths.
+     * @see #yDeltaXpoints(boolean) 
+     * @see #yDeltaYpoints(boolean) 
+     */
+    public double yDeltaHypotenuse(){
+        double X = yDeltaXpoints(false);
+        double Y = yDeltaYpoints(false);
+        
+        return Math.sqrt(X*X + Y*Y);
+    }
+    
+    /**
+     * @param plusStroke True if you want the stroke width to be counted. False, just the imaginary points.
+     * @return The difference between the final X point and the initial X point.
+     */
+    public double yDeltaXpoints(boolean plusStroke){
+        double delta = Matematicas.modulo(getEndX() - getStartX());
+        if(!plusStroke)
+            return delta;
+        return delta + (yDeltaXpoints(false)/yDeltaHypotenuse())*getStrokeWidth();
+    }
+    
+    /**
+     * @param plusStroke True if you want the stroke width to be counted. False, just the imaginary points.
+     * @return The difference between the final Y point and the initial Y point.
+     */
+    public double yDeltaYpoints(boolean plusStroke){
+        double delta = Matematicas.modulo(getEndY() - getStartY());
+        if(!plusStroke)
+            return delta;
+        return delta + (yDeltaYpoints(false)/yDeltaHypotenuse())*getStrokeWidth();
     }
 
+    /**
+     * In some cases, especially when the stroke width is big, it may give the
+     * wrong value. If you want just the width of the line with it's stroke you
+     * may use the yDeltaXpoints.
+     * @return The width that this object occupies in the scene.
+     * @see #yDeltaXpoints(boolean)
+     */
+    @Override
+    public double yGetWidth() {
+        return VisibleObjectHandler.getWidth(this);
+    }
+
+    /**
+     * Em alguns casos, caso a grossura seja muito grande, pode retornar a mais do que o correto.
+     * @return The height of the entire object (with stroke, etc)
+     */
+    @Override
+    public double yGetHeight() {
+        return VisibleObjectHandler.getHeight(this);
+    }
+    
+    @Override
+    public double yGetTranslateX(double pivo) {
+        return (getTranslateX() + yDeltaXpoints(false)/2) + yDeltaXpoints(true)*(pivo - 0.5);//QUE IMPASSE, USAR O GETWIDTH Q DA O VALOR ERRADO OU DEIXAR OS DELTAS??????
+    }
+
+    //LEMBRAR OU AVISAR O USUARIO DE QUE SE ELE USAR O TRANSLATE DO JAVA PROVAVELMENTE O PONTO QUE SERA MOVIDO É O DA MEIUCA DO STROKE (O PONTO ORIGINAL PQ O STROKE SO VEM DPS)
+    @Override
+    public double yGetTranslateY(double pivo) {
+        return (getTranslateY() + yDeltaYpoints(false)/2) + yDeltaYpoints(true)*(pivo - 0.5);//QUE IMPASSE, USAR O GETWIDTH Q DA O VALOR ERRADO OU DEIXAR OS DELTAS??????
+    }
+
+    @Override
+    public void ySetTranslateX(double position, double pivo) {
+        VisibleObjectHandler.setTranslateX(this, (position - yDeltaXpoints(false)/2) + yDeltaXpoints(true)/2, pivo);//QUE IMPASSE, USAR O GETWIDTH Q DA O VALOR ERRADO OU DEIXAR OS DELTAS??????
+    }
+
+    @Override
+    public void ySetTranslateY(double position, double pivo) {
+        VisibleObjectHandler.setTranslateY(this, (position - yDeltaYpoints(false)/2) + yDeltaYpoints(true)/2, pivo);//QUE IMPASSE, USAR O GETWIDTH Q DA O VALOR ERRADO OU DEIXAR OS DELTAS??????
+    }
+
+    @Override
+    public void ySetTranslateZ(double position, double pivo) {
+        VisibleObjectHandler.setTranslateZ(this, position, pivo);
+    }
+    
+    /**
+     * 
+     * @param stroke_width
+     * @param stroke_color
+     * @param stroke_type 
+     * @param correct_size If a new stroke_width is defined, it will make the line bigger, unless this parameter is true.
+     * @see #setStrokeType(javafx.scene.shape.StrokeType) 
+     * @see #setStrokeLineCap(javafx.scene.shape.StrokeLineCap) 
+     */
+    @Override
+    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_size) {
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, false);
+        if(correct_size)
+            setStrokeLineCap(StrokeLineCap.BUTT);
+    }
+    
     /**
      * Faz a animação de crescimento da linha a partir do centro.
      * @param segundos Quantos segundos dura a animação
@@ -113,125 +206,5 @@ public class Linha extends Line implements Forma{
         XYtransicao.setToX(X);
         XYtransicao.setToY(Y);
         XYtransicao.play();
-    }
-    
-    public double getWidth(){
-        return Matematicas.modulo(getEndX() - getStartX());
-    }
-    
-    public double getHeight(){
-        return Matematicas.modulo(getEndY() - getStartY());
-    }
-
-    @Override
-    public double yGetWidth() {//DA PRA CALCULAR COM BASE NO COMPRIMENTO E NO STROKE
-        return VisibleObjectHandler.getWidth(this);
-    }
-
-    @Override
-    public double yGetHeight() {//DA PRA CALCULAR COM BASE NO COMPRIMENTO E NO STROKE
-        return VisibleObjectHandler.getHeigth(this);
-    }
-    
-    @Override
-    public void ySetWidth(double width, boolean stroke_included) {
-        double new_width = width;
-        
-        if(stroke_included){
-            if(getStrokeType() == StrokeType.CENTERED)
-                new_width -= getStrokeWidth();
-            else if(getStrokeType() == StrokeType.OUTSIDE)
-                new_width -= getStrokeWidth()*2;
-        }
-        
-        setEndX(getStartX() + new_width);
-    }
-
-    @Override
-    public void ySetHeight(double height, boolean stroke_included) {
-        double new_height = height;
-        
-        if(stroke_included){
-            if(getStrokeType() == StrokeType.CENTERED)
-                new_height -= getStrokeWidth();
-            else if(getStrokeType() == StrokeType.OUTSIDE)
-                new_height -= getStrokeWidth()*2;
-        }
-        
-        setEndY(getStartY() + new_height);
-    }
-    
-    @Override
-    public double yGetTranslateX(double pivo) {
-        return (getTranslateX() + getWidth()/2) + yGetWidth()*(pivo - 0.5);
-    }
-
-    @Override
-    public double yGetTranslateY(double pivo) {
-        return (getTranslateY() + getHeight()/2) + yGetHeight()*(pivo - 0.5);
-    }
-
-    @Override
-    public void ySetTranslateX(double position, double pivo) {
-        VisibleObjectHandler.setTranslateX(this, (position - getWidth()/2) + yGetWidth()/2, pivo);
-    }
-
-    @Override
-    public void ySetTranslateY(double position, double pivo) {
-        VisibleObjectHandler.setTranslateY(this, (position - getHeight()/2) + yGetHeight()/2, pivo);
-    }
-
-    @Override
-    public void ySetTranslateZ(double position, double pivo) {
-        VisibleObjectHandler.setTranslateZ(this, position, pivo);
-    }
-    
-    //COMO Q EU FAÇO PRA T UM SO E N DA PROBLEMA DE OVERIDE BLABLBALBLA
-    
-    /**
-     * 
-     * @param stroke_width
-     * @param stroke_color
-     * @param stroke_type 
-     * @param correct_location If a new stroke_width is defined, it will "grow from inside" keeping the object where it was, unless this parameter is true.
-     * @see #setStrokeType(javafx.scene.shape.StrokeType) 
-     */
-    @Override
-    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
-        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, correct_location);
-    }
-    
-    /**
-     * 
-     * @param stroke_width
-     * @param stroke_color
-     * @param stroke_type 
-     * @param correct_location If a new stroke_width is defined, it will "grow from inside" keeping the object where it was, unless this parameter is true.
-     * @see #setStrokeType(javafx.scene.shape.StrokeType) 
-     */
-    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location, boolean correct_size) {
-        double coeficient = 0.5;
-        
-        if(stroke_color != null)
-            setStroke(stroke_color);
-        if(stroke_width != null)
-            setStrokeWidth(stroke_width);
-        if(stroke_type != null){
-            setStrokeType(stroke_type);
-            if(stroke_type == StrokeType.OUTSIDE)
-                coeficient = 1;
-            else if(stroke_type == StrokeType.INSIDE)
-                coeficient = 0;
-        }
-        
-        coeficient *= stroke_width;
-        
-        if(correct_location){
-            setTranslateX(getTranslateX() + coeficient);
-            setTranslateY(getTranslateY() + coeficient);
-        }
-        if(correct_size){
-            setPontoFinal(getEndX() - coeficient, getEndY() - coeficient);//ta errado, tem uma proporção ai no meio
-        }
     }
 }

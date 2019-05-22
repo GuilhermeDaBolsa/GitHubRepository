@@ -13,7 +13,7 @@ public class CenaVisivel extends Pane{
     }
     
     public double yGetHeight(){
-        return VisibleObjectHandler.getHeigth(this);
+        return VisibleObjectHandler.getHeight(this);
     }
     
     public void ySetTranslateX(double pivo, double X){

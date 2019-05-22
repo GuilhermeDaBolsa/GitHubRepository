@@ -5,14 +5,12 @@
         <group>
             <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/executavel/Fisica2.java</file>
             <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/BasicObjects/Formas/Retangulo.java</file>
-            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/BasicObjects/Formas/Circulo.java</file>
-            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/OrganizadoresDeNodos/Tabela.java</file>
             <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/BasicObjects/Formas/Texto.java</file>
-            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/OrganizadoresDeNodos/Caixa.java</file>
+            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/BasicObjects/VisibleObjectHandler.java</file>
+            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/BasicObjects/Formas/YshapeHandler.java</file>
             <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/executavel/teste2.java</file>
-            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/BasicObjects/Formas/Linha.java</file>
+            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/LogicClasses/Matematicas.java</file>
             <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/executavel/teste.java</file>
-            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/BasicObjects/CenaVisivel.java</file>
         </group>
     </open-files>
 </project-private>

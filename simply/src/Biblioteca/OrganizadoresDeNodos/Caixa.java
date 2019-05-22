@@ -65,7 +65,7 @@ public class Caixa extends CenaVisivel {
         this(caixa.caixa, caixa.caixa.getFill(), caixa.caixa.getStrokeWidth(), caixa.caixa.getStroke());
     }
     
-    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width) {//VER PRA FAZER ASSIM NAS FORMAS, COM O WIDTH E HEIGHT
+    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width) {
         double width = getLarguraCaixa();
         double height = getAlturaCaixa();
         
@@ -198,8 +198,8 @@ public class Caixa extends CenaVisivel {
      * dependendo do elemento).
      */
     public void alinhar_conteudos_centro(){
-        realocar_conteudos((VisibleObjectHandler.getWidth(caixa) - VisibleObjectHandler.getWidth(container))/2,
-                (VisibleObjectHandler.getHeigth(caixa) - VisibleObjectHandler.getHeigth(container))/2);
+        realocar_conteudos((getLarguraCaixa() - getLarguraConteudo())/2,
+                (getAlturaCaixa() - getAlturaConteudo())/2);
     }
     
     public void resizeBoxWithItsContent(boolean plusBorderX, boolean plusBorderY, boolean proportion){
@@ -218,23 +218,19 @@ public class Caixa extends CenaVisivel {
         setBoxHeight(altura, plusBorderY);
     }
     
-    public void setBoxWidth(double width, boolean plusBorder){
-        //usar o plusBorder né
-        
+    public void setBoxWidth(double width, boolean stroke_included){
         if(caixa instanceof Forma){
-            ((Forma) caixa).ySetWidth(width, true);
+//            ((Forma) caixa).ySetWidth(width, stroke_included);
         }else{
-            setWidthWithScale(width, plusBorder);
+            setWidthWithScale(width, stroke_included);
         }
     }
     
-    public void setBoxHeight(double height, boolean plusBorder){
-        //usar o plusBorder né
-        
+    public void setBoxHeight(double height, boolean stroke_included){
         if(caixa instanceof Forma){
-            ((Forma) caixa).ySetHeight(height, true);
+         //   ((Forma) caixa).ySetHeight(height, stroke_included);
         }else{
-            setHeigthWithScale(height, plusBorder);
+            setHeigthWithScale(height, stroke_included);
         }
     }
     

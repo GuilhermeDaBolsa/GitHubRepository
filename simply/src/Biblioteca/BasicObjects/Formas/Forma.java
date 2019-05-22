@@ -9,10 +9,6 @@ public interface Forma{
     
     public double yGetHeight();
     
-    public void ySetWidth(double width, boolean stroke_included);
-    
-    public void ySetHeight(double height, boolean stroke_included);
-    
     public void ySetTranslateX(double position, double pivo);//ESSES PIVOS VAO DE 0 a 1 PRA FAZER A PORCENTAGEM DO OBJETO 0 é 0% e 1 é 100%
     
     public void ySetTranslateY(double position, double pivo);
@@ -28,7 +24,7 @@ public interface Forma{
      * @param stroke_width Nova grossura da borda.
      * @param stroke_color Nova cor.
      */
-    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width);//VER ESSES METODOS PQ TA TUDO IGAUL EM TODOS, NAO DA PRA JUNTA OU SLAAAA?
+    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width);
     
     /*public void setWidthWithScale(double width, boolean plusBorder){
         double scale = width/getLargura();

@@ -66,10 +66,9 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
 
     @Override
     public double yGetHeight() {//DA PRA CALCULAR
-        return VisibleObjectHandler.getHeigth(this);
+        return VisibleObjectHandler.getHeight(this);
     }
 
-    @Override
     public void ySetWidth(double width, boolean stroke_included) {
         double new_width = width;
         
@@ -83,7 +82,6 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         setWidth(new_width);
     }
 
-    @Override
     public void ySetHeight(double height, boolean stroke_included) {
         double new_height = height;
         

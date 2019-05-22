@@ -69,16 +69,6 @@ public class Texto extends Text implements Forma{
     }
     
     @Override
-    public void ySetWidth(double width, boolean stroke_included) {
-        //scale?//BORDA????STROKE:
-    }
-
-    @Override
-    public void ySetHeight(double height, boolean stroke_included) {
-        //scale?//BORDA????STROKE:
-    }
-    
-    @Override
     public double yGetTranslateX(double pivo) {
         return getTranslateX() + yGetWidth()*pivo;
     }

@@ -1,7 +1,6 @@
 package Biblioteca.BasicObjects;
 
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Node;
 
 public abstract class VisibleObjectHandler{
@@ -10,7 +9,7 @@ public abstract class VisibleObjectHandler{
         return nodo.getBoundsInLocal().getWidth();
     }
     
-    public static double getHeigth(Node nodo){
+    public static double getHeight(Node nodo){
         return nodo.getBoundsInLocal().getHeight();
     }
     
@@ -37,7 +36,7 @@ public abstract class VisibleObjectHandler{
      * @param Y Onde a forma deve ficar, no eixo Y.
      */
     public static void setTranslateY(Node nodo, double Y, double pivo){
-        nodo.setTranslateY(Y - getHeigth(nodo)*pivo);
+        nodo.setTranslateY(Y - getHeight(nodo)*pivo);
     }
     
     /**
@@ -47,7 +46,7 @@ public abstract class VisibleObjectHandler{
      * (nao precisa ser necessariamente entre 0 e 1 :D)
      * @param Z Onde a forma deve ficar, no eixo Z.
      */
-    public static void setTranslateZ(Node nodo, double Z, double pivo){
+    public static void setTranslateZ(Node nodo, double Z, double pivo){//VER QUAL Q É A DO EIXO Z ANTES DE SAIR FAZENDO AS COISAS NEééééé´DAR
         nodo.setTranslateZ(Z - getDepth(nodo)*pivo);
     }
     
@@ -89,6 +88,6 @@ public abstract class VisibleObjectHandler{
     }
     
     public static void bindPosicaoY(Node nodo, DoubleProperty posicao, double eixo){
-        nodo.translateYProperty().bind(posicao.subtract(eixo*getHeigth(nodo)));
+        nodo.translateYProperty().bind(posicao.subtract(eixo*getHeight(nodo)));
     }
 }

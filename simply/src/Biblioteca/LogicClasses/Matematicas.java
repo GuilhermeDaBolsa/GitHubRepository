@@ -7,8 +7,8 @@ package Biblioteca.LogicClasses;
      * @param max - valor máximo
      * @return Qualquer nunmero de [0...max[
      */
-    public static int random(int max) {
-        return (int) (Math.random()*max);
+    public static double random(double max) {
+        return Math.random()*max;
     }
 
     /**
@@ -17,8 +17,8 @@ package Biblioteca.LogicClasses;
      * @param max Valor máximo.
      * @return Qualquer número de [1...max[
      */
-    public static int random(int min, int max) {
-        return (int) (Math.random()*max + min) % max;
+    public static double random(double min, double max) {
+        return (Math.random()*max + min) % max;
     }
     
     /**

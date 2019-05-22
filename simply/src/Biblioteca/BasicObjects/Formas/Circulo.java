@@ -9,10 +9,10 @@ import javafx.scene.shape.StrokeType;
 
 public class Circulo extends Circle implements Forma{
     
-    public Circulo(double radius, Paint color, double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width){
+    public Circulo(double radius, Paint color, double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_stroke_width){
         ySetRadius(radius);
         setFill(color);
-        ySetStroke(stroke_width, stroke_color, stroke_type, move_with_new_stroke_width);
+        ySetStroke(stroke_width, stroke_color, stroke_type, move_with_stroke_width);
     }
     
     public Circulo(double radius, Paint color, double stroke_width, Paint stroke_color){
@@ -24,16 +24,16 @@ public class Circulo extends Circle implements Forma{
         setFill(color);
     }
     
+    public Circulo(double raio){
+        this(raio, Color.color(random(1), random(1), random(1)), 0, Color.BLACK);
+    }
+    
     /**
      * Cria uma instancia vazia de um circulo.
      */
     public Circulo(){
     }
 
-    public Circulo(double raio){
-        this(raio, Color.color(random(1), random(1), random(1)), 0, Color.BLACK);
-    }
-    
     public void ySetRadius(double raio){
         double where_wasX = yGetTranslateX(0);
         double where_wasY = yGetTranslateY(0);
@@ -50,35 +50,7 @@ public class Circulo extends Circle implements Forma{
 
     @Override
     public double yGetHeight() {
-        return VisibleObjectHandler.getHeigth(this);
-    }
-    
-    @Override
-    public void ySetWidth(double width, boolean stroke_included) {
-        double new_width = width;
-        
-        if(stroke_included){
-            if(getStrokeType() == StrokeType.CENTERED)
-                new_width -= getStrokeWidth();
-            else if(getStrokeType() == StrokeType.OUTSIDE)
-                new_width -= getStrokeWidth()*2;
-        }
-        
-        ySetRadius(new_width/2);
-    }
-
-    @Override
-    public void ySetHeight(double height, boolean stroke_included) {
-        double new_height = height;
-        
-        if(stroke_included){
-            if(getStrokeType() == StrokeType.CENTERED)
-                new_height -= getStrokeWidth();
-            else if(getStrokeType() == StrokeType.OUTSIDE)
-                new_height -= getStrokeWidth()*2;
-        }
-        
-        ySetRadius(new_height/2);
+        return VisibleObjectHandler.getHeight(this);
     }
 
     @Override
@@ -111,24 +83,11 @@ public class Circulo extends Circle implements Forma{
      * @param stroke_width
      * @param stroke_color
      * @param stroke_type 
-     * @param move_with_new_stroke_width If a new stroke_width is defined, it will "grow from inside" keeping the object where it was, unless this parameter is true.
+     * @param correct_location If a new stroke_width is defined, it will "grow from inside" keeping the object where it was, unless this parameter is true.
      * @see #setStrokeType(javafx.scene.shape.StrokeType) 
      */
     @Override
-    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width) {
-        double where_wasX = yGetTranslateX(0);
-        double where_wasY = yGetTranslateY(0);
-        
-        if(stroke_color != null)
-            setStroke(stroke_color);
-        if(stroke_width != null)
-            setStrokeWidth(stroke_width);
-        if(stroke_type != null)
-            setStrokeType(stroke_type);
-            
-        if(move_with_new_stroke_width){
-            ySetTranslateX(where_wasX, 0);
-            ySetTranslateY(where_wasY, 0);
-        }
+    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, correct_location);
     }
 }

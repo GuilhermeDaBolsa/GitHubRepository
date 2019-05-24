@@ -65,22 +65,12 @@ public class Caixa extends CenaVisivel {
     }
     
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width) {
-        double width = getLarguraCaixa();
-        double height = getAlturaCaixa();
+        double X = caixa.getTranslateX();
+        double Y = caixa.getTranslateY();
         
-        if(stroke_color != null)
-            caixa.setStroke(stroke_color);
-        if(stroke_width != null)
-            caixa.setStrokeWidth(stroke_width);
-        if(stroke_type != null)
-            caixa.setStrokeType(stroke_type);
+        ((Forma) caixa).ySetStroke(stroke_width, stroke_color, stroke_type, move_with_new_stroke_width);
         
-        if(move_with_new_stroke_width){
-            width = getLarguraCaixa() - width;
-            height = getAlturaCaixa() - height;
-            this.setTranslateX(this.getTranslateX() + width/2);
-            this.setTranslateY(this.getTranslateY() + height/2);
-        }
+        realocar_conteudos(caixa.getTranslateX() - X, caixa.getTranslateY() - Y);
     }
 
     /**
@@ -161,14 +151,14 @@ public class Caixa extends CenaVisivel {
      * @return Quanto de largura a caixa ocupa.
      */
     public double getLarguraCaixa(){
-        return caixa.getBoundsInLocal().getWidth();
+        return ((Forma) caixa).yGetWidth();
     }
     
     /**
      * @return Quanto de altura a caixa ocupa.
      */
     public double getAlturaCaixa(){
-        return caixa.getBoundsInLocal().getHeight();
+        return ((Forma) caixa).yGetHeight();
     }
     
     /**

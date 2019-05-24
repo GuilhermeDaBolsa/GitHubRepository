@@ -205,18 +205,18 @@ public class Caixa extends CenaVisivel {
         double largura = getLarguraConteudo();
         double altura = getAlturaConteudo();
         
-        
-        
         if(proportion){
             if(largura > altura){
-                altura *= largura/getLarguraCaixa();
+                YshapeHandler.ySetHeigthWithScale(caixa, altura, strokeY_included, correct_location);
+                YshapeHandler.yScaleXby(caixa, caixa.getScaleY(), correct_location);
             }else{
-                largura *= altura/getAlturaCaixa();
+                YshapeHandler.ySetWidthWithScale(caixa, largura, strokeX_included, correct_location);
+                YshapeHandler.yScaleYby(caixa, caixa.getScaleX(), correct_location);
             }
+        }else{
+            YshapeHandler.ySetWidthWithScale(caixa, largura, strokeX_included, correct_location);
+            YshapeHandler.ySetHeigthWithScale(caixa, altura, strokeY_included, correct_location);
         }
-        
-        YshapeHandler.ySetWidthWithScale(caixa, largura, strokeX_included, correct_location);
-        YshapeHandler.ySetHeigthWithScale(caixa, altura, strokeY_included, correct_location);
     }
     
     public void reajustContentWithBoxSize(){

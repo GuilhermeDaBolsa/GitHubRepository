@@ -1,6 +1,5 @@
 package Biblioteca.BasicObjects.Formas;
 
-import Biblioteca.BasicObjects.VisibleObjectHandler;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
@@ -17,48 +16,56 @@ public abstract class YshapeHandler {
         return forma.getStrokeWidth()*coeficient;
     }
     
+    public static void yScaleXby(Shape forma, double multiplier, boolean correct_location){
+        double where_wasX = ((Forma) forma).yGetTranslateX(0);
+        
+        forma.setScaleX(forma.getScaleX()*multiplier);
+        
+        if(correct_location)
+            ((Forma) forma).ySetTranslateX(where_wasX, 0);
+    }
+    
+    public static void yScaleYby(Shape forma, double multiplier, boolean correct_location){
+        double where_wasY = ((Forma) forma).yGetTranslateY(0);
+        
+        forma.setScaleY(forma.getScaleY()*multiplier);
+        
+        if(correct_location)
+            ((Forma) forma).ySetTranslateY(where_wasY, 0);
+    }
+    
     /**
      * Scale the shape in the X axis (scale it's width).
      * @param forma The shape to be scaled.
      * @param width The width that the shape will have after the scale.
      * @param stroke_included If the shape has stroke width, it will count as beeing 
      * part of the shape, so after the scale the shape plus it's stroke will ocuppie the width.
-     * @param correct_location Correct the location after the scale (the scale scales the shape from inside, so it will grow to the four sides)
+     * @param correct_location Correct the location after the scale (the scale scales the shape from inside, so it will grow to the two sides)
      */
     public static void ySetWidthWithScale(Shape forma, double width, boolean stroke_included, boolean correct_location) {
-        double where_wasX = ((Forma) forma).yGetTranslateX(0);
-        double where_wasY = ((Forma) forma).yGetTranslateY(0);
         double shape_width = ((Forma) forma).yGetWidth();
-        
         if (!stroke_included)
             shape_width -= yGetStrokeOcupation(forma)*forma.getScaleX();
-        
         double scale = width / shape_width;
         
-        forma.setScaleX(forma.getScaleX()*scale);
-        
-        if(correct_location){
-            ((Forma) forma).ySetTranslateX(where_wasX, 0);
-            ((Forma) forma).ySetTranslateY(where_wasY, 0);
-        }
+        yScaleXby(forma, scale, correct_location);
     }
     
+    /**
+     * Scale the shape in the Y axis (scale it's height).
+     * @param forma The shape to be scaled.
+     * @param height The height that the shape will have after the scale.
+     * @param stroke_included If the shape has stroke width, it will count as beeing 
+     * part of the shape, so after the scale the shape plus it's stroke will ocuppie the height.
+     * @param correct_location Correct the location after the scale (the scale scales the shape from inside, so it will grow to the two sides)
+     */
     public static void ySetHeigthWithScale(Shape forma, double height, boolean stroke_included, boolean correct_location){
-        double where_wasX = ((Forma) forma).yGetTranslateX(0);
-        double where_wasY = ((Forma) forma).yGetTranslateY(0);
         double shape_height = ((Forma) forma).yGetHeight();
-        
         if(!stroke_included)
             shape_height -= yGetStrokeOcupation(forma)*forma.getScaleY();
-
         double scale = height/shape_height;
         
-        forma.setScaleY(forma.getScaleY()*scale);
-        
-        if(correct_location){
-            ((Forma) forma).ySetTranslateX(where_wasX, 0);
-            ((Forma) forma).ySetTranslateY(where_wasY, 0);
-        }
+        yScaleYby(forma, scale, correct_location);
     }
     
     /**

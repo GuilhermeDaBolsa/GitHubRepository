@@ -18,6 +18,7 @@ public class teste2 extends Application {
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
         
+        //FAZER A CAIXA PARA RECEBER APENAS ELEMENTOS DO TIPO FORMA :), TALVEZ COLOCA DE VOLTA O SET WIDTH E SET HEIGHT PRA TER ISSO DE PADRAO PELO MENOS DAI VAI TE ALTAS COISAS :)
         
         Retangulo r2 = new Retangulo(400, 300);
         
@@ -25,10 +26,8 @@ public class teste2 extends Application {
         
         r.ySetStroke(5.0, Color.BLACK, StrokeType.OUTSIDE, false);
         
-        r.ySetWidthWithScale(400, true, true);
-        r.ySetHeigthWithScale(300, true, true);
-        r.ySetWidthWithScale(400, true, true);
-        r.ySetHeigthWithScale(300, true, true);
+        r.ySetWidthWithScale(200, true, true);
+        r.ySetHeigthWithScale(150, true, true);
    
         r2.ySetTranslateX(200, 0);
         r2.ySetTranslateY(200, 0);

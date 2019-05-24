@@ -6,11 +6,11 @@ import javafx.scene.Node;
 public abstract class VisibleObjectHandler{
     
     public static double getWidth(Node nodo){
-        return nodo.getBoundsInLocal().getWidth();
+        return nodo.getBoundsInLocal().getWidth()*nodo.getScaleX();
     }
     
     public static double getHeight(Node nodo){
-        return nodo.getBoundsInLocal().getHeight();
+        return nodo.getBoundsInLocal().getHeight()*nodo.getScaleY();
     }
     
     public static double getDepth(Node nodo){

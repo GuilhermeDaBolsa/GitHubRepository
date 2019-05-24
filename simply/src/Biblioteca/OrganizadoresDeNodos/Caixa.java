@@ -2,7 +2,6 @@ package Biblioteca.OrganizadoresDeNodos;
 
 import Biblioteca.BasicObjects.CenaVisivel;
 import Biblioteca.BasicObjects.Formas.*;
-import Biblioteca.BasicObjects.VisibleObjectHandler;
 import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -202,9 +201,11 @@ public class Caixa extends CenaVisivel {
                 (getAlturaCaixa() - getAlturaConteudo())/2);
     }
     
-    public void resizeBoxWithItsContent(boolean plusBorderX, boolean plusBorderY, boolean proportion){
+    public void resizeBoxWithItsContent(boolean strokeX_included, boolean strokeY_included, boolean correct_location, boolean proportion){
         double largura = getLarguraConteudo();
         double altura = getAlturaConteudo();
+        
+        
         
         if(proportion){
             if(largura > altura){
@@ -214,38 +215,8 @@ public class Caixa extends CenaVisivel {
             }
         }
         
-        setBoxWidth(largura, plusBorderX);
-        setBoxHeight(altura, plusBorderY);
-    }
-    
-    public void setBoxWidth(double width, boolean stroke_included){
-        if(caixa instanceof Forma){
-//            ((Forma) caixa).ySetWidth(width, stroke_included);
-        }else{
-            setWidthWithScale(width, stroke_included);
-        }
-    }
-    
-    public void setBoxHeight(double height, boolean stroke_included){
-        if(caixa instanceof Forma){
-         //   ((Forma) caixa).ySetHeight(height, stroke_included);
-        }else{
-            setHeigthWithScale(height, stroke_included);
-        }
-    }
-    
-    public void setWidthWithScale(double width, boolean plusBorder){
-        double scale = width/getLarguraCaixa();
-        if(plusBorder)
-            scale = (width + (width/getLarguraCaixa())*caixa.getStrokeWidth()*2)/getLarguraCaixa();
-        caixa.setScaleX(scale);
-    }
-    
-    public void setHeigthWithScale(double heigth, boolean plusBorder){
-        double scale = heigth/getAlturaCaixa();
-        if(plusBorder)
-            scale = (heigth + (heigth/getAlturaCaixa())*caixa.getStrokeWidth()*2)/getAlturaCaixa();
-        caixa.setScaleY(scale);
+        YshapeHandler.ySetWidthWithScale(caixa, largura, strokeX_included, correct_location);
+        YshapeHandler.ySetHeigthWithScale(caixa, altura, strokeY_included, correct_location);
     }
     
     public void reajustContentWithBoxSize(){

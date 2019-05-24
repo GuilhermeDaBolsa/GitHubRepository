@@ -13,6 +13,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     public Retangulo(double largura, double altura, Paint corFundo, double grossuraBorda, Paint corBorda, StrokeType stroke_type, boolean move_with_new_stroke_width){
         setWidth(largura);
         setHeight(altura);
+        setFill(corFundo);
         ySetStroke(grossuraBorda, corBorda, stroke_type, move_with_new_stroke_width);
     }
     
@@ -43,6 +44,11 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     public double yGetTranslateY(double pivo) {
         return (getTranslateY() + getHeight()/2) + yGetHeight()*(pivo - 0.5);
     }
+    
+    @Override
+    public double yGetStrokeOcupation() {
+        return YshapeHandler.yGetStrokeOcupation(this);
+    }
 
     @Override
     public void ySetTranslateX(double position, double pivo) {
@@ -60,12 +66,12 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     }
     
     @Override
-    public double yGetWidth() {//DA PRA CALCULAR
+    public double yGetWidth() {
         return VisibleObjectHandler.getWidth(this);
     }
 
     @Override
-    public double yGetHeight() {//DA PRA CALCULAR
+    public double yGetHeight() {
         return VisibleObjectHandler.getHeight(this);
     }
 
@@ -93,6 +99,16 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         }
         
         setHeight(new_height);
+    }
+    
+    @Override
+    public void ySetWidthWithScale(double width, boolean stroke_included, boolean correct_location) {
+        YshapeHandler.ySetWidthWithScale(this, width, stroke_included, correct_location);
+    }
+
+    @Override
+    public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
+        YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
     }
 
     /**

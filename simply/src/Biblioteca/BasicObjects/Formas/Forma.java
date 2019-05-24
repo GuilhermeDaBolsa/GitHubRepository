@@ -19,24 +19,11 @@ public interface Forma{
     
     public double yGetTranslateY(double pivo);
     
-    /**
-     * Muda a grossura e a cor da borda do retangulo.
-     * @param stroke_width Nova grossura da borda.
-     * @param stroke_color Nova cor.
-     */
+    public double yGetStrokeOcupation();
+    
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width);
     
-    /*public void setWidthWithScale(double width, boolean plusBorder){
-        double scale = width/getLargura();
-        if(plusBorder)
-            scale = (width + (width/getLargura())*getGrossuraBorda()*2)/getLargura();
-        forma.setScaleX(scale);
-    }
+    public void ySetWidthWithScale(double width, boolean stroke_included, boolean correct_location);
     
-    public void setHeigthWithScale(double heigth, boolean plusBorder){
-        double scale = heigth/getAltura();
-        if(plusBorder)
-            scale = (heigth + (heigth/getAltura())*getGrossuraBorda()*2)/getAltura();
-        forma.setScaleY(scale);
-    }*/
+    public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location);
 }

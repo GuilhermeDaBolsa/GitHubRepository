@@ -56,7 +56,7 @@ public class teste extends Application {
         Caixa envolocro = new Caixa(Color.WHITE, 6, Color.DIMGRAY);
         envolocro.ySetStroke(6.0, Color.DIMGRAY, StrokeType.OUTSIDE, true);
         envolocro.add(testeTabela);
-        envolocro.resizeBoxWithItsContent(false, false, false);//AS LINHA NAO TAO SE SOBREPONTO PCAUSA DISSO AQUI, E FAZ UM METODO SEM SCALE PELO AMOR DE DEUS
+        envolocro.resizeBoxWithItsContent(false, false, true, false);//AS LINHA NAO TAO SE SOBREPONTO PCAUSA DISSO AQUI, E FAZ UM METODO SEM SCALE PELO AMOR DE DEUS
         //envolocro.setTranslateX(envolocro.getLarguraCaixa()/2 * envolocro.caixa.getScaleX());
         //envolocro.setTranslateY(envolocro.getAlturaCaixa()/2 * envolocro.caixa.getScaleY());//O ESCALE FODE COM A POSICAO DO OBJETO
         envolocro.alinhar_conteudos_centro();

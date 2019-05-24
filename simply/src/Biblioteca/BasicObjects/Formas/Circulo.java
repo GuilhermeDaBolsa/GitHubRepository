@@ -52,6 +52,11 @@ public class Circulo extends Circle implements Forma{
     public double yGetHeight() {
         return VisibleObjectHandler.getHeight(this);
     }
+    
+    @Override
+    public double yGetStrokeOcupation() {
+        return YshapeHandler.yGetStrokeOcupation(this);
+    }
 
     @Override
     public double yGetTranslateX(double pivo) {
@@ -89,5 +94,15 @@ public class Circulo extends Circle implements Forma{
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, correct_location);
+    }
+
+    @Override
+    public void ySetWidthWithScale(double width, boolean stroke_included, boolean correct_location) {
+        YshapeHandler.ySetWidthWithScale(this, width, stroke_included, correct_location);
+    }
+
+    @Override
+    public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
+        YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
     }
 }

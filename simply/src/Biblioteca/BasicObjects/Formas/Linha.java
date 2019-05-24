@@ -130,6 +130,11 @@ public class Linha extends Line implements Forma{
     public double yGetTranslateY(double pivo) {
         return (getTranslateY() + yDeltaYpoints(false)/2) + yDeltaYpoints(true)*(pivo - 0.5);//QUE IMPASSE, USAR O GETWIDTH Q DA O VALOR ERRADO OU DEIXAR OS DELTAS??????
     }
+    
+    @Override
+    public double yGetStrokeOcupation() {
+        return YshapeHandler.yGetStrokeOcupation(this);
+    }
 
     @Override
     public void ySetTranslateX(double position, double pivo) {
@@ -144,6 +149,16 @@ public class Linha extends Line implements Forma{
     @Override
     public void ySetTranslateZ(double position, double pivo) {
         VisibleObjectHandler.setTranslateZ(this, position, pivo);
+    }
+    
+    @Override
+    public void ySetWidthWithScale(double width, boolean stroke_included, boolean correct_location) {
+        YshapeHandler.ySetWidthWithScale(this, width, stroke_included, correct_location);
+    }
+
+    @Override
+    public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
+        YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
     }
     
     /**

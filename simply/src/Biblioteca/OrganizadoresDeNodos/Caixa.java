@@ -196,10 +196,17 @@ public class Caixa extends CenaVisivel {
         double altura = getAlturaConteudo();
         
         if(proportion){
-            
-        }else{
-            
+            if(largura > altura){
+                double multiplier = altura / getAlturaCaixa();
+                largura = getLarguraCaixa() * multiplier;
+            }else{
+                double multiplier = largura / getLarguraCaixa();
+                altura = getAlturaCaixa() * multiplier;
+            }
         }
+        
+        ((Forma) caixa).ySetWidth(largura, strokeX_included, correct_location);
+        ((Forma) caixa).ySetHeight(altura, strokeY_included, correct_location);
     }
     
     public void scaleBoxWithItsContent(boolean strokeX_included, boolean strokeY_included, boolean correct_location, boolean proportion){ //FAZER O TESTE DE ONDE TAVA PRA MEXER NO CONTEUDO JUNTO

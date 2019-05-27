@@ -10,6 +10,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
+//FAZER OS ITENS CABEÇALHOS (QUE CATEGORIZAM AQUELA LINHA OU COLUNA, EX: DIA)
+
 public class Tabela extends CenaVisivel{
     public ArrayList<Node> elementos = new ArrayList();
     private ArrayList<Point2D> posicoes = new ArrayList();

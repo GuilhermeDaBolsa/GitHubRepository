@@ -34,7 +34,7 @@ public interface Forma{
     
     public double yGetStrokeOcupation();
     
-    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width);
+    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location);
     
     
     //------------- SCALE METHODS -------------\\

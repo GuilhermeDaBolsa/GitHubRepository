@@ -1,6 +1,7 @@
 package executavel;
 
 import Biblioteca.BasicObjects.Formas.Circulo;
+import Biblioteca.BasicObjects.Formas.Texto;
 import Biblioteca.Midia.Audio;
 import Biblioteca.Midia.VisualizadorImagemEgif;
 import Biblioteca.Midia.VisualizadorVideo;
@@ -13,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class teste extends Application {
@@ -22,6 +24,23 @@ public class teste extends Application {
         Pane teste = new Pane();
         
         Tabela testeTabela = new Tabela(20, 20, true, true);
+        
+        Tabela vem = new Tabela(10, 10, true, true);
+        
+        vem.add(new Texto("aaaa"), 1, 1);
+        
+        MathGrid aaaa = new MathGrid(100,100);
+        
+        vem.add(aaaa, 2, 2);
+        
+        aaaa.bind_rodinha_mouse();
+        aaaa.bind_tela_movel();
+        
+        Rectangle b = (Rectangle) vem.getCaixaCelulas().caixa;
+        aaaa.binda_tamanho(b.widthProperty(), b.heightProperty());
+        
+        testeTabela.add(vem, 3, 1);
+        
         MathGrid grade = new MathGrid(100,100);
         VisualizadorImagemEgif portal = new VisualizadorImagemEgif("assets/ac.png", 150, 100);
         VisualizadorImagemEgif chara = new VisualizadorImagemEgif("assets/chara.jpg", 130, 200);
@@ -50,12 +69,13 @@ public class teste extends Application {
         grade.binda_tamanho(caixaGrade.widthProperty(), caixaGrade.heightProperty());//DAR UM JEITO NESSES CAST DE RECTANGLE
         //E VER cOMO MUDAR PQ O BINDA TAMANHO TEM Q TA ANTES DO MONTAR TABELA, SE NAO O NEGOCIO ENLOUQUECE :P
         
-        testeTabela.setModeloLinhaX(2, null);
-        testeTabela.setModeloLinhaY(2, null);
+        testeTabela.setModeloLinhaX(2, Color.RED);
+        testeTabela.setModeloLinhaY(2, Color.RED);
         
-        Caixa envolocro = new Caixa(13.5, 10, Color.WHITE, 0.08, Color.DIMGRAY);
+        Caixa envolocro = new Caixa(13.5, 10, Color.WHITE, 8, Color.DIMGRAY);
         envolocro.add(testeTabela);
-        envolocro.scaleBoxWithItsContent(false, false, true, false);//AS LINHA NAO TAO SE SOBREPONTO PCAUSA DISSO AQUI, E FAZ UM METODO SEM SCALE PELO AMOR DE DEUS(sera?)
+        //envolocro.scaleBoxWithItsContent(false, false, true, false);//AS LINHA NAO TAO SE SOBREPONTO PCAUSA DISSO AQUI (q?, n lembro o q q eu queria dizer)
+        envolocro.resizeBoxWithItsContent(false, false, true, false);
         
         envolocro.ySetStroke(null, null, StrokeType.OUTSIDE, true);
    

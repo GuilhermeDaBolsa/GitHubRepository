@@ -58,10 +58,15 @@ public class Linha extends Line implements Forma{
         if(Yfinal != null)
             setEndY(Yfinal);
         
-        if(getStartX() > Xfinal){
+        if(getStartX() > Xfinal){//ACHO QUE SERIA BOM TIRA ISSO, TALVEZ TESTA OS DELTA TODA A VEZ QUE PRECISAR,
+            //OU FAZER OS DELTA DEVOLVER O NEGOCIO CERTINHO AO INVEZ DO MODULO
             double aux = getStartX();
             setStartX(Xfinal);
             setEndX(aux);
+            //NAO SEI PQ (VER ISSO DAQUI PQ...., N deixa ponta solta) MAS TEM QUE TROCAR O Y TAMBÉM
+            aux = getStartY();
+            setStartY(Yfinal);
+            setEndY(aux);
         }
     }
     
@@ -120,30 +125,39 @@ public class Linha extends Line implements Forma{
         return VisibleObjectHandler.getHeight(this);
     }
     
+    
     @Override
-    public double yGetTranslateX(double pivo) {
-        return (getTranslateX() + yDeltaXpoints(false)/2) + yDeltaXpoints(true)*(pivo - 0.5);//QUE IMPASSE, USAR O GETWIDTH Q DA O VALOR ERRADO OU DEIXAR OS DELTAS??????
+    public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {//ACHO QUE ESSES METODOS TAO ERRADOS
+        setEndX(getStartX() + width);//STROKE INCLUDED?
     }
 
-    //LEMBRAR OU AVISAR O USUARIO DE QUE SE ELE USAR O TRANSLATE DO JAVA PROVAVELMENTE O PONTO QUE SERA MOVIDO É O DA MEIUCA DO STROKE (O PONTO ORIGINAL PQ O STROKE SO VEM DPS)
     @Override
-    public double yGetTranslateY(double pivo) {
-        return (getTranslateY() + yDeltaYpoints(false)/2) + yDeltaYpoints(true)*(pivo - 0.5);//QUE IMPASSE, USAR O GETWIDTH Q DA O VALOR ERRADO OU DEIXAR OS DELTAS??????
+    public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {//ACHO QUE ESSES METODOS TAO ERRADOS
+        if(getStartY() > getEndY())//STROKE INCLUDED?
+            height = -height;
+            
+        setEndY(getStartY() + height);
     }
     
     @Override
-    public double yGetStrokeOcupation() {
-        return YshapeHandler.yGetStrokeOcupation(this);
+    public double yGetTranslateX(double pivo) {
+        return (getTranslateX() + yDeltaXpoints(false)/2) + yDeltaXpoints(true)*(pivo - 0.5);
     }
 
+    //LEMBRAR OU AVISAR O USUARIO DE QUE SE ELE USAR O TRANSLATE DO JAVA PROVAVELMENTE O PONTO QUE SERA MOVIDO É O DA MEIUCA DO STROKE
+    @Override
+    public double yGetTranslateY(double pivo) {
+        return (getTranslateY() + yDeltaYpoints(false)/2) + yDeltaYpoints(true)*(pivo - 0.5);
+    }
+    
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        VisibleObjectHandler.setTranslateX(this, (position - yDeltaXpoints(false)/2) + yDeltaXpoints(true)/2, pivo);//QUE IMPASSE, USAR O GETWIDTH Q DA O VALOR ERRADO OU DEIXAR OS DELTAS??????
+        VisibleObjectHandler.setTranslateX(this, (position - yDeltaXpoints(false)/2) + yDeltaXpoints(true)/2, pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {
-        VisibleObjectHandler.setTranslateY(this, (position - yDeltaYpoints(false)/2) + yDeltaYpoints(true)/2, pivo);//QUE IMPASSE, USAR O GETWIDTH Q DA O VALOR ERRADO OU DEIXAR OS DELTAS??????
+        VisibleObjectHandler.setTranslateY(this, (position - yDeltaYpoints(false)/2) + yDeltaYpoints(true)/2, pivo);
     }
 
     @Override
@@ -152,13 +166,8 @@ public class Linha extends Line implements Forma{
     }
     
     @Override
-    public void ySetWidthWithScale(double width, boolean stroke_included, boolean correct_location) {
-        YshapeHandler.ySetWidthWithScale(this, width, stroke_included, correct_location);
-    }
-
-    @Override
-    public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
-        YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
+    public double yGetStrokeOcupation() {
+        return YshapeHandler.yGetStrokeOcupation(this);
     }
     
     /**
@@ -175,6 +184,36 @@ public class Linha extends Line implements Forma{
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, false);
         if(correct_size)
             setStrokeLineCap(StrokeLineCap.BUTT);
+    }
+    
+    @Override
+    public void ySetScaleX(double scale, boolean correct_location) {
+        YshapeHandler.ySetScaleX(this, scale, correct_location);
+    }
+
+    @Override
+    public void ySetScaleY(double scale, boolean correct_location) {
+        YshapeHandler.ySetScaleY(this, scale, correct_location);
+    }
+
+    @Override
+    public void yScaleXby(double multiplier, boolean correct_location) {
+        YshapeHandler.yScaleXby(this, multiplier, correct_location);
+    }
+
+    @Override
+    public void yScaleYby(double multiplier, boolean correct_location) {
+        YshapeHandler.yScaleYby(this, multiplier, correct_location);
+    }
+    
+    @Override
+    public void ySetWidthWithScale(double width, boolean stroke_included, boolean correct_location) {
+        YshapeHandler.ySetWidthWithScale(this, width, stroke_included, correct_location);
+    }
+
+    @Override
+    public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
+        YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
     }
     
     /**

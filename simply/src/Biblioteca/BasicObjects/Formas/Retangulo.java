@@ -21,18 +21,54 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         this(largura, altura, corFundo, grossuraBorda, corBorda, StrokeType.CENTERED, true);
     }
     
-    /**
-     * Cria uma instancia vazia de um retângulo.
-     */
-    public Retangulo(){
+    public Retangulo(double largura, double altura, Paint cor){
+        this(largura, altura, cor,  0, Color.BLACK);
     }
     
     public Retangulo(double largura, double altura){
         this(largura, altura, Color.color(random(1), random(1), random(1)), 0, Color.BLACK);
     }
     
-    public Retangulo(double largura, double altura, Paint cor){
-        this(largura, altura, cor,  0, Color.BLACK);
+    /**
+     * Cria uma instancia vazia de um retângulo.
+     */
+    public Retangulo(){
+    }
+    
+    @Override
+    public double yGetWidth() {
+        return VisibleObjectHandler.getWidth(this);
+    }
+
+    @Override
+    public double yGetHeight() {
+        return VisibleObjectHandler.getHeight(this);
+    }
+    
+    @Override
+    public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
+        double where_wasX = yGetTranslateX(0);
+        
+        if(stroke_included)
+            width -= yGetStrokeOcupation();
+        
+        setWidth(width);
+        
+        if(correct_location)
+            ySetTranslateX(where_wasX, 0);
+    }
+
+    @Override
+    public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
+        double where_wasY = yGetTranslateY(0);
+        
+        if(stroke_included)
+            height -= yGetStrokeOcupation();
+        
+        setHeight(height);
+        
+        if(correct_location)
+            ySetTranslateY(where_wasY, 0);
     }
     
     @Override
@@ -45,11 +81,6 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         return (getTranslateY() + getHeight()/2) + yGetHeight()*(pivo - 0.5);
     }
     
-    @Override
-    public double yGetStrokeOcupation() {
-        return YshapeHandler.yGetStrokeOcupation(this);
-    }
-
     @Override
     public void ySetTranslateX(double position, double pivo) {
         VisibleObjectHandler.setTranslateX(this, (position - getWidth()/2) + yGetWidth()/2, pivo);
@@ -66,49 +97,8 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     }
     
     @Override
-    public double yGetWidth() {
-        return VisibleObjectHandler.getWidth(this);
-    }
-
-    @Override
-    public double yGetHeight() {
-        return VisibleObjectHandler.getHeight(this);
-    }
-
-    public void ySetWidth(double width, boolean stroke_included) {
-        double new_width = width;
-        
-        if(stroke_included){
-            if(getStrokeType() == StrokeType.CENTERED)
-                new_width -= getStrokeWidth();
-            else if(getStrokeType() == StrokeType.OUTSIDE)
-                new_width -= getStrokeWidth()*2;
-        }
-        
-        setWidth(new_width);
-    }
-
-    public void ySetHeight(double height, boolean stroke_included) {
-        double new_height = height;
-        
-        if(stroke_included){
-            if(getStrokeType() == StrokeType.CENTERED)
-                new_height -= getStrokeWidth();
-            else if(getStrokeType() == StrokeType.OUTSIDE)
-                new_height -= getStrokeWidth()*2;
-        }
-        
-        setHeight(new_height);
-    }
-    
-    @Override
-    public void ySetWidthWithScale(double width, boolean stroke_included, boolean correct_location) {
-        YshapeHandler.ySetWidthWithScale(this, width, stroke_included, correct_location);
-    }
-
-    @Override
-    public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
-        YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
+    public double yGetStrokeOcupation() {
+        return YshapeHandler.yGetStrokeOcupation(this);
     }
 
     /**
@@ -122,5 +112,35 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width) {
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, move_with_new_stroke_width);
+    }
+    
+    @Override
+    public void ySetScaleX(double scale, boolean correct_location) {
+        YshapeHandler.ySetScaleX(this, scale, correct_location);
+    }
+
+    @Override
+    public void ySetScaleY(double scale, boolean correct_location) {
+        YshapeHandler.ySetScaleY(this, scale, correct_location);
+    }
+
+    @Override
+    public void yScaleXby(double multiplier, boolean correct_location) {
+        YshapeHandler.yScaleXby(this, multiplier, correct_location);
+    }
+
+    @Override
+    public void yScaleYby(double multiplier, boolean correct_location) {
+        YshapeHandler.yScaleYby(this, multiplier, correct_location);
+    }
+    
+    @Override
+    public void ySetWidthWithScale(double width, boolean stroke_included, boolean correct_location) {
+        YshapeHandler.ySetWidthWithScale(this, width, stroke_included, correct_location);
+    }
+
+    @Override
+    public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
+        YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
     }
 }

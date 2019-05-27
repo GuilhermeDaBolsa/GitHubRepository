@@ -1,5 +1,6 @@
 package executavel;
 
+import Biblioteca.BasicObjects.Formas.Circulo;
 import Biblioteca.BasicObjects.Formas.Linha;
 import Biblioteca.BasicObjects.Formas.Retangulo;
 import javafx.application.Application;
@@ -18,24 +19,26 @@ public class teste2 extends Application {
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
         
-        //FAZER A CAIXA PARA RECEBER APENAS ELEMENTOS DO TIPO FORMA :), TALVEZ COLOCA DE VOLTA O SET WIDTH E SET HEIGHT PRA TER ISSO DE PADRAO PELO MENOS DAI VAI TE ALTAS COISAS :)
+        //FAZER A CAIXA PARA RECEBER APENAS ELEMENTOS DO TIPO FORMA :)
         
-        Retangulo r2 = new Retangulo(400, 300);
+        Circulo a = new Circulo(2, Color.ANTIQUEWHITE, 1, Color.BLACK);
+        a.ySetTranslateX(200, 0.5);
+        a.ySetTranslateY(200, 0.5);
         
-        Retangulo r = new Retangulo(30, 20);
+        Linha r2 = new Linha(10, 30, 3, Color.BLACK);
         
-        r.ySetStroke(5.0, Color.BLACK, StrokeType.OUTSIDE, false);
+        Linha r = new Linha(-30, -30, 3, Color.BROWN);
         
-        r.ySetWidthWithScale(200, true, true);
-        r.ySetHeigthWithScale(150, true, true);
-   
+        r.ySetTranslateX(100, 0);
+        r.ySetTranslateY(100, 0);
+        
+        r2.ySetWidth(100, true, true);
+        r2.ySetHeight(100, true, true);
+        
         r2.ySetTranslateX(200, 0);
         r2.ySetTranslateY(200, 0);
-        r.ySetTranslateX(r2.yGetTranslateX(0.5), 0.5);
-        r.ySetTranslateY(r2.yGetTranslateY(0.5), 0.5);
         
-        
-        teste.getChildren().addAll(r2, r);
+        teste.getChildren().addAll(r2, r, a);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");

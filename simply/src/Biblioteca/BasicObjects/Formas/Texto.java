@@ -69,6 +69,16 @@ public class Texto extends Text implements Forma{
     }
     
     @Override
+    public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.//ESSE VAI SE BRABO
+    }
+
+    @Override
+    public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.//ESSE VAI SE BRABO
+    }
+    
+    @Override
     public double yGetTranslateX(double pivo) {
         return getTranslateX() + yGetWidth()*pivo;
     }
@@ -79,17 +89,12 @@ public class Texto extends Text implements Forma{
     }
     
     @Override
-    public double yGetStrokeOcupation() {
-        return YshapeHandler.yGetStrokeOcupation(this);
-    }
-
-    @Override
     public void ySetTranslateX(double position, double pivo) {
         VisibleObjectHandler.setTranslateX(this, position, pivo);
     }
 
     @Override
-    public void ySetTranslateY(double position, double pivo) {
+    public void ySetTranslateY(double position, double pivo) {//VER O SETX E SETY DO PROPRIO TEXT, TALVEZ ELES TENHAM CORRIGIDO O 0.7
         VisibleObjectHandler.setTranslateY(this, position, pivo - 0.7);
     }
 
@@ -99,13 +104,8 @@ public class Texto extends Text implements Forma{
     }
     
     @Override
-    public void ySetWidthWithScale(double width, boolean stroke_included, boolean correct_location) {
-        YshapeHandler.ySetWidthWithScale(this, width, stroke_included, correct_location);
-    }
-
-    @Override
-    public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
-        YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
+    public double yGetStrokeOcupation() {
+        return YshapeHandler.yGetStrokeOcupation(this);
     }
 
     /**
@@ -119,6 +119,36 @@ public class Texto extends Text implements Forma{
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width) {
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, move_with_new_stroke_width);
+    }
+    
+    @Override
+    public void ySetScaleX(double scale, boolean correct_location) {
+        YshapeHandler.ySetScaleX(this, scale, correct_location);
+    }
+
+    @Override
+    public void ySetScaleY(double scale, boolean correct_location) {
+        YshapeHandler.ySetScaleY(this, scale, correct_location);
+    }
+
+    @Override
+    public void yScaleXby(double multiplier, boolean correct_location) {
+        YshapeHandler.yScaleXby(this, multiplier, correct_location);
+    }
+
+    @Override
+    public void yScaleYby(double multiplier, boolean correct_location) {
+        YshapeHandler.yScaleYby(this, multiplier, correct_location);
+    }
+    
+    @Override
+    public void ySetWidthWithScale(double width, boolean stroke_included, boolean correct_location) {
+        YshapeHandler.ySetWidthWithScale(this, width, stroke_included, correct_location);
+    }
+
+    @Override
+    public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
+        YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
     }
     
     public void aparecer_texto(double duracao, Point2D ponto_relativo) {

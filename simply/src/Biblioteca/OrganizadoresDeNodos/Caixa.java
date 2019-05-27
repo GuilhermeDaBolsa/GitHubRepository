@@ -31,7 +31,7 @@ public class Caixa extends CenaVisivel {
         caixa.setFill(cor_fundo);
         ySetStroke(grossura_borda, cor_borda, StrokeType.CENTERED, true);
         
-        events_handler.setUpInteractiveObject();//E SE O CARA NAO QUIZER? E BOTAR ISSO NAS OUTRAS CLASSES PQ N BOTEI :P
+        events_handler.setUpInteractiveObject();//BOTAR ISSO NAS OUTRAS CLASSES PQ N BOTEI :P
         
         getChildren().addAll(caixa, container);
     }
@@ -168,9 +168,9 @@ public class Caixa extends CenaVisivel {
      */
     public void realocar_conteudos(Double X, Double Y){
         if(X != null)
-            container.setTranslateX(caixa.getTranslateX() + X);
+            container.setTranslateX(((Forma) caixa).yGetTranslateX(0) + X);
         if(Y != null)
-            container.setTranslateY(caixa.getTranslateY() + Y);
+            container.setTranslateY(((Forma) caixa).yGetTranslateY(0) + Y);
     }
     
     /**
@@ -191,7 +191,18 @@ public class Caixa extends CenaVisivel {
                 (getAlturaCaixa() - getAlturaConteudo())/2);
     }
     
-    public void resizeBoxWithItsContent(boolean strokeX_included, boolean strokeY_included, boolean correct_location, boolean proportion){
+    public void resizeBoxWithItsContent(boolean strokeX_included, boolean strokeY_included, boolean correct_location, boolean proportion){ //FAZER O TESTE DE ONDE TAVA PRA MEXER NO CONTEUDO JUNTO
+        double largura = getLarguraConteudo();
+        double altura = getAlturaConteudo();
+        
+        if(proportion){
+            
+        }else{
+            
+        }
+    }
+    
+    public void scaleBoxWithItsContent(boolean strokeX_included, boolean strokeY_included, boolean correct_location, boolean proportion){ //FAZER O TESTE DE ONDE TAVA PRA MEXER NO CONTEUDO JUNTO
         double largura = getLarguraConteudo();
         double altura = getAlturaConteudo();
         

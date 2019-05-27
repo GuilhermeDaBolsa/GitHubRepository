@@ -54,10 +54,29 @@ public class Circulo extends Circle implements Forma{
     }
     
     @Override
-    public double yGetStrokeOcupation() {
-        return YshapeHandler.yGetStrokeOcupation(this);
+    public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
+        width /= 2;
+        if(stroke_included)
+            width -= yGetStrokeOcupation()/2;
+                    
+        if(correct_location)
+            ySetRadius(width);
+        else
+            setRadius(width);
     }
 
+    @Override
+    public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
+        height /= 2;
+        if(stroke_included)
+            height -= yGetStrokeOcupation()/2;
+                    
+        if(correct_location)
+            ySetRadius(height);
+        else
+            setRadius(height);
+    }
+    
     @Override
     public double yGetTranslateX(double pivo) {
         return getTranslateX() + yGetWidth()*(pivo - 0.5);
@@ -83,6 +102,11 @@ public class Circulo extends Circle implements Forma{
         VisibleObjectHandler.setTranslateZ(this, position, pivo);
     }
     
+    @Override
+    public double yGetStrokeOcupation() {
+        return YshapeHandler.yGetStrokeOcupation(this);
+    }
+    
     /**
      * 
      * @param stroke_width
@@ -96,6 +120,26 @@ public class Circulo extends Circle implements Forma{
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, correct_location);
     }
 
+    @Override
+    public void ySetScaleX(double scale, boolean correct_location) {
+        YshapeHandler.ySetScaleX(this, scale, correct_location);
+    }
+
+    @Override
+    public void ySetScaleY(double scale, boolean correct_location) {
+        YshapeHandler.ySetScaleY(this, scale, correct_location);
+    }
+
+    @Override
+    public void yScaleXby(double multiplier, boolean correct_location) {
+        YshapeHandler.yScaleXby(this, multiplier, correct_location);
+    }
+
+    @Override
+    public void yScaleYby(double multiplier, boolean correct_location) {
+        YshapeHandler.yScaleYby(this, multiplier, correct_location);
+    }
+    
     @Override
     public void ySetWidthWithScale(double width, boolean stroke_included, boolean correct_location) {
         YshapeHandler.ySetWidthWithScale(this, width, stroke_included, correct_location);

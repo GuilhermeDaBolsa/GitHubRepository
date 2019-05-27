@@ -51,13 +51,13 @@ public class teste extends Application {
         //E VER cOMO MUDAR PQ O BINDA TAMANHO TEM Q TA ANTES DO MONTAR TABELA, SE NAO O NEGOCIO ENLOUQUECE :P
         
         testeTabela.setModeloLinhaX(2, null);
-        testeTabela.setModeloLinhaY(40, null);
+        testeTabela.setModeloLinhaY(2, null);
         
         Caixa envolocro = new Caixa(13.5, 10, Color.WHITE, 0.08, Color.DIMGRAY);
         envolocro.add(testeTabela);
-        envolocro.resizeBoxWithItsContent(false, false, true, false);//AS LINHA NAO TAO SE SOBREPONTO PCAUSA DISSO AQUI, E FAZ UM METODO SEM SCALE PELO AMOR DE DEUS(sera?)
+        envolocro.scaleBoxWithItsContent(false, false, true, false);//AS LINHA NAO TAO SE SOBREPONTO PCAUSA DISSO AQUI, E FAZ UM METODO SEM SCALE PELO AMOR DE DEUS(sera?)
         
-        //envolocro.ySetStroke(1.0/envolocro.getScaleY(), Color.DIMGRAY, StrokeType.OUTSIDE, true);
+        envolocro.ySetStroke(null, null, StrokeType.OUTSIDE, true);
    
         envolocro.alinhar_conteudos_centro();
 

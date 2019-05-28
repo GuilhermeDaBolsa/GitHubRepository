@@ -4,17 +4,16 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/executavel/Fisica2.java</file>
-            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/BasicObjects/Formas/Retangulo.java</file>
-            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/BasicObjects/Formas/Forma.java</file>
-            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/BasicObjects/Formas/Circulo.java</file>
+            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/OrganizadoresDeNodos/Tabela.java</file>
+            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/Midia/VisualizadorVideo.java</file>
             <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/BasicObjects/VisibleObjectHandler.java</file>
             <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/OrganizadoresDeNodos/Caixa.java</file>
-            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/BasicObjects/Formas/Texto.java</file>
             <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/BasicObjects/Formas/YshapeHandler.java</file>
             <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/executavel/teste2.java</file>
-            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/BasicObjects/Formas/Linha.java</file>
+            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/Midia/ManipuladorImagem.java</file>
             <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/executavel/teste.java</file>
-            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/OrganizadoresDeNodos/Descricao.java</file>
+            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/Midia/Audio.java</file>
+            <file>file:/C:/Users/Guilh/Documents/NetBeansProjects/GitHubRepository/simply/src/Biblioteca/Midia/VisualizadorImagemEgif.java</file>
         </group>
     </open-files>
 </project-private>

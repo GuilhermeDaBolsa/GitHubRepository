@@ -16,6 +16,14 @@ public class CenaVisivel extends Pane{
         return VisibleObjectHandler.getHeight(this);
     }
     
+    public double yGetTranslateX(double pivo){
+        return VisibleObjectHandler.yGetTranslateX(this, pivo);
+    }
+    
+    public double yGetTranslateY(double pivo){
+        return VisibleObjectHandler.yGetTranslateY(this, pivo);
+    }
+    
     public void ySetTranslateX(double pivo, double X){
         VisibleObjectHandler.setTranslateX(this, pivo, X);
     }

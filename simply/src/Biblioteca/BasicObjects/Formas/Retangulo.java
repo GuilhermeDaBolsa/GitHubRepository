@@ -10,11 +10,11 @@ import javafx.scene.shape.StrokeType;
 
 public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM METODOS EM COMUM....
     
-    public Retangulo(double largura, double altura, Paint corFundo, double grossuraBorda, Paint corBorda, StrokeType stroke_type, boolean move_with_new_stroke_width){
+    public Retangulo(double largura, double altura, Paint corFundo, double grossuraBorda, Paint corBorda, StrokeType stroke_type, boolean correct_location){
         setWidth(largura);
         setHeight(altura);
         setFill(corFundo);
-        ySetStroke(grossuraBorda, corBorda, stroke_type, move_with_new_stroke_width);
+        ySetStroke(grossuraBorda, corBorda, stroke_type, correct_location);
     }
     
     public Retangulo(double largura, double altura, Paint corFundo, double grossuraBorda, Paint corBorda){
@@ -26,7 +26,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     }
     
     public Retangulo(double largura, double altura){
-        this(largura, altura, Color.color(random(1), random(1), random(1)), 0, Color.BLACK);
+        this(largura, altura, Color.color(random(1), random(1), random(1)));
     }
     
     /**
@@ -142,5 +142,10 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     @Override
     public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
         YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
+    }
+    
+    public void ySetCornerRoundness(double roudness){
+        setArcWidth(roudness);
+        setArcHeight(roudness);
     }
 }

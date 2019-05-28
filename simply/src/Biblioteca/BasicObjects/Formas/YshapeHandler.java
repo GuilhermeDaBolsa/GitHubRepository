@@ -6,6 +6,10 @@ import javafx.scene.shape.StrokeType;
 
 public abstract class YshapeHandler {  
     
+    /**
+     * @param forma The shape.
+     * @return How much does the stroke occupie outside the shape.
+     */
     public static double yGetStrokeOcupation(Shape forma) {
         double coeficient = 1;
         if(forma.getStrokeType() == StrokeType.OUTSIDE)
@@ -16,6 +20,13 @@ public abstract class YshapeHandler {
         return forma.getStrokeWidth()*coeficient;
     }
     
+    /**
+     * Sets a value to scale the object in the X axis (it's width).
+     * @param forma The shape to be scaled.
+     * @param scale How much the shape will be scaled.
+     * @param correct_location If you want the 0 point of the left part of the object to be 
+     * in the same place where it was before the scale, mark this true.
+     */
     public static void ySetScaleX(Shape forma, double scale, boolean correct_location){
         double where_wasX = ((Forma) forma).yGetTranslateX(0);
         
@@ -25,6 +36,13 @@ public abstract class YshapeHandler {
             ((Forma) forma).ySetTranslateX(where_wasX, 0);
     }
     
+    /**
+     * Sets a value to scale the object in the Y axis (it's height).
+     * @param forma The shape to be scaled.
+     * @param scale How much the shape will be scaled.
+     * @param correct_location If you want the 0 point of the left part of the object to be 
+     * in the same place where it was before the scale, mark this true.
+     */
     public static void ySetScaleY(Shape forma, double scale, boolean correct_location){
         double where_wasY = ((Forma) forma).yGetTranslateY(0);
         

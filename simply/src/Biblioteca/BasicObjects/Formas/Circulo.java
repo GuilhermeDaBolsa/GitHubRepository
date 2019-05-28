@@ -9,10 +9,10 @@ import javafx.scene.shape.StrokeType;
 
 public class Circulo extends Circle implements Forma{
     
-    public Circulo(double radius, Paint color, double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_stroke_width){
+    public Circulo(double radius, Paint color, double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location){
         ySetRadius(radius);
         setFill(color);
-        ySetStroke(stroke_width, stroke_color, stroke_type, move_with_stroke_width);
+        ySetStroke(stroke_width, stroke_color, stroke_type, correct_location);
     }
     
     public Circulo(double radius, Paint color, double stroke_width, Paint stroke_color){

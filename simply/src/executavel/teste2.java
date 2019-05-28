@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
 import javafx.stage.Stage;
 
@@ -18,8 +19,6 @@ public class teste2 extends Application {
     @Override
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
-        
-        //FAZER A CAIXA PARA RECEBER APENAS ELEMENTOS DO TIPO FORMA :)
         
         Circulo a = new Circulo(2, Color.ANTIQUEWHITE, 1, Color.BLACK);
         a.ySetTranslateX(200, 0.5);

@@ -17,6 +17,14 @@ public abstract class VisibleObjectHandler{
         return nodo.getBoundsInLocal().getDepth();
     }
     
+    public static double yGetTranslateX(Node nodo, double pivo){
+        return nodo.getTranslateX() + getWidth(nodo)*pivo;
+    }
+    
+    public static double yGetTranslateY(Node nodo, double pivo){
+        return nodo.getTranslateY() + getHeight(nodo)*pivo;
+    }
+    
     /**
      * Método para mover a forma com base  no pivo.
      * @param pivo Pivo é o ponto referente, ou seja, é ele que ficará no X informado,

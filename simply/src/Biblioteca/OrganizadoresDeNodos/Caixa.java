@@ -11,7 +11,6 @@ import javafx.scene.shape.StrokeType;
 
 /**
  * Esta classe serve para criar Shapes que contém elementos dentro (Nodos). //VER PRA TER BORDAS INDEPENDENTES (BORDA INFERIOR, DIREITA, SUPERIOR..)
- * VER PRA ARREDONDAR OS CANTOS DE UMA CAIXA QUADRADA E ATE QUEM SABE ELIMINAR O CONSTRUTOR DO CIRCLE
  */
 public class Caixa extends CenaVisivel {
     public Shape caixa = null;

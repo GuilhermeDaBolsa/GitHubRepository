@@ -45,8 +45,6 @@ public class Tabela extends CenaVisivel{
     //A TABELA VEM COM TAMANHO AUTOMATICO, CONFORME O MAIOR ELEMENTO AS CELULAS SE REAJUSTAM
     //FAZER UM METODO PRO CARA POR NA MÃO O TAMANHO DAS CELULAS?
     
-    //FAZER AS BORDAS DOS OBJETOS EM CAIXAS, ENTAO TALVEZ TENHA Q IGNORA O ESPAÇO ENTRE ELEMENTOS PAS LINHA DE SEPARAÇÃO FICA JUNTO COM A BORDA DAS CAIXA
-    
     public Tabela(double espacoEntreElementosX, double espacoEntreElementosY, 
             boolean mostrarLinhasX, boolean mostrarLinhasY){
         this.espacoEntreElementosX = espacoEntreElementosX;
@@ -191,7 +189,7 @@ public class Tabela extends CenaVisivel{
         atualizar();
     }
     
-    public void remover(Node object){
+    public void remover(Node object){//PROVAVELMENTE TEM Q CALCULAR DNV O ELEMENTO MAIS A DIREITA E MAIS ABAIXO.
         elementos.remove(object);
         atualizar();
     }

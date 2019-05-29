@@ -2,6 +2,7 @@ package Biblioteca.OrganizadoresDeNodos;
 
 import Biblioteca.BasicObjects.Formas.Texto;
 import Biblioteca.Animacoes;
+import Biblioteca.BasicObjects.Formas.Retangulo;
 import static Biblioteca.OrganizadoresDeNodos.ConstantesBalaoDialogo.*;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.Pane;
@@ -11,13 +12,12 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.shape.StrokeType;
 
 public class BalaoDialogo extends Pane {
-
     public Shape balao;
     public Shape triangulo;
     public Texto texto;
-    public String conteudo;
 
     /**
      * Construtor para criar um balão de diálogo, que será um retângulo, com um
@@ -35,26 +35,16 @@ public class BalaoDialogo extends Pane {
     public BalaoDialogo(double largura, double altura, String direcao_cardinal,
             boolean tera_animacao_entrada, String fala, Paint cor_fundo, Paint cor_borda) {
 
-        Rectangle retangulo = new Rectangle(largura, altura);
-        if (cor_fundo == null) {
-            retangulo.setFill(Color.ALICEBLUE);
-        } else {
-            retangulo.setFill(cor_fundo);
-        }
-        if (cor_borda == null) {
-            retangulo.setStroke(Color.CADETBLUE);
-        } else {
-            retangulo.setStroke(cor_borda);
-        }
+        Retangulo retangulo = new Retangulo(largura, altura, cor_fundo);
+        retangulo.ySetStroke(8.0, cor_borda, StrokeType.CENTERED, true);
         retangulo.setStrokeLineJoin(StrokeLineJoin.ROUND);
-        retangulo.setStrokeWidth(8);
+
         balao = retangulo;
         triangulo = interpreta_direcao(direcao_cardinal);
 
         texto = new Texto(fala);
         texto.setTranslateX(balao.getStrokeWidth());
         texto.setTranslateY(balao.getStrokeWidth() * 2);//???????? *2 ??????? só aceita que funfa//
-        conteudo = fala;
 
         if (tera_animacao_entrada) {
             balao.setScaleX(0);
@@ -63,7 +53,7 @@ public class BalaoDialogo extends Pane {
             triangulo.setScaleY(0);
         }
 
-        getChildren().addAll(balao, triangulo, texto);
+        getChildren().addAll(balao, triangulo, texto);//FAZER A CLASSE TRIANGULOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
     }
 
     /**
@@ -81,24 +71,14 @@ public class BalaoDialogo extends Pane {
      */
     public BalaoDialogo(String direcao_cardinal, boolean tera_animacao_entrada, String fala,
             Paint cor_fundo, Paint cor_borda) {
-        conteudo = fala;
         texto = new Texto(fala);
         texto.setTranslateX(8);
         texto.setTranslateY(8 * 2 +5);//???????? *2 ??????? só aceita que funfa//
 
-        Rectangle retangulo = new Rectangle(texto.yGetWidth()+ 8 + 2, texto.yGetHeight()+ 8 + 2);
-        if (cor_fundo == null) {
-            retangulo.setFill(Color.ALICEBLUE);
-        } else {
-            retangulo.setFill(cor_fundo);
-        }
-        if (cor_borda == null) {
-            retangulo.setStroke(Color.CADETBLUE);
-        } else {
-            retangulo.setStroke(cor_borda);
-        }
+        Retangulo retangulo = new Retangulo(texto.yGetWidth()+ 8 + 2, texto.yGetHeight()+ 8 + 2, cor_fundo);
+        retangulo.ySetStroke(8.0, cor_borda, StrokeType.CENTERED, true);
         retangulo.setStrokeLineJoin(StrokeLineJoin.ROUND);
-        retangulo.setStrokeWidth(8);
+
         balao = retangulo;
         triangulo = interpreta_direcao(direcao_cardinal);
 
@@ -129,11 +109,9 @@ public class BalaoDialogo extends Pane {
     public BalaoDialogo(double largura, double altura, Point2D inicio,
             boolean tera_animacao, String texto) {
 
-        Rectangle retangulo = new Rectangle(largura, altura);
-        retangulo.setFill(Color.ALICEBLUE);
-        retangulo.setStroke(Color.CADETBLUE);
+        Retangulo retangulo = new Retangulo(largura, altura, Color.ALICEBLUE);
+        retangulo.ySetStroke(8.0, null, StrokeType.CENTERED, true);
         retangulo.setStrokeLineJoin(StrokeLineJoin.ROUND);
-        retangulo.setStrokeWidth(8);
         balao = retangulo;
 
 //        Shape triangulo = interpreta_direcao(direcao_cardinal);

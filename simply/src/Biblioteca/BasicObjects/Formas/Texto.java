@@ -17,6 +17,7 @@ import javafx.util.Duration;
 //O TEXTO GUARDA SEMPRE UM ESPAÇO PROS ACENTOS, MESMO QUE ELES NAO EXISTAO, ENTAO O TEXTO PODE SER MAIS ALTO DO QUE REALMENTE APARENTA...
 
 public class Texto extends Text implements Forma{
+    protected String texto;
     
     public static Font carregar_fonte(String caminho_fonte, double tamanho){
         try {
@@ -29,6 +30,8 @@ public class Texto extends Text implements Forma{
     
     public Texto(String texto, Font fonte, Color cor){
         super(texto);
+        
+        this.texto = texto;
         
         if (fonte != null)
             setFont(fonte);
@@ -68,9 +71,20 @@ public class Texto extends Text implements Forma{
         return getLayoutBounds().getHeight() * 0.7;
     }
     
+    /**
+     * Sets the width that the text will ocuppie in the scene, if its value is 
+     * lower than the width it will remain the same, but if it's higher it will remove chars until the widths macth.
+     * This method calculates the average width of a char based on the number of chars in the text.
+     * It may not give the resoults you expect.
+     * @param width The width that the text should ocuppie.
+     * @param stroke_included If you want the stroke to be included in the width, mark this as true.
+     * @param correct_location Correct the location after the aplication
+     */
     @Override
     public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.//ESSE VAI SE BRABO
+        double char_width = yGetWidth() / texto.length();
+        int char_quantities = (int) (width / char_width);
+        setText(texto.substring(0, char_quantities));
     }
 
     @Override

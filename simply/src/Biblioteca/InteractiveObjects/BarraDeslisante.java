@@ -13,7 +13,7 @@ import javafx.scene.text.Font;
 
 public class BarraDeslisante extends CenaVisivel {
     private Retangulo fundo;
-    private Retangulo path;
+    private Retangulo path; //VER AS CLASSES PATH DO JAVA PRA PODER FAZER UM CAMINHO DE QUALQUER TIPO ^^
     private Caixa bolinha;
     private Texto mostra_valor;
     private Runnable acao;

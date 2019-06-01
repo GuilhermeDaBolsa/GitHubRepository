@@ -68,7 +68,7 @@ public class Poligono extends Polygon implements Forma{
     }
 
     /**
-     * @return The height that the object ocuppies in the scene.//PODE DAR A RESPOSTA ERRADAAAAAAAAAAAAAAAAAAAAAAA
+     * @return The height that the object ocuppies in the scene.
      */
     @Override
     public double yGetHeight() {

@@ -90,7 +90,7 @@ public class Linha extends Line implements Forma{
         double delta = Matematicas.modulo(getEndX() - getStartX());
         if(!plusStroke)
             return delta;
-        return delta + (yDeltaYpoints(false)/yDeltaHypotenuse())*getStrokeWidth();//INVERTIDO OS DOIS PQ SE PENSAR DIREITINHO É ASSIM MSM
+        return delta + (yDeltaYpoints(false)/yDeltaHypotenuse())*getStrokeWidth();
     }
     
     /**
@@ -101,7 +101,7 @@ public class Linha extends Line implements Forma{
         double delta = Matematicas.modulo(getEndY() - getStartY());
         if(!plusStroke)
             return delta;
-        return delta + (yDeltaXpoints(false)/yDeltaHypotenuse())*getStrokeWidth();//INVERTIDO OS DOIS PQ SE PENSAR DIREITINHO É ASSIM MSM
+        return delta + (yDeltaXpoints(false)/yDeltaHypotenuse())*getStrokeWidth();
     }
 
     /**

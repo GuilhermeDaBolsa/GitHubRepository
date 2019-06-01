@@ -1,6 +1,7 @@
 package Biblioteca.OrganizadoresDeNodos;
 
 import Biblioteca.BasicObjects.CenaVisivel;
+import Biblioteca.BasicObjects.Formas.Forma;
 import Biblioteca.BasicObjects.Formas.Linha;
 import java.util.ArrayList;
 import javafx.geometry.Bounds;
@@ -9,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 
 //FAZER OS ITENS CABEÇALHOS (QUE CATEGORIZAM AQUELA LINHA OU COLUNA, EX: DIA)
 
@@ -16,13 +18,8 @@ public class Tabela extends CenaVisivel{
     public ArrayList<Node> elementos = new ArrayList();
     private ArrayList<Point2D> posicoes = new ArrayList();
     
-    private int minPositionX = 1; //é o index inicial dos elementos em X.
-    private int minPositionY = 1; //é o index inicial dos elementos em Y.
-    private int PosElementoMaisADireita = 0;
-    private int PosElementoMaisABaixo = 0;
-    
-    private double espacoEntreElementosX;
-    private double espacoEntreElementosY;
+    private double min_marginX;
+    private double min_marginY;
     private double larguraCelula = -1;
     private double alturaCelula = -1;
     
@@ -35,8 +32,7 @@ public class Tabela extends CenaVisivel{
     public int n_linhas = -1;
     public int n_colunas = -1;
     
-    private double espacinho = 4;
-    private Caixa caixaCelulasPadrao = new Caixa(Color.WHITE, 0, Color.BLACK);
+    private Caixa caixaCelulasPadrao;
     private double grossuraLinhaX = 1;
     private Paint corLinhaX = Color.CORNFLOWERBLUE.darker().desaturate();
     private double grossuraLinhaY = 1;
@@ -45,12 +41,22 @@ public class Tabela extends CenaVisivel{
     //A TABELA VEM COM TAMANHO AUTOMATICO, CONFORME O MAIOR ELEMENTO AS CELULAS SE REAJUSTAM
     //FAZER UM METODO PRO CARA POR NA MÃO O TAMANHO DAS CELULAS?
     
-    public Tabela(double espacoEntreElementosX, double espacoEntreElementosY, 
+    /**
+     * Sets some atributes for the table.
+     * @param min_marginX The minimum distance that the biggest object must have
+     * from the lines in the X axis (the others objects will have it too as they are smaller).
+     * @param min_marginY The minimum distance that the biggest object must have
+     * from the lines in the Y axis (the others objects will have it too as they are smaller).
+     * @param mostrarLinhasX Show line divisions in the X axis.
+     * @param mostrarLinhasY Show line divisions in the Y axis.
+     */
+    public Tabela(double min_marginX, double min_marginY, 
             boolean mostrarLinhasX, boolean mostrarLinhasY){
-        this.espacoEntreElementosX = espacoEntreElementosX;
-        this.espacoEntreElementosY = espacoEntreElementosY;
+        this.min_marginX = min_marginX;
+        this.min_marginY = min_marginY;
         this.mostrarLinhasX = mostrarLinhasX;
         this.mostrarLinhasY = mostrarLinhasY;
+        caixaCelulasPadrao = new Caixa(Color.BEIGE, 0, Color.BLACK);
     }
     
     /**
@@ -81,7 +87,7 @@ public class Tabela extends CenaVisivel{
         atualizar();
     }
     
-    public void setCaixaCelulas(Caixa caixa){
+    public void setCaixaCelulas(Caixa caixa){//LIMITAR O CARA AQUI QUE NEM LIMITO NAS LINHAS
         caixaCelulasPadrao = new Caixa(caixa);
     }
     
@@ -96,28 +102,36 @@ public class Tabela extends CenaVisivel{
         this.getChildren().clear();
         
         //calcula tudo q precisa
-        int Ncolunas = n_colunas > 0 ? n_colunas : PosElementoMaisADireita;
-        int Nlinhas = n_linhas > 0 ? n_linhas : PosElementoMaisABaixo;
+        Point2D farestsObjects = farestsPositionsInTable();
+        int Ncolunas = (int) (n_colunas > 0 ? n_colunas : farestsObjects.getX()+1);
+        int Nlinhas = (int) (n_linhas > 0 ? n_linhas : farestsObjects.getY()+1);
+        
         Point2D sizeOfBiggestElements = biggestSizeInTable();
-        double larguraCelulas = larguraCelula >= 0 ? larguraCelula : sizeOfBiggestElements.getX();
-        double alturaCelulas = alturaCelula >= 0 ? alturaCelula : sizeOfBiggestElements.getY();
-        double larguraLinhas = Ncolunas*(larguraCelulas + espacoEntreElementosX);
-        double alturaLinhas = Nlinhas*(alturaCelulas + espacoEntreElementosY);
+        double larguraCelulas = (larguraCelula >= 0 ? larguraCelula : sizeOfBiggestElements.getX()) + min_marginX * 2;
+        double alturaCelulas = (alturaCelula >= 0 ? alturaCelula : sizeOfBiggestElements.getY()) + min_marginY * 2;
+        
+        double larguraLinhas = Ncolunas * larguraCelulas;
+        double alturaLinhas = Nlinhas * alturaCelulas;
+        
+        caixaCelulasPadrao.resizeBox(larguraCelulas, alturaCelulas, true, true, true);
         
         //posiciona os elementos VER PRA ADICIONAR CAIXAS NOS LUGAR VAZIO
         for (int i = 0; i < elementos.size(); i++) {
-            ((Rectangle) caixaCelulasPadrao.caixa).setWidth(larguraCelulas);
-            ((Rectangle) caixaCelulasPadrao.caixa).setHeight(alturaCelulas);
             Caixa caixa = new Caixa(caixaCelulasPadrao);
+            caixa.ySetStroke(8.0, Color.ROYALBLUE, StrokeType.OUTSIDE, true);
             caixa.add(elementos.get(i));
+            
             double posicaoX = posicoes.get(i).getX();
             double posicaoY = posicoes.get(i).getY(); 
-            if(posicaoX > Ncolunas || posicaoY > Nlinhas || posicaoX < minPositionX || posicaoY < minPositionY)
+            
+            if(posicaoX > Ncolunas || posicaoY > Nlinhas || posicaoX < 0 || posicaoY < 0)
                 continue;
-            double translateInX = (posicaoX - 1)*(larguraCelulas + espacoEntreElementosX) + espacoEntreElementosX/2;
-            double translateInY = (posicaoY - 1)*(alturaCelulas + espacoEntreElementosY) + espacoEntreElementosY/2;
+            
+            double translateInX = posicaoX * larguraCelulas;
+            double translateInY = posicaoY * alturaCelulas;
             caixa.setTranslateX(translateInX);
             caixa.setTranslateY(translateInY);
+            
             caixa.alinhar_conteudos_centro();
             this.getChildren().add(caixa);
         }
@@ -126,7 +140,7 @@ public class Tabela extends CenaVisivel{
         if(mostrarLinhasX){
             for (int i = 1; i < Nlinhas; i++) {
                 Linha linhaX = new Linha(0, 0, larguraLinhas, 0, grossuraLinhaX, corLinhaX);
-                linhaX.ySetTranslateY((espacoEntreElementosY + alturaCelulas)*i, 0);
+                linhaX.ySetTranslateY((min_marginY + alturaCelulas)*i, 0);
                 this.getChildren().add(linhaX);
             }
         }
@@ -135,7 +149,7 @@ public class Tabela extends CenaVisivel{
         if(mostrarLinhasY){
             for (int i = 1; i < Ncolunas; i++) {
                 Linha linhaY = new Linha(0, 0, 0, alturaLinhas, grossuraLinhaY, corLinhaY);
-                linhaY.ySetTranslateX((espacoEntreElementosX + larguraCelulas)*i, 0);
+                linhaY.ySetTranslateX((min_marginX + larguraCelulas)*i, 0);
                 this.getChildren().add(linhaY);
             }
         }
@@ -159,6 +173,26 @@ public class Tabela extends CenaVisivel{
         return new Point2D(width, height);
     }
     
+    private Point2D farestsPositionsInTable(){
+        int X = 0;
+        int Y = 0;
+        
+        if(!posicoes.isEmpty()){
+            X = (int) posicoes.get(0).getX();
+            Y = (int) posicoes.get(0).getY();
+
+            for (int i = 1; i < posicoes.size(); i++) {
+                if(posicoes.get(i).getX() > X){
+                    X = (int) posicoes.get(i).getX();
+                }
+                if(posicoes.get(i).getY() > Y){
+                    Y = (int) posicoes.get(i).getY();
+                }
+            }
+        }
+        return new Point2D(X, Y);
+    }
+    
     /**
      * Adiciona um objeto à tabela. (se ja existir um elemento naquele lugar ver o que fazer, por enquanto substitui)
      * @param object É o objeto a ser adicionado.
@@ -175,22 +209,17 @@ public class Tabela extends CenaVisivel{
                 break;
             }
         }
-        
         if(!elementInSamePosition){
             elementos.add(object);
             posicoes.add(new Point2D(positionInTableX, positionInTableY));
-            if(positionInTableX > PosElementoMaisADireita){
-                PosElementoMaisADireita = positionInTableX;
-            }
-            if(positionInTableY > PosElementoMaisABaixo){
-                PosElementoMaisABaixo = positionInTableY;
-            }
         }
         atualizar();
     }
     
-    public void remover(Node object){//PROVAVELMENTE TEM Q CALCULAR DNV O ELEMENTO MAIS A DIREITA E MAIS ABAIXO.
-        elementos.remove(object);
+    public void remover(Node object){
+        int index = elementos.indexOf(object);
+        elementos.remove(index);
+        posicoes.remove(index);
         atualizar();
     }
 }

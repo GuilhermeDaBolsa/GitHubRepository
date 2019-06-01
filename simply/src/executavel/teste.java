@@ -14,7 +14,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class teste extends Application {
@@ -23,15 +22,15 @@ public class teste extends Application {
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
         
-        Tabela testeTabela = new Tabela(20, 20, true, true);
+        Tabela testeTabela = new Tabela(5, 5, true, true);
         
-        Tabela vem = new Tabela(10, 10, true, true);
+        Tabela vem = new Tabela(3, 3, true, true);
         
-        vem.add(new Texto("aaaa"), 1, 1);
+        vem.add(new Texto("aaaa"), 0, 0);
         
-        MathGrid aaaa = new MathGrid(100,100);
+        MathGrid aaaa = new MathGrid(80, 80);
         
-        vem.add(aaaa, 2, 2);
+        vem.add(aaaa, 1, 1);
         
         aaaa.bind_rodinha_mouse();
         aaaa.bind_tela_movel();
@@ -52,16 +51,16 @@ public class teste extends Application {
         testeTabela.add(new Circulo(50, Color.CORNFLOWERBLUE), 2, 1);
         testeTabela.add(new Circulo(5, Color.CORNFLOWERBLUE), 3, 2);
         testeTabela.add(new Rectangle(80, 80, Color.LAVENDER), 1, 2);
-        testeTabela.add(dados, 3, 3);
+        testeTabela.add(dados, 3, 0);
         testeTabela.add(chara, 2, 2);
         Caixa cc = new Caixa(40, 45, Color.WHITE, 1, Color.BLACK);
         cc.add(new Circulo(5, Color.CORNFLOWERBLUE));
         cc.alinhar_conteudos_centro();
-        testeTabela.add(cc, 4, 3);
-        testeTabela.add(portal, 2, 3);
+        testeTabela.add(cc, 0, 0);
+        testeTabela.add(portal, 2, 0);
         testeTabela.add(gif, 1, 1);
-        testeTabela.add(video, 1, 3);
-        testeTabela.add(grade, 4, 2);
+        testeTabela.add(video, 1, 0);
+        testeTabela.add(grade, 0, 2);
         
         Rectangle caixaGrade = (Rectangle) testeTabela.getCaixaCelulas().caixa;
         grade.bind_rodinha_mouse();

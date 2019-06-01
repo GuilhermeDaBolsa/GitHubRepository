@@ -5,7 +5,9 @@ import Biblioteca.BasicObjects.Formas.*;
 import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
 
@@ -25,7 +27,7 @@ public class Caixa extends CenaVisivel {
      * @param cor_borda Cor da borda da caixa.
      */
     public Caixa(Shape forma, Paint cor_fundo, double grossura_borda, Paint cor_borda){
-        caixa = forma;
+        caixa = forma;//AAAAAAAAAAAAAAAA AINDA É UM PONTEIRRROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
         container = new Pane();
         caixa.setFill(cor_fundo);
         ySetStroke(grossura_borda, cor_borda, StrokeType.CENTERED, true);
@@ -190,6 +192,20 @@ public class Caixa extends CenaVisivel {
                 (getAlturaCaixa() - getAlturaConteudo())/2);
     }
     
+    public void resizeBox(double width, double height, boolean strokeX_included, boolean strokeY_included, boolean correct_location){
+        double content_delta_positionX = container.getTranslateX() - this.getTranslateX();
+        double content_delta_positionY = container.getTranslateY() - this.getTranslateY();
+        double deltaWidth = getLarguraCaixa();
+        double deltaHeight = getAlturaCaixa();
+        
+        ((Forma) caixa).ySetWidth(width, strokeX_included, correct_location);
+        ((Forma) caixa).ySetHeight(height, strokeY_included, correct_location);
+
+        deltaWidth = getLarguraCaixa() - deltaWidth;
+        deltaHeight = getAlturaCaixa() - deltaHeight;
+        mover_conteudos(content_delta_positionX/this.getWidth()*deltaWidth, content_delta_positionY/this.getHeight()*deltaHeight);
+    }
+    
     public void resizeBoxWithItsContent(boolean strokeX_included, boolean strokeY_included, boolean correct_location, boolean proportion){ //FAZER O TESTE DE ONDE TAVA PRA MEXER NO CONTEUDO JUNTO
         double largura = getLarguraConteudo();
         double altura = getAlturaConteudo();
@@ -203,9 +219,7 @@ public class Caixa extends CenaVisivel {
                 altura = getAlturaCaixa() * multiplier;
             }
         }
-        
-        ((Forma) caixa).ySetWidth(largura, strokeX_included, correct_location);
-        ((Forma) caixa).ySetHeight(altura, strokeY_included, correct_location);
+        resizeBox(largura, altura, strokeX_included, strokeY_included, correct_location);
     }
     
     public void scaleBoxWithItsContent(boolean strokeX_included, boolean strokeY_included, boolean correct_location, boolean proportion){ //FAZER O TESTE DE ONDE TAVA PRA MEXER NO CONTEUDO JUNTO

@@ -24,7 +24,7 @@ public class teste2 extends Application {
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
         
-        Poligono a = new Poligono(
+        /*Poligono a = new Poligono(
                 0, 100,
                 100, 100,
                 50, 0
@@ -33,12 +33,23 @@ public class teste2 extends Application {
         //a.ySetTranslateX(200, 0);
         //a.ySetTranslateY(200, 0);
         a.yGetTranslateY(0);
+        System.out.println(a.yGetWidth());*/
         
-        Linha c = new Linha(100, 0, 5, Color.VIOLET);
-        c.ySetTranslateX(165, 0);
-        c.ySetTranslateY(a.yGetHeight(), 0);
+        Linha c = new Linha(50, 150, 40, Color.VIOLET);
+        c.ySetTranslateX(10, 0);
+        c.ySetTranslateY(10, 0);
         
-        teste.getChildren().addAll(a, c);
+        Circulo b = new Circulo(2);
+        
+        b.ySetTranslateX(c.yGetTranslateX(1), 0.5);
+        b.ySetTranslateY(c.yGetTranslateY(1), 0.5);
+        
+        Circulo d = new Circulo(2);
+        
+        d.ySetTranslateX(c.yGetTranslateX(0), 0.5);
+        d.ySetTranslateY(c.yGetTranslateY(0), 0.5);
+        
+        teste.getChildren().addAll(c, b, d);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");

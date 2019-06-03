@@ -72,36 +72,34 @@ public class Linha extends Line implements Forma{
     
     /**
      * @return The lenght of the line, in other words, the hypotenuses created by the deltaX and deltaY lengths.
-     * @see #yDeltaXpoints(boolean) 
-     * @see #yDeltaYpoints(boolean) 
+     * @see #getWidth() 
+     * @see #getHeight() 
      */
-    public double yDeltaHypotenuse(){
-        double X = yDeltaXpoints(false);
-        double Y = yDeltaYpoints(false);
+    public double yGetLenght(){
+        double X = getWidth();
+        double Y = getHeight();
         
         return Math.sqrt(X*X + Y*Y);
     }
     
     /**
-     * @param plusStroke True if you want the stroke width to be counted. False, just the imaginary points.
      * @return The difference between the final X point and the initial X point.
      */
-    public double yDeltaXpoints(boolean plusStroke){
+    public double getWidth(/*boolean plusStroke*/){
         double delta = Matematicas.modulo(getEndX() - getStartX());
-        if(!plusStroke)
-            return delta;
-        return delta + (yDeltaYpoints(false)/yDeltaHypotenuse())*getStrokeWidth();
+        /*if(plusStroke)
+            return delta + (getHeight(false)/yDeltaHypotenuse())*getStrokeWidth();*/
+        return delta;
     }
     
     /**
-     * @param plusStroke True if you want the stroke width to be counted. False, just the imaginary points.
      * @return The difference between the final Y point and the initial Y point.
      */
-    public double yDeltaYpoints(boolean plusStroke){
+    public double getHeight(/*boolean plusStroke*/){
         double delta = Matematicas.modulo(getEndY() - getStartY());
-        if(!plusStroke)
-            return delta;
-        return delta + (yDeltaXpoints(false)/yDeltaHypotenuse())*getStrokeWidth();
+        /*if(plusStroke)
+            return delta + (getWidth(false)/yDeltaHypotenuse())*getStrokeWidth();*/
+        return delta;
     }
 
     /**
@@ -109,7 +107,7 @@ public class Linha extends Line implements Forma{
      * wrong value. If you want just the width of the line with it's stroke you
      * may use the yDeltaXpoints.
      * @return The width that this object occupies in the scene.
-     * @see #yDeltaXpoints(boolean)
+     * @see #getWidth(boolean)
      */
     @Override
     public double yGetWidth() {
@@ -141,23 +139,23 @@ public class Linha extends Line implements Forma{
     
     @Override
     public double yGetTranslateX(double pivo) {
-        return (getTranslateX() + yDeltaXpoints(false)/2) + yDeltaXpoints(true)*(pivo - 0.5);
+        return (getTranslateX() + getWidth()/2) + yGetWidth()*(pivo - 0.5);
     }
 
     //LEMBRAR OU AVISAR O USUARIO DE QUE SE ELE USAR O TRANSLATE DO JAVA PROVAVELMENTE O PONTO QUE SERA MOVIDO É O DA MEIUCA DO STROKE
     @Override
     public double yGetTranslateY(double pivo) {
-        return (getTranslateY() + yDeltaYpoints(false)/2) + yDeltaYpoints(true)*(pivo - 0.5);
+        return (getTranslateY() + getHeight()/2) + yGetHeight()*(pivo - 0.5);
     }
     
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        VisibleObjectHandler.setTranslateX(this, (position - yDeltaXpoints(false)/2) + yDeltaXpoints(true)/2, pivo);
+        VisibleObjectHandler.setTranslateX(this, (position - getWidth()/2) + yGetWidth()/2, pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {
-        VisibleObjectHandler.setTranslateY(this, (position - yDeltaYpoints(false)/2) + yDeltaYpoints(true)/2, pivo);
+        VisibleObjectHandler.setTranslateY(this, (position - getHeight()/2) + yGetHeight()/2, pivo);
     }
 
     @Override
@@ -181,9 +179,9 @@ public class Linha extends Line implements Forma{
      */
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_size) {
-        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, false);
         if(correct_size)
             setStrokeLineCap(StrokeLineCap.BUTT);
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, true);
     }
     
     @Override

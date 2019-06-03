@@ -8,7 +8,7 @@ public abstract class YshapeHandler {
     
     /**
      * @param forma The shape.
-     * @return How much does the stroke occupie outside the shape. //NAO FUNCIONA P FIG IRREGULAR: LINHA, POLIGONO E TEXTO
+     * @return How much does the stroke occupie outside the shape, use it for regular shapes (rectangle, circle, etc).
      */
     public static double yGetStrokeOcupation(Shape forma) {
         double coeficient = 1;

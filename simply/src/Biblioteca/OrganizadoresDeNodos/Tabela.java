@@ -1,7 +1,6 @@
 package Biblioteca.OrganizadoresDeNodos;
 
 import Biblioteca.BasicObjects.CenaVisivel;
-import Biblioteca.BasicObjects.Formas.Forma;
 import Biblioteca.BasicObjects.Formas.Linha;
 import java.util.ArrayList;
 import javafx.geometry.Bounds;
@@ -13,6 +12,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 
 //FAZER OS ITENS CABEÇALHOS (QUE CATEGORIZAM AQUELA LINHA OU COLUNA, EX: DIA)
+//ALEM DO MARGIN (QUE TEM Q VIRA PADDING, TEM Q POR A DISTANCIA ENTRE CELULAS, TA!!!!?!!!!
 
 public class Tabela extends CenaVisivel{
     public ArrayList<Node> elementos = new ArrayList();

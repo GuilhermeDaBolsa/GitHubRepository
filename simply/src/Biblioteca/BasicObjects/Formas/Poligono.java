@@ -1,11 +1,14 @@
 package Biblioteca.BasicObjects.Formas;
 
 import Biblioteca.BasicObjects.VisibleObjectHandler;
+import javafx.collections.ObservableList;
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeType;
 
 public class Poligono extends Polygon implements Forma{
+    public YstrokeOcupation yStrokeOcupation = new YstrokeOcupation();
     double left_X;
     double right_X;
     double up_Y;
@@ -48,15 +51,23 @@ public class Poligono extends Polygon implements Forma{
     /**
      * @return The width base just in the points (right_X - left_X).
      */
-    public double getWidth(){
-        return right_X - left_X;
+    public double yGetWidth(boolean plusStroke){
+        double width = right_X - left_X;
+        if(plusStroke)
+            width += yStrokeOcupation.WIDTH;
+        
+        return width;
     }
     
     /**
      * @return The height base just in the points (down_Y - up_Y).
      */
-    public double getHeight(){
-        return down_Y - up_Y;
+    public double yGetHeight(boolean plusStroke){
+        double height = down_Y - up_Y;
+        if(plusStroke)
+            height += yStrokeOcupation.HEIGHT;
+        
+        return height;
     }
 
     /**
@@ -78,14 +89,14 @@ public class Poligono extends Polygon implements Forma{
     @Override
     public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
         if(stroke_included)
-            width -= yGetStrokeOcupation()/2;
+            width -= yStrokeOcupation.WIDTH/2;
         
-        double pivo = getWidth()/2;
+        double pivo = yGetWidth(false)/2;
         double increment = width - right_X;
         
         for (int i = 0; i < getPoints().size(); i+=2) {
             double X = getPoints().get(i);
-            getPoints().set(i, X + ((X - left_X)/getWidth()) * increment);
+            getPoints().set(i, X + ((X - left_X)/yGetWidth(false)) * increment);
         }
         right_X += increment;
     }
@@ -93,54 +104,48 @@ public class Poligono extends Polygon implements Forma{
     @Override
     public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
         if(stroke_included)
-            height -= yGetStrokeOcupation()/2;
+            height -= yStrokeOcupation.HEIGHT/2;
         
-        double pivo = getHeight()/2;
+        double pivo = yGetHeight(false)/2;
         double increment = height - down_Y;
         
         for (int i = 1; i < getPoints().size(); i+=2) {
             double Y = getPoints().get(i);
-            getPoints().set(i, Y + ((Y - up_Y)/getHeight()) * increment);
+            getPoints().set(i, Y + ((Y - up_Y)/yGetHeight(false)) * increment);
         }
         down_Y += increment;
     }
 
     @Override
     public double yGetTranslateX(double pivo) {
-        return (getTranslateX() + getWidth()/2) + yGetWidth()*(pivo - 0.5);
+        return (getTranslateX() + yGetWidth(false)/2) + yGetWidth(true)*(pivo - 0.5);
     }
 
     @Override
     public double yGetTranslateY(double pivo) {
-        return (getTranslateY() + getHeight()/2) + yGetHeight()*(pivo - 0.5);
+        return (getTranslateY() + yGetHeight(false)/2) + yGetHeight(true)*(pivo - 0.5);
     }
 
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        VisibleObjectHandler.setTranslateX(this, (position - getWidth()/2) + yGetWidth()/2, pivo);
+        YshapeHandler.setTranslateX(this, (position - yGetWidth(false)/2) + yGetWidth(true)/2, pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {//NAO FUNCIONA DIREITO OS POSICIONAMENTO PQ A FIGURA NAO É REGULAR, A BORDA DE CIMA PDC MAIOR Q A DE BAIXO, ENTAO UMA MEDIA NAO FUNFA
-        VisibleObjectHandler.setTranslateY(this, (position - getHeight()/2) + yGetHeight()/2, pivo);
+        YshapeHandler.setTranslateY(this, (position - yGetHeight(false)/2) + yGetHeight(true)/2, pivo);
     }
 
     @Override
     public void ySetTranslateZ(double position, double pivo) {
         VisibleObjectHandler.setTranslateZ(this, position, pivo);
     }
-
-    /**
-     * @return The average stroke ocupation in this shape.
-     */
-    @Override
-    public double yGetStrokeOcupation() {
-        return YshapeHandler.yGetStrokeOcupation(this);
-    }
     
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, correct_location);
+        
+        //MANDA O CALCULATE AI MAGRAO
     }
 
     @Override
@@ -173,4 +178,50 @@ public class Poligono extends Polygon implements Forma{
         YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
     }
     
+    
+    
+    
+    
+    
+    //STROKEEEEEEEEEEEEE AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA A A A A A A A 
+    
+    /**
+     * @param points Pontos que formam a forma.
+     */
+    public void calculate(Double... points){
+        if(points.length <= 2){
+            System.out.println("Number of points is too small.");
+            return;
+        }
+        if(points.length % 2 != 0){
+            System.out.println("Number of points must be even.");
+            return;
+        }
+        
+        yCircularArray<Double> cPoints = new yCircularArray(points);
+        
+        Point2D upper = new Point2D(points[0], points[1]);
+        Point2D upper_linked = new Point2D(points[0], points[1]);
+        Point2D donwer = new Point2D(points[0], points[1]);
+        Point2D donwer_linked = new Point2D(points[0], points[1]);
+        Point2D lefter = new Point2D(points[0], points[1]);
+        Point2D lefter_linked = new Point2D(points[0], points[1]);
+        Point2D righter = new Point2D(points[0], points[1]);
+        Point2D righter_linked = new Point2D(points[0], points[1]);
+        
+        for (int i = 2; i < points.length; i+=2) {
+            if(cPoints.get(i) < lefter.getX()){
+                lefter = new Point2D(cPoints.get(i), cPoints.get(i + 1));
+
+                
+                
+            }else if(cPoints.get(i) > righter.getX()){
+                righter = new Point2D(cPoints.get(i), cPoints.get(i + 1));
+            }
+        }
+    }
+    
+    public void calculate(ObservableList<Double> points){
+        calculate((Double[]) points.toArray());
+    }
 }

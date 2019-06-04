@@ -13,9 +13,10 @@ import javafx.scene.shape.StrokeType;
 import javafx.util.Duration;
 
 public class Linha extends Line implements Forma{
+    public YstrokeOcupation yStrokeOcupation = new YstrokeOcupation();
     
     /**
-     * Cria uma linha. (OBS: Não há setFIll nas linhas, sua cor é definida por setStroke e apenas).
+     * Cria uma linha. (OBS: Não há setFIll nas linhas, sua cor é definida por setStroke e apenas && strokeLineCap é sempre BUTT).
      * @param Xinicial Coordenada X do inicio da linha.
      * @param Yinicial Coordenada Y do inicio da linha
      * @param Xfinal Coordenada X do final da linha.
@@ -58,12 +59,11 @@ public class Linha extends Line implements Forma{
         if(Yfinal != null)
             setEndY(Yfinal);
         
-        if(getStartX() > Xfinal){//ACHO QUE SERIA BOM TIRA ISSO, TALVEZ TESTA OS DELTA TODA A VEZ QUE PRECISAR,
-            //OU FAZER OS DELTA DEVOLVER O NEGOCIO CERTINHO AO INVEZ DO MODULO
+        if(getStartX() > Xfinal){
             double aux = getStartX();
             setStartX(Xfinal);
             setEndX(aux);
-            //NAO SEI PQ (VER ISSO DAQUI PQ...., N deixa ponta solta) MAS TEM QUE TROCAR O Y TAMBÉM
+            //NAO SEI PQ  MAS TEM QUE TROCAR O Y TAMBÉM
             aux = getStartY();
             setStartY(Yfinal);
             setEndY(aux);
@@ -72,12 +72,12 @@ public class Linha extends Line implements Forma{
     
     /**
      * @return The lenght of the line, in other words, the hypotenuses created by the deltaX and deltaY lengths.
-     * @see #getWidth() 
-     * @see #getHeight() 
+     * @see #yGetWidth(boolean)  
+     * @see #yGetHeight(boolean) 
      */
-    public double yGetLenght(){
-        double X = getWidth();
-        double Y = getHeight();
+    public double yDeltaHypotenuse(){
+        double X = yGetWidth(false);
+        double Y = yGetHeight(false);
         
         return Math.sqrt(X*X + Y*Y);
     }
@@ -85,29 +85,29 @@ public class Linha extends Line implements Forma{
     /**
      * @return The difference between the final X point and the initial X point.
      */
-    public double getWidth(/*boolean plusStroke*/){
+    public double yGetWidth(boolean plusStroke){
         double delta = Matematicas.modulo(getEndX() - getStartX());
-        /*if(plusStroke)
-            return delta + (getHeight(false)/yDeltaHypotenuse())*getStrokeWidth();*/
+        if(plusStroke)
+            delta += yStrokeOcupation.WIDTH;
+        
         return delta;
     }
     
     /**
      * @return The difference between the final Y point and the initial Y point.
      */
-    public double getHeight(/*boolean plusStroke*/){
+    public double yGetHeight(boolean plusStroke){
         double delta = Matematicas.modulo(getEndY() - getStartY());
-        /*if(plusStroke)
-            return delta + (getWidth(false)/yDeltaHypotenuse())*getStrokeWidth();*/
+        if(plusStroke)
+            delta += yStrokeOcupation.HEIGHT;
+        
         return delta;
     }
 
     /**
-     * In some cases, especially when the stroke width is big, it may give the
-     * wrong value. If you want just the width of the line with it's stroke you
-     * may use the yDeltaXpoints.
+     * If you want just the width of the line and maybe it's stroke, consider using the yGetWidth(boolean).
      * @return The width that this object occupies in the scene.
-     * @see #getWidth(boolean)
+     * @see #yGetWidth(boolean)
      */
     @Override
     public double yGetWidth() {
@@ -115,8 +115,9 @@ public class Linha extends Line implements Forma{
     }
 
     /**
-     * Em alguns casos, caso a grossura seja muito grande, pode retornar a mais do que o correto.
-     * @return The height of the entire object (with stroke, etc)
+     * If you want just the height of the line and maybe it's stroke, consider using the yGetHeight(boolean).
+     * @return The height that this object occupies in the scene.
+     * @see #yGetHeight(boolean) 
      */
     @Override
     public double yGetHeight() {
@@ -125,55 +126,61 @@ public class Linha extends Line implements Forma{
     
     
     @Override
-    public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {//ACHO QUE ESSES METODOS TAO ERRADOS
-        setEndX(getStartX() + width);//STROKE INCLUDED?
+    public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
+        if(width < 0)
+            width = -width;
+        
+        if(stroke_included)
+            width -= yStrokeOcupation.WIDTH;
+        
+        setPontoFinal(getStartX() + width, null);
     }
 
     @Override
-    public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {//ACHO QUE ESSES METODOS TAO ERRADOS
-        if(getStartY() > getEndY())//STROKE INCLUDED?
+    public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
+        if(stroke_included)
+            height += height > 0 ? -yStrokeOcupation.HEIGHT : yStrokeOcupation.HEIGHT;
+            
+        if(getStartY() > getEndY())
             height = -height;
             
-        setEndY(getStartY() + height);
+        setPontoFinal(null, getStartY() + height);
     }
     
     @Override
     public double yGetTranslateX(double pivo) {
-        return (getTranslateX() + getWidth()/2) + yGetWidth()*(pivo - 0.5);
+        return (getTranslateX() + yGetWidth(false)/2) + yGetWidth(true)*(pivo - 0.5);
     }
 
-    //LEMBRAR OU AVISAR O USUARIO DE QUE SE ELE USAR O TRANSLATE DO JAVA PROVAVELMENTE O PONTO QUE SERA MOVIDO É O DA MEIUCA DO STROKE
+    //LEMBRAR OU AVISAR O USUARIO DE QUE SE ELE USAR O TRANSLATE DO JAVA PROVAVELMENTE O PONTO QUE SERA MOVIDO É O DA MEIUCA DO STROKE, E QUE NO MEU
+    //É A FORMA + BORDA
+    
     @Override
     public double yGetTranslateY(double pivo) {
-        return (getTranslateY() + getHeight()/2) + yGetHeight()*(pivo - 0.5);
+        return (getTranslateY() + yGetHeight(false)/2) + yGetHeight(true)*(pivo - 0.5);
     }
     
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        VisibleObjectHandler.setTranslateX(this, (position - getWidth()/2) + yGetWidth()/2, pivo);
+        YshapeHandler.setTranslateX(this, (position - yGetWidth(false)/2) + yGetWidth(true)/2, pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {
-        VisibleObjectHandler.setTranslateY(this, (position - getHeight()/2) + yGetHeight()/2, pivo);
+        YshapeHandler.setTranslateY(this, (position - yGetHeight(false)/2) + yGetHeight(true)/2, pivo);
     }
 
     @Override
     public void ySetTranslateZ(double position, double pivo) {
         VisibleObjectHandler.setTranslateZ(this, position, pivo);
     }
-    
-    @Override
-    public double yGetStrokeOcupation() {
-        return YshapeHandler.yGetStrokeOcupation(this);
-    }
-    
+
     /**
      * 
      * @param stroke_width
      * @param stroke_color
      * @param stroke_type 
-     * @param correct_size If a new stroke_width is defined, it will make the line bigger, unless this parameter is true.
+     * @param correct_size If a new stroke_width is defined, it will make the line bigger, unless this parameter is true (TRUE HIGLY RECOMENDED).
      * @see #setStrokeType(javafx.scene.shape.StrokeType) 
      * @see #setStrokeLineCap(javafx.scene.shape.StrokeLineCap) 
      */
@@ -182,6 +189,9 @@ public class Linha extends Line implements Forma{
         if(correct_size)
             setStrokeLineCap(StrokeLineCap.BUTT);
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, true);
+        
+        yStrokeOcupation = new YstrokeOcupation((yGetHeight(false)/yDeltaHypotenuse())*getStrokeWidth(),
+                (yGetWidth(false)/yDeltaHypotenuse())*getStrokeWidth());
     }
     
     @Override

@@ -4,11 +4,38 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
 
-public abstract class YshapeHandler {  
+public abstract class YshapeHandler{  
+    
+    /**
+     * Método para mover a forma com base  no pivo.
+     * @param pivo Pivo é o ponto referente, ou seja, é ele que ficará no X informado,
+     * ele é dado por valores entre 0 e 1, sendo 0 o ponto mais a esquerda e 1 o mais a direita da forma.
+     * (nao precisa ser necessariamente entre 0 e 1 :D)
+     * @param X Onde a forma deve ficar, no eixo X.
+     */
+    public static void setTranslateX(Shape shape, double X, double pivo){
+        shape.setTranslateX(X - ((Forma) shape).yGetWidth(true) * pivo);
+    }
+    
+    /**
+     * Método para mover a forma com base  no pivo.
+     * @param pivo Pivo é o ponto referente, ou seja, é ele que ficará no Y informado,
+     * ele é dado por valores entre 0 e 1, sendo 0 o ponto mais a cima e 1 o mais a baixo da forma.
+     * (nao precisa ser necessariamente entre 0 e 1 :D)
+     * @param Y Onde a forma deve ficar, no eixo Y.
+     */
+    public static void setTranslateY(Shape shape, double Y, double pivo){
+        shape.setTranslateY(Y - ((Forma) shape).yGetHeight(true) * pivo);
+    }
+    
+    /*public static void setTranslateZ(Shape shape, double Z, double pivo){//VER QUAL Q É A DO EIXO Z ANTES DE SAIR FAZENDO AS COISAS NEééééé´DAR
+        shape.setTranslateZ(Z - ((Forma) shape).yGetWidth(true)*pivo);
+    }*/
     
     /**
      * @param forma The shape.
-     * @return How much does the stroke occupie outside the shape, use it for regular shapes (rectangle, circle, etc).
+     * @return How much does the stroke occupie outside the shape, use it for regular shapes (rectangle, circle, etc)
+     * because it calculates the average stroke width.
      */
     public static double yGetStrokeOcupation(Shape forma) {
         double coeficient = 1;

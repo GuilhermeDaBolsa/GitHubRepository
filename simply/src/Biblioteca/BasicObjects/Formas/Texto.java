@@ -17,6 +17,7 @@ import javafx.util.Duration;
 //O TEXTO GUARDA SEMPRE UM ESPAÇO PROS ACENTOS, MESMO QUE ELES NAO EXISTAO, ENTAO O TEXTO PODE SER MAIS ALTO DO QUE REALMENTE APARENTA...
 
 public class Texto extends Text implements Forma{
+    public YstrokeOcupation yStrokeOcupation = new YstrokeOcupation();
     protected String texto;
     
     public static Font carregar_fonte(String caminho_fonte, double tamanho){
@@ -54,6 +55,17 @@ public class Texto extends Text implements Forma{
         ySetTranslateX(where_wasX, 0);
         ySetTranslateY(where_wasY, 0);
     }
+    
+    //GJUS PRA FAZER ESSES DOISA AQUI MEU DEUS
+    @Override
+    public double yGetWidth(boolean plusStroke) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double yGetHeight(boolean plusStroke) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     /**
      * @return Retorna a largura do espaço que o texto ocupa.
@@ -87,6 +99,12 @@ public class Texto extends Text implements Forma{
         setText(texto.substring(0, char_quantities));
     }
 
+    /**
+     * FAZER COM BASE NOS \n E TAMBÉM NO WRAPING (ALGO ASSIM)
+     * @param height
+     * @param stroke_included
+     * @param correct_location 
+     */
     @Override
     public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.//ESSE VAI SE BRABO
@@ -116,23 +134,22 @@ public class Texto extends Text implements Forma{
     public void ySetTranslateZ(double position, double pivo) {
         VisibleObjectHandler.setTranslateZ(this, position, pivo);
     }
-    
-    @Override
-    public double yGetStrokeOcupation() {
-        return YshapeHandler.yGetStrokeOcupation(this);
-    }
 
     /**
      * 
      * @param stroke_width
      * @param stroke_color
      * @param stroke_type 
-     * @param move_with_new_stroke_width If a new stroke_width is defined, it will "grow from inside" keeping the object where it was, unless this parameter is true.
+     * @param move_with_new_stroke_width If a new stroke_width is defined, it will
+     * "grow from inside" keeping the object where it was, unless this parameter is true.
      * @see #setStrokeType(javafx.scene.shape.StrokeType) 
      */
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width) {
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, move_with_new_stroke_width);
+        
+        double real_stroke_width = YshapeHandler.yGetStrokeOcupation(this);
+        yStrokeOcupation = new YstrokeOcupation(real_stroke_width, real_stroke_width);//DEVE TA ERRADO ISSO DAQUI JSUS
     }
     
     @Override

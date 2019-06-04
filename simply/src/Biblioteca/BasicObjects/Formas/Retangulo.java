@@ -9,6 +9,7 @@ import javafx.scene.shape.StrokeType;
 
 
 public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM METODOS EM COMUM....
+    public YstrokeOcupation yStrokeOcupation = new YstrokeOcupation();
     
     public Retangulo(double largura, double altura, Paint corFundo, double grossuraBorda, Paint corBorda, StrokeType stroke_type, boolean correct_location){
         setWidth(largura);
@@ -35,6 +36,30 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     public Retangulo(){
     }
     
+    /**
+     * @return The width of this shape.
+     */
+    @Override
+    public double yGetWidth(boolean plusStroke){
+        double width = getWidth();
+        if(plusStroke)
+            width += yStrokeOcupation.WIDTH;
+        
+        return width;
+    }
+    
+    /**
+     * @return The height of this shape.
+     */
+    @Override
+    public double yGetHeight(boolean plusStroke){
+        double height = getHeight();
+        if(plusStroke)
+            height += yStrokeOcupation.HEIGHT;
+        
+        return height;
+    }
+    
     @Override
     public double yGetWidth() {
         return VisibleObjectHandler.getWidth(this);
@@ -50,7 +75,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         double where_wasX = yGetTranslateX(0);
         
         if(stroke_included)
-            width -= yGetStrokeOcupation();
+            width -= yStrokeOcupation.WIDTH;
         
         setWidth(width);
         
@@ -63,7 +88,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         double where_wasY = yGetTranslateY(0);
         
         if(stroke_included)
-            height -= yGetStrokeOcupation();
+            height -= yStrokeOcupation.HEIGHT;
         
         setHeight(height);
         
@@ -73,32 +98,27 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     
     @Override
     public double yGetTranslateX(double pivo) {
-        return (getTranslateX() + getWidth()/2) + yGetWidth()*(pivo - 0.5);
+        return (getTranslateX() + yGetWidth(false)/2) + yGetWidth(true)*(pivo - 0.5);
     }
 
     @Override
     public double yGetTranslateY(double pivo) {
-        return (getTranslateY() + getHeight()/2) + yGetHeight()*(pivo - 0.5);
+        return (getTranslateY() + yGetHeight(false)/2) + yGetHeight(true)*(pivo - 0.5);
     }
     
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        VisibleObjectHandler.setTranslateX(this, (position - getWidth()/2) + yGetWidth()/2, pivo);
+        YshapeHandler.setTranslateX(this, (position - yGetWidth(false)/2) + yGetWidth(true)/2, pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {
-        VisibleObjectHandler.setTranslateY(this, (position - getHeight()/2) + yGetHeight()/2, pivo);
+        YshapeHandler.setTranslateY(this, (position - yGetHeight(false)/2) + yGetHeight(true)/2, pivo);
     }
 
     @Override
     public void ySetTranslateZ(double position, double pivo) {
         VisibleObjectHandler.setTranslateZ(this, position, pivo);
-    }
-    
-    @Override
-    public double yGetStrokeOcupation() {
-        return YshapeHandler.yGetStrokeOcupation(this);
     }
 
     /**
@@ -112,6 +132,9 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width) {
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, move_with_new_stroke_width);
+        
+        double real_stroke_width = YshapeHandler.yGetStrokeOcupation(this);
+        yStrokeOcupation = new YstrokeOcupation(real_stroke_width, real_stroke_width);
     }
     
     @Override

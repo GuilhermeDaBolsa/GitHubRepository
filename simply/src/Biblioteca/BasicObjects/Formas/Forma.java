@@ -5,8 +5,10 @@ import javafx.scene.shape.StrokeType;
 
 public interface Forma{
     
-    
     //------------- SIZE METHODS -------------\\
+    public double yGetWidth(boolean plusStroke);
+    
+    public double yGetHeight(boolean plusStroke);
 
     public double yGetWidth();
     
@@ -23,7 +25,7 @@ public interface Forma{
     
     public double yGetTranslateY(double pivo);
     
-    public void ySetTranslateX(double position, double pivo);//ESSES PIVOS VAO DE 0 a 1 PRA FAZER A PORCENTAGEM DO OBJETO 0 é 0% e 1 é 100%
+    public void ySetTranslateX(double position, double pivo);
     
     public void ySetTranslateY(double position, double pivo);
     
@@ -31,8 +33,6 @@ public interface Forma{
     
     
     //------------- STROKE METHODS -------------\\
-    
-    public double yGetStrokeOcupation();
     
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location);
     

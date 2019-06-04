@@ -28,7 +28,7 @@ public class teste2 extends Application {
         Poligono a = new Poligono(
                 0, 100,
                 100, 100,
-                50
+                50, 0
         );
         a.ySetStroke(20.0, Color.RED, StrokeType.OUTSIDE, true);
         //a.ySetTranslateX(200, 0);
@@ -36,12 +36,12 @@ public class teste2 extends Application {
         a.yGetTranslateY(0);
         System.out.println(a.yGetWidth());
         
-        Linha c = new Linha(50, 150, 40, Color.VIOLET);
-        //c.ySetTranslateX(10, 0);
-        //c.ySetTranslateY(10, 0);
+        Linha c = new Linha(50, 150, 40, Color.DARKSEAGREEN);
+        c.ySetTranslateX(0, 0);
+        c.ySetTranslateY(0, 0);
         
-        System.out.println(c.yGetWidth() + " - " + c.getWidth());
-        System.out.println(c.yGetHeight() + " - " + c.getHeight());
+       /* System.out.println(c.yGetWidth(false) + " - " + c.yGetWidth(true));
+        System.out.println(c.yGetHeight() + " - " + c.yGetHeight());*/
         System.out.println("/-----\\ translate");
         System.out.println(c.yGetTranslateX(0));
         System.out.println(c.yGetTranslateY(0));

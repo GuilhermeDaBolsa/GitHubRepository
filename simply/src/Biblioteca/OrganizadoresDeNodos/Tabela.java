@@ -33,6 +33,7 @@ public class Tabela extends CenaVisivel{
     public int n_colunas = -1;
     
     private Caixa caixaCelulasPadrao;
+    
     private double grossuraLinhaX = 1;
     private Paint corLinhaX = Color.CORNFLOWERBLUE.darker().desaturate();
     private double grossuraLinhaY = 1;
@@ -64,8 +65,8 @@ public class Tabela extends CenaVisivel{
      * @param grossura Grossura da linha.
      * @param cor Cor da linha.
      */
-    public void setModeloLinhaX(double grossura, Paint cor){
-        if(grossura != Double.NaN)
+    public void setModeloLinhaX(Double grossura, Paint cor){
+        if(grossura != null)
             this.grossuraLinhaX = grossura;
         if(cor != null)
             this.corLinhaX = cor;
@@ -78,8 +79,8 @@ public class Tabela extends CenaVisivel{
      * @param grossura Grossura da linha.
      * @param cor Cor da linha.
      */
-    public void setModeloLinhaY(double grossura, Paint cor){
-        if(grossura != Double.NaN)
+    public void setModeloLinhaY(Double grossura, Paint cor){
+        if(grossura != null)
             this.grossuraLinhaY = grossura;
         if(cor != null)
             this.corLinhaY = cor;
@@ -113,12 +114,12 @@ public class Tabela extends CenaVisivel{
         double larguraLinhas = Ncolunas * larguraCelulas;
         double alturaLinhas = Nlinhas * alturaCelulas;
         
+        caixaCelulasPadrao.ySetStroke(8.0, Color.ROYALBLUE, StrokeType.OUTSIDE, true);
         caixaCelulasPadrao.resizeBox(larguraCelulas, alturaCelulas, true, true, true);
         
         //posiciona os elementos VER PRA ADICIONAR CAIXAS NOS LUGAR VAZIO
         for (int i = 0; i < elementos.size(); i++) {
             Caixa caixa = new Caixa(caixaCelulasPadrao);
-            caixa.ySetStroke(8.0, Color.ROYALBLUE, StrokeType.OUTSIDE, true);
             caixa.add(elementos.get(i));
             
             double posicaoX = posicoes.get(i).getX();
@@ -216,7 +217,7 @@ public class Tabela extends CenaVisivel{
         atualizar();
     }
     
-    public void remover(Node object){
+    public void remove(Node object){
         int index = elementos.indexOf(object);
         elementos.remove(index);
         posicoes.remove(index);

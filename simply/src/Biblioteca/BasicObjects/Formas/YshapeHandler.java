@@ -161,6 +161,14 @@ public abstract class YshapeHandler{
         if(stroke_type != null)
             forma.setStrokeType(stroke_type);
         
+        double real_stroke_width = yGetStrokeOcupation(forma);
+        ((Forma) forma).yStrokeOcupation = new YstrokeOcupation(real_stroke_width, real_stroke_width);//VER SOBRE ISSO
+        //(DA PRA AO INVEZ DE CADA FORMA EXTENDS A FORMA DO JAVA, TU COPIA O CODIGO DE CADA UMA E COLOCA LA EM BAIXO, CRIA UMA CLASSE QUE TEM TUDO OS BAGUIU DE SHAPE
+        //E TODO MUNDO EXTENDS O SHAPE, DAI N PRECISA DO SHAPE HANDLER, VER COM O COELHO AMANHA :)
+        //VER COM ELE TAMBÉM SOBRE COMO CLONAR UM OBJETO, OU UM GEITO DE CONTORNAR O PROBLEMA
+        //FALAR SOBRE OS NEGOCIO DO VEIDE TAMBÉM (AINDA TEM Q IMPLEMENTAR ISSO)
+        //SE RESOLVER ISSO VAI RESOLVER UMA CASSETADA DE COISAS
+        
         if(correct_location){
             ((Forma) forma).ySetTranslateX(where_wasX, 0);
             ((Forma) forma).ySetTranslateY(where_wasY, 0);

@@ -26,10 +26,12 @@ public class teste2 extends Application {
         Pane teste = new Pane();
         
         Poligono a = new Poligono(
-                0, 100,
+                20, 100,
                 100, 100,
-                50, 0
+                100, 100,
+                20, 100
         );
+        a.setFill(Color.ALICEBLUE);
         a.ySetStroke(20.0, Color.RED, StrokeType.OUTSIDE, true);
         //a.ySetTranslateX(200, 0);
         //a.ySetTranslateY(200, 0);
@@ -51,12 +53,23 @@ public class teste2 extends Application {
         b.ySetTranslateX(c.yGetTranslateX(1), 0.5);
         b.ySetTranslateY(c.yGetTranslateY(1), 0.5);
         
-        Circulo d = new Circulo(2);
+        Circulo d = new Circulo(100);
         
         d.ySetTranslateX(c.yGetTranslateX(0), 0.5);
         d.ySetTranslateY(c.yGetTranslateY(0), 0.5);
         
+        //Circulo clone = d.clone();     //O CLONE FUNCIONOU, TIRANDO O FATO DE QUE O OBJETO ORIGINAL E SEU CLONE NAO EXITEM JUNTOS (OU AINDA É O MESMO PONTEIRO....)
+        //clone.setTranslateX(500);
+        //clone.setTranslateY(500);
+        //Circulo clone = SerializationUtils.clone(d);
+        
         teste.getChildren().addAll(a, c, b, d);
+        
+        //if(clone != null)
+          //  teste.getChildren().add(clone);
+        //else{
+          //  System.out.println("É null..............");
+        //}
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");

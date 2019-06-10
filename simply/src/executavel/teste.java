@@ -68,16 +68,14 @@ public class teste extends Application {
         grade.binda_tamanho(caixaGrade.widthProperty(), caixaGrade.heightProperty());//DAR UM JEITO NESSES CAST DE RECTANGLE
         //E VER cOMO MUDAR PQ O BINDA TAMANHO TEM Q TA ANTES DO MONTAR TABELA, SE NAO O NEGOCIO ENLOUQUECE :P
         
-        testeTabela.setModeloLinhaX(2, Color.RED);
-        testeTabela.setModeloLinhaY(2, Color.RED);
+        testeTabela.setModeloLinhaX(2.0, Color.RED);
+        testeTabela.setModeloLinhaY(2.0, Color.RED);
         
         Caixa envolocro = new Caixa(13.5, 10, Color.WHITE, 8, Color.DIMGRAY);
         envolocro.add(testeTabela);
         //envolocro.scaleBoxWithItsContent(false, false, true, false);//AS LINHA NAO TAO SE SOBREPONTO PCAUSA DISSO AQUI (q?, n lembro o q q eu queria dizer)
         envolocro.resizeBoxWithItsContent(false, false, true, false);
-        
         envolocro.ySetStroke(null, null, StrokeType.OUTSIDE, true);
-   
         envolocro.alinhar_conteudos_centro();
 
         teste.getChildren().addAll(envolocro);

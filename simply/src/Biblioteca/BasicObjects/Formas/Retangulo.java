@@ -132,9 +132,6 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width) {
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, move_with_new_stroke_width);
-        
-        double real_stroke_width = YshapeHandler.yGetStrokeOcupation(this);
-        yStrokeOcupation = new YstrokeOcupation(real_stroke_width, real_stroke_width);
     }
     
     @Override

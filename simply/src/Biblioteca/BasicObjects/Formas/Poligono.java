@@ -200,24 +200,35 @@ public class Poligono extends Polygon implements Forma{
         
         yCircularArray<Double> cPoints = new yCircularArray(points);
         
-        Point2D upper = new Point2D(points[0], points[1]);
-        Point2D upper_linked = new Point2D(points[0], points[1]);
-        Point2D donwer = new Point2D(points[0], points[1]);
-        Point2D donwer_linked = new Point2D(points[0], points[1]);
-        Point2D lefter = new Point2D(points[0], points[1]);
-        Point2D lefter_linked = new Point2D(points[0], points[1]);
-        Point2D righter = new Point2D(points[0], points[1]);
-        Point2D righter_linked = new Point2D(points[0], points[1]);
+        double left = 0;
+        double right = 0;
+        double up = 0;
+        double down = 0;
         
-        for (int i = 2; i < points.length; i+=2) {
-            if(cPoints.get(i) < lefter.getX()){
-                lefter = new Point2D(cPoints.get(i), cPoints.get(i + 1));
-
-                
-                
-            }else if(cPoints.get(i) > righter.getX()){
-                righter = new Point2D(cPoints.get(i), cPoints.get(i + 1));
+        for (int i = 0; i < points.length; i+=2) {
+            Point2D pN1 = new Point2D(cPoints.get(i-2), cPoints.get(i-1));
+            Point2D p0 = new Point2D(cPoints.get(i), cPoints.get(i+1));
+            Point2D p1 = new Point2D(cPoints.get(i+2), cPoints.get(i+3));
+            
+            double aOne;
+            double bOne;
+            double aNone;
+            double bNone;
+            
+            try {
+                aOne = (p1.getY() - p0.getY()) / (p1.getX() - p0.getX());
+            } catch (Exception e) {
+                aOne = 1;
             }
+            try {
+                aNone = (p0.getY() - pN1.getY())/(p0.getX() - pN1.getX());
+            } catch (Exception e) {
+                aNone = 1;
+            }
+            bOne = p1.getY() - aOne * p1.getX();
+            bNone = pN1.getY() - aNone * pN1.getX();
+            
+            
         }
     }
     

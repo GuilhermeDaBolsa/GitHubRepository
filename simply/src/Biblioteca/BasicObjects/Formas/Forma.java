@@ -33,7 +33,6 @@ public interface Forma{
     
     
     //------------- STROKE METHODS -------------\\
-    
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location);
     
     

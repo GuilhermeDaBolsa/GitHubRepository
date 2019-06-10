@@ -2,12 +2,14 @@ package Biblioteca.BasicObjects.Formas;
 
 import Biblioteca.BasicObjects.VisibleObjectHandler;
 import static Biblioteca.LogicClasses.Matematicas.random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeType;
 
-public class Circulo extends Circle implements Forma{
+public class Circulo extends Circle implements Forma, Cloneable{
     public YstrokeOcupation yStrokeOcupation = new YstrokeOcupation();
     
     public Circulo(double radius, Paint color, double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location){
@@ -32,6 +34,16 @@ public class Circulo extends Circle implements Forma{
      * Cria uma instancia vazia de um circulo.
      */
     public Circulo(){
+    }
+    
+    @Override
+    public Circulo clone(){
+        try {
+            return (Circulo) super.clone();
+        } catch (CloneNotSupportedException ex) {
+            System.out.println("CloneNotSupportedException on line 42, class yCircle");
+        }
+        return null;
     }
 
     public void ySetRadius(double raio){

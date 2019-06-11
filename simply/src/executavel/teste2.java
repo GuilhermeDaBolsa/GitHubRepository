@@ -3,19 +3,12 @@ package executavel;
 import Biblioteca.BasicObjects.Formas.Circulo;
 import Biblioteca.BasicObjects.Formas.Linha;
 import Biblioteca.BasicObjects.Formas.Poligono;
-import Biblioteca.BasicObjects.Formas.Retangulo;
-import Biblioteca.BasicObjects.Formas.Texto;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.geom.Rectangle2D;
+import Biblioteca.OrganizadoresDeNodos.Caixa;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
 import javafx.stage.Stage;
 
@@ -24,6 +17,15 @@ public class teste2 extends Application {
     @Override
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
+        
+        Caixa t1 = new Caixa(Color.ALICEBLUE, 2, Color.GREY);//CLONEAAAA
+        t1.ySetTranslateX(500, 0);
+        t1.ySetTranslateY(500, 0);
+        
+        Caixa t2 = new Caixa(t1);//AAA
+        t2.ySetTranslateX(600, 0);
+        t2.ySetTranslateY(600, 0);
+        
         
         Poligono a = new Poligono(
                 20, 100,
@@ -35,25 +37,17 @@ public class teste2 extends Application {
         a.ySetStroke(20.0, Color.RED, StrokeType.OUTSIDE, true);
         //a.ySetTranslateX(200, 0);
         //a.ySetTranslateY(200, 0);
-        a.yGetTranslateY(0);
-        System.out.println(a.yGetWidth());
         
         Linha c = new Linha(50, 150, 40, Color.DARKSEAGREEN);
         c.ySetTranslateX(0, 0);
         c.ySetTranslateY(0, 0);
-        
-       /* System.out.println(c.yGetWidth(false) + " - " + c.yGetWidth(true));
-        System.out.println(c.yGetHeight() + " - " + c.yGetHeight());*/
-        System.out.println("/-----\\ translate");
-        System.out.println(c.yGetTranslateX(0));
-        System.out.println(c.yGetTranslateY(0));
         
         Circulo b = new Circulo(2);
         
         b.ySetTranslateX(c.yGetTranslateX(1), 0.5);
         b.ySetTranslateY(c.yGetTranslateY(1), 0.5);
         
-        Circulo d = new Circulo(100);
+        Circulo d = new Circulo(2);
         
         d.ySetTranslateX(c.yGetTranslateX(0), 0.5);
         d.ySetTranslateY(c.yGetTranslateY(0), 0.5);
@@ -63,13 +57,7 @@ public class teste2 extends Application {
         //clone.setTranslateY(500);
         //Circulo clone = SerializationUtils.clone(d);
         
-        teste.getChildren().addAll(a, c, b, d);
-        
-        //if(clone != null)
-          //  teste.getChildren().add(clone);
-        //else{
-          //  System.out.println("É null..............");
-        //}
+        teste.getChildren().addAll(a, c, b, d, t2, t1);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");

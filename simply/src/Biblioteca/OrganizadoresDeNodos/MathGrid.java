@@ -5,6 +5,7 @@ import Biblioteca.BasicObjects.CenaVisivel;
 import Biblioteca.BasicObjects.Formas.Linha;
 import Biblioteca.BasicObjects.Formas.Texto;
 import java.util.ArrayList;
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ObservableValue;
@@ -48,8 +49,12 @@ public class MathGrid extends CenaVisivel {
      * Construtor para criar a grade matemática (as medidas são baseadas no PANE (PRECISA ESTAR EN YN PANE) cuja grade está inserida).
      */
     public MathGrid(double largura, double altura) {
-        largura_grade = largura;
-        altura_grade = altura;
+        ySetGridSize(largura, altura);
+    }
+    
+    public void ySetGridSize(double width, double height){
+        largura_grade = width;
+        altura_grade = height;
         atualizar();
     }
 
@@ -171,18 +176,19 @@ public class MathGrid extends CenaVisivel {
      * para alterar o tamanho da grade.
      */
     public void binda_tamanho(DoubleProperty largura, DoubleProperty altura) {
-        largura_grade = largura.doubleValue();
-        altura_grade = altura.doubleValue();
-        largura.addListener((obs, oldVal, newVal) -> {
-            largura_grade = largura.doubleValue();
-            atualizar();
-        });
-
-        altura.addListener((obs, oldVal, newVal) -> {
-            altura_grade = altura.doubleValue();
-            atualizar();
-        });
-        atualizar();
+        ObservableValue width = largura;
+        ObservableValue height = altura;
+        binda_tamanho(width, height);
+    }
+    
+    /**
+     * Coloca uma thread para verificar quando o tamanho da aplicação é alterada
+     * para alterar o tamanho da grade.
+     */
+    public void binda_tamanho(DoubleBinding largura, DoubleBinding altura) {
+        ObservableValue width = largura;
+        ObservableValue height = altura;
+        binda_tamanho(width, height);
     }
     
     /**
@@ -190,18 +196,9 @@ public class MathGrid extends CenaVisivel {
      * para alterar o tamanho da grade.
      */
     public void binda_tamanho(ReadOnlyDoubleProperty largura, ReadOnlyDoubleProperty altura) {
-        largura_grade = largura.doubleValue();
-        altura_grade = altura.doubleValue();
-        largura.addListener((obs, oldVal, newVal) -> {
-            largura_grade = largura.doubleValue();
-            atualizar();
-        });
-
-        altura.addListener((obs, oldVal, newVal) -> {
-            altura_grade = altura.doubleValue();
-            atualizar();
-        });
-        atualizar();
+        ObservableValue width = largura;
+        ObservableValue height = altura;
+        binda_tamanho(width, height);
     }
     
     /**

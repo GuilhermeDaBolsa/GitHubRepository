@@ -143,7 +143,7 @@ public class Poligono extends Polygon implements Forma{
     
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
-        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, correct_location);
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yStrokeOcupation, correct_location);
         
         //MANDA O CALCULATE AI MAGRAO
     }

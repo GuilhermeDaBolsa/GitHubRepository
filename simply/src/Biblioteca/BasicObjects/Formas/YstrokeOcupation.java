@@ -9,15 +9,18 @@ public class YstrokeOcupation {
     public double HEIGHT;
 
     public YstrokeOcupation() {
-        double LEFT = 0;
-        double RIGHT = 0;
-        double UP = 0;
-        double BOTTOM = 0;
-        double WIDTH = 0;
-        double HEIGHT = 0;
+        setStrokeOcupation(0, 0);
     }
 
     public YstrokeOcupation(double LEFT, double RIGHT, double UP, double BOTTOM) {
+        setStrokeOcupation(LEFT, RIGHT, UP, BOTTOM);
+    }
+
+    public YstrokeOcupation(double WIDTH, double HEIGHT) {
+        setStrokeOcupation(WIDTH, HEIGHT);
+    }
+    
+    public void setStrokeOcupation(double LEFT, double RIGHT, double UP, double BOTTOM) {
         this.LEFT = LEFT;
         this.RIGHT = RIGHT;
         this.UP = UP;
@@ -25,8 +28,8 @@ public class YstrokeOcupation {
         this.WIDTH = LEFT + RIGHT;
         this.HEIGHT = UP + BOTTOM;
     }
-
-    public YstrokeOcupation(double WIDTH, double HEIGHT) {
+    
+    public void setStrokeOcupation(double WIDTH, double HEIGHT) {
         this.LEFT = WIDTH/2;
         this.RIGHT = WIDTH/2;
         this.UP = HEIGHT/2;

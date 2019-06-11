@@ -8,11 +8,17 @@ public class yCircularArray<T> {
     }
     
     public T get(int index){
+        return array[get_real_index(index)];
+    }
+    
+    public void set(int index, T object){
+        array[get_real_index(index)] = object;
+    }
+    
+    public int get_real_index(int index){
         if(index < 0){
-            index = array.length + (index % array.length);
-        }else{
-            index = index % array.length;
+            return array.length + (index % array.length);
         }
-        return array[index];
+        return index % array.length;
     }
 }

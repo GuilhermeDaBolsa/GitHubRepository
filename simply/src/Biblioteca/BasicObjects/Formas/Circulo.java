@@ -2,8 +2,6 @@ package Biblioteca.BasicObjects.Formas;
 
 import Biblioteca.BasicObjects.VisibleObjectHandler;
 import static Biblioteca.LogicClasses.Matematicas.random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -142,10 +140,7 @@ public class Circulo extends Circle implements Forma, Cloneable{
      */
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
-        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, correct_location);
-        
-        double real_stroke_width = YshapeHandler.yGetStrokeOcupation(this);
-        yStrokeOcupation = new YstrokeOcupation(real_stroke_width, real_stroke_width);
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yStrokeOcupation, correct_location);
     }
 
     @Override

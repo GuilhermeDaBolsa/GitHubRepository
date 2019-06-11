@@ -5,14 +5,12 @@ import Biblioteca.BasicObjects.Formas.*;
 import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
 
 /**
- * Esta classe serve para criar Shapes que contém elementos dentro (Nodos). //VER PRA TER BORDAS INDEPENDENTES (BORDA INFERIOR, DIREITA, SUPERIOR..)
+ * Esta classe serve para criar Shapes que contém elementos dentro (Nodos).
  */
 public class Caixa extends CenaVisivel {
     public Shape caixa = null;
@@ -27,10 +25,10 @@ public class Caixa extends CenaVisivel {
      * @param cor_borda Cor da borda da caixa.
      */
     public Caixa(Shape forma, Paint cor_fundo, double grossura_borda, Paint cor_borda){
-        caixa = forma;//AAAAAAAAAAAAAAAA AINDA É UM PONTEIRRROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+        caixa = forma;//AAAAAAAAAAAAAAAA AINDA É UM PONTEIRRROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO, TEM CERTEZA? TESTA NA AULA DO FELEF
         container = new Pane();
         caixa.setFill(cor_fundo);
-        ySetStroke(grossura_borda, cor_borda, StrokeType.CENTERED, true);
+        ySetStroke(grossura_borda, cor_borda, StrokeType.OUTSIDE, true);
         
         events_handler.setUpInteractiveObject();//BOTAR ISSO NAS OUTRAS CLASSES PQ N BOTEI :P
         
@@ -66,12 +64,12 @@ public class Caixa extends CenaVisivel {
     }
     
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
-        double X = caixa.getTranslateX();
-        double Y = caixa.getTranslateY();
+        double X = ((Forma) caixa).yGetTranslateX(0);
+        double Y = ((Forma) caixa).yGetTranslateY(0);
         
         ((Forma) caixa).ySetStroke(stroke_width, stroke_color, stroke_type, correct_location);
         
-        mover_conteudos(caixa.getTranslateX() - X, caixa.getTranslateY() - Y);
+        mover_conteudos(((Forma) caixa).yGetTranslateX(0) - X, ((Forma) caixa).yGetTranslateY(0) - Y);
     }
 
     /**
@@ -152,14 +150,14 @@ public class Caixa extends CenaVisivel {
      * @return Quanto de largura a caixa ocupa.
      */
     public double getLarguraCaixa(){
-        return ((Forma) caixa).yGetWidth();
+        return ((Forma) caixa).yGetWidth(true);
     }
     
     /**
      * @return Quanto de altura a caixa ocupa.
      */
     public double getAlturaCaixa(){
-        return ((Forma) caixa).yGetHeight();
+        return ((Forma) caixa).yGetHeight(true);
     }
     
     /**
@@ -188,8 +186,8 @@ public class Caixa extends CenaVisivel {
      * dependendo do elemento).
      */
     public void alinhar_conteudos_centro(){
-        realocar_conteudos((getLarguraCaixa() - getLarguraConteudo())/2,
-                (getAlturaCaixa() - getAlturaConteudo())/2);
+        realocar_conteudos(((Forma) caixa).yGetTranslateX(0) + (getLarguraCaixa() - getLarguraConteudo())/2,
+                ((Forma) caixa).yGetTranslateY(0) + (getAlturaCaixa() - getAlturaConteudo())/2);
     }
     
     public void resizeBox(double width, double height, boolean strokeX_included, boolean strokeY_included, boolean correct_location){

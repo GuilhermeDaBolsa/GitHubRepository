@@ -126,12 +126,12 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
      * @param stroke_width
      * @param stroke_color
      * @param stroke_type 
-     * @param move_with_new_stroke_width If a new stroke_width is defined, it will "grow from inside" keeping the object where it was, unless this parameter is true.
+     * @param correct_location If a new stroke_width is defined, it will "grow from inside" keeping the object where it was, unless this parameter is true.
      * @see #setStrokeType(javafx.scene.shape.StrokeType) 
      */
     @Override
-    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width) {
-        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, move_with_new_stroke_width);
+    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yStrokeOcupation, correct_location);
     }
     
     @Override

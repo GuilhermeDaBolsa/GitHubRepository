@@ -143,14 +143,16 @@ public abstract class YshapeHandler{
     
     /**
      * 
+     * @param forma
      * @param stroke_width
      * @param stroke_color
      * @param stroke_type 
+     * @param stroke_ocupation 
      * @param correct_location If a new stroke_width is defined, depending on the type,
      * it will grow to the outside, keeping just the center point of the object where it was, unless this parameter is true.
      * @see #setStrokeType(javafx.scene.shape.StrokeType) 
      */
-    public static void ySetStroke(Shape forma, Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
+    public static void ySetStroke(Shape forma, Double stroke_width, Paint stroke_color, StrokeType stroke_type, YstrokeOcupation stroke_ocupation, boolean correct_location) {
         double where_wasX = ((Forma) forma).yGetTranslateX(0);
         double where_wasY = ((Forma) forma).yGetTranslateY(0);
         
@@ -162,9 +164,7 @@ public abstract class YshapeHandler{
             forma.setStrokeType(stroke_type);
         
         double real_stroke_width = yGetStrokeOcupation(forma);
-        ((Forma) forma).yStrokeOcupation = new YstrokeOcupation(real_stroke_width, real_stroke_width);//VER SOBRE ISSO
-        //(DA PRA AO INVEZ DE CADA FORMA EXTENDS A FORMA DO JAVA, TU COPIA O CODIGO DE CADA UMA E COLOCA LA EM BAIXO, CRIA UMA CLASSE QUE TEM TUDO OS BAGUIU DE SHAPE
-        //E TODO MUNDO EXTENDS O SHAPE, DAI N PRECISA DO SHAPE HANDLER, VER COM O COELHO AMANHA :)
+        stroke_ocupation.setStrokeOcupation(real_stroke_width, real_stroke_width);
         //VER COM ELE TAMBÉM SOBRE COMO CLONAR UM OBJETO, OU UM GEITO DE CONTORNAR O PROBLEMA
         //FALAR SOBRE OS NEGOCIO DO VEIDE TAMBÉM (AINDA TEM Q IMPLEMENTAR ISSO)
         //SE RESOLVER ISSO VAI RESOLVER UMA CASSETADA DE COISAS

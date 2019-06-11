@@ -24,12 +24,12 @@ public class CenaVisivel extends Pane{
         return VisibleObjectHandler.yGetTranslateY(this, pivo);
     }
     
-    public void ySetTranslateX(double pivo, double X){
-        VisibleObjectHandler.setTranslateX(this, pivo, X);
+    public void ySetTranslateX(double X, double pivo){
+        VisibleObjectHandler.setTranslateX(this, X, pivo);
     }
     
-    public void ySetTranslateY(double pivo, double Y){
-        VisibleObjectHandler.setTranslateY(this, pivo, Y);
+    public void ySetTranslateY(double Y, double pivo){
+        VisibleObjectHandler.setTranslateY(this, Y, pivo);
     }
     
     public DoubleProperty getPosicaoXListener(){

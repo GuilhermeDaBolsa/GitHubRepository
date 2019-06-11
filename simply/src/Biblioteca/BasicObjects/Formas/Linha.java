@@ -186,12 +186,18 @@ public class Linha extends Line implements Forma{
      */
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_size) {
+        double where_wasX = yGetTranslateX(0.5);
+        double where_wasY = yGetTranslateY(0.5);
+        
         if(correct_size)
             setStrokeLineCap(StrokeLineCap.BUTT);
-        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, true);
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yStrokeOcupation, false);
         
         yStrokeOcupation = new YstrokeOcupation((yGetHeight(false)/yDeltaHypotenuse())*getStrokeWidth(),
                 (yGetWidth(false)/yDeltaHypotenuse())*getStrokeWidth());
+        
+        ySetTranslateX(where_wasX, 0.5);
+        ySetTranslateY(where_wasY, 0.5);
     }
     
     @Override

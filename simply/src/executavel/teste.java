@@ -1,6 +1,7 @@
 package executavel;
 
 import Biblioteca.BasicObjects.Formas.Circulo;
+import Biblioteca.BasicObjects.Formas.Forma;
 import Biblioteca.BasicObjects.Formas.Texto;
 import Biblioteca.Midia.Audio;
 import Biblioteca.Midia.VisualizadorImagemEgif;
@@ -23,24 +24,30 @@ public class teste extends Application {
         Pane teste = new Pane();
         
         Tabela testeTabela = new Tabela(5, 5, true, true);
+        testeTabela.ySetCellConfig(10.0, Color.BROWN, null);
+        testeTabela.ySetXlines(4.0, Color.RED);
+        testeTabela.ySetYlines(4.0, Color.RED);
         
         Tabela vem = new Tabela(3, 3, true, true);
+        vem.ySetCellConfig(2.0, Color.CADETBLUE, null);
         
-        vem.add(new Texto("aaaa"), 0, 0);
-        
+        vem.yAdd(new Texto("aaaa"), 0, 0);
         MathGrid aaaa = new MathGrid(80, 80);
-        
-        vem.add(aaaa, 1, 1);
-        
         aaaa.bind_rodinha_mouse();
         aaaa.bind_tela_movel();
+        vem.yAdd(aaaa, 1, 1);
+        aaaa.binda_tamanho(((Rectangle) vem.cells.get(0).caixa).widthProperty().subtract(vem.min_marginX),
+                ((Rectangle) vem.cells.get(0).caixa).heightProperty().subtract(vem.min_marginY)); ///OLHA ESSA MERDA 
         
-        Rectangle b = (Rectangle) vem.getCaixaCelulas().caixa;
-        aaaa.binda_tamanho(b.widthProperty(), b.heightProperty());
-        
-        testeTabela.add(vem, 3, 1);
+        testeTabela.yAdd(vem, 3, 1);
         
         MathGrid grade = new MathGrid(100,100);
+        grade.bind_rodinha_mouse();
+        grade.bind_tela_movel();
+        testeTabela.yAdd(grade, 0, 2);
+        grade.binda_tamanho(((Rectangle) testeTabela.cells.get(0).caixa).widthProperty().subtract(testeTabela.min_marginX),
+                ((Rectangle) testeTabela.cells.get(0).caixa).heightProperty().subtract(testeTabela.min_marginX));///OLHA ESSA MERDA
+        
         VisualizadorImagemEgif portal = new VisualizadorImagemEgif("assets/ac.png", 150, 100);
         VisualizadorImagemEgif chara = new VisualizadorImagemEgif("assets/chara.jpg", 130, 200);
         VisualizadorImagemEgif dados = new VisualizadorImagemEgif("assets/dados.png", 50, 50);
@@ -48,36 +55,28 @@ public class teste extends Application {
         VisualizadorVideo video = new VisualizadorVideo("assets/sample.mp4", 150, 100);
         Audio musica = new Audio("assets/teste.mp3");
         
-        testeTabela.add(new Circulo(50, Color.CORNFLOWERBLUE), 2, 1);
-        testeTabela.add(new Circulo(5, Color.CORNFLOWERBLUE), 3, 2);
-        testeTabela.add(new Rectangle(80, 80, Color.LAVENDER), 1, 2);
-        testeTabela.add(dados, 3, 0);
-        testeTabela.add(chara, 2, 2);
+        testeTabela.yAdd(new Circulo(50, Color.CORNFLOWERBLUE), 2, 1);
+        testeTabela.yAdd(new Circulo(5, Color.CORNFLOWERBLUE), 3, 2);
+        testeTabela.yAdd(new Rectangle(80, 80, Color.LAVENDER), 1, 2);
+        testeTabela.yAdd(dados, 3, 0);
+        testeTabela.yAdd(chara, 2, 2);
         Caixa cc = new Caixa(40, 45, Color.WHITE, 1, Color.BLACK);
         cc.add(new Circulo(5, Color.CORNFLOWERBLUE));
         cc.alinhar_conteudos_centro();
-        testeTabela.add(cc, 0, 0);
-        testeTabela.add(portal, 2, 0);
-        testeTabela.add(gif, 1, 1);
-        testeTabela.add(video, 1, 0);
-        testeTabela.add(grade, 0, 2);
+        testeTabela.yAdd(cc, 0, 0);
+        testeTabela.yAdd(portal, 2, 0);
+        testeTabela.yAdd(gif, 1, 1);
+        testeTabela.yAdd(video, 1, 0);
         
-        Rectangle caixaGrade = (Rectangle) testeTabela.getCaixaCelulas().caixa;
-        grade.bind_rodinha_mouse();
-        grade.bind_tela_movel();
-        grade.binda_tamanho(caixaGrade.widthProperty(), caixaGrade.heightProperty());//DAR UM JEITO NESSES CAST DE RECTANGLE
-        //E VER cOMO MUDAR PQ O BINDA TAMANHO TEM Q TA ANTES DO MONTAR TABELA, SE NAO O NEGOCIO ENLOUQUECE :P
-        
-        testeTabela.setModeloLinhaX(2.0, Color.RED);
-        testeTabela.setModeloLinhaY(2.0, Color.RED);
+        vem.yRefresh();
+        testeTabela.yRefresh();
         
         Caixa envolocro = new Caixa(13.5, 10, Color.WHITE, 8, Color.DIMGRAY);
         envolocro.add(testeTabela);
-        //envolocro.scaleBoxWithItsContent(false, false, true, false);//AS LINHA NAO TAO SE SOBREPONTO PCAUSA DISSO AQUI (q?, n lembro o q q eu queria dizer)
         envolocro.resizeBoxWithItsContent(false, false, true, false);
         envolocro.ySetStroke(null, null, StrokeType.OUTSIDE, true);
         envolocro.alinhar_conteudos_centro();
-
+        
         teste.getChildren().addAll(envolocro);
         
         video.player.play();

@@ -140,16 +140,13 @@ public class Texto extends Text implements Forma{
      * @param stroke_width
      * @param stroke_color
      * @param stroke_type 
-     * @param move_with_new_stroke_width If a new stroke_width is defined, it will
+     * @param correct_location If a new stroke_width is defined, it will
      * "grow from inside" keeping the object where it was, unless this parameter is true.
      * @see #setStrokeType(javafx.scene.shape.StrokeType) 
      */
     @Override
-    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean move_with_new_stroke_width) {
-        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, move_with_new_stroke_width);
-        
-        double real_stroke_width = YshapeHandler.yGetStrokeOcupation(this);
-        yStrokeOcupation = new YstrokeOcupation(real_stroke_width, real_stroke_width);//DEVE TA ERRADO ISSO DAQUI JSUS
+    public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yStrokeOcupation, correct_location);//DEVE TA ERRADO ISSO JSUS
     }
     
     @Override

@@ -8,7 +8,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeType;
 
 public class Poligono extends Polygon implements Forma{
-    public YstrokeOcupation yStrokeOcupation = new YstrokeOcupation();
+    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     double left_X;
     double right_X;
     double up_Y;
@@ -54,7 +54,7 @@ public class Poligono extends Polygon implements Forma{
     public double yGetWidth(boolean plusStroke){
         double width = right_X - left_X;
         if(plusStroke)
-            width += yStrokeOcupation.WIDTH;
+            width += yOutsideStrokeOcupation.WIDTH;
         
         return width;
     }
@@ -65,7 +65,7 @@ public class Poligono extends Polygon implements Forma{
     public double yGetHeight(boolean plusStroke){
         double height = down_Y - up_Y;
         if(plusStroke)
-            height += yStrokeOcupation.HEIGHT;
+            height += yOutsideStrokeOcupation.HEIGHT;
         
         return height;
     }
@@ -89,7 +89,7 @@ public class Poligono extends Polygon implements Forma{
     @Override
     public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
         if(stroke_included)
-            width -= yStrokeOcupation.WIDTH/2;
+            width -= yOutsideStrokeOcupation.WIDTH/2;
         
         double pivo = yGetWidth(false)/2;
         double increment = width - right_X;
@@ -104,7 +104,7 @@ public class Poligono extends Polygon implements Forma{
     @Override
     public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
         if(stroke_included)
-            height -= yStrokeOcupation.HEIGHT/2;
+            height -= yOutsideStrokeOcupation.HEIGHT/2;
         
         double pivo = yGetHeight(false)/2;
         double increment = height - down_Y;
@@ -143,7 +143,7 @@ public class Poligono extends Polygon implements Forma{
     
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
-        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yStrokeOcupation, correct_location);
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);
         
         //MANDA O CALCULATE AI MAGRAO
     }

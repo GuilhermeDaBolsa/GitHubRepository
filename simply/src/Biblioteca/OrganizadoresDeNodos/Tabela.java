@@ -1,7 +1,6 @@
 package Biblioteca.OrganizadoresDeNodos;
 
 import Biblioteca.BasicObjects.CenaVisivel;
-import Biblioteca.BasicObjects.Formas.Forma;
 import Biblioteca.BasicObjects.Formas.Linha;
 import java.util.ArrayList;
 import javafx.geometry.Bounds;

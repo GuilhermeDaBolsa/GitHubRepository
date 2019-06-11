@@ -14,10 +14,10 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 //FAZER UM SETMAXWIDTH, que nem o label, que dai quando o texto chega no limite, ele é cortado e aparece reticencias pequenas (ex: estratos...)
-//O TEXTO GUARDA SEMPRE UM ESPAÇO PROS ACENTOS, MESMO QUE ELES NAO EXISTAO, ENTAO O TEXTO PODE SER MAIS ALTO DO QUE REALMENTE APARENTA...
+//O TEXTO GUARDA SEMPRE UM ESPAÇO PROS ACENTOS (EU ACHO), MESMO QUE ELES NAO EXISTAO, ENTAO O TEXTO PODE SER MAIS ALTO DO QUE REALMENTE APARENTA...
 
 public class Texto extends Text implements Forma{
-    public YstrokeOcupation yStrokeOcupation = new YstrokeOcupation();
+    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     protected String texto;
     
     public static Font carregar_fonte(String caminho_fonte, double tamanho){
@@ -146,7 +146,7 @@ public class Texto extends Text implements Forma{
      */
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
-        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yStrokeOcupation, correct_location);//DEVE TA ERRADO ISSO JSUS
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);//DEVE TA ERRADO ISSO JSUS
     }
     
     @Override

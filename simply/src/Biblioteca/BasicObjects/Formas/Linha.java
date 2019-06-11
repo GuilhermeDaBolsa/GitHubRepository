@@ -13,10 +13,10 @@ import javafx.scene.shape.StrokeType;
 import javafx.util.Duration;
 
 public class Linha extends Line implements Forma{
-    public YstrokeOcupation yStrokeOcupation = new YstrokeOcupation();
+    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     
     /**
-     * Cria uma linha. (OBS: Não há setFIll nas linhas, sua cor é definida por setStroke e apenas && strokeLineCap é sempre BUTT).
+     * Cria uma linha. (OBS: Não há setFIll nas linhas, sua cor é definida por setStroke e apenas && strokeLineCap é RECOMENDADO sempre ser BUTT).
      * @param Xinicial Coordenada X do inicio da linha.
      * @param Yinicial Coordenada Y do inicio da linha
      * @param Xfinal Coordenada X do final da linha.
@@ -88,7 +88,7 @@ public class Linha extends Line implements Forma{
     public double yGetWidth(boolean plusStroke){
         double delta = Matematicas.modulo(getEndX() - getStartX());
         if(plusStroke)
-            delta += yStrokeOcupation.WIDTH;
+            delta += yOutsideStrokeOcupation.WIDTH;
         
         return delta;
     }
@@ -99,7 +99,7 @@ public class Linha extends Line implements Forma{
     public double yGetHeight(boolean plusStroke){
         double delta = Matematicas.modulo(getEndY() - getStartY());
         if(plusStroke)
-            delta += yStrokeOcupation.HEIGHT;
+            delta += yOutsideStrokeOcupation.HEIGHT;
         
         return delta;
     }
@@ -131,7 +131,7 @@ public class Linha extends Line implements Forma{
             width = -width;
         
         if(stroke_included)
-            width -= yStrokeOcupation.WIDTH;
+            width -= yOutsideStrokeOcupation.WIDTH;
         
         setPontoFinal(getStartX() + width, null);
     }
@@ -139,7 +139,7 @@ public class Linha extends Line implements Forma{
     @Override
     public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
         if(stroke_included)
-            height += height > 0 ? -yStrokeOcupation.HEIGHT : yStrokeOcupation.HEIGHT;
+            height += height > 0 ? -yOutsideStrokeOcupation.HEIGHT : yOutsideStrokeOcupation.HEIGHT;
             
         if(getStartY() > getEndY())
             height = -height;
@@ -152,8 +152,8 @@ public class Linha extends Line implements Forma{
         return (getTranslateX() + yGetWidth(false)/2) + yGetWidth(true)*(pivo - 0.5);
     }
 
-    //LEMBRAR OU AVISAR O USUARIO DE QUE SE ELE USAR O TRANSLATE DO JAVA PROVAVELMENTE O PONTO QUE SERA MOVIDO É O DA MEIUCA DO STROKE, E QUE NO MEU
-    //É A FORMA + BORDA
+    //LEMBRAR OU AVISAR O USUARIO DE QUE SE ELE USAR O TRANSLATE DO JAVA PROVAVELMENTE O PONTO QUE SERA MOVIDO É O DA MEIUCA DO STROKE
+    //(O IMAGINARIO, QUE ATÉ É BOM TER ISSO EM MAOS)
     
     @Override
     public double yGetTranslateY(double pivo) {
@@ -191,9 +191,9 @@ public class Linha extends Line implements Forma{
         
         if(correct_size)
             setStrokeLineCap(StrokeLineCap.BUTT);
-        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yStrokeOcupation, false);
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, false);
         
-        yStrokeOcupation = new YstrokeOcupation((yGetHeight(false)/yDeltaHypotenuse())*getStrokeWidth(),
+        yOutsideStrokeOcupation = new YstrokeOcupation((yGetHeight(false)/yDeltaHypotenuse())*getStrokeWidth(),
                 (yGetWidth(false)/yDeltaHypotenuse())*getStrokeWidth());
         
         ySetTranslateX(where_wasX, 0.5);

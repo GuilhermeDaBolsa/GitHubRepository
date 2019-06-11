@@ -9,7 +9,7 @@ import javafx.scene.shape.StrokeType;
 
 
 public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM METODOS EM COMUM....
-    public YstrokeOcupation yStrokeOcupation = new YstrokeOcupation();
+    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     
     public Retangulo(double largura, double altura, Paint corFundo, double grossuraBorda, Paint corBorda, StrokeType stroke_type, boolean correct_location){
         setWidth(largura);
@@ -43,7 +43,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     public double yGetWidth(boolean plusStroke){
         double width = getWidth();
         if(plusStroke)
-            width += yStrokeOcupation.WIDTH;
+            width += yOutsideStrokeOcupation.WIDTH;
         
         return width;
     }
@@ -55,7 +55,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     public double yGetHeight(boolean plusStroke){
         double height = getHeight();
         if(plusStroke)
-            height += yStrokeOcupation.HEIGHT;
+            height += yOutsideStrokeOcupation.HEIGHT;
         
         return height;
     }
@@ -75,7 +75,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         double where_wasX = yGetTranslateX(0);
         
         if(stroke_included)
-            width -= yStrokeOcupation.WIDTH;
+            width -= yOutsideStrokeOcupation.WIDTH;
         
         setWidth(width);
         
@@ -88,7 +88,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         double where_wasY = yGetTranslateY(0);
         
         if(stroke_included)
-            height -= yStrokeOcupation.HEIGHT;
+            height -= yOutsideStrokeOcupation.HEIGHT;
         
         setHeight(height);
         
@@ -131,7 +131,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
      */
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
-        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yStrokeOcupation, correct_location);
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);
     }
     
     @Override

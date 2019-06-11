@@ -23,12 +23,12 @@ public class teste extends Application {
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
         
-        Tabela testeTabela = new Tabela(5, 5, true, true);
-        testeTabela.ySetCellConfig(10.0, Color.BROWN, null);
-        testeTabela.ySetXlines(4.0, Color.RED);
-        testeTabela.ySetYlines(4.0, Color.RED);
+        Tabela testeTabela = new Tabela(15, 15, true, true);
+        //testeTabela.ySetCellConfig(2.0, Color.BROWN, null);
+        testeTabela.ySetXlines(1.0, Color.LIGHTBLUE);
+        testeTabela.ySetYlines(1.0, Color.LIGHTBLUE);
         
-        Tabela vem = new Tabela(3, 3, true, true);
+        Tabela vem = new Tabela(5, 5, true, true);
         vem.ySetCellConfig(2.0, Color.CADETBLUE, null);
         
         vem.yAdd(new Texto("aaaa"), 0, 0);

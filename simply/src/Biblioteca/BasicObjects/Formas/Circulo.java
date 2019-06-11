@@ -7,8 +7,8 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeType;
 
-public class Circulo extends Circle implements Forma, Cloneable{
-    public YstrokeOcupation yStrokeOcupation = new YstrokeOcupation();
+public class Circulo extends Circle implements Forma{
+    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     
     public Circulo(double radius, Paint color, double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location){
         ySetRadius(radius);
@@ -33,16 +33,6 @@ public class Circulo extends Circle implements Forma, Cloneable{
      */
     public Circulo(){
     }
-    
-    @Override
-    public Circulo clone(){
-        try {
-            return (Circulo) super.clone();
-        } catch (CloneNotSupportedException ex) {
-            System.out.println("CloneNotSupportedException on line 42, class yCircle");
-        }
-        return null;
-    }
 
     public void ySetRadius(double raio){
         double where_wasX = yGetTranslateX(0);
@@ -57,7 +47,7 @@ public class Circulo extends Circle implements Forma, Cloneable{
     public double yGetWidth(boolean plusStroke) {
         double width = getRadius() * 2;
         if(plusStroke)
-            width += yStrokeOcupation.WIDTH;
+            width += yOutsideStrokeOcupation.WIDTH;
         
         return width;
     }
@@ -66,7 +56,7 @@ public class Circulo extends Circle implements Forma, Cloneable{
     public double yGetHeight(boolean plusStroke) {
         double height = getRadius() * 2;
         if(plusStroke)
-            height += yStrokeOcupation.HEIGHT;
+            height += yOutsideStrokeOcupation.HEIGHT;
         
         return height;
     }
@@ -85,7 +75,7 @@ public class Circulo extends Circle implements Forma, Cloneable{
     public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
         width /= 2;
         if(stroke_included)
-            width -= yStrokeOcupation.WIDTH/2;
+            width -= yOutsideStrokeOcupation.WIDTH/2;
                     
         if(correct_location)
             ySetRadius(width);
@@ -97,7 +87,7 @@ public class Circulo extends Circle implements Forma, Cloneable{
     public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
         height /= 2;
         if(stroke_included)
-            height -= yStrokeOcupation.HEIGHT/2;
+            height -= yOutsideStrokeOcupation.HEIGHT/2;
                     
         if(correct_location)
             ySetRadius(height);
@@ -140,7 +130,7 @@ public class Circulo extends Circle implements Forma, Cloneable{
      */
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
-        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yStrokeOcupation, correct_location);
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);
     }
 
     @Override

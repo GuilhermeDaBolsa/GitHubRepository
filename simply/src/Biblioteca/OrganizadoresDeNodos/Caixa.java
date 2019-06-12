@@ -13,7 +13,7 @@ import javafx.scene.shape.StrokeType;
  * Esta classe serve para criar Shapes que contém elementos dentro (Nodos).
  */
 public class Caixa extends CenaVisivel {
-    public Shape caixa = null;
+    public Shape caixa;
     public Pane container;
     public ArrayList<Node> conteudo_caixa = new ArrayList();
     
@@ -25,7 +25,11 @@ public class Caixa extends CenaVisivel {
      * @param cor_borda Cor da borda da caixa.
      */
     public Caixa(Shape forma, Paint cor_fundo, double grossura_borda, Paint cor_borda){
-        caixa = forma;//AAAAAAAAAAAAAAAA AINDA É UM PONTEIRRROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO, TEM CERTEZA? TESTA NA AULA DO FELEF
+        //caixa = (Shape) YshapeHandler.copyObject(forma);//AAAAAAAAAAAAAAAA AINDA É UM PONTEIRRROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO, TEM CERTEZA? TESTA NA AULA DO FELEF
+        //Node n = (Node) YshapeHandler.cloneObject(forma);
+        //((Forma)caixa).ySetWidth(n.getBoundsInLocal().getWidth(), false, true);
+        caixa = forma;
+        
         container = new Pane();
         caixa.setFill(cor_fundo);
         ySetStroke(grossura_borda, cor_borda, StrokeType.OUTSIDE, true);

@@ -11,15 +11,15 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.StrokeType;
 
 //FAZER OS ITENS CABEÇALHOS (QUE CATEGORIZAM AQUELA LINHA OU COLUNA, EX: DIA)
-//ALEM DO MARGIN (QUE TEM Q VIRA PADDING, TEM Q POR A DISTANCIA ENTRE CELULAS, TA!!!!?!!!!
 
 public class Tabela extends CenaVisivel{
-    public ArrayList<Caixa> cells = new ArrayList();
     public ArrayList<Node> elementos = new ArrayList();
     private ArrayList<Point2D> posicoes = new ArrayList();
     
-    public double min_marginX;
-    public double min_marginY;
+    public double min_paddingX;
+    public double min_paddingY;
+    public double cells_X_distance = 0;
+    public double cells_Y_distance = 0;
     public double cells_width = -1;
     public double cells_height = -1;
     
@@ -45,19 +45,35 @@ public class Tabela extends CenaVisivel{
     //A TABELA VEM COM TAMANHO AUTOMATICO, CONFORME O MAIOR ELEMENTO AS CELULAS SE REAJUSTAM
     //FAZER UM METODO PRO CARA POR NA MÃO O TAMANHO DAS CELULAS?
     
+    /*
+    set first line objects as header objects (cabeçalho)
+    set first colum objects as header objects (cabeçalho)
+    setCellsSize(double width, double height)
+    setTableSize(ainda nao sei direito como essa vai funcionar)
+    setResponsibleTable(widthpropriety, heightpropriety)
+    setResponsibleLinesAndColumns(widthpropriety, heightpropriety)
+    
+    junta essa tabela com a tabela menu
+    
+    */
+    
     /**
      * Sets some atributes for the table.
-     * @param min_marginX The minimum distance that the biggest object must have
-     * from the lines in the X axis (the others objects will have it too as they are smaller).
-     * @param min_marginY The minimum distance that the biggest object must have
-     * from the lines in the Y axis (the others objects will have it too as they are smaller).
+     * @param min_paddingX The minimum distance that the biggest object must have
+     * from its cell in the X axis (the others objects will have it too as they are smaller).
+     * @param min_paddingY The minimum distance that the biggest object must have
+     * from its cell in the Y axis (the others objects will have it too as they are smaller).
+     * @param cells_X_distance
+     * @param cells_Y_distance
      * @param show_horizontal_lines Show line divisions in the X axis.
      * @param show_vertical_lines Show line divisions in the Y axis.
      */
-    public Tabela(double min_marginX, double min_marginY, 
-            boolean show_horizontal_lines, boolean show_vertical_lines){
-        this.min_marginX = min_marginX;
-        this.min_marginY = min_marginY;
+    public Tabela(double min_paddingX, double min_paddingY, double cells_X_distance,
+            double cells_Y_distance, boolean show_horizontal_lines, boolean show_vertical_lines){
+        this.min_paddingX = min_paddingX;
+        this.min_paddingY = min_paddingY;
+        this.cells_X_distance = cells_X_distance;
+        this.cells_Y_distance = cells_Y_distance;
         this.show_horizontal_lines = show_horizontal_lines;
         this.show_vertical_lines = show_vertical_lines;
         
@@ -111,37 +127,33 @@ public class Tabela extends CenaVisivel{
         n_linhas = (int) (n_linhas > 0 ? n_linhas : farestsObjects.getY()+1);
         
         Point2D sizeOfBiggestElements = yBiggestSizeInTable();
-        cells_width = (cells_width >= 0 ? cells_width : sizeOfBiggestElements.getX()) + min_marginX * 2;
-        cells_height = (cells_height >= 0 ? cells_height : sizeOfBiggestElements.getY()) + min_marginY * 2;
+        cells_width = (cells_width >= 0 ? cells_width : sizeOfBiggestElements.getX()) + min_paddingX * 2;
+        cells_height = (cells_height >= 0 ? cells_height : sizeOfBiggestElements.getY()) + min_paddingY * 2;
         
-        double larguraLinhas = n_colunas * cells_width;
-        double alturaLinhas = n_linhas * cells_height;
+        double larguraLinhas = n_colunas * (cells_width + cells_X_distance) - cells_X_distance;
+        double alturaLinhas = n_linhas * (cells_height + cells_Y_distance) - cells_Y_distance;
         
         //posiciona os elementos
         for (int i = 0; i < n_linhas; i++) {
             for (int j = 0; j < n_colunas; j++) {
-                Caixa caixa;
                 int posicaoX = j;
                 int posicaoY = i;
-                
                 if(posicaoX > n_colunas || posicaoY > n_linhas || posicaoX < 0 || posicaoY < 0)
                     continue;
                 
+                Caixa caixa= new Caixa(cells_width, cells_height, cell_background_color, cell_stroke_width, cell_stroke_color);
+                caixa.ySetStroke(null, null, StrokeType.INSIDE, true);
+                
                 int index = posicoes.indexOf(new Point2D(posicaoX, posicaoY));
                 if(index != -1){
-                    caixa = cells.get(index);
-                    caixa.resizeBox(cells_width, cells_height, false, false, true);
-                    caixa.alinhar_conteudos_centro();
-                }else{
-                    caixa = new Caixa(cells_width, cells_height, cell_background_color, cell_stroke_width, cell_stroke_color);
-                    caixa.ySetStroke(null, null, StrokeType.INSIDE, true);
+                    caixa.add(elementos.get(index));
                 }
                 
-                double translateInX = posicaoX * cells_width;
-                double translateInY = posicaoY * cells_height;
+                double translateInX = posicaoX * (cells_width + cells_X_distance);
+                double translateInY = posicaoY * (cells_height + cells_Y_distance);
                 caixa.ySetTranslateX(translateInX, 0);
                 caixa.ySetTranslateY(translateInY, 0);
-                
+                caixa.alinhar_conteudos_centro();
                 this.getChildren().add(caixa);
             }
         }
@@ -150,7 +162,7 @@ public class Tabela extends CenaVisivel{
         if(show_horizontal_lines){
             for (int i = 1; i < n_linhas; i++) {
                 Linha linhaX = new Linha(0, 0, larguraLinhas, 0, lineX_stroke_width, lineX_stroke_color);
-                linhaX.ySetTranslateY(cells_height * i, 0.5);
+                linhaX.ySetTranslateY((cells_height + cells_X_distance) * i - cells_X_distance/2, 0.5);
                 this.getChildren().add(linhaX);
             }
         }
@@ -159,7 +171,7 @@ public class Tabela extends CenaVisivel{
         if(show_vertical_lines){
             for (int i = 1; i < n_colunas; i++) {
                 Linha linhaY = new Linha(0, 0, 0, alturaLinhas, lineY_stroke_width, lineY_stroke_color);
-                linhaY.ySetTranslateX(cells_width * i, 0.5);
+                linhaY.ySetTranslateX((cells_width + cells_Y_distance) * i - cells_Y_distance/2, 0.5);
                 this.getChildren().add(linhaY);
             }
         }
@@ -210,22 +222,17 @@ public class Tabela extends CenaVisivel{
      * @param positionInTableY Posição Y na tabela.
      */
     public void yAdd(Node object, int positionInTableX, int positionInTableY){
-        Caixa caixa = new Caixa(cells_width, cells_height, cell_background_color, cell_stroke_width, cell_stroke_color);
-        caixa.ySetStroke(null, null, StrokeType.INSIDE, true);
-        caixa.add(object);
         boolean elementInSamePosition = false;
         
         for (int i = 0; i < posicoes.size(); i++) {
             if(positionInTableX == posicoes.get(i).getX() && positionInTableY == posicoes.get(i).getY()){
                 elementos.set(i, object);
-                cells.set(i, caixa);
                 elementInSamePosition = true;
                 break;
             }
         }
         if(!elementInSamePosition){
             elementos.add(object);
-            cells.add(caixa);
             posicoes.add(new Point2D(positionInTableX, positionInTableY));
         }
     }

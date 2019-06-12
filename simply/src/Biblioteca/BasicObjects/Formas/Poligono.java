@@ -145,7 +145,7 @@ public class Poligono extends Polygon implements Forma{
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);
         
-        //MANDA O CALCULATE AI MAGRAO
+        //MANDA O CALCULATE AI MAGRAO, NAO SERIA AQUI MAGRAO
     }
 
     @Override
@@ -190,11 +190,7 @@ public class Poligono extends Polygon implements Forma{
      */
     public void calculate(Double... points){
         if(points.length <= 2){
-            System.out.println("Number of points is too small.");
-            return;
-        }
-        if(points.length % 2 != 0){
-            System.out.println("Number of points must be even.");
+            System.out.println("Not enought points.");
             return;
         }
         

@@ -1,6 +1,8 @@
 package Biblioteca.BasicObjects.Formas;
 
-public class YstrokeOcupation {
+import java.io.Serializable;
+
+public class YstrokeOcupation implements Serializable{
     public double LEFT;
     public double RIGHT;
     public double UP;

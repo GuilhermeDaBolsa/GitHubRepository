@@ -1,11 +1,12 @@
 package Biblioteca.BasicObjects.Formas;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
 
-public abstract class YshapeHandler{  
-    
+public abstract class YshapeHandler{
     /**
      * Método para mover a forma com base  no pivo.
      * @param pivo Pivo é o ponto referente, ou seja, é ele que ficará no X informado,
@@ -35,7 +36,7 @@ public abstract class YshapeHandler{
     /**
      * @param forma The shape.
      * @return How much does the stroke occupie outside the shape, use it for regular shapes (rectangle, circle, etc)
-     * because it calculates the average stroke width.
+     * because it calculates the average stroke width based just on the stroke width value and the stroke type.
      */
     public static double yGetStrokeOcupation(Shape forma) {
         double coeficient = 1;
@@ -165,16 +166,40 @@ public abstract class YshapeHandler{
         
         double real_stroke_width = yGetStrokeOcupation(forma);
         stroke_ocupation.setStrokeOcupation(real_stroke_width, real_stroke_width);
-        //VER COM ELE TAMBÉM SOBRE COMO CLONAR UM OBJETO, OU UM GEITO DE CONTORNAR O PROBLEMA
-        //FALAR SOBRE OS NEGOCIO DO VEIDE TAMBÉM (AINDA TEM Q IMPLEMENTAR ISSO)
-        //VER SOBRE OS BINDING PRA JUNTA NUM SÓ.... TALVEZ UMA CLASSE? BINDING??? (MATHGRID TA COM PROBLEMAS COM ISSO, MAS SE CONSEGUIR RESOLVER SERVE PRA TUDO)
-        //TEM QUE POR OS BINDINGS NAS FORMAS E DAI ACHO QUE ACABOU, VER COM O COELHO SE ELE JA PRECISOU DE OUTRA COISA
-        //TODAS AS FORMAS TEM METODOS EM COMUM.... SERIA SUPER BOM EXTEND DE 2 CLASSES.......
-        //CLASSE TEXTO É CHEIA DE PROBLEMAS
         
         if(correct_location){
             ((Forma) forma).ySetTranslateX(where_wasX, 0);
             ((Forma) forma).ySetTranslateY(where_wasY, 0);
+        }
+    }
+    
+    /**
+     * FALHOU NOS TESTES, PARECIA PROMISSOR :(
+     */
+    public static Object cloneObject(Object obj){
+        try{
+            Object clone = obj.getClass().newInstance();
+            for (Field field : obj.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+                if(field.get(obj) == null || Modifier.isFinal(field.getModifiers())){
+                    continue;
+                }
+                if(field.getType().isPrimitive() || field.getType().equals(String.class)
+                        || field.getType().getSuperclass().equals(Number.class)
+                        || field.getType().equals(Boolean.class)){
+                    field.set(clone, field.get(obj));
+                }else{
+                    Object childObj = field.get(obj);
+                    if(childObj == obj){
+                        field.set(clone, clone);
+                    }else{
+                        field.set(clone, cloneObject(field.get(obj)));
+                    }
+                }
+            }
+            return clone;
+        }catch(Exception e){
+            return null;
         }
     }
 }

@@ -1,7 +1,6 @@
 package executavel;
 
 import Biblioteca.BasicObjects.Formas.Circulo;
-import Biblioteca.BasicObjects.Formas.Forma;
 import Biblioteca.BasicObjects.Formas.Texto;
 import Biblioteca.Midia.Audio;
 import Biblioteca.Midia.VisualizadorImagemEgif;
@@ -23,12 +22,12 @@ public class teste extends Application {
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
         
-        Tabela testeTabela = new Tabela(15, 15, true, true);
-        //testeTabela.ySetCellConfig(2.0, Color.BROWN, null);
+        Tabela testeTabela = new Tabela(15, 15, 20, 20, true, true);
+        testeTabela.ySetCellConfig(2.0, Color.BROWN, null);
         testeTabela.ySetXlines(1.0, Color.LIGHTBLUE);
         testeTabela.ySetYlines(1.0, Color.LIGHTBLUE);
         
-        Tabela vem = new Tabela(5, 5, true, true);
+        Tabela vem = new Tabela(5, 5, 10, 10, true, true);
         vem.ySetCellConfig(2.0, Color.CADETBLUE, null);
         
         vem.yAdd(new Texto("aaaa"), 0, 0);
@@ -36,17 +35,15 @@ public class teste extends Application {
         aaaa.bind_rodinha_mouse();
         aaaa.bind_tela_movel();
         vem.yAdd(aaaa, 1, 1);
-        aaaa.binda_tamanho(((Rectangle) vem.cells.get(0).caixa).widthProperty().subtract(vem.min_marginX),
-                ((Rectangle) vem.cells.get(0).caixa).heightProperty().subtract(vem.min_marginY)); ///OLHA ESSA MERDA 
+        
         
         testeTabela.yAdd(vem, 3, 1);
         
-        MathGrid grade = new MathGrid(100,100);
+        MathGrid grade = new MathGrid(200,200);
         grade.bind_rodinha_mouse();
         grade.bind_tela_movel();
         testeTabela.yAdd(grade, 0, 2);
-        grade.binda_tamanho(((Rectangle) testeTabela.cells.get(0).caixa).widthProperty().subtract(testeTabela.min_marginX),
-                ((Rectangle) testeTabela.cells.get(0).caixa).heightProperty().subtract(testeTabela.min_marginX));///OLHA ESSA MERDA
+        
         
         VisualizadorImagemEgif portal = new VisualizadorImagemEgif("assets/ac.png", 150, 100);
         VisualizadorImagemEgif chara = new VisualizadorImagemEgif("assets/chara.jpg", 130, 200);

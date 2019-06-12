@@ -1,9 +1,10 @@
 package Biblioteca.BasicObjects.Formas;
 
+import java.io.Serializable;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.StrokeType;
 
-public interface Forma{
+public interface Forma extends Serializable{
     
     //------------- SIZE METHODS -------------\\
     public double yGetWidth(boolean plusStroke);

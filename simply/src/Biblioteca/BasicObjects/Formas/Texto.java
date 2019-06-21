@@ -3,8 +3,11 @@ package Biblioteca.BasicObjects.Formas;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.HashMap;
 import javafx.animation.Animation;
 import javafx.animation.Transition;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -14,10 +17,12 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 //FAZER UM SETMAXWIDTH, que nem o label, que dai quando o texto chega no limite, ele é cortado e aparece reticencias pequenas (ex: estratos...)
+//PRO HEIGHT TAMBPEM..., mas ai n sei se olha os \n ou o wrapping property... n sei
 //O TEXTO GUARDA SEMPRE UM ESPAÇO PROS ACENTOS (EU ACHO), MESMO QUE ELES NAO EXISTAO, ENTAO O TEXTO PODE SER MAIS ALTO DO QUE REALMENTE APARENTA...
 
 public class Texto extends Text implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+    public HashMap<String, ObservableValue<? extends Number>> yWeak_listeners = new HashMap();
     protected String texto;
     
     public static Font carregar_fonte(String caminho_fonte, double tamanho){
@@ -178,6 +183,51 @@ public class Texto extends Text implements Forma{
     @Override
     public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
         YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
+    }
+    
+    @Override
+    public DoubleBinding yTranslateXbind(double pivo){
+        return YshapeHandler.yTranslateXbind(this, pivo);
+    }
+    
+    @Override
+    public DoubleBinding yTranslateYbind(double pivo){
+        return YshapeHandler.yTranslateYbind(this, pivo);
+    }
+    
+    @Override
+    public void yBindTranslateX(String bind_name, ObservableValue<? extends Number> X, double pivo){
+        YshapeHandler.yBindTranslateX(this, yWeak_listeners, bind_name, X, pivo);
+    }
+    
+    @Override
+    public void yBindTranslateY(String bind_name, ObservableValue<? extends Number> Y, double pivo){
+        YshapeHandler.yBindTranslateY(this, yWeak_listeners, bind_name, Y, pivo);
+    }
+    
+    @Override
+    public DoubleBinding yWidthBind(boolean stroke_included){
+        return YshapeHandler.yWidthBind(scaleXProperty().add(0), stroke_included ? yOutsideStrokeOcupation : null);
+    }
+    
+    @Override
+    public DoubleBinding yHeightBind(boolean stroke_included){
+        return YshapeHandler.yHeightBind(scaleXProperty().add(0), stroke_included ? yOutsideStrokeOcupation : null);
+    }
+    
+    @Override
+    public void yBindWidth(String bind_name, ObservableValue<? extends Number> width, boolean stroke_included){
+        YshapeHandler.yBindWidth(this, yWeak_listeners, bind_name, width, stroke_included);
+    }
+    
+    @Override
+    public void yBindHeight(String bind_name, ObservableValue<? extends Number> height, boolean stroke_included){
+        YshapeHandler.yBindHeight(this, yWeak_listeners, bind_name, height, stroke_included);
+    }
+    
+    @Override
+    public void yUnbind(String bind_name){
+        YshapeHandler.yUnbind(yWeak_listeners, bind_name);
     }
     
     public void aparecer_texto(double duracao, Point2D ponto_relativo) {

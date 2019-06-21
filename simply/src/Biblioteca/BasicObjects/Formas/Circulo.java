@@ -1,14 +1,13 @@
 package Biblioteca.BasicObjects.Formas;
 
 import javafx.scene.shape.Circle;
+import java.util.HashMap;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeType;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
-import static Biblioteca.LogicClasses.Matematicas.random;
-import java.util.HashMap;
 
 public class Circulo extends Circle implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
@@ -19,7 +18,7 @@ public class Circulo extends Circle implements Forma{
     }
     
     public Circulo(double raio){
-        this(raio, Color.color(random(1), random(1), random(1)), 0, Color.BLACK);
+        this(raio, Color.BLACK, 0, Color.BLACK);
     }
     
     public Circulo(double radius, Paint color){
@@ -166,62 +165,48 @@ public class Circulo extends Circle implements Forma{
         YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
     }
     
-    //COLOCAR ISSO NO FORMA E PADRONIZAR E ETC....
-    
+    @Override
     public DoubleBinding yTranslateXbind(double pivo){
-        return translateXProperty().add(yWidthBind(true).multiply(pivo - 0.5));
+        return YshapeHandler.yTranslateXbind(this, pivo - 0.5);
     }
     
+    @Override
     public DoubleBinding yTranslateYbind(double pivo){
-        return translateYProperty().add(yHeightBind(true).multiply(pivo - 0.5));
+        return YshapeHandler.yTranslateYbind(this, pivo - 0.5);
     }
     
+    @Override
     public void yBindTranslateX(String bind_name, ObservableValue<? extends Number> X, double pivo){
-        X.addListener((observable) -> {
-            ySetTranslateX(X.getValue().doubleValue(), pivo);
-        });
-        yWeak_listeners.put(bind_name, X);
+        YshapeHandler.yBindTranslateX(this, yWeak_listeners, bind_name, X, pivo);
     }
     
+    @Override
     public void yBindTranslateY(String bind_name, ObservableValue<? extends Number> Y, double pivo){
-        Y.addListener((observable) -> {
-            ySetTranslateY(Y.getValue().doubleValue(), pivo);
-        });
-        yWeak_listeners.put(bind_name, Y);
+        YshapeHandler.yBindTranslateY(this, yWeak_listeners, bind_name, Y, pivo);
     }
     
+    @Override
     public DoubleBinding yWidthBind(boolean stroke_included){//esses tipo é so pra pegar o valor/ter um listener..., nao pra mudar
-        DoubleBinding radiusP = radiusProperty().multiply(2);
-        if(stroke_included)
-            radiusP = radiusP.add(yOutsideStrokeOcupation.WIDTH);
-        
-        return radiusP;
+        return YshapeHandler.yWidthBind(radiusProperty().multiply(2), stroke_included ? yOutsideStrokeOcupation : null);
     }
     
+    @Override
     public DoubleBinding yHeightBind(boolean stroke_included){
-        DoubleBinding radiusP = radiusProperty().multiply(2);
-        if(stroke_included)
-            radiusP = radiusP.add(yOutsideStrokeOcupation.HEIGHT);
-        
-        return radiusP;
+        return YshapeHandler.yHeightBind(radiusProperty().multiply(2), stroke_included ? yOutsideStrokeOcupation : null);
     }
     
+    @Override
     public void yBindWidth(String bind_name, ObservableValue<? extends Number> width, boolean stroke_included){
-        width.addListener((observable) -> {
-            ySetWidth(width.getValue().doubleValue(), stroke_included, true);
-        });
-        yWeak_listeners.put(bind_name, width);
+        YshapeHandler.yBindWidth(this, yWeak_listeners, bind_name, width, stroke_included);
     }
     
+    @Override
     public void yBindHeight(String bind_name, ObservableValue<? extends Number> height, boolean stroke_included){
-        height.addListener((observable) -> {
-            ySetHeight(height.getValue().doubleValue(), stroke_included, true);
-        });
-        yWeak_listeners.put(bind_name, height);
+        YshapeHandler.yBindHeight(this, yWeak_listeners, bind_name, height, stroke_included);
     }
     
+    @Override
     public void yUnbind(String bind_name){
-        yWeak_listeners.remove(bind_name);
-        System.gc();
+        YshapeHandler.yUnbind(yWeak_listeners, bind_name);
     }
 }

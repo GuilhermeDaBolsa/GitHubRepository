@@ -2,6 +2,9 @@ package Biblioteca.BasicObjects.Formas;
 
 import Biblioteca.BasicObjects.VisibleObjectHandler;
 import static Biblioteca.LogicClasses.Matematicas.random;
+import java.util.HashMap;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -10,6 +13,7 @@ import javafx.scene.shape.StrokeType;
 
 public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM METODOS EM COMUM....
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+    public HashMap<String, ObservableValue<? extends Number>> yWeak_listeners = new HashMap();
     
     public Retangulo(double largura, double altura, Paint corFundo, double grossuraBorda, Paint corBorda, StrokeType stroke_type, boolean correct_location){
         setWidth(largura);
@@ -168,5 +172,50 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     public void ySetCornerRoundness(double roudness){
         setArcWidth(roudness);
         setArcHeight(roudness);
+    }
+    
+    @Override
+    public DoubleBinding yTranslateXbind(double pivo){
+        return YshapeHandler.yTranslateXbind(this, pivo);
+    }
+    
+    @Override
+    public DoubleBinding yTranslateYbind(double pivo){
+        return YshapeHandler.yTranslateYbind(this, pivo);
+    }
+    
+    @Override
+    public void yBindTranslateX(String bind_name, ObservableValue<? extends Number> X, double pivo){
+        YshapeHandler.yBindTranslateX(this, yWeak_listeners, bind_name, X, pivo);
+    }
+    
+    @Override
+    public void yBindTranslateY(String bind_name, ObservableValue<? extends Number> Y, double pivo){
+        YshapeHandler.yBindTranslateY(this, yWeak_listeners, bind_name, Y, pivo);
+    }
+    
+    @Override
+    public DoubleBinding yWidthBind(boolean stroke_included){
+        return YshapeHandler.yWidthBind(widthProperty().add(0), stroke_included ? yOutsideStrokeOcupation : null);
+    }
+    
+    @Override
+    public DoubleBinding yHeightBind(boolean stroke_included){
+        return YshapeHandler.yHeightBind(heightProperty().add(0), stroke_included ? yOutsideStrokeOcupation : null);
+    }
+    
+    @Override
+    public void yBindWidth(String bind_name, ObservableValue<? extends Number> width, boolean stroke_included){
+        YshapeHandler.yBindWidth(this, yWeak_listeners, bind_name, width, stroke_included);
+    }
+    
+    @Override
+    public void yBindHeight(String bind_name, ObservableValue<? extends Number> height, boolean stroke_included){
+        YshapeHandler.yBindHeight(this, yWeak_listeners, bind_name, height, stroke_included);
+    }
+    
+    @Override
+    public void yUnbind(String bind_name){
+        YshapeHandler.yUnbind(yWeak_listeners, bind_name);
     }
 }

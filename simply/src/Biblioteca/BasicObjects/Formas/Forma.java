@@ -1,7 +1,8 @@
 package Biblioteca.BasicObjects.Formas;
 
 import java.io.Serializable;
-import javafx.beans.property.DoubleProperty;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.StrokeType;
 
@@ -51,4 +52,24 @@ public interface Forma extends Serializable{
     public void ySetWidthWithScale(double width, boolean stroke_included, boolean correct_location);
     
     public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location);
+    
+    //------------- BIND/LISTENER METHODS -------------\\
+    
+    public DoubleBinding yTranslateXbind(double pivo);
+    
+    public DoubleBinding yTranslateYbind(double pivo);
+    
+    public void yBindTranslateX(String bind_name, ObservableValue<? extends Number> X, double pivo);
+    
+    public void yBindTranslateY(String bind_name, ObservableValue<? extends Number> Y, double pivo);
+    
+    public DoubleBinding yWidthBind(boolean stroke_included);
+    
+    public DoubleBinding yHeightBind(boolean stroke_included);
+            
+    public void yBindWidth(String bind_name, ObservableValue<? extends Number> width, boolean stroke_included);
+    
+    public void yBindHeight(String bind_name, ObservableValue<? extends Number> height, boolean stroke_included);
+    
+    public void yUnbind(String bind_name);
 }

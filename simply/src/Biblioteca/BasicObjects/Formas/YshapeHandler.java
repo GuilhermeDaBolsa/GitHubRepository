@@ -2,6 +2,9 @@ package Biblioteca.BasicObjects.Formas;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
@@ -172,6 +175,69 @@ public abstract class YshapeHandler{
             ((Forma) forma).ySetTranslateY(where_wasY, 0);
         }
     }
+    
+    
+    //BIND METODOS .... DAR UMA PADRONIZADA E UM JAVADOC Q FICA TININDO
+    
+    public static DoubleBinding yTranslateXbind(Shape shape, double pivo){
+        return shape.translateXProperty().add(((Forma) shape).yWidthBind(true).multiply(pivo));
+    }
+    
+    public static DoubleBinding yTranslateYbind(Shape shape, double pivo){
+        return shape.translateYProperty().add(((Forma) shape).yHeightBind(true).multiply(pivo));
+    }
+    
+    public static void yBindTranslateX(Shape shape, HashMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> X, double pivo){
+        X.addListener((observable) -> {
+            ((Forma) shape).ySetTranslateX(X.getValue().doubleValue(), pivo);
+        });
+        map.put(bind_name, X);
+    }
+    
+    public static void yBindTranslateY(Shape shape, HashMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> Y, double pivo){
+        Y.addListener((observable) -> {
+            ((Forma) shape).ySetTranslateY(Y.getValue().doubleValue(), pivo);
+        });
+        map.put(bind_name, Y);
+    }
+    
+    public static DoubleBinding yWidthBind(DoubleBinding width_property, YstrokeOcupation stroke_included){
+        DoubleBinding radiusP = width_property.add(0);
+        if(stroke_included != null)
+            radiusP = radiusP.add(stroke_included.WIDTH);
+        
+        return radiusP;
+    }
+    
+    public static DoubleBinding yHeightBind(DoubleBinding height_property, YstrokeOcupation stroke_included){
+        DoubleBinding radiusP = height_property.add(0);
+        if(stroke_included != null)
+            radiusP = radiusP.add(stroke_included.HEIGHT);
+        
+        return radiusP;
+    }
+    
+    public static void yBindWidth(Shape shape, HashMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> width, boolean stroke_included){
+        width.addListener((observable) -> {
+            ((Forma) shape).ySetWidth(width.getValue().doubleValue(), stroke_included, true);
+        });
+        map.put(bind_name, width);
+    }
+    
+    public static void yBindHeight(Shape shape, HashMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> height, boolean stroke_included){
+        height.addListener((observable) -> {
+            ((Forma) shape).ySetHeight(height.getValue().doubleValue(), stroke_included, true);
+        });
+        map.put(bind_name, height);
+    }
+    
+    public static void yUnbind(HashMap<String, ObservableValue<? extends Number>> map, String bind_name){
+        map.remove(bind_name);
+        System.gc();
+    }
+    
+    
+    
     
     /**
      * FALHOU NOS TESTES, PARECIA PROMISSOR :(

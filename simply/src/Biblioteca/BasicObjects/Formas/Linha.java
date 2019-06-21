@@ -2,8 +2,11 @@ package Biblioteca.BasicObjects.Formas;
 
 import Biblioteca.BasicObjects.VisibleObjectHandler;
 import Biblioteca.LogicClasses.Matematicas;
+import java.util.HashMap;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.paint.Paint;
@@ -14,6 +17,7 @@ import javafx.util.Duration;
 
 public class Linha extends Line implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+    public HashMap<String, ObservableValue<? extends Number>> yWeak_listeners = new HashMap();
     
     /**
      * Cria uma linha. (OBS: Não há setFIll nas linhas, sua cor é definida por setStroke e apenas && strokeLineCap é RECOMENDADO sempre ser BUTT).
@@ -229,6 +233,51 @@ public class Linha extends Line implements Forma{
     @Override
     public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
         YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
+    }
+    
+    @Override
+    public DoubleBinding yTranslateXbind(double pivo){
+        return YshapeHandler.yTranslateXbind(this, pivo);
+    }
+    
+    @Override
+    public DoubleBinding yTranslateYbind(double pivo){
+        return YshapeHandler.yTranslateYbind(this, pivo);
+    }
+    
+    @Override
+    public void yBindTranslateX(String bind_name, ObservableValue<? extends Number> X, double pivo){
+        YshapeHandler.yBindTranslateX(this, yWeak_listeners, bind_name, X, pivo);
+    }
+    
+    @Override
+    public void yBindTranslateY(String bind_name, ObservableValue<? extends Number> Y, double pivo){
+        YshapeHandler.yBindTranslateY(this, yWeak_listeners, bind_name, Y, pivo);
+    }
+    
+    @Override
+    public DoubleBinding yWidthBind(boolean stroke_included){
+        return YshapeHandler.yWidthBind(scaleXProperty().add(0), stroke_included ? yOutsideStrokeOcupation : null);
+    }
+    
+    @Override
+    public DoubleBinding yHeightBind(boolean stroke_included){
+        return YshapeHandler.yHeightBind(scaleXProperty().add(0), stroke_included ? yOutsideStrokeOcupation : null);
+    }
+    
+    @Override
+    public void yBindWidth(String bind_name, ObservableValue<? extends Number> width, boolean stroke_included){
+        YshapeHandler.yBindWidth(this, yWeak_listeners, bind_name, width, stroke_included);
+    }
+    
+    @Override
+    public void yBindHeight(String bind_name, ObservableValue<? extends Number> height, boolean stroke_included){
+        YshapeHandler.yBindHeight(this, yWeak_listeners, bind_name, height, stroke_included);
+    }
+    
+    @Override
+    public void yUnbind(String bind_name){
+        YshapeHandler.yUnbind(yWeak_listeners, bind_name);
     }
     
     /**

@@ -1,6 +1,9 @@
 package Biblioteca.BasicObjects.Formas;
 
 import Biblioteca.BasicObjects.VisibleObjectHandler;
+import java.util.HashMap;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Paint;
@@ -9,6 +12,7 @@ import javafx.scene.shape.StrokeType;
 
 public class Poligono extends Polygon implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+    public HashMap<String, ObservableValue<? extends Number>> yWeak_listeners = new HashMap();
     double left_X;
     double right_X;
     double up_Y;
@@ -177,6 +181,55 @@ public class Poligono extends Polygon implements Forma{
     @Override
     public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
         YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
+    }
+    
+    @Override
+    public DoubleBinding yTranslateXbind(double pivo){
+        return YshapeHandler.yTranslateXbind(this, pivo);
+    }
+    
+    @Override
+    public DoubleBinding yTranslateYbind(double pivo){
+        return YshapeHandler.yTranslateYbind(this, pivo);
+    }
+    
+    @Override
+    public void yBindTranslateX(String bind_name, ObservableValue<? extends Number> X, double pivo){
+        YshapeHandler.yBindTranslateX(this, yWeak_listeners, bind_name, X, pivo);
+    }
+    
+    @Override
+    public void yBindTranslateY(String bind_name, ObservableValue<? extends Number> Y, double pivo){
+        YshapeHandler.yBindTranslateY(this, yWeak_listeners, bind_name, Y, pivo);
+    }
+    
+    @Override
+    public DoubleBinding yWidthBind(boolean stroke_included){
+        return YshapeHandler.yWidthBind(scaleXProperty().add(0), stroke_included ? yOutsideStrokeOcupation : null);
+    }
+    
+    //TA ERRADO OS WIDTH PROPERTY, BOTEI SCALE SO PRA NAO DA ERRO, CRIAR UM WIDTH E HEIGHT PROPERTY AQUI NESSA CLASSE (OU EM TODAS?).... TEXTO E LINHA TB TA ERRADO ASSIM
+    //ARRUMAR PQ MUITP PROVAVELMENTE ESSES WIDTH PROPERTY NAO TEM NADA A VER COM SCALE ENTAO ELES TAO SEPARADOS...
+    //VER SE QUER MANTER SEPARADO OU N... ACHO ATE MELHOR DEIXAR PQ O SETWIDTH É SEPARADO DO SETWIDTHWITHSCALE (mas n vice versa)
+    
+    @Override
+    public DoubleBinding yHeightBind(boolean stroke_included){
+        return YshapeHandler.yHeightBind(scaleXProperty().add(0), stroke_included ? yOutsideStrokeOcupation : null);
+    }
+    
+    @Override
+    public void yBindWidth(String bind_name, ObservableValue<? extends Number> width, boolean stroke_included){
+        YshapeHandler.yBindWidth(this, yWeak_listeners, bind_name, width, stroke_included);
+    }
+    
+    @Override
+    public void yBindHeight(String bind_name, ObservableValue<? extends Number> height, boolean stroke_included){
+        YshapeHandler.yBindHeight(this, yWeak_listeners, bind_name, height, stroke_included);
+    }
+    
+    @Override
+    public void yUnbind(String bind_name){
+        YshapeHandler.yUnbind(yWeak_listeners, bind_name);
     }
     
     

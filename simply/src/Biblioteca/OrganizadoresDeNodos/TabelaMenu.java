@@ -24,6 +24,8 @@ public class TabelaMenu extends CenaVisivel{
     //espacoEntreElementosX É o espaço entre os elementos (em X), para eles não ficarem grudados um no outro.
     //espacoEntreElementosY É o espaço entre os elementos (em Y), para eles não ficarem grudados um no outro.
     
+    //E MUDAR O POSITION PATTERN PRA TIPO PODE SER 1px e SE O ESPAÇO ENTRE ELEMENTOS FOR MAIOR VAI O ESPAÇO ENTRE ELEMENTOS, EU ACHO
+    
     /**
      * Construtor que com base no Nodo pai desse elemento, calcula as medidas dos elementos (faz tudo automático).
      * @param pai  É o Nodo pai ao atual elemento.

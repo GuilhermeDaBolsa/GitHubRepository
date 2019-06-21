@@ -54,7 +54,7 @@ public class Poligono extends Polygon implements Forma{
     public double yGetWidth(boolean plusStroke){
         double width = right_X - left_X;
         if(plusStroke)
-            width += yOutsideStrokeOcupation.WIDTH;
+            width += yOutsideStrokeOcupation.WIDTH.doubleValue();
         
         return width;
     }
@@ -65,7 +65,7 @@ public class Poligono extends Polygon implements Forma{
     public double yGetHeight(boolean plusStroke){
         double height = down_Y - up_Y;
         if(plusStroke)
-            height += yOutsideStrokeOcupation.HEIGHT;
+            height += yOutsideStrokeOcupation.HEIGHT.doubleValue();
         
         return height;
     }
@@ -89,7 +89,7 @@ public class Poligono extends Polygon implements Forma{
     @Override
     public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
         if(stroke_included)
-            width -= yOutsideStrokeOcupation.WIDTH/2;
+            width -= yOutsideStrokeOcupation.WIDTH.doubleValue()/2;
         
         double pivo = yGetWidth(false)/2;
         double increment = width - right_X;
@@ -104,7 +104,7 @@ public class Poligono extends Polygon implements Forma{
     @Override
     public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
         if(stroke_included)
-            height -= yOutsideStrokeOcupation.HEIGHT/2;
+            height -= yOutsideStrokeOcupation.HEIGHT.doubleValue()/2;
         
         double pivo = yGetHeight(false)/2;
         double increment = height - down_Y;
@@ -135,12 +135,13 @@ public class Poligono extends Polygon implements Forma{
     public void ySetTranslateY(double position, double pivo) {//NAO FUNCIONA DIREITO OS POSICIONAMENTO PQ A FIGURA NAO É REGULAR, A BORDA DE CIMA PDC MAIOR Q A DE BAIXO, ENTAO UMA MEDIA NAO FUNFA
         YshapeHandler.setTranslateY(this, (position - yGetHeight(false)/2) + yGetHeight(true)/2, pivo);
     }
-
-    @Override
-    public void ySetTranslateZ(double position, double pivo) {
-        VisibleObjectHandler.setTranslateZ(this, position, pivo);
-    }
     
+    @Override
+    public void ySetPosition(double X, double Y, double pivoX, double pivoY){
+        ySetTranslateX(X, pivoX);
+        ySetTranslateY(Y, pivoY);
+    }
+
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);
@@ -205,27 +206,31 @@ public class Poligono extends Polygon implements Forma{
             Point2D pN1 = new Point2D(cPoints.get(i-2), cPoints.get(i-1));
             Point2D p0 = new Point2D(cPoints.get(i), cPoints.get(i+1));
             Point2D p1 = new Point2D(cPoints.get(i+2), cPoints.get(i+3));
-            
-            double aOne;
-            double bOne;
-            double aNone;
-            double bNone;
-            
-            try {
-                aOne = (p1.getY() - p0.getY()) / (p1.getX() - p0.getX());
-            } catch (Exception e) {
-                aOne = 1;
-            }
-            try {
-                aNone = (p0.getY() - pN1.getY())/(p0.getX() - pN1.getX());
-            } catch (Exception e) {
-                aNone = 1;
-            }
-            bOne = p1.getY() - aOne * p1.getX();
-            bNone = pN1.getY() - aNone * pN1.getX();
-            
-            
         }
+    }
+    
+    public void reta_paralela(Point2D a, Point2D b){
+            double m = 0;
+            double n = 0;
+            
+            try {
+                m = (b.getY() - a.getY()) / (b.getX() - a.getX());
+            } catch (Exception e) {
+                //VER DEPOIS
+            }
+//            bOne = p1.getY() - aOne * p1.getX();
+//            bNone = pN1.getY() - aNone * pN1.getX();
+            
+            double reflected_m = -1/m;
+            
+            double complement = (YshapeHandler.yGetStrokeOcupation(this)/2)/Math.sqrt(1+(reflected_m * reflected_m));
+            
+            double x1 = a.getX() + complement;
+            double y1 = reflected_m * (x1 - a.getX()) + a.getY();
+            double x2 = a.getX() - complement;
+            double y2 = reflected_m * (x2 - a.getX()) + a.getY();
+            
+            
     }
     
     public void calculate(ObservableList<Double> points){

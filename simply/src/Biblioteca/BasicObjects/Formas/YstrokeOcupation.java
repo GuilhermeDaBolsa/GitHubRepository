@@ -1,42 +1,57 @@
 package Biblioteca.BasicObjects.Formas;
 
-import java.io.Serializable;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.DoublePropertyBase;
 
-public class YstrokeOcupation implements Serializable{
-    public double LEFT;
-    public double RIGHT;
-    public double UP;
-    public double BOTTOM;
-    public double WIDTH;
-    public double HEIGHT;
+public class YstrokeOcupation{
+    public DoubleProperty LEFT;
+    public DoubleProperty RIGHT;
+    public DoubleProperty UP;
+    public DoubleProperty BOTTOM;
+    public DoubleProperty WIDTH;
+    public DoubleProperty HEIGHT;
 
     public YstrokeOcupation() {
-        setStrokeOcupation(0, 0);
-    }
-
-    public YstrokeOcupation(double LEFT, double RIGHT, double UP, double BOTTOM) {
-        setStrokeOcupation(LEFT, RIGHT, UP, BOTTOM);
+        this(0, 0, 0 ,0);
     }
 
     public YstrokeOcupation(double WIDTH, double HEIGHT) {
-        setStrokeOcupation(WIDTH, HEIGHT);
+        this(WIDTH/2, WIDTH/2, HEIGHT/2, HEIGHT/2);
+    }
+    
+    public YstrokeOcupation(double LEFT, double RIGHT, double UP, double BOTTOM) {
+        this.LEFT = creatorHelper(LEFT);
+        this.RIGHT = creatorHelper(RIGHT);
+        this.UP = creatorHelper(UP);
+        this.BOTTOM = creatorHelper(BOTTOM);
+        this.WIDTH = creatorHelper(LEFT + RIGHT);
+        this.HEIGHT = creatorHelper(UP + BOTTOM);
     }
     
     public void setStrokeOcupation(double LEFT, double RIGHT, double UP, double BOTTOM) {
-        this.LEFT = LEFT;
-        this.RIGHT = RIGHT;
-        this.UP = UP;
-        this.BOTTOM = BOTTOM;
-        this.WIDTH = LEFT + RIGHT;
-        this.HEIGHT = UP + BOTTOM;
+        this.LEFT.setValue(LEFT);
+        this.RIGHT.setValue(RIGHT);
+        this.UP.setValue(UP);
+        this.BOTTOM.setValue(BOTTOM);
+        this.WIDTH.setValue(LEFT + RIGHT);
+        this.HEIGHT.setValue(UP + BOTTOM);
     }
     
     public void setStrokeOcupation(double WIDTH, double HEIGHT) {
-        this.LEFT = WIDTH/2;
-        this.RIGHT = WIDTH/2;
-        this.UP = HEIGHT/2;
-        this.BOTTOM = HEIGHT/2;
-        this.WIDTH = WIDTH;
-        this.HEIGHT = HEIGHT;
+        setStrokeOcupation(WIDTH/2, WIDTH/2, HEIGHT/2, HEIGHT/2);
+    }
+    
+    private DoublePropertyBase creatorHelper(double value){
+        return new DoublePropertyBase(value) {
+            @Override
+            public Object getBean() {
+                return YstrokeOcupation.this;
+            }
+            
+            @Override
+            public String getName() {
+                return "yStrokeProperty";
+            }
+        };
     }
 }

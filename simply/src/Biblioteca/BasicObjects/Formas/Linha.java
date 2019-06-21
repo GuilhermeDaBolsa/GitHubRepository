@@ -88,7 +88,7 @@ public class Linha extends Line implements Forma{
     public double yGetWidth(boolean plusStroke){
         double delta = Matematicas.modulo(getEndX() - getStartX());
         if(plusStroke)
-            delta += yOutsideStrokeOcupation.WIDTH;
+            delta += yOutsideStrokeOcupation.WIDTH.doubleValue();
         
         return delta;
     }
@@ -99,7 +99,7 @@ public class Linha extends Line implements Forma{
     public double yGetHeight(boolean plusStroke){
         double delta = Matematicas.modulo(getEndY() - getStartY());
         if(plusStroke)
-            delta += yOutsideStrokeOcupation.HEIGHT;
+            delta += yOutsideStrokeOcupation.HEIGHT.doubleValue();
         
         return delta;
     }
@@ -131,7 +131,7 @@ public class Linha extends Line implements Forma{
             width = -width;
         
         if(stroke_included)
-            width -= yOutsideStrokeOcupation.WIDTH;
+            width -= yOutsideStrokeOcupation.WIDTH.doubleValue();
         
         setPontoFinal(getStartX() + width, null);
     }
@@ -139,7 +139,7 @@ public class Linha extends Line implements Forma{
     @Override
     public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
         if(stroke_included)
-            height += height > 0 ? -yOutsideStrokeOcupation.HEIGHT : yOutsideStrokeOcupation.HEIGHT;
+            height += height > 0 ? -yOutsideStrokeOcupation.HEIGHT.doubleValue() : yOutsideStrokeOcupation.HEIGHT.doubleValue();
             
         if(getStartY() > getEndY())
             height = -height;
@@ -169,10 +169,11 @@ public class Linha extends Line implements Forma{
     public void ySetTranslateY(double position, double pivo) {
         YshapeHandler.setTranslateY(this, (position - yGetHeight(false)/2) + yGetHeight(true)/2, pivo);
     }
-
+    
     @Override
-    public void ySetTranslateZ(double position, double pivo) {
-        VisibleObjectHandler.setTranslateZ(this, position, pivo);
+    public void ySetPosition(double X, double Y, double pivoX, double pivoY){
+        ySetTranslateX(X, pivoX);
+        ySetTranslateY(Y, pivoY);
     }
 
     /**

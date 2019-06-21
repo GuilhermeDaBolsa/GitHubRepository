@@ -129,10 +129,11 @@ public class Texto extends Text implements Forma{
     public void ySetTranslateY(double position, double pivo) {//VER O SETX E SETY DO PROPRIO TEXT, TALVEZ ELES TENHAM CORRIGIDO O 0.7
         VisibleObjectHandler.setTranslateY(this, position, pivo - 0.7);
     }
-
+    
     @Override
-    public void ySetTranslateZ(double position, double pivo) {
-        VisibleObjectHandler.setTranslateZ(this, position, pivo);
+    public void ySetPosition(double X, double Y, double pivoX, double pivoY){
+        ySetTranslateX(X, pivoX);
+        ySetTranslateY(Y, pivoY);
     }
 
     /**

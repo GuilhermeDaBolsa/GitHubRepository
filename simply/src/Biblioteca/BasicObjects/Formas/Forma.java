@@ -1,6 +1,7 @@
 package Biblioteca.BasicObjects.Formas;
 
 import java.io.Serializable;
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.StrokeType;
 
@@ -30,7 +31,7 @@ public interface Forma extends Serializable{
     
     public void ySetTranslateY(double position, double pivo);
     
-    public void ySetTranslateZ(double position, double pivo);
+    public void ySetPosition(double X, double Y, double pivoX, double pivoY);
     
     
     //------------- STROKE METHODS -------------\\

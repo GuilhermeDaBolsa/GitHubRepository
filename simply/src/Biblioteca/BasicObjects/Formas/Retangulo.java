@@ -43,7 +43,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     public double yGetWidth(boolean plusStroke){
         double width = getWidth();
         if(plusStroke)
-            width += yOutsideStrokeOcupation.WIDTH;
+            width += yOutsideStrokeOcupation.WIDTH.doubleValue();
         
         return width;
     }
@@ -55,7 +55,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     public double yGetHeight(boolean plusStroke){
         double height = getHeight();
         if(plusStroke)
-            height += yOutsideStrokeOcupation.HEIGHT;
+            height += yOutsideStrokeOcupation.HEIGHT.doubleValue();
         
         return height;
     }
@@ -75,7 +75,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         double where_wasX = yGetTranslateX(0);
         
         if(stroke_included)
-            width -= yOutsideStrokeOcupation.WIDTH;
+            width -= yOutsideStrokeOcupation.WIDTH.doubleValue();
         
         setWidth(width);
         
@@ -88,7 +88,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         double where_wasY = yGetTranslateY(0);
         
         if(stroke_included)
-            height -= yOutsideStrokeOcupation.HEIGHT;
+            height -= yOutsideStrokeOcupation.HEIGHT.doubleValue();
         
         setHeight(height);
         
@@ -115,10 +115,11 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     public void ySetTranslateY(double position, double pivo) {
         YshapeHandler.setTranslateY(this, (position - yGetHeight(false)/2) + yGetHeight(true)/2, pivo);
     }
-
+    
     @Override
-    public void ySetTranslateZ(double position, double pivo) {
-        VisibleObjectHandler.setTranslateZ(this, position, pivo);
+    public void ySetPosition(double X, double Y, double pivoX, double pivoY){
+        ySetTranslateX(X, pivoX);
+        ySetTranslateY(Y, pivoY);
     }
 
     /**

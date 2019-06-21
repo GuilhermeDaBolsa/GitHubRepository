@@ -1,37 +1,39 @@
 package Biblioteca.BasicObjects.Formas;
 
+import javafx.scene.shape.Circle;
+import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.StrokeType;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
 import static Biblioteca.LogicClasses.Matematicas.random;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.StrokeType;
+import java.util.HashMap;
 
 public class Circulo extends Circle implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+    public HashMap<String, ObservableValue<? extends Number>> yWeak_listeners = new HashMap();
     
-    public Circulo(double radius, Paint color, double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location){
-        ySetRadius(radius);
-        setFill(color);
-        ySetStroke(stroke_width, stroke_color, stroke_type, correct_location);
-    }
-    
-    public Circulo(double radius, Paint color, double stroke_width, Paint stroke_color){
-        this(radius, color, stroke_width, stroke_color, StrokeType.CENTERED, true);
-    }
-    
-    public Circulo(double radius, Paint color){
-        this(radius, color, 0, Color.BLACK);
+    public Circulo(){
+        //fazer um standard? atribuir coisas com base no nodo pai? só bota qlcr coisa? deixar em branco?
     }
     
     public Circulo(double raio){
         this(raio, Color.color(random(1), random(1), random(1)), 0, Color.BLACK);
     }
     
-    /**
-     * Cria uma instancia vazia de um circulo.
-     */
-    public Circulo(){
+    public Circulo(double radius, Paint color){
+        this(radius, color, 0, Color.BLACK);
+    }
+    
+    public Circulo(double radius, Paint color, double stroke_width, Paint stroke_color){
+        this(radius, color, stroke_width, stroke_color, StrokeType.CENTERED, true);
+    }
+    
+    public Circulo(double radius, Paint color, double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location){
+        ySetRadius(radius);
+        setFill(color);
+        ySetStroke(stroke_width, stroke_color, stroke_type, correct_location);
     }
 
     public void ySetRadius(double raio){
@@ -47,7 +49,7 @@ public class Circulo extends Circle implements Forma{
     public double yGetWidth(boolean plusStroke) {
         double width = getRadius() * 2;
         if(plusStroke)
-            width += yOutsideStrokeOcupation.WIDTH;
+            width += yOutsideStrokeOcupation.WIDTH.doubleValue();
         
         return width;
     }
@@ -56,7 +58,7 @@ public class Circulo extends Circle implements Forma{
     public double yGetHeight(boolean plusStroke) {
         double height = getRadius() * 2;
         if(plusStroke)
-            height += yOutsideStrokeOcupation.HEIGHT;
+            height += yOutsideStrokeOcupation.HEIGHT.doubleValue();
         
         return height;
     }
@@ -75,7 +77,7 @@ public class Circulo extends Circle implements Forma{
     public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
         width /= 2;
         if(stroke_included)
-            width -= yOutsideStrokeOcupation.WIDTH/2;
+            width -= yOutsideStrokeOcupation.WIDTH.doubleValue() / 2;
                     
         if(correct_location)
             ySetRadius(width);
@@ -87,7 +89,7 @@ public class Circulo extends Circle implements Forma{
     public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
         height /= 2;
         if(stroke_included)
-            height -= yOutsideStrokeOcupation.HEIGHT/2;
+            height -= yOutsideStrokeOcupation.HEIGHT.doubleValue() / 2;
                     
         if(correct_location)
             ySetRadius(height);
@@ -114,10 +116,11 @@ public class Circulo extends Circle implements Forma{
     public void ySetTranslateY(double position, double pivo) {//-0.5 pois o ponto de pivo do circulo é no meio dele
         YshapeHandler.setTranslateY(this, position, pivo - 0.5);
     }
-
+    
     @Override
-    public void ySetTranslateZ(double position, double pivo) {
-        VisibleObjectHandler.setTranslateZ(this, position, pivo);
+    public void ySetPosition(double X, double Y, double pivoX, double pivoY){
+        ySetTranslateX(X, pivoX);
+        ySetTranslateY(Y, pivoY);
     }
     
     /**
@@ -161,5 +164,64 @@ public class Circulo extends Circle implements Forma{
     @Override
     public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
         YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
+    }
+    
+    //COLOCAR ISSO NO FORMA E PADRONIZAR E ETC....
+    
+    public DoubleBinding yTranslateXbind(double pivo){
+        return translateXProperty().add(yWidthBind(true).multiply(pivo - 0.5));
+    }
+    
+    public DoubleBinding yTranslateYbind(double pivo){
+        return translateYProperty().add(yHeightBind(true).multiply(pivo - 0.5));
+    }
+    
+    public void yBindTranslateX(String bind_name, ObservableValue<? extends Number> X, double pivo){
+        X.addListener((observable) -> {
+            ySetTranslateX(X.getValue().doubleValue(), pivo);
+        });
+        yWeak_listeners.put(bind_name, X);
+    }
+    
+    public void yBindTranslateY(String bind_name, ObservableValue<? extends Number> Y, double pivo){
+        Y.addListener((observable) -> {
+            ySetTranslateY(Y.getValue().doubleValue(), pivo);
+        });
+        yWeak_listeners.put(bind_name, Y);
+    }
+    
+    public DoubleBinding yWidthBind(boolean stroke_included){//esses tipo é so pra pegar o valor/ter um listener..., nao pra mudar
+        DoubleBinding radiusP = radiusProperty().multiply(2);
+        if(stroke_included)
+            radiusP = radiusP.add(yOutsideStrokeOcupation.WIDTH);
+        
+        return radiusP;
+    }
+    
+    public DoubleBinding yHeightBind(boolean stroke_included){
+        DoubleBinding radiusP = radiusProperty().multiply(2);
+        if(stroke_included)
+            radiusP = radiusP.add(yOutsideStrokeOcupation.HEIGHT);
+        
+        return radiusP;
+    }
+    
+    public void yBindWidth(String bind_name, ObservableValue<? extends Number> width, boolean stroke_included){
+        width.addListener((observable) -> {
+            ySetWidth(width.getValue().doubleValue(), stroke_included, true);
+        });
+        yWeak_listeners.put(bind_name, width);
+    }
+    
+    public void yBindHeight(String bind_name, ObservableValue<? extends Number> height, boolean stroke_included){
+        height.addListener((observable) -> {
+            ySetHeight(height.getValue().doubleValue(), stroke_included, true);
+        });
+        yWeak_listeners.put(bind_name, height);
+    }
+    
+    public void yUnbind(String bind_name){
+        yWeak_listeners.remove(bind_name);
+        System.gc();
     }
 }

@@ -42,6 +42,7 @@ public class teste extends Application {
         MathGrid grade = new MathGrid(200,200);
         grade.bind_rodinha_mouse();
         grade.bind_tela_movel();
+        //grade.binda_tamanho(testeTabela., altura);
         testeTabela.yAdd(grade, 0, 2);
         
         

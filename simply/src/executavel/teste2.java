@@ -5,6 +5,9 @@ import Biblioteca.BasicObjects.Formas.Linha;
 import Biblioteca.BasicObjects.Formas.Poligono;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.DoublePropertyBase;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -16,7 +19,7 @@ public class teste2 extends Application {
     @Override
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
-        
+
         /*Caixa t1 = new Caixa(1000, 1000, Color.ALICEBLUE, 5, Color.GREY);//CLONEAAAA
         t1.ySetTranslateX(500, 0);
         t1.ySetTranslateY(500, 0);
@@ -24,37 +27,52 @@ public class teste2 extends Application {
         Caixa t2 = new Caixa(t1);//AAA
         t2.ySetTranslateX(600, 0);
         t2.ySetTranslateY(600, 0);*/
-        
-        
         Poligono a = new Poligono(
-                20, 100,
-                100, 100,
-                100, 100,
-                20
+                0, 0,
+                100, 0,
+                50, 100
         );
+
         a.setFill(Color.ALICEBLUE);
         a.ySetStroke(5.0, Color.RED, StrokeType.OUTSIDE, true);
-        a.ySetTranslateX(600, 0);
-        a.ySetTranslateY(600, 0);
-        
+        a.reta_paralela(new Point2D(0, 0), new Point2D(3, 4));
+        a.ySetPosition(600, 600, 0, 0);
+
         Linha c = new Linha(50, 150, 40, Color.DARKSEAGREEN);
-        c.ySetTranslateX(0, 0);
-        c.ySetTranslateY(0, 0);
-        
+        c.ySetPosition(0, 0, 0, 0);
+
         Circulo b = new Circulo(2);
-        b.ySetTranslateX(c.yGetTranslateX(1), 0.5);
-        b.ySetTranslateY(c.yGetTranslateY(1), 0.5);
-        
+        b.ySetPosition(c.yGetTranslateX(1), c.yGetTranslateY(1), 0.5, 0.5);
+
         Circulo d = new Circulo(2);
-        d.ySetTranslateX(c.yGetTranslateX(0), 0.5);
-        d.ySetTranslateY(c.yGetTranslateY(0), 0.5);
+        d.ySetPosition(c.yGetTranslateX(0), c.yGetTranslateY(0), 0.5, 0.5);
+
+        Circulo la = new Circulo(20);
+        la.ySetPosition(0, 0, 0, 0);
+        la.ySetStroke(5.0, null, null, true);
+
+        Circulo lu = new Circulo(200);
+        lu.ySetPosition(0, 0, 0, 0);
+
+        la.yBindWidth("width", teste.widthProperty().divide(4), true);
         
-        teste.getChildren().addAll(a, c, b, d);
+        lu.yBindWidth("height", la.yWidthBind(true).multiply(2), true);
         
+        lu.yBindTranslateX("x", la.yTranslateXbind(0).subtract(la.yTranslateXbind(0)).add(400), 0.5);
+        lu.yBindTranslateY("y", la.yTranslateYbind(0).subtract(la.yTranslateYbind(0)).add(400), 0.5);
+        
+        lu.yUnbind("x");
+        
+        a.rotateProperty().bind(lu.yTranslateXbind(0));
+
+        teste.getChildren().addAll(a, c, b, d, lu, la);
+        
+        teste.setOnMousePressed( event -> System.gc());
+
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");
         primaryStage.setScene(scene);
-        primaryStage.show();  
+        primaryStage.show();
     }
 
     public static void main(String[] args) {

@@ -1,23 +1,39 @@
 package Biblioteca.BasicObjects.Formas;
 
-import Biblioteca.BasicObjects.VisibleObjectHandler;
+import javafx.scene.shape.Line;
 import Biblioteca.LogicClasses.Matematicas;
 import java.util.HashMap;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.StrokeType;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.binding.DoubleBinding;
+import Biblioteca.BasicObjects.VisibleObjectHandler;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
-import javafx.beans.binding.DoubleBinding;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.shape.StrokeType;
 import javafx.util.Duration;
 
 public class Linha extends Line implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     public HashMap<String, ObservableValue<? extends Number>> yWeak_listeners = new HashMap();
+    
+    public Linha(Linha line){
+        this((Line) line);
+    }
+    
+    public Linha(Line line){
+        this(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY(), line.getStrokeWidth(), line.getStroke());
+    }
+    
+    public Linha(double Xfinal, double Yfinal, double grossura, Paint cor){
+        this(0, 0, Xfinal, Yfinal, grossura, cor);
+    }
+    
+    public Linha(double Xinicial, double Yinicial, double Xfinal, double Yfinal, double grossura, Paint cor){
+        this(Xinicial, Yinicial, Xfinal, Yfinal, grossura, cor, StrokeType.CENTERED, true);
+    }
     
     /**
      * Cria uma linha. (OBS: Não há setFIll nas linhas, sua cor é definida por setStroke e apenas && strokeLineCap é RECOMENDADO sempre ser BUTT).
@@ -32,22 +48,6 @@ public class Linha extends Line implements Forma{
         setPontoInicial(Xinicial, Yinicial);
         setPontoFinal(Xfinal, Yfinal);
         ySetStroke(grossura, cor, stroke_type, correct_location);
-    }
-    
-    public Linha(double Xinicial, double Yinicial, double Xfinal, double Yfinal, double grossura, Paint cor){
-        this(Xinicial, Yinicial, Xfinal, Yfinal, grossura, cor, StrokeType.CENTERED, true);
-    }
-    
-    public Linha(double Xfinal, double Yfinal, double grossura, Paint cor){
-        this(0, 0, Xfinal, Yfinal, grossura, cor);
-    }
-    
-    public Linha(Line line){
-        this(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY(), line.getStrokeWidth(), line.getStroke());
-    }
-    
-    public Linha(Linha line){
-        this((Line) line);
     }
     
     public void setPontoInicial(Double Xinicial, Double Yinicial){

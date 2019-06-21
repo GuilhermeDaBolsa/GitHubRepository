@@ -1,14 +1,14 @@
 package Biblioteca.BasicObjects.Formas;
 
-import Biblioteca.BasicObjects.VisibleObjectHandler;
-import java.util.HashMap;
-import javafx.beans.binding.DoubleBinding;
-import javafx.beans.value.ObservableValue;
+import javafx.scene.shape.Polygon;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
+import java.util.HashMap;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeType;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.binding.DoubleBinding;
+import Biblioteca.BasicObjects.VisibleObjectHandler;
 
 public class Poligono extends Polygon implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();

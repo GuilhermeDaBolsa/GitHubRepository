@@ -1,43 +1,40 @@
 package Biblioteca.BasicObjects.Formas;
 
-import Biblioteca.BasicObjects.VisibleObjectHandler;
-import static Biblioteca.LogicClasses.Matematicas.random;
-import java.util.HashMap;
-import javafx.beans.binding.DoubleBinding;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import java.util.HashMap;
+import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeType;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.binding.DoubleBinding;
+import Biblioteca.BasicObjects.VisibleObjectHandler;
 
 
 public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM METODOS EM COMUM....
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     public HashMap<String, ObservableValue<? extends Number>> yWeak_listeners = new HashMap();
     
-    public Retangulo(double largura, double altura, Paint corFundo, double grossuraBorda, Paint corBorda, StrokeType stroke_type, boolean correct_location){
-        setWidth(largura);
-        setHeight(altura);
-        setFill(corFundo);
-        ySetStroke(grossuraBorda, corBorda, stroke_type, correct_location);
+    public Retangulo(){
+        //fazer um standard? atribuir coisas com base no nodo pai? só bota qlcr coisa? deixar em branco?
     }
     
-    public Retangulo(double largura, double altura, Paint corFundo, double grossuraBorda, Paint corBorda){
-        this(largura, altura, corFundo, grossuraBorda, corBorda, StrokeType.CENTERED, true);
+    public Retangulo(double largura, double altura){
+        this(largura, altura, Color.BLACK);
     }
     
     public Retangulo(double largura, double altura, Paint cor){
         this(largura, altura, cor,  0, Color.BLACK);
     }
     
-    public Retangulo(double largura, double altura){
-        this(largura, altura, Color.color(random(1), random(1), random(1)));
+    public Retangulo(double largura, double altura, Paint corFundo, double grossuraBorda, Paint corBorda){
+        this(largura, altura, corFundo, grossuraBorda, corBorda, null, true);
     }
     
-    /**
-     * Cria uma instancia vazia de um retângulo.
-     */
-    public Retangulo(){
+    public Retangulo(double largura, double altura, Paint corFundo, double grossuraBorda, Paint corBorda, StrokeType stroke_type, boolean correct_location){
+        setWidth(largura);
+        setHeight(altura);
+        setFill(corFundo);
+        ySetStroke(grossuraBorda, corBorda, stroke_type, correct_location);
     }
     
     /**

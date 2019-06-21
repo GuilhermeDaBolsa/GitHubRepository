@@ -26,7 +26,7 @@ public class Circulo extends Circle implements Forma{
     }
     
     public Circulo(double radius, Paint color, double stroke_width, Paint stroke_color){
-        this(radius, color, stroke_width, stroke_color, StrokeType.CENTERED, true);
+        this(radius, color, stroke_width, stroke_color, null, true);
     }
     
     public Circulo(double radius, Paint color, double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location){

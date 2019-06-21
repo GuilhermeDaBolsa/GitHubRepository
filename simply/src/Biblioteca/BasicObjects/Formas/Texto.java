@@ -1,19 +1,19 @@
 package Biblioteca.BasicObjects.Formas;
 
-import Biblioteca.BasicObjects.VisibleObjectHandler;
+import javafx.scene.text.Text;
+import javafx.scene.text.Font;
 import java.io.File;
 import java.net.MalformedURLException;
+import javafx.geometry.Point2D;
 import java.util.HashMap;
+import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.StrokeType;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.binding.DoubleBinding;
+import Biblioteca.BasicObjects.VisibleObjectHandler;
 import javafx.animation.Animation;
 import javafx.animation.Transition;
-import javafx.beans.binding.DoubleBinding;
-import javafx.beans.value.ObservableValue;
-import javafx.geometry.Point2D;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.StrokeType;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 //FAZER UM SETMAXWIDTH, que nem o label, que dai quando o texto chega no limite, ele é cortado e aparece reticencias pequenas (ex: estratos...)
@@ -25,13 +25,8 @@ public class Texto extends Text implements Forma{
     public HashMap<String, ObservableValue<? extends Number>> yWeak_listeners = new HashMap();
     protected String texto;
     
-    public static Font carregar_fonte(String caminho_fonte, double tamanho){
-        try {
-            return Font.loadFont(new File(caminho_fonte).toURI().toURL().toExternalForm(), tamanho);
-        } catch (MalformedURLException ex) {
-            System.out.println("Deu Pauuuu");
-        }
-        return Font.font("Arial", tamanho);
+    public Texto(String texto) {
+        this(texto, null, null);
     }
     
     public Texto(String texto, Font fonte, Color cor){
@@ -46,11 +41,16 @@ public class Texto extends Text implements Forma{
         
         ySetTranslateY(0, 0);
     }
-
-    public Texto(String texto) {
-        this(texto, null, null);
-    }
     
+    public static Font carregar_fonte(String caminho_fonte, double tamanho){
+        try {
+            return Font.loadFont(new File(caminho_fonte).toURI().toURL().toExternalForm(), tamanho);
+        } catch (MalformedURLException ex) {
+            System.out.println("Deu Pauuuu");
+        }
+        return Font.font("Arial", tamanho);
+    }
+
     public void ySetFont(Font font){
         double where_wasX = yGetTranslateX(0);
         double where_wasY = yGetTranslateY(0);

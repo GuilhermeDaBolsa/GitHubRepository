@@ -51,10 +51,15 @@ public class Poligono extends Polygon implements Forma{
             }
         }
     }
+    
+    
+    
+    //----------------------------- SIZE METHODS -----------------------------\\
 
     /**
-     * @return The width base just in the points (right_X - left_X).
+     * @return The width based just in the points (right_X - left_X).
      */
+    @Override
     public double yGetWidth(boolean plusStroke){
         double width = right_X - left_X;
         if(plusStroke)
@@ -64,8 +69,9 @@ public class Poligono extends Polygon implements Forma{
     }
     
     /**
-     * @return The height base just in the points (down_Y - up_Y).
+     * @return The height based just in the points (down_Y - up_Y).
      */
+    @Override
     public double yGetHeight(boolean plusStroke){
         double height = down_Y - up_Y;
         if(plusStroke)
@@ -74,17 +80,11 @@ public class Poligono extends Polygon implements Forma{
         return height;
     }
 
-    /**
-     * @return The width that the object ocuppies in the scene.
-     */
     @Override
     public double yGetWidth() {
         return VisibleObjectHandler.getWidth(this);
     }
 
-    /**
-     * @return The height that the object ocuppies in the scene.
-     */
     @Override
     public double yGetHeight() {
         return VisibleObjectHandler.getHeight(this);
@@ -120,6 +120,10 @@ public class Poligono extends Polygon implements Forma{
         down_Y += increment;
     }
 
+    
+    
+    //----------------------------- TRANSLATE METHODS -----------------------------\\
+    
     @Override
     public double yGetTranslateX(double pivo) {
         return (getTranslateX() + yGetWidth(false)/2) + yGetWidth(true)*(pivo - 0.5);
@@ -145,13 +149,21 @@ public class Poligono extends Polygon implements Forma{
         ySetTranslateX(X, pivoX);
         ySetTranslateY(Y, pivoY);
     }
+    
+    
+    
+    //----------------------------- STROKE METHODS -----------------------------\\
 
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);
         
-        //MANDA O CALCULATE AI MAGRAO, NAO SERIA AQUI MAGRAO
+        //MANDA O CALCULATE AI MAGRAO, !NAO SERIA AQUI MAGRAO!
     }
+    
+    
+    
+    //----------------------------- SCALE METHODS -----------------------------\\
 
     @Override
     public void ySetScaleX(double scale, boolean correct_location) {
@@ -182,6 +194,10 @@ public class Poligono extends Polygon implements Forma{
     public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
         YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
     }
+    
+    
+    
+    //----------------------------- BIND/LISTENER METHODS -----------------------------\\
     
     @Override
     public DoubleBinding yTranslateXbind(double pivo){

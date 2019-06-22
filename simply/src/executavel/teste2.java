@@ -61,7 +61,7 @@ public class teste2 extends Application {
         lu.yBindTranslateX("x", la.yTranslateXbind(0).subtract(la.yTranslateXbind(0)).add(400), 0.5);
         lu.yBindTranslateY("y", la.yTranslateYbind(0).subtract(la.yTranslateYbind(0)).add(400), 0.5);
         
-        lu.yUnbind("x");
+        lu.yUnbind("y");
         
         a.rotateProperty().bind(lu.yTranslateXbind(0));
 

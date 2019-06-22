@@ -37,9 +37,15 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         ySetStroke(grossuraBorda, corBorda, stroke_type, correct_location);
     }
     
-    /**
-     * @return The width of this shape.
-     */
+    public void ySetCornerRoundness(double roudness){
+        setArcWidth(roudness);
+        setArcHeight(roudness);
+    }
+    
+    
+    
+    //----------------------------- SIZE METHODS -----------------------------\\
+    
     @Override
     public double yGetWidth(boolean plusStroke){
         double width = getWidth();
@@ -49,9 +55,6 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         return width;
     }
     
-    /**
-     * @return The height of this shape.
-     */
     @Override
     public double yGetHeight(boolean plusStroke){
         double height = getHeight();
@@ -97,6 +100,10 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
             ySetTranslateY(where_wasY, 0);
     }
     
+    
+    
+    //----------------------------- TRANSLATE METHODS -----------------------------\\
+    
     @Override
     public double yGetTranslateX(double pivo) {
         return (getTranslateX() + yGetWidth(false)/2) + yGetWidth(true)*(pivo - 0.5);
@@ -122,19 +129,19 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         ySetTranslateX(X, pivoX);
         ySetTranslateY(Y, pivoY);
     }
+    
+    
+    
+    //----------------------------- STROKE METHODS -----------------------------\\
 
-    /**
-     * 
-     * @param stroke_width
-     * @param stroke_color
-     * @param stroke_type 
-     * @param correct_location If a new stroke_width is defined, it will "grow from inside" keeping the object where it was, unless this parameter is true.
-     * @see #setStrokeType(javafx.scene.shape.StrokeType) 
-     */
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);
     }
+    
+    
+    
+    //----------------------------- SCALE METHODS -----------------------------\\
     
     @Override
     public void ySetScaleX(double scale, boolean correct_location) {
@@ -166,10 +173,9 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
     }
     
-    public void ySetCornerRoundness(double roudness){
-        setArcWidth(roudness);
-        setArcHeight(roudness);
-    }
+
+    
+    //----------------------------- BIND/LISTENER METHODS -----------------------------\\
     
     @Override
     public DoubleBinding yTranslateXbind(double pivo){

@@ -34,12 +34,24 @@ public class Circulo extends Circle implements Forma{
         setFill(color);
         ySetStroke(stroke_width, stroke_color, stroke_type, correct_location);
     }
+    
+    
+    
+    //----------------------------- SIZE METHODS -----------------------------\\
 
-    public void ySetRadius(double raio){
+    /**
+     * Sets a new radius to the circle.
+     * The difference between this method and the setRadius method (from Oracle)
+     * is that the Oracle's one sets the new radius from inside (the center point of the
+     * new circle will be the same as the old one, while this method keeps the left upper
+     * point as beeing the same in the old and new circles).
+     * @param radius The new radius.
+     */
+    public void ySetRadius(double radius){
         double where_wasX = yGetTranslateX(0);
         double where_wasY = yGetTranslateY(0);
         
-        setRadius(raio);
+        setRadius(radius);
         ySetTranslateX(where_wasX, 0);
         ySetTranslateY(where_wasY, 0);
     }
@@ -52,7 +64,7 @@ public class Circulo extends Circle implements Forma{
         
         return width;
     }
-
+    
     @Override
     public double yGetHeight(boolean plusStroke) {
         double height = getRadius() * 2;
@@ -96,6 +108,10 @@ public class Circulo extends Circle implements Forma{
             setRadius(height);
     }
     
+    
+    
+    //----------------------------- TRANSLATE METHODS -----------------------------\\
+    
     @Override
     public double yGetTranslateX(double pivo) {
         return getTranslateX() + yGetWidth(true)*(pivo - 0.5);
@@ -107,13 +123,13 @@ public class Circulo extends Circle implements Forma{
     }
 
     @Override
-    public void ySetTranslateX(double position, double pivo) {//-0.5 pois o ponto de pivo do circulo é no meio dele
-        YshapeHandler.setTranslateX(this, position, pivo - 0.5);
+    public void ySetTranslateX(double X, double pivo) {//-0.5 pois o ponto de pivo do circulo é no meio dele
+        YshapeHandler.setTranslateX(this, X, pivo - 0.5);
     }
 
     @Override
-    public void ySetTranslateY(double position, double pivo) {//-0.5 pois o ponto de pivo do circulo é no meio dele
-        YshapeHandler.setTranslateY(this, position, pivo - 0.5);
+    public void ySetTranslateY(double Y, double pivo) {//-0.5 pois o ponto de pivo do circulo é no meio dele
+        YshapeHandler.setTranslateY(this, Y, pivo - 0.5);
     }
     
     @Override
@@ -122,18 +138,18 @@ public class Circulo extends Circle implements Forma{
         ySetTranslateY(Y, pivoY);
     }
     
-    /**
-     * 
-     * @param stroke_width
-     * @param stroke_color
-     * @param stroke_type 
-     * @param correct_location If a new stroke_width is defined, it will "grow from inside" keeping the object where it was, unless this parameter is true.
-     * @see #setStrokeType(javafx.scene.shape.StrokeType) 
-     */
+    
+    
+    //----------------------------- STROKE METHODS -----------------------------\\
+    
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);
     }
+    
+    
+    
+    //----------------------------- SCALE METHODS -----------------------------\\
 
     @Override
     public void ySetScaleX(double scale, boolean correct_location) {
@@ -164,6 +180,10 @@ public class Circulo extends Circle implements Forma{
     public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
         YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
     }
+    
+    
+    
+    //----------------------------- BIND/LISTENER METHODS -----------------------------\\
     
     @Override
     public DoubleBinding yTranslateXbind(double pivo){

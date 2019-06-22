@@ -232,7 +232,7 @@ public class BalaoDialogo extends Pane {
      * @param duracao_por_caractere Duração da animação em segundos.
      */
     public void animacao_escrita(double duracao_por_caractere) {
-        texto.aparecer_texto_fixo(duracao_por_caractere);
+        //texto.aparecer_texto_fixo(duracao_por_caractere);                     MUDEI AS ANIMAÇÔES DE LUGAR, TAO NA CLASSE ANIMAÇOES E TAO SEPARADAS DE TUDO, SAO BURRINHAS
     }
 
     public void aparecer_balao_inteiro(double largura, double altura, double duracao) {

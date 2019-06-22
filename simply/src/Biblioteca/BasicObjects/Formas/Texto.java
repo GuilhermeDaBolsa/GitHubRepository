@@ -2,9 +2,6 @@ package Biblioteca.BasicObjects.Formas;
 
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
-import java.io.File;
-import java.net.MalformedURLException;
-import javafx.geometry.Point2D;
 import java.util.HashMap;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
@@ -12,9 +9,8 @@ import javafx.scene.shape.StrokeType;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
-import javafx.animation.Animation;
-import javafx.animation.Transition;
-import javafx.util.Duration;
+import java.io.File;
+import java.net.MalformedURLException;
 
 //FAZER UM SETMAXWIDTH, que nem o label, que dai quando o texto chega no limite, ele é cortado e aparece reticencias pequenas (ex: estratos...)
 //PRO HEIGHT TAMBPEM..., mas ai n sei se olha os \n ou o wrapping property... n sei
@@ -61,28 +57,26 @@ public class Texto extends Text implements Forma{
         ySetTranslateY(where_wasY, 0);
     }
     
+    
+    
+    //----------------------------- SIZE METHODS -----------------------------\\
+    
     //GJUS PRA FAZER ESSES DOISA AQUI MEU DEUS
     @Override
     public double yGetWidth(boolean plusStroke) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return yGetWidth();
     }
 
     @Override
     public double yGetHeight(boolean plusStroke) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return yGetHeight();
     }
 
-    /**
-     * @return Retorna a largura do espaço que o texto ocupa.
-     */
     @Override
     public double yGetWidth() {
         return getLayoutBounds().getWidth();
     }
 
-    /**
-     * @return Retorna a altura do espaço que o texto ocupa.
-     */
     @Override
     public double yGetHeight() {
         return getLayoutBounds().getHeight() * 0.7;
@@ -120,6 +114,10 @@ public class Texto extends Text implements Forma{
         return getTranslateX() + yGetWidth()*pivo;
     }
 
+    
+    
+    //----------------------------- TRANSLATE METHODS -----------------------------\\
+    
     @Override
     public double yGetTranslateY(double pivo) {
         return getTranslateY() + yGetHeight()*(pivo - 1);
@@ -140,20 +138,19 @@ public class Texto extends Text implements Forma{
         ySetTranslateX(X, pivoX);
         ySetTranslateY(Y, pivoY);
     }
+    
+    
+    
+    //----------------------------- STROKE METHODS -----------------------------\\
 
-    /**
-     * 
-     * @param stroke_width
-     * @param stroke_color
-     * @param stroke_type 
-     * @param correct_location If a new stroke_width is defined, it will
-     * "grow from inside" keeping the object where it was, unless this parameter is true.
-     * @see #setStrokeType(javafx.scene.shape.StrokeType) 
-     */
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);//DEVE TA ERRADO ISSO JSUS
     }
+    
+    
+    
+    //----------------------------- SCALE METHODS -----------------------------\\
     
     @Override
     public void ySetScaleX(double scale, boolean correct_location) {
@@ -184,6 +181,11 @@ public class Texto extends Text implements Forma{
     public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
         YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
     }
+    
+    
+    
+    //----------------------------- BIND/LISTENER METHODS -----------------------------\\
+    //DEVE TA TUDO ERRADO
     
     @Override
     public DoubleBinding yTranslateXbind(double pivo){
@@ -228,54 +230,5 @@ public class Texto extends Text implements Forma{
     @Override
     public void yUnbind(String bind_name){
         YshapeHandler.yUnbind(yWeak_listeners, bind_name);
-    }
-    
-    public void aparecer_texto(double duracao, Point2D ponto_relativo) {
-        Animation animacao = new Transition() {
-            {
-                setCycleDuration(Duration.seconds(duracao));
-            }
-
-            @Override
-            protected void interpolate(double frac) {
-                int tamanho_texto = getText().length();
-                int n = Math.round(tamanho_texto * (float) frac);
-                setText(getText().substring(0, n));
-                setTranslateX(ponto_relativo.getX() - getLayoutBounds().getWidth()/2);
-                setTranslateY(ponto_relativo.getY());
-            }
-        };
-        animacao.play();
-    }
-    
-    public void aparecer_texto_fixo(double duracao_por_caractere) {
-        Animation animacao = new Transition() {
-            {
-                setCycleDuration(Duration.seconds(duracao_por_caractere * getText().length()));
-            }
-
-            @Override
-            protected void interpolate(double frac) {
-                int tamanho_texto = getText().length();
-                int n = Math.round(tamanho_texto * (float) frac);
-                setText(getText().substring(0, n));
-            }
-        };
-        animacao.play();
-    }
-    
-    public void reorganiza_texto_conforme_espaco(double espacoX){
-        espacoX *= 0.78; //???????? FUNCIONA//
-        int tamanhoDeUmDigito = (int) (yGetWidth()/ getText().length());
-        int digitos_por_linha = (int) (espacoX/tamanhoDeUmDigito);
-        String novo_texto = "";
-        
-        for (int i = 0; i < getText().length(); i++) {
-            novo_texto += getText().charAt(i);
-            if((i+1) % digitos_por_linha == 0 && i > 0){
-                novo_texto += "\n";
-            }
-        }
-        setText(novo_texto);
     }
 }

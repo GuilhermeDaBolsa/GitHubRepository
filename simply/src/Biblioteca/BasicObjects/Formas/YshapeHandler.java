@@ -10,183 +10,152 @@ import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
 
 public abstract class YshapeHandler{
+    
     /**
-     * Método para mover a forma com base  no pivo.
-     * @param pivo Pivo é o ponto referente, ou seja, é ele que ficará no X informado,
-     * ele é dado por valores entre 0 e 1, sendo 0 o ponto mais a esquerda e 1 o mais a direita da forma.
-     * (nao precisa ser necessariamente entre 0 e 1 :D)
-     * @param X Onde a forma deve ficar, no eixo X.
+     * @param shape The shape to be translated.
+     * @see Forma#ySetTranslateX(double, double) 
      */
     public static void setTranslateX(Shape shape, double X, double pivo){
         shape.setTranslateX(X - ((Forma) shape).yGetWidth(true) * pivo);
     }
     
     /**
-     * Método para mover a forma com base  no pivo.
-     * @param pivo Pivo é o ponto referente, ou seja, é ele que ficará no Y informado,
-     * ele é dado por valores entre 0 e 1, sendo 0 o ponto mais a cima e 1 o mais a baixo da forma.
-     * (nao precisa ser necessariamente entre 0 e 1 :D)
-     * @param Y Onde a forma deve ficar, no eixo Y.
+     * @param shape The shape to be translated.
+     * @see Forma#ySetTranslateY(double, double) 
      */
     public static void setTranslateY(Shape shape, double Y, double pivo){
         shape.setTranslateY(Y - ((Forma) shape).yGetHeight(true) * pivo);
     }
     
-    /*public static void setTranslateZ(Shape shape, double Z, double pivo){//VER QUAL Q É A DO EIXO Z ANTES DE SAIR FAZENDO AS COISAS NEééééé´DAR
-        shape.setTranslateZ(Z - ((Forma) shape).yGetWidth(true)*pivo);
-    }*/
-    
     /**
-     * @param forma The shape.
+     * @param shape The shape to get it's stroke width.
      * @return How much does the stroke occupie outside the shape, use it for regular shapes (rectangle, circle, etc)
      * because it calculates the average stroke width based just on the stroke width value and the stroke type.
      */
-    public static double yGetStrokeOcupation(Shape forma) {
+    public static double yGetStrokeOcupation(Shape shape) {
         double coeficient = 1;
-        if(forma.getStrokeType() == StrokeType.OUTSIDE)
+        if(shape.getStrokeType() == StrokeType.OUTSIDE)
             coeficient = 2;
-        else if(forma.getStrokeType() == StrokeType.INSIDE)
+        else if(shape.getStrokeType() == StrokeType.INSIDE)
             coeficient = 0;
         
-        return forma.getStrokeWidth()*coeficient;
+        return shape.getStrokeWidth()*coeficient;
     }
     
     /**
-     * Sets a value to scale the object in the X axis (it's width).
-     * @param forma The shape to be scaled.
-     * @param scale How much the shape will be scaled.
-     * @param correct_location If you want the 0 point of the left part of the object to be 
-     * in the same place where it was before the scale, mark this true.
+     * @param shape The shape to change the stroke.
+     * @see Forma#ySetStroke(java.lang.Double, javafx.scene.paint.Paint, javafx.scene.shape.StrokeType, boolean) 
      */
-    public static void ySetScaleX(Shape forma, double scale, boolean correct_location){
-        double where_wasX = ((Forma) forma).yGetTranslateX(0);
-        
-        forma.setScaleX(scale);
-        
-        if(correct_location)
-            ((Forma) forma).ySetTranslateX(where_wasX, 0);
-    }
-    
-    /**
-     * Sets a value to scale the object in the Y axis (it's height).
-     * @param forma The shape to be scaled.
-     * @param scale How much the shape will be scaled.
-     * @param correct_location If you want the 0 point of the left part of the object to be 
-     * in the same place where it was before the scale, mark this true.
-     */
-    public static void ySetScaleY(Shape forma, double scale, boolean correct_location){
-        double where_wasY = ((Forma) forma).yGetTranslateY(0);
-        
-        forma.setScaleY(scale);
-        
-        if(correct_location)
-            ((Forma) forma).ySetTranslateY(where_wasY, 0);
-    }
-    
-    /**
-     * Scales the shape in the X axis by a multiplier, in other words, the final
-     * scale of the object in the X axis will be the previous scale * multiplier.
-     * @param forma The shape to be scaled.
-     * @param multiplier The multiplier of the scale.
-     * @param correct_location If you want the 0 point of the left part of the object to be 
-     * in the same place where it was before the scale, mark this true.
-     * @see #ySetScaleX(javafx.scene.shape.Shape, double, boolean) 
-     */
-    public static void yScaleXby(Shape forma, double multiplier, boolean correct_location){
-        ySetScaleX(forma, forma.getScaleX()*multiplier, correct_location);
-    }
-    
-    /**
-     * Scales the shape in the Y axis by a multiplier, in other words, the final
-     * scale of the object in the Y axis will be the previous scale * multiplier.
-     * @param forma The shape to be scaled.
-     * @param multiplier The multiplier of the scale.
-     * @param correct_location If you want the 0 point of the upper part of the object to be 
-     * in the same place where it was before the scale, mark this true.
-     * @see #ySetScaleY(javafx.scene.shape.Shape, double, boolean) 
-     */
-    public static void yScaleYby(Shape forma, double multiplier, boolean correct_location){
-        ySetScaleY(forma, forma.getScaleY()*multiplier, correct_location);
-    }
-    
-    /**
-     * Scale the shape in the X axis (scale it's width).
-     * @param forma The shape to be scaled.
-     * @param width The width that the shape will have after the scale.
-     * @param stroke_included If the shape has stroke width, it will count as beeing 
-     * part of the shape, so after the scale the shape plus it's stroke will ocuppie the width.
-     * @param correct_location Correct the location after the scale (the scale scales the shape from inside, so it will grow to the two sides)
-     * @see #yScaleXby(javafx.scene.shape.Shape, double, boolean) 
-     */
-    public static void ySetWidthWithScale(Shape forma, double width, boolean stroke_included, boolean correct_location) {
-        double shape_width = ((Forma) forma).yGetWidth();
-        if (!stroke_included)
-            shape_width -= yGetStrokeOcupation(forma)*forma.getScaleX();
-        double scale = width / shape_width;
-        
-        yScaleXby(forma, scale, correct_location);
-    }
-    
-    /**
-     * Scale the shape in the Y axis (scale it's height).
-     * @param forma The shape to be scaled.
-     * @param height The height that the shape will have after the scale.
-     * @param stroke_included If the shape has stroke width, it will count as beeing 
-     * part of the shape, so after the scale the shape plus it's stroke will ocuppie the height.
-     * @param correct_location Correct the location after the scale (the scale scales the shape from inside, so it will grow to the two sides)
-     * @see #yScaleYby(javafx.scene.shape.Shape, double, boolean) 
-     */
-    public static void ySetHeigthWithScale(Shape forma, double height, boolean stroke_included, boolean correct_location){
-        double shape_height = ((Forma) forma).yGetHeight();
-        if(!stroke_included)
-            shape_height -= yGetStrokeOcupation(forma)*forma.getScaleY();
-        double scale = height/shape_height;
-        
-        yScaleYby(forma, scale, correct_location);
-    }
-    
-    /**
-     * 
-     * @param forma
-     * @param stroke_width
-     * @param stroke_color
-     * @param stroke_type 
-     * @param stroke_ocupation 
-     * @param correct_location If a new stroke_width is defined, depending on the type,
-     * it will grow to the outside, keeping just the center point of the object where it was, unless this parameter is true.
-     * @see #setStrokeType(javafx.scene.shape.StrokeType) 
-     */
-    public static void ySetStroke(Shape forma, Double stroke_width, Paint stroke_color, StrokeType stroke_type, YstrokeOcupation stroke_ocupation, boolean correct_location) {
-        double where_wasX = ((Forma) forma).yGetTranslateX(0);
-        double where_wasY = ((Forma) forma).yGetTranslateY(0);
+    public static void ySetStroke(Shape shape, Double stroke_width, Paint stroke_color, StrokeType stroke_type, YstrokeOcupation stroke_ocupation, boolean correct_location) {
+        double where_wasX = ((Forma) shape).yGetTranslateX(0);
+        double where_wasY = ((Forma) shape).yGetTranslateY(0);
         
         if(stroke_color != null)
-            forma.setStroke(stroke_color);
+            shape.setStroke(stroke_color);
         if(stroke_width != null)
-            forma.setStrokeWidth(stroke_width);
+            shape.setStrokeWidth(stroke_width);
         if(stroke_type != null)
-            forma.setStrokeType(stroke_type);
+            shape.setStrokeType(stroke_type);
         
-        double real_stroke_width = yGetStrokeOcupation(forma);
+        double real_stroke_width = yGetStrokeOcupation(shape);
         stroke_ocupation.setStrokeOcupation(real_stroke_width, real_stroke_width);
         
         if(correct_location){
-            ((Forma) forma).ySetTranslateX(where_wasX, 0);
-            ((Forma) forma).ySetTranslateY(where_wasY, 0);
+            ((Forma) shape).ySetTranslateX(where_wasX, 0);
+            ((Forma) shape).ySetTranslateY(where_wasY, 0);
         }
     }
     
+    /**
+     * @param shape The shape to be scaled.
+     * @see Forma#ySetScaleX(double, boolean) 
+     */
+    public static void ySetScaleX(Shape shape, double scale, boolean correct_location){
+        double where_wasX = ((Forma) shape).yGetTranslateX(0);
+        
+        shape.setScaleX(scale);
+        
+        if(correct_location)
+            ((Forma) shape).ySetTranslateX(where_wasX, 0);
+    }
     
-    //BIND METODOS .... DAR UMA PADRONIZADA E UM JAVADOC Q FICA TININDO
+    /**
+     * @param shape The shape to be scaled.
+     * @see Forma#ySetScaleY(double, boolean) 
+     */
+    public static void ySetScaleY(Shape shape, double scale, boolean correct_location){
+        double where_wasY = ((Forma) shape).yGetTranslateY(0);
+        
+        shape.setScaleY(scale);
+        
+        if(correct_location)
+            ((Forma) shape).ySetTranslateY(where_wasY, 0);
+    }
     
+    /**
+     * @param shape The shape to be scaled.
+     * @see Forma#yScaleXby(double, boolean) 
+     */
+    public static void yScaleXby(Shape shape, double multiplier, boolean correct_location){
+        ySetScaleX(shape, shape.getScaleX()*multiplier, correct_location);
+    }
+    
+    /**
+     * @param shape The shape to be scaled.
+     * @see Forma#yScaleYby(double, boolean) 
+     */
+    public static void yScaleYby(Shape shape, double multiplier, boolean correct_location){
+        ySetScaleY(shape, shape.getScaleY()*multiplier, correct_location);
+    }
+    
+    /**
+     * @param shape The shape to be scaled.
+     * @see Forma#ySetWidthWithScale(double, boolean, boolean) 
+     */
+    public static void ySetWidthWithScale(Shape shape, double width, boolean stroke_included, boolean correct_location) {
+        double shape_width = ((Forma) shape).yGetWidth();
+        if (!stroke_included)
+            shape_width -= yGetStrokeOcupation(shape)*shape.getScaleX();
+        double scale = width / shape_width;
+        
+        yScaleXby(shape, scale, correct_location);
+    }
+    
+    /**
+     * @param shape The shape to be scaled.
+     * @see Forma#ySetHeigthWithScale(double, boolean, boolean)
+     */
+    public static void ySetHeigthWithScale(Shape shape, double height, boolean stroke_included, boolean correct_location){
+        double shape_height = ((Forma) shape).yGetHeight();
+        if(!stroke_included)
+            shape_height -= yGetStrokeOcupation(shape)*shape.getScaleY();
+        double scale = height/shape_height;
+        
+        yScaleYby(shape, scale, correct_location);
+    }
+    
+    /**
+     * @param shape The shape to get the bind.
+     * @see Forma#yTranslateXbind(double) 
+     */
     public static DoubleBinding yTranslateXbind(Shape shape, double pivo){
         return shape.translateXProperty().add(((Forma) shape).yWidthBind(true).multiply(pivo));
     }
     
+    /**
+     * @param shape The shape to get the bind.
+     * @see Forma#yTranslateXbind(double) 
+     */
     public static DoubleBinding yTranslateYbind(Shape shape, double pivo){
         return shape.translateYProperty().add(((Forma) shape).yHeightBind(true).multiply(pivo));
     }
     
+    /**
+     * @param shape The shape to be binded.
+     * @param map A map of Strings (keys) and ObservableValues (objects) to maintain the bind reference.
+     * (otherwise it would be lost and would be caught by the garbage collector)
+     * @see Forma#yBindTranslateX(java.lang.String, javafx.beans.value.ObservableValue, double) 
+     */
     public static void yBindTranslateX(Shape shape, HashMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> X, double pivo){
         X.addListener((observable) -> {
             ((Forma) shape).ySetTranslateX(X.getValue().doubleValue(), pivo);
@@ -194,6 +163,12 @@ public abstract class YshapeHandler{
         map.put(bind_name, X);
     }
     
+    /**
+     * @param shape The shape to be binded.
+     * @param map A map of Strings (keys) and ObservableValues (objects) to maintain the bind reference.
+     * (otherwise it would be lost and would be caught by the garbage collector)
+     * @see Forma#yBindTranslateY(java.lang.String, javafx.beans.value.ObservableValue, double) 
+     */
     public static void yBindTranslateY(Shape shape, HashMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> Y, double pivo){
         Y.addListener((observable) -> {
             ((Forma) shape).ySetTranslateY(Y.getValue().doubleValue(), pivo);
@@ -201,22 +176,38 @@ public abstract class YshapeHandler{
         map.put(bind_name, Y);
     }
     
+    /**
+     * @param width_property The width property of the shape.
+     * @param stroke_included The stroke of the shape. If you dont want the stroke to be part of the width, mark as null.
+     * @see Forma#yWidthBind(boolean) 
+     */
     public static DoubleBinding yWidthBind(DoubleBinding width_property, YstrokeOcupation stroke_included){
-        DoubleBinding radiusP = width_property.add(0);
+        DoubleBinding width_bind = width_property.add(0);
         if(stroke_included != null)
-            radiusP = radiusP.add(stroke_included.WIDTH);
+            width_bind = width_bind.add(stroke_included.WIDTH);
         
-        return radiusP;
+        return width_bind;
     }
     
+    /**
+     * @param height_property The height property of the shape.
+     * @param stroke_included The stroke of the shape. If you dont want the stroke to be part of the height, mark as null.
+     * @see Forma#yHeightBind(boolean) 
+     */
     public static DoubleBinding yHeightBind(DoubleBinding height_property, YstrokeOcupation stroke_included){
-        DoubleBinding radiusP = height_property.add(0);
+        DoubleBinding height_bind = height_property.add(0);
         if(stroke_included != null)
-            radiusP = radiusP.add(stroke_included.HEIGHT);
+            height_bind = height_bind.add(stroke_included.HEIGHT);
         
-        return radiusP;
+        return height_bind;
     }
     
+    /**
+     * @param shape The shape to be binded.
+     * @param map A map of Strings (keys) and ObservableValues (objects) to maintain the bind reference.
+     * (otherwise it would be lost and would be caught by the garbage collector)
+     * @see Forma#yBindWidth(java.lang.String, javafx.beans.value.ObservableValue, boolean) 
+     */
     public static void yBindWidth(Shape shape, HashMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> width, boolean stroke_included){
         width.addListener((observable) -> {
             ((Forma) shape).ySetWidth(width.getValue().doubleValue(), stroke_included, true);
@@ -224,6 +215,12 @@ public abstract class YshapeHandler{
         map.put(bind_name, width);
     }
     
+    /**
+     * @param shape The shape to be binded.
+     * @param map A map of Strings (keys) and ObservableValues (objects) to maintain the bind reference.
+     * (otherwise it would be lost and would be caught by the garbage collector)
+     * @see Forma#yBindWidth(java.lang.String, javafx.beans.value.ObservableValue, boolean) 
+     */
     public static void yBindHeight(Shape shape, HashMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> height, boolean stroke_included){
         height.addListener((observable) -> {
             ((Forma) shape).ySetHeight(height.getValue().doubleValue(), stroke_included, true);
@@ -231,6 +228,10 @@ public abstract class YshapeHandler{
         map.put(bind_name, height);
     }
     
+    /**
+     * @param map A map of Strings (keys) and ObservableValues (objects) to maintain the binds references.
+     * @see Forma#yUnbind(java.lang.String) 
+     */
     public static void yUnbind(HashMap<String, ObservableValue<? extends Number>> map, String bind_name){
         map.remove(bind_name);
         System.gc();

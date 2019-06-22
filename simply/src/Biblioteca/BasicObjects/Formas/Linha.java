@@ -9,11 +9,6 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
-import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.util.Duration;
 
 public class Linha extends Line implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
@@ -49,6 +44,10 @@ public class Linha extends Line implements Forma{
         setPontoFinal(Xfinal, Yfinal);
         ySetStroke(grossura, cor, stroke_type, correct_location);
     }
+    
+    
+    
+    //----------------------------- SIZE METHODS -----------------------------\\
     
     public void setPontoInicial(Double Xinicial, Double Yinicial){
         if(Xinicial != null)
@@ -89,6 +88,7 @@ public class Linha extends Line implements Forma{
     /**
      * @return The difference between the final X point and the initial X point.
      */
+    @Override
     public double yGetWidth(boolean plusStroke){
         double delta = Matematicas.modulo(getEndX() - getStartX());
         if(plusStroke)
@@ -100,6 +100,7 @@ public class Linha extends Line implements Forma{
     /**
      * @return The difference between the final Y point and the initial Y point.
      */
+    @Override
     public double yGetHeight(boolean plusStroke){
         double delta = Matematicas.modulo(getEndY() - getStartY());
         if(plusStroke)
@@ -108,21 +109,11 @@ public class Linha extends Line implements Forma{
         return delta;
     }
 
-    /**
-     * If you want just the width of the line and maybe it's stroke, consider using the yGetWidth(boolean).
-     * @return The width that this object occupies in the scene.
-     * @see #yGetWidth(boolean)
-     */
     @Override
     public double yGetWidth() {
         return VisibleObjectHandler.getWidth(this);
     }
 
-    /**
-     * If you want just the height of the line and maybe it's stroke, consider using the yGetHeight(boolean).
-     * @return The height that this object occupies in the scene.
-     * @see #yGetHeight(boolean) 
-     */
     @Override
     public double yGetHeight() {
         return VisibleObjectHandler.getHeight(this);
@@ -150,6 +141,10 @@ public class Linha extends Line implements Forma{
             
         setPontoFinal(null, getStartY() + height);
     }
+    
+    
+    
+    //----------------------------- TRANSLATE METHODS -----------------------------\\
     
     @Override
     public double yGetTranslateX(double pivo) {
@@ -179,16 +174,11 @@ public class Linha extends Line implements Forma{
         ySetTranslateX(X, pivoX);
         ySetTranslateY(Y, pivoY);
     }
+    
+    
+    
+    //----------------------------- STROKE METHODS -----------------------------\\
 
-    /**
-     * 
-     * @param stroke_width
-     * @param stroke_color
-     * @param stroke_type 
-     * @param correct_size If a new stroke_width is defined, it will make the line bigger, unless this parameter is true (TRUE HIGLY RECOMENDED).
-     * @see #setStrokeType(javafx.scene.shape.StrokeType) 
-     * @see #setStrokeLineCap(javafx.scene.shape.StrokeLineCap) 
-     */
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_size) {
         double where_wasX = yGetTranslateX(0.5);
@@ -204,6 +194,10 @@ public class Linha extends Line implements Forma{
         ySetTranslateX(where_wasX, 0.5);
         ySetTranslateY(where_wasY, 0.5);
     }
+    
+    
+    
+    //----------------------------- SCALE METHODS -----------------------------\\
     
     @Override
     public void ySetScaleX(double scale, boolean correct_location) {
@@ -234,6 +228,11 @@ public class Linha extends Line implements Forma{
     public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
         YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
     }
+    
+    
+    
+    //----------------------------- BIND/LISTENER METHODS -----------------------------\\
+    //DEVE TA TUDO ERRADO
     
     @Override
     public DoubleBinding yTranslateXbind(double pivo){
@@ -278,51 +277,5 @@ public class Linha extends Line implements Forma{
     @Override
     public void yUnbind(String bind_name){
         YshapeHandler.yUnbind(yWeak_listeners, bind_name);
-    }
-    
-    /**
-     * Faz a animação de crescimento da linha a partir do centro.
-     * @param segundos Quantos segundos dura a animação
-     * @param ao_finalizar_animacao O que fazer ao finalizar a animação.
-     */
-    public void iniciarAnimacaoTamanho(double segundos, Runnable ao_finalizar_animacao) {
-        ScaleTransition animacao_linha = new ScaleTransition(Duration.seconds(segundos), this);
-        animacao_linha.setToY(1);
-        if (ao_finalizar_animacao != null) {
-            animacao_linha.setOnFinished(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    ao_finalizar_animacao.run();
-                }
-            });
-        }
-        animacao_linha.play();
-    }
-    
-    /**
-     * Muda o tamanho da linha para suportar o novo numero de botões.
-     * @param segundos Duração da animação
-     * @param novo_tamanho Novo tamanho da linha
-     */
-    public void iniciarAnimacaoEscala(double segundos, double tamanho_inicial, double novo_tamanho) {
-        double novo_tam_perU = novo_tamanho / tamanho_inicial;
-        
-        ScaleTransition animacao_tamanho = new ScaleTransition(Duration.seconds(segundos), this);
-        animacao_tamanho.setToY(novo_tam_perU);
-        iniciarAnimacaoXY(segundos, Double.NaN, (novo_tamanho - tamanho_inicial) /2);
-        animacao_tamanho.play();
-    }
-
-    /**
-     * Muda a posicao da linha
-     * @param segundos Duração da animação
-     * @param X Ponto em X para onde a linha irá
-     * @param Y Ponto em Y para onde a linha irá
-     */
-    public void iniciarAnimacaoXY(double segundos, double X, double Y) {
-        TranslateTransition XYtransicao = new TranslateTransition(Duration.seconds(segundos), this);
-        XYtransicao.setToX(X);
-        XYtransicao.setToY(Y);
-        XYtransicao.play();
     }
 }

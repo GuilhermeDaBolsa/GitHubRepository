@@ -8,12 +8,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeType;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
-import Biblioteca.BasicObjects.VisibleObjectHandler;
 import com.sun.javafx.tk.FontMetrics;
 import com.sun.javafx.tk.Toolkit;
 import java.io.File;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 
 //FAZER UM SETMAXWIDTH, que nem o label.
 //PRO HEIGHT TAMBPEM..., mas ai n sei se olha os \n ou sla...
@@ -69,8 +67,8 @@ public class Texto extends Text implements Forma {
     @Override
     public double yGetWidth(boolean plusStroke) {
         double width = simulateTextSize(getText(), getFont().getSize())[0];
-        if (plusStroke) {
-            width += yOutsideStrokeOcupation.WIDTH.get();
+        if (!plusStroke) {
+            width -= yOutsideStrokeOcupation.WIDTH.get();
         }
         return width;
     }
@@ -78,8 +76,8 @@ public class Texto extends Text implements Forma {
     @Override
     public double yGetHeight(boolean plusStroke) {
         double height = simulateTextSize(getText(), getFont().getSize())[1];
-        if (plusStroke) {
-            height += yOutsideStrokeOcupation.HEIGHT.get();
+        if (!plusStroke) {
+            height -= yOutsideStrokeOcupation.HEIGHT.get();
         }
         return height;
     }
@@ -180,36 +178,12 @@ public class Texto extends Text implements Forma {
         ySetTranslateX(where_wasX, 0);
         ySetTranslateY(where_wasY, 0);
     }
-    
-    public void hide_text(double width){
-        String text = getText();
-        String new_text = "";
-        int n = 0;
-        int cont = 0;
-        int actual_font_size = (int) getFont().getSize();
-            
-        String strings[] = text.split("\n");
-        
-        for (int i = 0; i < strings.length; i++) {
-            double sub_text_size = simulateTextSize(strings[i], actual_font_size)[0];
-            double aprox_char_width = sub_text_size / strings[i].length();
-            int remaining_chars = (int) ((width / aprox_char_width) > text.length() ? text.length() : (width / aprox_char_width));
-            
-            char string[] = new char[remaining_chars + 3];
-            for (int j = 0; j < remaining_chars-1; j++) {
-                string[j] = strings[i].charAt(j);
-            }
-            for (int j = remaining_chars - 1; j < remaining_chars + 1; j++) {
-                string[j] = '.';
-            }
-            if(i < strings.length - 1)
-                string[remaining_chars + 1] = '\n';
-            new_text = new_text.concat(new String(string));
-        }
-        setText(new_text);
-    }
 
-    //FONT
+    /**
+     * Sets a new width changing the font size.
+     * @param width New width
+     * @return If sucess return true.
+     */
     public boolean ySetWidth(double width) {
         boolean sucess = false;
         int actual_font_size = (int) getFont().getSize();
@@ -267,22 +241,22 @@ public class Texto extends Text implements Forma {
     //----------------------------- TRANSLATE METHODS -----------------------------\\
     @Override
     public double yGetTranslateX(double pivo) {
-        return getTranslateX() + yGetWidth() * pivo;
+        return getTranslateX() + yGetWidth(true) * pivo;
     }
 
     @Override
     public double yGetTranslateY(double pivo) {
-        return getTranslateY() + yGetHeight() * (pivo - 1);
+        return getTranslateY() + yGetHeight(true) * (pivo - 1);
     }
 
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        VisibleObjectHandler.setTranslateX(this, position, pivo);
+        YshapeHandler.setTranslateX(this, position, pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {
-        VisibleObjectHandler.setTranslateY(this, position, pivo - 0.7);
+        YshapeHandler.setTranslateY(this, position, pivo - 1);
     }
 
     @Override
@@ -391,7 +365,7 @@ public class Texto extends Text implements Forma {
         int sizeH = 0;
         int cont = 0;
         for (int i = 0; i < text.length(); i++) {
-            if (text.charAt(i) == '\n') {
+            if (text.charAt(i) == '\n' || i == text.length()-1) {
                 cont++;
                 if (sizeH > size) {
                     size = sizeH;
@@ -406,10 +380,38 @@ public class Texto extends Text implements Forma {
 
         FontMetrics metrics = Toolkit.getToolkit().getFontLoader().getFontMetrics(font);
         double stringWidth = metrics.computeStringWidth(text.substring(begin, end));
-        double charHeight = metrics.getLineHeight() * (cont + 1);
+        double stringHeight = metrics.getLineHeight() * cont;
 
-        double a[] = {stringWidth + yOutsideStrokeOcupation.WIDTH.get(), charHeight + yOutsideStrokeOcupation.HEIGHT.get()};
+        double a[] = {stringWidth + yOutsideStrokeOcupation.WIDTH.get(), stringHeight + yOutsideStrokeOcupation.HEIGHT.get()};
         return a;
+    }
+    
+    public void hide_text(double width){
+        String text = getText();
+        String new_text = "";
+        int n = 0;
+        int cont = 0;
+        int actual_font_size = (int) getFont().getSize();
+            
+        String strings[] = text.split("\n");
+        
+        for (int i = 0; i < strings.length; i++) {
+            double sub_text_size = simulateTextSize(strings[i], actual_font_size)[0];
+            double aprox_char_width = sub_text_size / strings[i].length();
+            int remaining_chars = (int) ((width / aprox_char_width) > text.length() ? text.length() : (width / aprox_char_width));
+            
+            char string[] = new char[remaining_chars + 3];
+            for (int j = 0; j < remaining_chars-1; j++) {
+                string[j] = strings[i].charAt(j);
+            }
+            for (int j = remaining_chars - 1; j < remaining_chars + 1; j++) {
+                string[j] = '.';
+            }
+            if(i < strings.length - 1)
+                string[remaining_chars + 1] = '\n';
+            new_text = new_text.concat(new String(string));
+        }
+        setText(new_text);
     }
     
     public String break_text(String new_text, int char_quantities, boolean break_word) {

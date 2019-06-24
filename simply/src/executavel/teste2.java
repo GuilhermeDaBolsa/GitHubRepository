@@ -69,14 +69,27 @@ public class teste2 extends Application {
         teste.getChildren().addAll(a, c, b, d, lu, la);
         
         teste.setOnMousePressed( event -> System.gc());*/
-        double p = 400;
+        double p = 50;
         
         Texto t = new Texto("VAmo TestÁR esse Necocio.!");
         Linha l = new Linha(0, 100, 2, Color.BLACK);
-        l.ySetTranslateX(p, 0);
+        Linha l2 = new Linha(100, 0, 2, Color.BLACK);
         
         t.ySetWidth(p, true, true);
-        teste.getChildren().addAll(t, l);
+        t.ySetTranslateY(0, 0);
+        
+        System.out.println(t.getTranslateY());
+        System.out.println(t.yGetHeight(true));
+        
+        t.setTranslateY(0);
+        
+        //O TEXTO NAO DA UM TRANSLATE NO PONTO MAIS BAIXO, ELE DA UM TRANLATE COM A PRIMEIRA LINHA (E AS OTRAS TBM) DE BAIXO PRA CIMA
+        //TIRAR O PIVO - 1, E COLOCAR POSICAO + TAM_1ªLINHATEXTO
+        
+        l.ySetTranslateX(p, 0);
+        l2.ySetTranslateY(t.yGetHeight(true), 0);
+        
+        teste.getChildren().addAll(t, l, l2);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");

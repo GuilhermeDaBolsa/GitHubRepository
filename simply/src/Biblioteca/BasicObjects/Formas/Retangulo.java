@@ -50,7 +50,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     public double yGetWidth(boolean plusStroke){
         double width = getWidth();
         if(plusStroke)
-            width += yOutsideStrokeOcupation.WIDTH.doubleValue();
+            width += yOutsideStrokeOcupation.WIDTH.get();
         
         return width;
     }
@@ -59,7 +59,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     public double yGetHeight(boolean plusStroke){
         double height = getHeight();
         if(plusStroke)
-            height += yOutsideStrokeOcupation.HEIGHT.doubleValue();
+            height += yOutsideStrokeOcupation.HEIGHT.get();
         
         return height;
     }
@@ -79,7 +79,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         double where_wasX = yGetTranslateX(0);
         
         if(stroke_included)
-            width -= yOutsideStrokeOcupation.WIDTH.doubleValue();
+            width -= yOutsideStrokeOcupation.WIDTH.get();
         
         setWidth(width);
         
@@ -92,7 +92,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         double where_wasY = yGetTranslateY(0);
         
         if(stroke_included)
-            height -= yOutsideStrokeOcupation.HEIGHT.doubleValue();
+            height -= yOutsideStrokeOcupation.HEIGHT.get();
         
         setHeight(height);
         

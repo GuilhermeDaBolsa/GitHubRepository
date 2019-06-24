@@ -92,7 +92,7 @@ public class Linha extends Line implements Forma{
     public double yGetWidth(boolean plusStroke){
         double delta = Matematicas.modulo(getEndX() - getStartX());
         if(plusStroke)
-            delta += yOutsideStrokeOcupation.WIDTH.doubleValue();
+            delta += yOutsideStrokeOcupation.WIDTH.get();
         
         return delta;
     }
@@ -104,7 +104,7 @@ public class Linha extends Line implements Forma{
     public double yGetHeight(boolean plusStroke){
         double delta = Matematicas.modulo(getEndY() - getStartY());
         if(plusStroke)
-            delta += yOutsideStrokeOcupation.HEIGHT.doubleValue();
+            delta += yOutsideStrokeOcupation.HEIGHT.get();
         
         return delta;
     }
@@ -126,7 +126,7 @@ public class Linha extends Line implements Forma{
             width = -width;
         
         if(stroke_included)
-            width -= yOutsideStrokeOcupation.WIDTH.doubleValue();
+            width -= yOutsideStrokeOcupation.WIDTH.get();
         
         setPontoFinal(getStartX() + width, null);
     }
@@ -134,7 +134,7 @@ public class Linha extends Line implements Forma{
     @Override
     public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
         if(stroke_included)
-            height += height > 0 ? -yOutsideStrokeOcupation.HEIGHT.doubleValue() : yOutsideStrokeOcupation.HEIGHT.doubleValue();
+            height += height > 0 ? -yOutsideStrokeOcupation.HEIGHT.get() : yOutsideStrokeOcupation.HEIGHT.get();
             
         if(getStartY() > getEndY())
             height = -height;
@@ -232,7 +232,6 @@ public class Linha extends Line implements Forma{
     
     
     //----------------------------- BIND/LISTENER METHODS -----------------------------\\
-    //DEVE TA TUDO ERRADO
     
     @Override
     public DoubleBinding yTranslateXbind(double pivo){
@@ -256,12 +255,12 @@ public class Linha extends Line implements Forma{
     
     @Override
     public DoubleBinding yWidthBind(boolean stroke_included){
-        return YshapeHandler.yWidthBind(scaleXProperty().add(0), stroke_included ? yOutsideStrokeOcupation : null);
+        return YshapeHandler.yWidthBind(endXProperty().subtract(startXProperty()), stroke_included ? yOutsideStrokeOcupation : null);
     }
     
     @Override
     public DoubleBinding yHeightBind(boolean stroke_included){
-        return YshapeHandler.yHeightBind(scaleXProperty().add(0), stroke_included ? yOutsideStrokeOcupation : null);
+        return YshapeHandler.yHeightBind(endYProperty().subtract(startYProperty()), stroke_included ? yOutsideStrokeOcupation : null);
     }
     
     @Override

@@ -9,14 +9,15 @@ import javafx.scene.shape.StrokeType;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
+import javafx.beans.property.DoubleProperty;
 
 public class Poligono extends Polygon implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     public HashMap<String, ObservableValue<? extends Number>> yWeak_listeners = new HashMap();
-    double left_X;
-    double right_X;
-    double up_Y;
-    double down_Y;
+    DoubleProperty left_X;
+    DoubleProperty right_X;
+    DoubleProperty up_Y;
+    DoubleProperty down_Y;
     
     /*public Poligono(int sides){
         
@@ -30,24 +31,24 @@ public class Poligono extends Polygon implements Forma{
     }
     
     protected void calc_points(){
-        left_X = getPoints().get(0);
-        right_X = getPoints().get(0);
-        up_Y = getPoints().get(1);
-        down_Y = getPoints().get(1);
+        left_X.setValue(getPoints().get(0));
+        right_X.setValue(getPoints().get(0));
+        up_Y.setValue(getPoints().get(1));
+        down_Y.setValue(getPoints().get(1));
         for (int i = 0; i < getPoints().size(); i+=2) {
             double X = getPoints().get(i);
             double Y = getPoints().get(i+1);
             
-            if(X < left_X){
-                left_X = X;
-            }else if(X > right_X){
-                right_X = X;
+            if(X < left_X.get()){
+                left_X.setValue(X);
+            }else if(X > right_X.get()){
+                right_X.setValue(X);
             }
             
-            if(Y < up_Y){
-                up_Y = Y;
-            }else if(Y > down_Y){
-                down_Y = Y;
+            if(Y < up_Y.get()){
+                up_Y.setValue(Y);
+            }else if(Y > down_Y.get()){
+                down_Y.setValue(Y);
             }
         }
     }
@@ -61,9 +62,9 @@ public class Poligono extends Polygon implements Forma{
      */
     @Override
     public double yGetWidth(boolean plusStroke){
-        double width = right_X - left_X;
+        double width = right_X.get() - left_X.get();
         if(plusStroke)
-            width += yOutsideStrokeOcupation.WIDTH.doubleValue();
+            width += yOutsideStrokeOcupation.WIDTH.get();
         
         return width;
     }
@@ -73,9 +74,9 @@ public class Poligono extends Polygon implements Forma{
      */
     @Override
     public double yGetHeight(boolean plusStroke){
-        double height = down_Y - up_Y;
+        double height = down_Y.get() - up_Y.get();
         if(plusStroke)
-            height += yOutsideStrokeOcupation.HEIGHT.doubleValue();
+            height += yOutsideStrokeOcupation.HEIGHT.get();
         
         return height;
     }
@@ -93,31 +94,31 @@ public class Poligono extends Polygon implements Forma{
     @Override
     public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
         if(stroke_included)
-            width -= yOutsideStrokeOcupation.WIDTH.doubleValue()/2;
+            width -= yOutsideStrokeOcupation.WIDTH.get()/2;
         
         double pivo = yGetWidth(false)/2;
-        double increment = width - right_X;
+        double increment = width - right_X.get();
         
         for (int i = 0; i < getPoints().size(); i+=2) {
             double X = getPoints().get(i);
-            getPoints().set(i, X + ((X - left_X)/yGetWidth(false)) * increment);
+            getPoints().set(i, X + ((X - left_X.get())/yGetWidth(false)) * increment);
         }
-        right_X += increment;
+        right_X.set(right_X.get() + increment);
     }
 
     @Override
     public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
         if(stroke_included)
-            height -= yOutsideStrokeOcupation.HEIGHT.doubleValue()/2;
+            height -= yOutsideStrokeOcupation.HEIGHT.get()/2;
         
         double pivo = yGetHeight(false)/2;
-        double increment = height - down_Y;
+        double increment = height - down_Y.get();
         
         for (int i = 1; i < getPoints().size(); i+=2) {
             double Y = getPoints().get(i);
-            getPoints().set(i, Y + ((Y - up_Y)/yGetHeight(false)) * increment);
+            getPoints().set(i, Y + ((Y - up_Y.get())/yGetHeight(false)) * increment);
         }
-        down_Y += increment;
+        down_Y.set(down_Y.get() + increment);
     }
 
     
@@ -140,7 +141,7 @@ public class Poligono extends Polygon implements Forma{
     }
 
     @Override
-    public void ySetTranslateY(double position, double pivo) {//NAO FUNCIONA DIREITO OS POSICIONAMENTO PQ A FIGURA NAO É REGULAR, A BORDA DE CIMA PDC MAIOR Q A DE BAIXO, ENTAO UMA MEDIA NAO FUNFA
+    public void ySetTranslateY(double position, double pivo) {
         YshapeHandler.setTranslateY(this, (position - yGetHeight(false)/2) + yGetHeight(true)/2, pivo);
     }
     
@@ -221,16 +222,12 @@ public class Poligono extends Polygon implements Forma{
     
     @Override
     public DoubleBinding yWidthBind(boolean stroke_included){
-        return YshapeHandler.yWidthBind(scaleXProperty().add(0), stroke_included ? yOutsideStrokeOcupation : null);
-    }
-    
-    //TA ERRADO OS WIDTH PROPERTY, BOTEI SCALE SO PRA NAO DA ERRO, CRIAR UM WIDTH E HEIGHT PROPERTY AQUI NESSA CLASSE (OU EM TODAS?).... TEXTO E LINHA TB TA ERRADO ASSIM
-    //ARRUMAR PQ MUITP PROVAVELMENTE ESSES WIDTH PROPERTY NAO TEM NADA A VER COM SCALE ENTAO ELES TAO SEPARADOS...
-    //VER SE QUER MANTER SEPARADO OU N... ACHO ATE MELHOR DEIXAR PQ O SETWIDTH É SEPARADO DO SETWIDTHWITHSCALE (mas n vice versa)
+        return YshapeHandler.yWidthBind(right_X.subtract(left_X), stroke_included ? yOutsideStrokeOcupation : null);
+    }  
     
     @Override
     public DoubleBinding yHeightBind(boolean stroke_included){
-        return YshapeHandler.yHeightBind(scaleXProperty().add(0), stroke_included ? yOutsideStrokeOcupation : null);
+        return YshapeHandler.yHeightBind(down_Y.subtract(up_Y), stroke_included ? yOutsideStrokeOcupation : null);
     }
     
     @Override
@@ -247,11 +244,6 @@ public class Poligono extends Polygon implements Forma{
     public void yUnbind(String bind_name){
         YshapeHandler.yUnbind(yWeak_listeners, bind_name);
     }
-    
-    
-    
-    
-    
     
     //STROKEEEEEEEEEEEEE AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA A A A A A A A 
     

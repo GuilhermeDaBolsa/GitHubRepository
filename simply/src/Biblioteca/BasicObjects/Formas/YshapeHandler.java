@@ -153,7 +153,7 @@ public abstract class YshapeHandler{
     /**
      * @param shape The shape to be binded.
      * @param map A map of Strings (keys) and ObservableValues (objects) to maintain the bind reference.
-     * (otherwise it would be lost and would be caught by the garbage collector)
+     * (otherwise it would be lost and caught by the garbage collector)
      * @see Forma#yBindTranslateX(java.lang.String, javafx.beans.value.ObservableValue, double) 
      */
     public static void yBindTranslateX(Shape shape, HashMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> X, double pivo){
@@ -166,7 +166,7 @@ public abstract class YshapeHandler{
     /**
      * @param shape The shape to be binded.
      * @param map A map of Strings (keys) and ObservableValues (objects) to maintain the bind reference.
-     * (otherwise it would be lost and would be caught by the garbage collector)
+     * (otherwise it would be lost and caught by the garbage collector)
      * @see Forma#yBindTranslateY(java.lang.String, javafx.beans.value.ObservableValue, double) 
      */
     public static void yBindTranslateY(Shape shape, HashMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> Y, double pivo){
@@ -205,7 +205,7 @@ public abstract class YshapeHandler{
     /**
      * @param shape The shape to be binded.
      * @param map A map of Strings (keys) and ObservableValues (objects) to maintain the bind reference.
-     * (otherwise it would be lost and would be caught by the garbage collector)
+     * (otherwise it would be lost and caught by the garbage collector)
      * @see Forma#yBindWidth(java.lang.String, javafx.beans.value.ObservableValue, boolean) 
      */
     public static void yBindWidth(Shape shape, HashMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> width, boolean stroke_included){
@@ -218,7 +218,7 @@ public abstract class YshapeHandler{
     /**
      * @param shape The shape to be binded.
      * @param map A map of Strings (keys) and ObservableValues (objects) to maintain the bind reference.
-     * (otherwise it would be lost and would be caught by the garbage collector)
+     * (otherwise it would be lost and caught by the garbage collector)
      * @see Forma#yBindWidth(java.lang.String, javafx.beans.value.ObservableValue, boolean) 
      */
     public static void yBindHeight(Shape shape, HashMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> height, boolean stroke_included){

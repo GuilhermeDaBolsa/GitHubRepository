@@ -3,6 +3,7 @@ package executavel;
 import Biblioteca.BasicObjects.Formas.Circulo;
 import Biblioteca.BasicObjects.Formas.Linha;
 import Biblioteca.BasicObjects.Formas.Poligono;
+import Biblioteca.BasicObjects.Formas.Texto;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.beans.property.DoubleProperty;
@@ -27,7 +28,7 @@ public class teste2 extends Application {
         Caixa t2 = new Caixa(t1);//AAA
         t2.ySetTranslateX(600, 0);
         t2.ySetTranslateY(600, 0);*/
-        Poligono a = new Poligono(
+        /*Poligono a = new Poligono(
                 0, 0,
                 100, 0,
                 50, 100
@@ -67,8 +68,16 @@ public class teste2 extends Application {
 
         teste.getChildren().addAll(a, c, b, d, lu, la);
         
-        teste.setOnMousePressed( event -> System.gc());
-
+        teste.setOnMousePressed( event -> System.gc());*/
+        double p = 400;
+        
+        Texto t = new Texto("VAmo TestÁR esse Necocio.!");
+        Linha l = new Linha(0, 100, 2, Color.BLACK);
+        l.ySetTranslateX(p, 0);
+        
+        t.ySetWidth(p, true, true);
+        teste.getChildren().addAll(t, l);
+        
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");
         primaryStage.setScene(scene);

@@ -18,9 +18,9 @@ public class Descricao extends CenaVisivel{
     private static double tamanho_fonte_descricao = 13;
 
     public Descricao(double largura_caixa, double altura_caixa, String titulo, String... descricao) {
-        this.titulo = new Texto(titulo, Texto.carregar_fonte("fodase",tamanho_fonte_titulo), null);
+        this.titulo = new Texto(titulo, this.titulo.carregar_fonte("fodase", tamanho_fonte_titulo), null);
         for (int i = 0; i < descricao.length; i++) {
-           this.descricao.add(new Texto(descricao[i], Texto.carregar_fonte("mds",tamanho_fonte_descricao), null)); 
+           this.descricao.add(new Texto(descricao[i], this.descricao.get(i).carregar_fonte("mds",tamanho_fonte_descricao), null)); 
         }
         
                 

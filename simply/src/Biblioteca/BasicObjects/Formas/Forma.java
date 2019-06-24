@@ -127,8 +127,8 @@ public interface Forma{
     /**
      * Sets a value to scale the object in the Y axis (it's height).
      * @param scale How much the shape will be scaled.
-     * @param correct_location If you want the upper point of the shape to be 
-     * in the same place where it was before the scale, mark this true, if false, the shape will
+     * @param correct_location If you want the upper point of the shape to be in the
+     * same place where it was before the scale, mark this true, if false, the shape will
      * be scaled from inside.
      */
     public void ySetScaleY(double scale, boolean correct_location);
@@ -210,7 +210,7 @@ public interface Forma{
     public void yBindTranslateY(String bind_name, ObservableValue<? extends Number> Y, double pivo);
     
     /**
-     * @param stroke_included If you want the stroke of the shape to be part of the width, mark this as true.
+     * @param stroke_included If you want the stroke of the shape to be part of the new width, mark this as true.
      * @return A DoubleBinding that is linked to the width of the shape, in other words,
      * whenever the width of the shape changes, the DoubleBinding will change automaticaly with it.
      * (this bind is linked to the width but the opposite is not true).
@@ -218,7 +218,7 @@ public interface Forma{
     public DoubleBinding yWidthBind(boolean stroke_included);
     
     /**
-     * @param stroke_included If you want the stroke of the shape to be part of the height, mark this as true.
+     * @param stroke_included If you want the stroke of the shape to be part of the new height, mark this as true.
      * @return A DoubleBinding that is linked to the height of the shape, in other words,
      * whenever the height of the shape changes, the DoubleBinding will change automaticaly with it.
      * (this bind is linked to the height but the opposite is not true).
@@ -229,6 +229,7 @@ public interface Forma{
      * Links the width of the shape with an observable value, so whenever it changes, the shape's width will change too.
      * @param bind_name The name for this link.
      * @param width The observable value to link the shape's width.
+     * @param stroke_included If you want the stroke of the shape to be part of the new width, mark this as true.
      * @see #ySetWidth(double, boolean, boolean) 
      */
     public void yBindWidth(String bind_name, ObservableValue<? extends Number> width, boolean stroke_included);
@@ -237,6 +238,7 @@ public interface Forma{
      * Links the height of the shape with an observable value, so whenever it changes, the shape's height will change too.
      * @param bind_name The name for this link.
      * @param height The observable value to link the shape's height.
+     * @param stroke_included If you want the stroke of the shape to be part of the new height, mark this as true.
      * @see #ySetHeight(double, boolean, boolean) 
      */
     public void yBindHeight(String bind_name, ObservableValue<? extends Number> height, boolean stroke_included);

@@ -1,9 +1,10 @@
 package Biblioteca.BasicObjects.Formas;
 
+import Biblioteca.Lists.yCircularArray;
 import javafx.scene.shape.Polygon;
 import javafx.collections.ObservableList;
 import javafx.geometry.Point2D;
-import java.util.HashMap;
+import Biblioteca.Lists.ySimpleMap;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.StrokeType;
 import javafx.beans.value.ObservableValue;
@@ -13,7 +14,7 @@ import javafx.beans.property.DoubleProperty;
 
 public class Poligono extends Polygon implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
-    public HashMap<String, ObservableValue<? extends Number>> yWeak_listeners = new HashMap();
+    public ySimpleMap<String, ObservableValue<? extends Number>> yWeak_listeners = new ySimpleMap();
     DoubleProperty left_X;
     DoubleProperty right_X;
     DoubleProperty up_Y;

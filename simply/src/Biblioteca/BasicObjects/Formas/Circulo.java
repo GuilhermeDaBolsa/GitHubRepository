@@ -1,7 +1,7 @@
 package Biblioteca.BasicObjects.Formas;
 
 import javafx.scene.shape.Circle;
-import java.util.HashMap;
+import Biblioteca.Lists.ySimpleMap;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeType;
@@ -11,7 +11,7 @@ import Biblioteca.BasicObjects.VisibleObjectHandler;
 
 public class Circulo extends Circle implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
-    public HashMap<String, ObservableValue<? extends Number>> yWeak_listeners = new HashMap();
+    public ySimpleMap<String, ObservableValue<? extends Number>> yWeak_listeners = new ySimpleMap();
     
     public Circulo(){
         //fazer um standard? atribuir coisas com base no nodo pai? só bota qlcr coisa? deixar em branco?

@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class teste2 extends Application {
@@ -71,13 +72,17 @@ public class teste2 extends Application {
         teste.setOnMousePressed( event -> System.gc());*/
         double p = 0;
         
-        Texto t = new Texto("VAmo TestÁR esse Necocio.!");
+        //Texto t = new Texto("VAmo \nTestÁR\n esse\n Necocio.!");
+        Texto t = new Texto("VAmo TestÁR esse Necocio.!", Font.font(20), Color.ROSYBROWN);
         Linha l = new Linha(0, 100, 2, Color.BLACK);
         Linha l2 = new Linha(100, 0, 2, Color.BLACK);
         
         t.yBindWidth("width", teste.widthProperty(), true);
+
         //MUDAR O HIDE TEXT PQ ELE TA ADICIONANDO CARACTERES, NAO PODE, TEM Q SUBSTITUIR NO MAX
-        //VER O WIDTH Q TA MEIO ERRADINHO, POR UM CARACTERE
+        //VER O WIDTH Q TA MEIO ERRADINHO, TIPO UM CARACTERE
+        //height ainda ta erradinha, os 70% (um poco mais) é real????
+        //fazer la os set height q ainda falta e os setMaxWidth e height e mudar o codigo pra aguenta eles.
         
         teste.getChildren().addAll(t, l, l2);
         

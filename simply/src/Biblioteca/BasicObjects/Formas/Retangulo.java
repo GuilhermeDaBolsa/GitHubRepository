@@ -1,7 +1,7 @@
 package Biblioteca.BasicObjects.Formas;
 
 import javafx.scene.shape.Rectangle;
-import java.util.HashMap;
+import Biblioteca.Lists.ySimpleMap;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeType;
@@ -9,10 +9,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
 
-
 public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM METODOS EM COMUM....
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
-    public HashMap<String, ObservableValue<? extends Number>> yWeak_listeners = new HashMap();
+    public ySimpleMap<String, ObservableValue<? extends Number>> yWeak_listeners = new ySimpleMap();
     
     public Retangulo(){
         //fazer um standard? atribuir coisas com base no nodo pai? só bota qlcr coisa? deixar em branco?

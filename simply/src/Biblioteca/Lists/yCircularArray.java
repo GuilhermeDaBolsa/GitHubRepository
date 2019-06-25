@@ -1,4 +1,4 @@
-package Biblioteca.BasicObjects.Formas;
+package Biblioteca.Lists;
 
 public class yCircularArray<T> {
     public T[] array;

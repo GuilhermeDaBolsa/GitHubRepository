@@ -2,7 +2,7 @@ package Biblioteca.BasicObjects.Formas;
 
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
-import java.util.HashMap;
+import Biblioteca.Lists.ySimpleMap;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeType;
@@ -20,9 +20,9 @@ import javafx.beans.property.SimpleDoubleProperty;
 //O TEXTO GUARDA SEMPRE UM ESPAÇO PROS ACENTOS (EU ACHO), MESMO QUE ELES NAO EXISTAO, ENTAO O TEXTO PODE SER MAIS ALTO DO QUE REALMENTE APARENTA...
 public class Texto extends Text implements Forma {
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
-    public HashMap<String, ObservableValue<? extends Number>> yWeak_listeners = new HashMap();
+    public ySimpleMap<String, ObservableValue<? extends Number>> yWeak_listeners = new ySimpleMap();
     protected String texto;
-    protected String font_path = null;
+    public String font_path = null;
     public double min_font_size = 8;
     public DoubleProperty width = new SimpleDoubleProperty(0);
     public DoubleProperty height = new SimpleDoubleProperty(0);
@@ -93,7 +93,7 @@ public class Texto extends Text implements Forma {
 
     @Override
     public double yGetHeight(boolean plusStroke) {
-        double height = this.height.get();
+        double height = this.height.get() - line_height;
         if (!plusStroke) {
             height -= yOutsideStrokeOcupation.HEIGHT.get();
         }
@@ -126,10 +126,6 @@ public class Texto extends Text implements Forma {
         boolean sucess = false;
         String new_text = new String(texto);
         double text_width = simulateTextSize(new_text, getFont().getSize())[0];
-        if(text_width <= width){
-            change_font_size = true;
-            break_text = false;
-        }
         if(change_font_size){
             sucess = ySetWidth(width);
         }
@@ -139,11 +135,13 @@ public class Texto extends Text implements Forma {
             double char_width = text_width / texto.length();
             int char_quantities = (int) ((width / char_width) < 1 ? 0 : (width / char_width));
             
-            //must be a valid char quantitie
+            //must be less than the lenght or it is already correct
             if (char_quantities < new_text.length()) {
                 String breaked = break_text(new_text, char_quantities, break_word_allowed);
                 double new_width = simulateTextSize(breaked, getFont().getSize())[0];
+                
                 ySetText(breaked);//must have something... even if its wrong
+                
                 if (new_width <= width) {
                     sucess = true;
                 }else {
@@ -183,9 +181,12 @@ public class Texto extends Text implements Forma {
                         ySetFont(font);
                     }
                 }
+            }else{
+                ySetText(new_text);
+                sucess = true;
             }
         }
-        //tries to hide some letters as a last resouce
+        //tries to hide some letters as a final resouce
         if (!sucess) {
             hide_text(width);
         }
@@ -401,38 +402,36 @@ public class Texto extends Text implements Forma {
     public void hide_text(double width){
         String text = getText();
         String new_text = "";
-        int n = 0;
-        int cont = 0;
         int actual_font_size = (int) getFont().getSize();
             
         String strings[] = text.split("\n");
-        
+
         for (int i = 0; i < strings.length; i++) {
             double sub_text_size = simulateTextSize(strings[i], actual_font_size)[0];
             double aprox_char_width = sub_text_size / strings[i].length();
             int char_quantitie = (int) (width / aprox_char_width);
             
-            if(char_quantitie > text.length())
-                char_quantitie = text.length();
-            else if(char_quantitie < 1)
-                char_quantitie = 1;
+            if(char_quantitie > strings[i].length())
+                char_quantitie = strings[i].length()+1;
+            else if(char_quantitie < 2)
+                char_quantitie = 2;
             
-            char string[] = new char[char_quantitie + 3];
+            char string[] = new char[char_quantitie+1];
             boolean not_breaked = false;
             for (int j = 0; j < char_quantitie; j++) {
-                if(!(j < strings[i].length())){
+                if(j >= strings[i].length()){
                     not_breaked = true;
                     break;
                 }
                 string[j] = strings[i].charAt(j);
             }
             if(!not_breaked){
-                for (int j = char_quantitie - 1; j < char_quantitie + 1; j++) {
+                for (int j = char_quantitie - 2; j < char_quantitie; j++) {
                     string[j] = '.';
                 }
             }
             if(i < strings.length - 1)
-                string[char_quantitie + 1] = '\n';
+                string[char_quantitie] = '\n';
             new_text = new_text.concat(new String(string));
         }
         ySetText(new_text);

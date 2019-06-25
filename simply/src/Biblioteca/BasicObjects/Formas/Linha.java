@@ -1,8 +1,8 @@
 package Biblioteca.BasicObjects.Formas;
 
 import javafx.scene.shape.Line;
+import Biblioteca.Lists.ySimpleMap;
 import Biblioteca.LogicClasses.Matematicas;
-import java.util.HashMap;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.shape.StrokeLineCap;
@@ -12,7 +12,7 @@ import Biblioteca.BasicObjects.VisibleObjectHandler;
 
 public class Linha extends Line implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
-    public HashMap<String, ObservableValue<? extends Number>> yWeak_listeners = new HashMap();
+    public ySimpleMap<String, ObservableValue<? extends Number>> yWeak_listeners = new ySimpleMap();
     
     public Linha(Linha line){
         this((Line) line);

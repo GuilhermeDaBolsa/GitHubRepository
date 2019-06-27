@@ -84,7 +84,6 @@ public class teste2 extends Application {
         
 
         //MUDAR O HIDE TEXT PQ ELE TA ADICIONANDO CARACTERES, NAO PODE, TEM Q SUBSTITUIR NO MAX
-        //VER O WIDTH Q TA MEIO ERRADINHO, TIPO UM CARACTERE
         //height ainda ta erradinha, os 70% (um poco mais) é real????
         //fazer la os set height q ainda falta e os setMaxWidth e height e mudar o codigo pra aguenta eles.
         

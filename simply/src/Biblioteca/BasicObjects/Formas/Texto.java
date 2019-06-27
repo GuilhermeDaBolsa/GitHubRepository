@@ -28,6 +28,7 @@ public class Texto extends Text implements Forma {
     public DoubleProperty height = new SimpleDoubleProperty(0);
     public double line_height;
     public boolean break_word_allowed = false;
+    public boolean unbreak_text_allowed = true;
 
     public Texto(String texto) {
         this(texto, null, null);
@@ -35,7 +36,7 @@ public class Texto extends Text implements Forma {
 
     public Texto(String texto, Font fonte, Color cor) {
         super(texto);
-        ySetText(texto);
+        ySetMineText(texto);
 
         this.texto = texto;
 
@@ -70,6 +71,11 @@ public class Texto extends Text implements Forma {
     }
     
     public void ySetText(String text){
+        texto = text;
+        ySetMineText(text);
+    }
+    
+    private void ySetMineText(String text){
         setText(text);
         recalc_values();
     }
@@ -93,7 +99,7 @@ public class Texto extends Text implements Forma {
 
     @Override
     public double yGetHeight(boolean plusStroke) {
-        double height = this.height.get() - line_height;
+        double height = this.height.get();
         if (!plusStroke) {
             height -= yOutsideStrokeOcupation.HEIGHT.get();
         }
@@ -122,15 +128,22 @@ public class Texto extends Text implements Forma {
     public void ySetWidth(double width, boolean change_font_size, boolean break_text) {
         double where_wasX = yGetTranslateX(0);
         double where_wasY = yGetTranslateY(0);
-
-        boolean sucess = false;
+        String new_text = new String(texto);
+        if(unbreak_text_allowed)
+            new_text = new_text.replace('\n', ' ');
+        double text_width = simulateTextSize(new_text, getFont().getSize())[0];
+        double char_width = text_width / texto.length();
+        int char_quantities = (int) ((width / char_width) < 1 ? 0 : (width / char_width));
+        ySetText(break_text(new_text, char_quantities, true));
+        /*boolean sucess = false;
         String new_text = new String(texto);
         double text_width = simulateTextSize(new_text, getFont().getSize())[0];
         if(change_font_size){
             sucess = ySetWidth(width);
         }
         if (break_text && !sucess) {
-            new_text.replace("\n", " ");
+            if(unbreak_text_allowed)
+                new_text = new_text.replace('\n', ' ');
             //sees how much characters are needed to approx the required width
             double char_width = text_width / texto.length();
             int char_quantities = (int) ((width / char_width) < 1 ? 0 : (width / char_width));
@@ -140,7 +153,7 @@ public class Texto extends Text implements Forma {
                 String breaked = break_text(new_text, char_quantities, break_word_allowed);
                 double new_width = simulateTextSize(breaked, getFont().getSize())[0];
                 
-                ySetText(breaked);//must have something... even if its wrong
+                ySetMineText(breaked);//must have something... even if its wrong
                 
                 if (new_width <= width) {
                     sucess = true;
@@ -177,19 +190,19 @@ public class Texto extends Text implements Forma {
                         } else {
                             font = Font.font(getFont().getFamily(), best_font_size);
                         }
-                        ySetText(best_string);
+                        ySetMineText(best_string);
                         ySetFont(font);
                     }
                 }
             }else{
-                ySetText(new_text);
+                ySetMineText(new_text);
                 sucess = true;
             }
         }
         //tries to hide some letters as a final resouce
         if (!sucess) {
             hide_text(width);
-        }
+        }*/
         ySetTranslateX(where_wasX, 0);
         ySetTranslateY(where_wasY, 0);
     }
@@ -391,7 +404,7 @@ public class Texto extends Text implements Forma {
         }
 
         FontMetrics metrics = Toolkit.getToolkit().getFontLoader().getFontMetrics(font);
-        double stringWidth = metrics.computeStringWidth(text.substring(begin, end));
+        double stringWidth = metrics.computeStringWidth(text.substring(begin, end+1));
         double stringHeight = metrics.getLineHeight() * cont;
 
         //return 3 informations, witdh, height and number of lines
@@ -434,16 +447,18 @@ public class Texto extends Text implements Forma {
                 string[char_quantitie] = '\n';
             new_text = new_text.concat(new String(string));
         }
-        ySetText(new_text);
+        ySetMineText(new_text);
     }
     
     public String break_text(String new_text, int char_quantities, boolean break_word) {
         int to = 0;
-        int from = char_quantities;
+        int from = char_quantities-1;
         char[] array;
+        int break_number = 0;
+        int countdown = 0;
 
         if (break_word) {
-            array = new char[new_text.length() + (new_text.length() / char_quantities) - 1];
+            array = new char[new_text.length() + (int)(new_text.length() / (char_quantities-1))];
             for (int i = 0; i < new_text.length(); i++) {
                 array[i] = new_text.charAt(i);
             }
@@ -451,30 +466,36 @@ public class Texto extends Text implements Forma {
             array = new_text.toCharArray();
         }
         boolean found = false;
-        while (from < new_text.length() && from < new_text.length() - to) {
+        while (from < new_text.length()) {
             for (int i = from; i > to; i--) {
                 if (!break_word) {
                     if (array[i] == ' ') {
                         array[i] = '\n';
-                        to = i;
-                        from += i;
+                        break_number++;
+                        to = i + break_number;
+                        from = i + char_quantities-1 + break_number;//break number: the breaks shouldnt count as part of the text neither ocuping space
                         found = true;
                         break;
                     }
-                } else {
+                } else {//NAO FUNCIONA, DA PRA FAZER UM foR DO INICIO QUE VAI PROCURANDO \n DAI VAI SOMANDO O N De CARACTERES ATE ACHA, SE N ACHO ATE DA O LIMITE SOCA UM LA E VAI, SE ACHO RESETA O CONTADOR
                     array[i] = '\n';
-                    for (int j = i; j < new_text.length(); j++) {
-                        array[j + 1] = new_text.charAt(j);
+                    for (int j = i+1; j < new_text.length(); j++) {
+                        array[j] = new_text.charAt(j);
                     }
+                    break_number++;
+                    to = i + break_number;
+                    from = i + char_quantities-1 + break_number;
                     found = true;
+                    break;
                 }
             }
             if (!found) {
                 for (int i = from; i < new_text.length(); i++) {
                     if (array[i] == ' ') {
                         array[i] = '\n';
-                        to = i;
-                        from = i + (i + char_quantities < new_text.length() ? char_quantities : new_text.length() - i);
+                        to = i + break_number;
+                        from = i + (i + char_quantities < new_text.length() ? char_quantities : new_text.length() - i) + 1;
+                        break_number++;
                         break;
                     }
                 }

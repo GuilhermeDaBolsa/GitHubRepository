@@ -73,11 +73,15 @@ public class teste2 extends Application {
         double p = 0;
         
         //Texto t = new Texto("VAmo \nTestÁR\n esse\n Necocio.!");
-        Texto t = new Texto("VAmo TestÁR esse Necocio.!", Font.font(20), Color.ROSYBROWN);
-        Linha l = new Linha(0, 100, 2, Color.BLACK);
-        Linha l2 = new Linha(100, 0, 2, Color.BLACK);
+        Texto t = new Texto("VAmo TestÁ nesse abc", Font.font(40), Color.ROSYBROWN);
+        Linha l = new Linha(0, t.yGetHeight(true), 10, Color.BLACK);
+        Linha l2 = new Linha(t.yGetWidth(true), 0, 2, Color.RED);
+        
+        t.min_font_size = 30;
         
         t.yBindWidth("width", teste.widthProperty(), true);
+        System.out.println();
+        
 
         //MUDAR O HIDE TEXT PQ ELE TA ADICIONANDO CARACTERES, NAO PODE, TEM Q SUBSTITUIR NO MAX
         //VER O WIDTH Q TA MEIO ERRADINHO, TIPO UM CARACTERE

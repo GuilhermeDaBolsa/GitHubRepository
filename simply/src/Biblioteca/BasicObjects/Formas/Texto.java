@@ -27,7 +27,7 @@ public class Texto extends Text implements Forma {
     public DoubleProperty width = new SimpleDoubleProperty(0);
     public DoubleProperty height = new SimpleDoubleProperty(0);
     public double line_height;
-    public boolean break_word_allowed = false;
+    public boolean break_text_allowed = false;
     public boolean unbreak_text_allowed = true;
 
     public Texto(String texto) {
@@ -131,10 +131,7 @@ public class Texto extends Text implements Forma {
         String new_text = new String(texto);
         if(unbreak_text_allowed)
             new_text = new_text.replace('\n', ' ');
-        double text_width = simulateTextSize(new_text, getFont().getSize())[0];
-        double char_width = text_width / texto.length();
-        int char_quantities = (int) ((width / char_width) < 1 ? 0 : (width / char_width));
-        ySetText(break_text(new_text, char_quantities, true));
+        ySetMineText(break_text(new_text, width, break_text));
         /*boolean sucess = false;
         String new_text = new String(texto);
         double text_width = simulateTextSize(new_text, getFont().getSize())[0];
@@ -361,7 +358,10 @@ public class Texto extends Text implements Forma {
 
     @Override
     public void yBindWidth(String bind_name, ObservableValue<? extends Number> width, boolean change_font_size) {
-        YshapeHandler.yBindWidth(this, yWeak_listeners, bind_name, width, change_font_size);
+        width.addListener((observable) -> {
+            ySetWidth(width.getValue().doubleValue(), change_font_size, break_text_allowed);
+        });
+        yWeak_listeners.add(bind_name, width);
     }
 
     @Override
@@ -450,58 +450,78 @@ public class Texto extends Text implements Forma {
         ySetMineText(new_text);
     }
     
-    public String break_text(String new_text, int char_quantities, boolean break_word) {
+    public String break_text(String new_text, double width, boolean break_word) {
+        double text_width = simulateTextSize(new_text.replace('\n', ' '), getFont().getSize())[0];
+        double char_width = text_width / new_text.length();
+        int char_quantities = (int) (width / char_width);
+        
         int to = 0;
-        int from = char_quantities-1;
-        char[] array;
-        int break_number = 0;
-        int countdown = 0;
+        int from = char_quantities;
+        char[] array = !break_word ? new char[new_text.length()] : new char[new_text.length() + (int) (new_text.length() / char_quantities)];
+        int break_number = 0; //break number: the breaks shouldnt count as part of the text neither ocuping space
+        int deixe_me_tentar_UMA_ULTIMA_VEZ = 0;
+        
+        if(from >= new_text.length())
+            return new_text;
 
-        if (break_word) {
-            array = new char[new_text.length() + (int)(new_text.length() / (char_quantities-1))];
-            for (int i = 0; i < new_text.length(); i++) {
-                array[i] = new_text.charAt(i);
-            }
-        } else {
-            array = new_text.toCharArray();
-        }
-        boolean found = false;
-        while (from < new_text.length()) {
-            for (int i = from; i > to; i--) {
-                if (!break_word) {
-                    if (array[i] == ' ') {
-                        array[i] = '\n';
-                        break_number++;
-                        to = i + break_number;
-                        from = i + char_quantities-1 + break_number;//break number: the breaks shouldnt count as part of the text neither ocuping space
-                        found = true;
-                        break;
-                    }
-                } else {//NAO FUNCIONA, DA PRA FAZER UM foR DO INICIO QUE VAI PROCURANDO \n DAI VAI SOMANDO O N De CARACTERES ATE ACHA, SE N ACHO ATE DA O LIMITE SOCA UM LA E VAI, SE ACHO RESETA O CONTADOR
-                    array[i] = '\n';
-                    for (int j = i+1; j < new_text.length(); j++) {
-                        array[j] = new_text.charAt(j);
-                    }
-                    break_number++;
-                    to = i + break_number;
-                    from = i + char_quantities-1 + break_number;
-                    found = true;
+        while(from < new_text.length() || deixe_me_tentar_UMA_ULTIMA_VEZ < 2){
+            int break_index = -1;
+            int space_index = -1;
+
+            for (int i = to; i < from; i++) {
+                array[i + break_number] = new_text.charAt(i);
+                if(array[i + break_number] == '\n'){
+                    break_index = i;
                     break;
-                }
+                }else if(array[i + break_number] == ' ')
+                    space_index = i;
             }
-            if (!found) {
-                for (int i = from; i < new_text.length(); i++) {
-                    if (array[i] == ' ') {
-                        array[i] = '\n';
-                        to = i + break_number;
-                        from = i + (i + char_quantities < new_text.length() ? char_quantities : new_text.length() - i) + 1;
-                        break_number++;
-                        break;
+            
+            if(break_index != -1){
+                to = break_index + 1;
+                from = to + char_quantities;
+            }else{
+                if(space_index != -1 && deixe_me_tentar_UMA_ULTIMA_VEZ == 0){
+                    array[space_index + break_number] = '\n';
+                    to = space_index + 1;
+                    from = to + char_quantities;
+                }else if(break_word && deixe_me_tentar_UMA_ULTIMA_VEZ == 0){
+                    array[from + break_number] = array[from + break_number - 1];
+                    array[from + break_number - 1] = '\n';
+                    break_number++;
+                    to = from;
+                    from = to + char_quantities;
+                }else{
+                    boolean breaked = false;
+                    for (int i = from; i < new_text.length(); i++) {
+                        if(new_text.charAt(i) == ' ' || new_text.charAt(i) == '\n'){
+                            array[i + break_number] = '\n';
+                            to = i + 1;
+                            from = to + char_quantities;
+                            breaked = true;
+                            break;
+                        }
+                    }
+                    if(!breaked && !break_word){
+                        to = from;
+                        from = to + char_quantities;
                     }
                 }
             }
-            found = false;
+            if(from >= new_text.length()){
+                deixe_me_tentar_UMA_ULTIMA_VEZ++;
+                from = new_text.length();
+            }
         }
         return new String(array);
+    }
+    
+    public int find_first(String string, char c, int ini, int end){
+        for (int i = ini; i < end; i++) {
+            if(string.charAt(i) == c){
+                return i;
+            }
+        }
+        return -1;
     }
 }

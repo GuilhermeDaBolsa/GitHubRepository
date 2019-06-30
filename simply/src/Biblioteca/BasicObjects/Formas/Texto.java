@@ -21,14 +21,19 @@ import javafx.beans.property.SimpleDoubleProperty;
 public class Texto extends Text implements Forma {
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     public ySimpleMap<String, ObservableValue<? extends Number>> yWeak_listeners = new ySimpleMap();
+    
     protected String texto;
     public String font_path = null;
     public double min_font_size = 8;
+    
     public DoubleProperty width = new SimpleDoubleProperty(0);
     public DoubleProperty height = new SimpleDoubleProperty(0);
     public double line_height;
-    public boolean break_text_allowed = false;
+    
+    public boolean break_text_allowed = true;
+    public boolean break_word_allowed = false;
     public boolean unbreak_text_allowed = true;
+    public boolean try_break_in_spaces = true;
 
     public Texto(String texto) {
         this(texto, null, null);
@@ -131,23 +136,20 @@ public class Texto extends Text implements Forma {
         String new_text = new String(texto);
         if(unbreak_text_allowed)
             new_text = new_text.replace('\n', ' ');
-        ySetMineText(break_text(new_text, width, break_text));
-        /*boolean sucess = false;
-        String new_text = new String(texto);
+
+        boolean sucess = false;
         double text_width = simulateTextSize(new_text, getFont().getSize())[0];
         if(change_font_size){
             sucess = ySetWidth(width);
         }
-        if (break_text && !sucess) {
-            if(unbreak_text_allowed)
-                new_text = new_text.replace('\n', ' ');
+        if (break_word_allowed && !sucess) {
             //sees how much characters are needed to approx the required width
             double char_width = text_width / texto.length();
             int char_quantities = (int) ((width / char_width) < 1 ? 0 : (width / char_width));
             
             //must be less than the lenght or it is already correct
             if (char_quantities < new_text.length()) {
-                String breaked = break_text(new_text, char_quantities, break_word_allowed);
+                String breaked = break_text(new_text, char_quantities, break_text);
                 double new_width = simulateTextSize(breaked, getFont().getSize())[0];
                 
                 ySetMineText(breaked);//must have something... even if its wrong
@@ -169,7 +171,7 @@ public class Texto extends Text implements Forma {
                             text_width = simulateTextSize(new_text, i)[0];
                             char_width = text_width / texto.length();
                             char_quantities = (int) (width / char_width);
-                            breaked = break_text(new_text, char_quantities, break_word_allowed);
+                            breaked = break_text(new_text, char_quantities, break_text);
 
                             if (simulateTextSize(breaked, i)[0] < best_width) {
                                 best_string = breaked;
@@ -198,8 +200,8 @@ public class Texto extends Text implements Forma {
         }
         //tries to hide some letters as a final resouce
         if (!sucess) {
-            hide_text(width);
-        }*/
+            ySetMineText(hide_text(new_text, width));
+        }
         ySetTranslateX(where_wasX, 0);
         ySetTranslateY(where_wasY, 0);
     }
@@ -412,8 +414,7 @@ public class Texto extends Text implements Forma {
         return a;
     }
     
-    public void hide_text(double width){
-        String text = getText();
+    public String hide_text(String text, double width){
         String new_text = "";
         int actual_font_size = (int) getFont().getSize();
             
@@ -422,7 +423,7 @@ public class Texto extends Text implements Forma {
         for (int i = 0; i < strings.length; i++) {
             double sub_text_size = simulateTextSize(strings[i], actual_font_size)[0];
             double aprox_char_width = sub_text_size / strings[i].length();
-            int char_quantitie = (int) (width / aprox_char_width);
+            int char_quantitie = (int) (width / aprox_char_width) + 1;
             
             if(char_quantitie > strings[i].length())
                 char_quantitie = strings[i].length()+1;
@@ -447,7 +448,7 @@ public class Texto extends Text implements Forma {
                 string[char_quantitie] = '\n';
             new_text = new_text.concat(new String(string));
         }
-        ySetMineText(new_text);
+        return new_text;
     }
     
     public String break_text(String new_text, double width, boolean break_word) {
@@ -458,8 +459,8 @@ public class Texto extends Text implements Forma {
         int to = 0;
         int from = char_quantities;
         char[] array = !break_word ? new char[new_text.length()] : new char[new_text.length() + (int) (new_text.length() / char_quantities)];
-        int break_number = 0; //break number: the breaks shouldnt count as part of the text neither ocuping space
-        int deixe_me_tentar_UMA_ULTIMA_VEZ = 0;
+        int sintetical_breaks = 0; //breaks that are not part of the original text
+        int deixe_me_tentar_UMA_ULTIMA_VEZ = 0; //flag var
         
         if(from >= new_text.length())
             return new_text;
@@ -468,34 +469,34 @@ public class Texto extends Text implements Forma {
             int break_index = -1;
             int space_index = -1;
 
-            for (int i = to; i < from; i++) {
-                array[i + break_number] = new_text.charAt(i);
-                if(array[i + break_number] == '\n'){
+            for (int i = to; i < from; i++) {//copy the array from a given begining until +char_quantity or if it find a \n, always storing the last SPACE caracter
+                array[i + sintetical_breaks] = new_text.charAt(i);
+                if(array[i + sintetical_breaks] == '\n'){
                     break_index = i;
                     break;
-                }else if(array[i + break_number] == ' ')
+                }else if(array[i + sintetical_breaks] == ' ')
                     space_index = i;
             }
             
-            if(break_index != -1){
+            if(break_index != -1){//if there is a \n it should see it and start the counting again, begining in the \n's index + 1
                 to = break_index + 1;
                 from = to + char_quantities;
             }else{
-                if(space_index != -1 && deixe_me_tentar_UMA_ULTIMA_VEZ == 0){
-                    array[space_index + break_number] = '\n';
+                if(space_index != -1 && deixe_me_tentar_UMA_ULTIMA_VEZ == 0 && try_break_in_spaces){//breaks the text in the last SPACE caracter found
+                    array[space_index + sintetical_breaks] = '\n';
                     to = space_index + 1;
                     from = to + char_quantities;
-                }else if(break_word && deixe_me_tentar_UMA_ULTIMA_VEZ == 0){
-                    array[from + break_number] = array[from + break_number - 1];
-                    array[from + break_number - 1] = '\n';
-                    break_number++;
+                }else if(break_word && deixe_me_tentar_UMA_ULTIMA_VEZ == 0){//breaks the word if it is allowed and no SPACES were found in this loop (begining -> +char quantities).
+                    array[from + sintetical_breaks] = array[from + sintetical_breaks - 1];
+                    array[from + sintetical_breaks - 1] = '\n';
+                    sintetical_breaks++;
                     to = from;
                     from = to + char_quantities;
-                }else{
+                }else{//looks if there is a \n or SPACE beyond the limit to contiue the loops because it wasn't possible to break the text this time.
                     boolean breaked = false;
                     for (int i = from; i < new_text.length(); i++) {
                         if(new_text.charAt(i) == ' ' || new_text.charAt(i) == '\n'){
-                            array[i + break_number] = '\n';
+                            array[i + sintetical_breaks] = '\n';
                             to = i + 1;
                             from = to + char_quantities;
                             breaked = true;
@@ -508,7 +509,7 @@ public class Texto extends Text implements Forma {
                     }
                 }
             }
-            if(from >= new_text.length()){
+            if(from >= new_text.length()){//if from crossed the limit from receives the limit and goes to the last loop.
                 deixe_me_tentar_UMA_ULTIMA_VEZ++;
                 from = new_text.length();
             }

@@ -73,15 +73,15 @@ public class teste2 extends Application {
         double p = 0;
         
         //Texto t = new Texto("VAmo \nTestÁR\n esse\n Necocio.!");
-        Texto t = new Texto("VAmoVTestÁVness\neVabcddd eefg hoooooa j", Font.font(40), Color.ROSYBROWN);
+        Texto t = new Texto("VAACCCCCCCCCCCCCCmo\nVTestÁVness\neVabcddd eefg hoo\noooa j", Font.font(40), Color.ROSYBROWN);
         Linha l = new Linha(0, t.yGetHeight(true), 10, Color.BLACK);
         Linha l2 = new Linha(t.yGetWidth(true), 0, 2, Color.RED);
         
         t.min_font_size = 30;
         
-        t.unbreak_text_allowed = true;
+        t.unbreak_text_allowed = false;
         
-        t.yBindWidth("width", teste.widthProperty(), true);
+        t.yBindWidth("width", teste.widthProperty(), false);
         System.out.println();
         
 

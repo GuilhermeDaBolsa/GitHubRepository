@@ -4,6 +4,7 @@ import Biblioteca.BasicObjects.Formas.Circulo;
 import Biblioteca.BasicObjects.Formas.Linha;
 import Biblioteca.BasicObjects.Formas.Poligono;
 import Biblioteca.BasicObjects.Formas.Texto;
+import Biblioteca.OrganizadoresDeNodos.Caixa;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.beans.property.DoubleProperty;
@@ -22,17 +23,17 @@ public class teste2 extends Application {
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
 
-        /*Caixa t1 = new Caixa(1000, 1000, Color.ALICEBLUE, 5, Color.GREY);//CLONEAAAA
+        Caixa t1 = new Caixa(1000, 1000, Color.ALICEBLUE, 5, Color.GREY);//CLONEAAAA
         t1.ySetTranslateX(500, 0);
         t1.ySetTranslateY(500, 0);
         
         Caixa t2 = new Caixa(t1);//AAA
         t2.ySetTranslateX(600, 0);
-        t2.ySetTranslateY(600, 0);*/
-        /*Poligono a = new Poligono(
+        t2.ySetTranslateY(600, 0);
+        Poligono a = new Poligono(
                 0, 0,
-                100, 0,
-                50, 100
+                20.3, 0,
+                0, 100
         );
 
         a.setFill(Color.ALICEBLUE);
@@ -69,27 +70,11 @@ public class teste2 extends Application {
 
         teste.getChildren().addAll(a, c, b, d, lu, la);
         
-        teste.setOnMousePressed( event -> System.gc());*/
-        double p = 0;
+        teste.setOnMousePressed( event -> System.gc());
         
-        //Texto t = new Texto("VAmo \nTestÁR\n esse\n Necocio.!");
-        Texto t = new Texto("VAACCCCCCCCCCCCCCmo\nVTestÁVness\neVabcddd eefg hoo\noooa j", Font.font(40), Color.ROSYBROWN);
-        Linha l = new Linha(0, t.yGetHeight(true), 10, Color.BLACK);
-        Linha l2 = new Linha(t.yGetWidth(true), 0, 2, Color.RED);
-        
-        t.min_font_size = 30;
-        
-        t.unbreak_text_allowed = false;
-        
-        t.yBindWidth("width", teste.widthProperty(), false);
-        System.out.println();
-        
-
-        //MUDAR O HIDE TEXT PQ ELE TA ADICIONANDO CARACTERES, NAO PODE, TEM Q SUBSTITUIR NO MAX
         //height ainda ta erradinha, os 70% (um poco mais) é real????
         //fazer la os set height q ainda falta e os setMaxWidth e height e mudar o codigo pra aguenta eles.
         
-        teste.getChildren().addAll(t, l, l2);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");

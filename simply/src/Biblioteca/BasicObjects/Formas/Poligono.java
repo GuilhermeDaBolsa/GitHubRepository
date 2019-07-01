@@ -11,14 +11,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 public class Poligono extends Polygon implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     public ySimpleMap<String, ObservableValue<? extends Number>> yWeak_listeners = new ySimpleMap();
-    DoubleProperty left_X;
-    DoubleProperty right_X;
-    DoubleProperty up_Y;
-    DoubleProperty down_Y;
+    DoubleProperty left_X = new SimpleDoubleProperty(0);
+    DoubleProperty right_X = new SimpleDoubleProperty(0);
+    DoubleProperty up_Y = new SimpleDoubleProperty(0);
+    DoubleProperty down_Y = new SimpleDoubleProperty(0);
     
     /*public Poligono(int sides){
         

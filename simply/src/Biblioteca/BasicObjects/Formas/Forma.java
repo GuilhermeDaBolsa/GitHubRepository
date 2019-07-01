@@ -1,5 +1,6 @@
 package Biblioteca.BasicObjects.Formas;
 
+import Biblioteca.Lists.ySimpleMap;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Paint;
@@ -170,6 +171,8 @@ public interface Forma{
     
     
     //----------------------------- BIND/LISTENER METHODS -----------------------------\\
+    
+    public void yAddBind(String bind_name, ObservableValue<? extends Number> bind);
     
     /**
      * @param pivo The porcentage point of the shape, for example, 0 is the leftmost point of the shape,

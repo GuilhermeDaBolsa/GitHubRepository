@@ -177,6 +177,11 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     //----------------------------- BIND/LISTENER METHODS -----------------------------\\
     
     @Override
+    public void yAddBind(String bind_name, ObservableValue<? extends Number> bind){
+        YshapeHandler.yAddBind(yWeak_listeners, bind_name, bind);
+    }
+    
+    @Override
     public DoubleBinding yTranslateXbind(double pivo){
         return YshapeHandler.yTranslateXbind(this, pivo);
     }

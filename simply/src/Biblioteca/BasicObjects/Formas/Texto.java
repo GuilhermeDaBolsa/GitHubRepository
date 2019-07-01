@@ -30,12 +30,6 @@ public class Texto extends Text implements Forma {
     private DoubleProperty height = new SimpleDoubleProperty(0);
     public double line_height;
     
-    public boolean change_font_size_allowed = true;
-    public boolean break_text_allowed = true;
-    public boolean break_word_allowed = false;
-    public boolean unbreak_text_allowed = true;
-    public boolean try_break_in_spaces = true;
-
     public Texto(String texto) {
         this(texto, null, null);
     }
@@ -256,6 +250,12 @@ public class Texto extends Text implements Forma {
     }
 
     //----------------------------- BIND/LISTENER METHODS -----------------------------\\
+    
+    @Override
+    public void yAddBind(String bind_name, ObservableValue<? extends Number> bind){
+        YshapeHandler.yAddBind(yWeak_listeners, bind_name, bind);
+    }
+    
     @Override
     public DoubleBinding yTranslateXbind(double pivo) {
         return YshapeHandler.yTranslateXbind(this, pivo);
@@ -287,16 +287,13 @@ public class Texto extends Text implements Forma {
     }
 
     @Override
-    public void yBindWidth(String bind_name, ObservableValue<? extends Number> width, boolean change_font_size) {
-        width.addListener((observable) -> {
-            ySetWidth(width.getValue().doubleValue(), change_font_size, break_text_allowed);
-        });
-        yWeak_listeners.add(bind_name, width);
+    public void yBindWidth(String bind_name, ObservableValue<? extends Number> width, boolean correct_location) {
+        YshapeHandler.yBindWidth(this, yWeak_listeners, bind_name, height, correct_location);
     }
 
     @Override
-    public void yBindHeight(String bind_name, ObservableValue<? extends Number> height, boolean change_font_size) {
-        YshapeHandler.yBindHeight(this, yWeak_listeners, bind_name, height, change_font_size);
+    public void yBindHeight(String bind_name, ObservableValue<? extends Number> height, boolean correct_location) {
+        YshapeHandler.yBindHeight(this, yWeak_listeners, bind_name, height, correct_location);
     }
 
     @Override
@@ -314,7 +311,8 @@ public class Texto extends Text implements Forma {
      * @param change_font_size Mark true if you allow the method to change the font size.
      * @param break_text Mark true if you allow the method to break the text in more lines.
      */
-    public void ySetWidth(double width, boolean stroke_included) {
+    public void ySetWidth(double width, boolean stroke_included, boolean change_font_size_allowed, boolean break_text_allowed,
+     boolean break_word_allowed, boolean unbreak_text_allowed, boolean try_break_in_spaces, boolean correct_location) {
         double where_wasX = yGetTranslateX(0);
         double where_wasY = yGetTranslateY(0);
         
@@ -337,7 +335,7 @@ public class Texto extends Text implements Forma {
             
             //must be less than the lenght or it is already correct
             if (char_quantities < new_text.length()) {
-                String breaked = break_text(new_text, char_quantities, stroke_included, break_text_allowed);//tries to break the text
+                String breaked = break_text(new_text, char_quantities, stroke_included, break_word_allowed, try_break_in_spaces);//tries to break the text
                 double new_width = simulateTextSize(breaked, getFont().getSize(), stroke_included)[0];
                 
                 ySetMineText(breaked);//must have something... even if its wrong
@@ -359,7 +357,7 @@ public class Texto extends Text implements Forma {
                             text_width = simulateTextSize(new_text, i, stroke_included)[0];
                             char_width = text_width / texto.length();
                             char_quantities = (int) (width / char_width);
-                            breaked = break_text(new_text, char_quantities, stroke_included, break_text_allowed);
+                            breaked = break_text(new_text, char_quantities, stroke_included, break_word_allowed, try_break_in_spaces);
 
                             if (simulateTextSize(breaked, i, stroke_included)[0] < best_width) {
                                 best_string = breaked;
@@ -390,8 +388,11 @@ public class Texto extends Text implements Forma {
         if (!sucess) {
             ySetMineText(hide_text(new_text, width, stroke_included));
         }
-        ySetTranslateX(where_wasX, 0);
-        ySetTranslateY(where_wasY, 0);
+        
+        if(correct_location){
+            ySetTranslateX(where_wasX, 0);
+            ySetTranslateY(where_wasY, 0);
+        }
     }
     
     /**
@@ -399,30 +400,63 @@ public class Texto extends Text implements Forma {
      *
      * @param height
      */
-    public void ySetHeight(double height, boolean stroke_included) {
+    public void ySetHeight(double height, boolean stroke_included, boolean change_font_size_allowed, boolean break_text_allowed,
+     boolean break_word_allowed, boolean unbreak_text_allowed, boolean correct_location) {
+        double where_wasX = yGetTranslateX(0);
+        double where_wasY = yGetTranslateY(0);
         boolean sucess = false;
         
+        String new_text = new String(texto);
+        int actual_font_size = (int) getFont().getSize();
+        
         if(change_font_size_allowed){
-            int actual_font_size = (int) getFont().getSize();
             ySetHeight(height, stroke_included, true);
             int new_font_size = (int) getFont().getSize();
             sucess = new_font_size != actual_font_size;
         }
             
-        
         if(!sucess){
-            int line_quantity = (int) (height / line_height);
-            //quantas linhas tem? quanto é a diferença entre quantas tem e quantas tem q ter?
+            double textPropreties[] = simulateTextSize(getText(), getFont().getSize(), stroke_included);
+            int line_quantity_desired = (int) (height / line_height);
+            int line_quantity = (int) textPropreties[2];
             
-            if(simulateTextSize(getText(), getFont().getSize(), stroke_included)[1] > height){
+            if(textPropreties[1] > height){
                 if(unbreak_text_allowed){
                     
                 }else{
                     
                 }
             }else if(break_text_allowed){
+                int break_quantities = line_quantity_desired - line_quantity;
+                char array[];
                 
+                if(break_word_allowed){
+                    if(unbreak_text_allowed){
+                        break_quantities = line_quantity_desired - 1;
+                        new_text = new_text.replace('\n', ' ');
+                    }
+                    int char_quantities = new_text.length() / (break_quantities + 1);
+                    
+                    for (int i = 0, j = 0, b = 0; i < new_text.length(); i++, j++, b++) {
+                        //arra
+                    }
+                    
+                }else{
+                    array = new_text.toCharArray();
+                    for (int i = array.length-1; i >= 0; i--) {
+                        if(array[i] == ' '){
+                            array[i] = '\n';
+                            break_quantities--;
+                            if(break_quantities == 0)
+                                break;
+                        }
+                    }
+                }
             }
+        }
+        if(correct_location){
+            ySetTranslateX(where_wasX, 0);
+            ySetTranslateY(where_wasY, 0);
         }
     }
     
@@ -501,7 +535,7 @@ public class Texto extends Text implements Forma {
         return new_text;
     }
     
-    public String break_text(String new_text, double width, boolean stroke_included, boolean break_word) {
+    public String break_text(String new_text, double width, boolean stroke_included, boolean break_word, boolean try_break_in_spaces) {
         double text_width = simulateTextSize(new_text.replace('\n', ' '), getFont().getSize(), stroke_included)[0];
         double char_width = text_width / new_text.length();
         int char_quantities = (int) (width / char_width);

@@ -134,6 +134,10 @@ public abstract class YshapeHandler{
         yScaleYby(shape, scale, correct_location);
     }
     
+    public static void yAddBind(ySimpleMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> bind){
+        map.add(bind_name, bind);
+    }
+    
     /**
      * @param shape The shape to get the bind.
      * @see Forma#yTranslateXbind(double) 

@@ -335,7 +335,7 @@ public class Texto extends Text implements Forma {
             
             //must be less than the lenght or it is already correct
             if (char_quantities < new_text.length()) {
-                String breaked = break_text(new_text, char_quantities, stroke_included, break_word_allowed, try_break_in_spaces);//tries to break the text
+                String breaked = break_text(new_text, char_quantities, break_word_allowed, try_break_in_spaces);//tries to break the text
                 double new_width = simulateTextSize(breaked, getFont().getSize(), stroke_included)[0];
                 
                 ySetMineText(breaked);//must have something... even if its wrong
@@ -357,7 +357,7 @@ public class Texto extends Text implements Forma {
                             text_width = simulateTextSize(new_text, i, stroke_included)[0];
                             char_width = text_width / texto.length();
                             char_quantities = (int) (width / char_width);
-                            breaked = break_text(new_text, char_quantities, stroke_included, break_word_allowed, try_break_in_spaces);
+                            breaked = break_text(new_text, char_quantities, break_word_allowed, try_break_in_spaces);
 
                             if (simulateTextSize(breaked, i, stroke_included)[0] < best_width) {
                                 best_string = breaked;
@@ -401,7 +401,7 @@ public class Texto extends Text implements Forma {
      * @param height
      */
     public void ySetHeight(double height, boolean stroke_included, boolean change_font_size_allowed, boolean break_text_allowed,
-     boolean break_word_allowed, boolean unbreak_text_allowed, boolean correct_location) {
+     boolean break_word_allowed, boolean unbreak_text_allowed, boolean try_break_in_spaces, boolean correct_location) {
         double where_wasX = yGetTranslateX(0);
         double where_wasY = yGetTranslateY(0);
         boolean sucess = false;
@@ -422,38 +422,32 @@ public class Texto extends Text implements Forma {
             
             if(textPropreties[1] > height){
                 if(unbreak_text_allowed){
-                    
+                    int break_quantities = line_quantity_desired - 1;
+                    new_text = new_text.replace('\n', ' ');
+                    int char_quantities = new_text.length() / break_quantities;
+                    new_text = break_text(new_text, char_quantities, break_word_allowed, try_break_in_spaces);
                 }else{
+                    int remove_breaks = line_quantity - line_quantity_desired;
+                    String substrings[] = new_text.split("\n");
+                    new_text = "";
                     
+                    for (int i = 0; i < substrings.length - remove_breaks; i++) {
+                        new_text = new_text.concat(substrings[i]);
+                    }
+                    new_text = new_text.concat("..");
                 }
             }else if(break_text_allowed){
-                int break_quantities = line_quantity_desired - line_quantity;
-                char array[];
-                
-                if(break_word_allowed){
-                    if(unbreak_text_allowed){
-                        break_quantities = line_quantity_desired - 1;
+                int break_quantities = line_quantity_desired - 1;
+                if(unbreak_text_allowed)
                         new_text = new_text.replace('\n', ' ');
-                    }
-                    int char_quantities = new_text.length() / (break_quantities + 1);
-                    
-                    for (int i = 0, j = 0, b = 0; i < new_text.length(); i++, j++, b++) {
-                        //arra
-                    }
-                    
-                }else{
-                    array = new_text.toCharArray();
-                    for (int i = array.length-1; i >= 0; i--) {
-                        if(array[i] == ' '){
-                            array[i] = '\n';
-                            break_quantities--;
-                            if(break_quantities == 0)
-                                break;
-                        }
-                    }
-                }
+                
+                int char_quantities = new_text.length() / break_quantities;
+                new_text = break_text(new_text, char_quantities, break_word_allowed, try_break_in_spaces);
             }
         }
+        
+        ySetMineText(new_text);
+        
         if(correct_location){
             ySetTranslateX(where_wasX, 0);
             ySetTranslateY(where_wasY, 0);
@@ -535,11 +529,7 @@ public class Texto extends Text implements Forma {
         return new_text;
     }
     
-    public String break_text(String new_text, double width, boolean stroke_included, boolean break_word, boolean try_break_in_spaces) {
-        double text_width = simulateTextSize(new_text.replace('\n', ' '), getFont().getSize(), stroke_included)[0];
-        double char_width = text_width / new_text.length();
-        int char_quantities = (int) (width / char_width);
-        
+    public String break_text(String new_text, int char_quantities, boolean break_word, boolean try_break_in_spaces) {
         int to = 0;
         int from = char_quantities;
         char[] array = !break_word ? new char[new_text.length()] : new char[new_text.length() + (int) (new_text.length() / char_quantities)];

@@ -23,7 +23,7 @@ public class teste2 extends Application {
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
 
-        Caixa t1 = new Caixa(1000, 1000, Color.ALICEBLUE, 5, Color.GREY);//CLONEAAAA
+        /*Caixa t1 = new Caixa(1000, 1000, Color.ALICEBLUE, 5, Color.GREY);//CLONEAAAA
         t1.ySetTranslateX(500, 0);
         t1.ySetTranslateY(500, 0);
         
@@ -68,9 +68,27 @@ public class teste2 extends Application {
         
         a.rotateProperty().bind(lu.yTranslateXbind(0));
 
-        teste.getChildren().addAll(a, c, b, d, lu, la);
+        teste.getChildren().addAll(a, c, b, d, lu, la);*/
         
         teste.setOnMousePressed( event -> System.gc());
+        
+        Texto t = new Texto("Essa\né apenas uma frase de\nteste, mas o\nportuguês precisa\nestar bem\ndesenvolvido! :)");
+        
+        double ponhasenoseulugar = 400;
+        
+        t.ySetHeight(ponhasenoseulugar, true, true, true, false, false, true, true);
+        
+        Linha lb = new Linha(t.yGetWidth(true), 0, 10, Color.AQUAMARINE);
+        
+        lb.ySetTranslateY(ponhasenoseulugar, 0);
+        
+        teste.heightProperty().addListener((observable) -> {
+            t.setText("" + teste.getHeight());
+        });
+        
+        //lb.yAddBind("personalized", teste.heightProperty());
+        
+        teste.getChildren().addAll(lb, t);
         
         //height ainda ta erradinha, os 70% (um poco mais) é real????
         //fazer la os set height q ainda falta e os setMaxWidth e height e mudar o codigo pra aguenta eles.

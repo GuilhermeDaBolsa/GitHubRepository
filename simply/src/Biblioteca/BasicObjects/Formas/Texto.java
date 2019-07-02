@@ -15,9 +15,9 @@ import java.net.MalformedURLException;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-//FAZER UM SETMAXWIDTH, que nem o label.
-//PRO HEIGHT TAMBPEM..., mas ai n sei se olha os \n ou sla...
+//FAZER UM SETMAXWIDTH e SETMAXHEIGHT, que nem o label.
 //O TEXTO GUARDA SEMPRE UM ESPAÇO PROS ACENTOS (EU ACHO), MESMO QUE ELES NAO EXISTAO, ENTAO O TEXTO PODE SER MAIS ALTO DO QUE REALMENTE APARENTA...
+
 public class Texto extends Text implements Forma {
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     public ySimpleMap<String, ObservableValue<? extends Number>> yWeak_listeners = new ySimpleMap();
@@ -28,6 +28,8 @@ public class Texto extends Text implements Forma {
     
     private DoubleProperty width = new SimpleDoubleProperty(0);
     private DoubleProperty height = new SimpleDoubleProperty(0);
+    public DoubleProperty MAX_WIDTH  = new SimpleDoubleProperty(-1);
+    public DoubleProperty MAX_HEIGHT  = new SimpleDoubleProperty(-1);
     public double line_height;
     
     public Texto(String texto) {
@@ -36,27 +38,15 @@ public class Texto extends Text implements Forma {
 
     public Texto(String texto, Font fonte, Color cor) {
         super(texto);
+        this.texto = texto;
         ySetMineText(texto);
 
-        this.texto = texto;
-
-        if (fonte != null) {
+        if (fonte != null) 
             ySetFont(fonte);
-        }
 
         setFill(cor == null ? Color.BLACK : cor);
 
         ySetTranslateY(0, 0);
-    }
-
-    public Font carregar_fonte(String caminho_fonte, double tamanho) {
-        try {
-            font_path = caminho_fonte;
-            return Font.loadFont(new File(caminho_fonte).toURI().toURL().toExternalForm(), tamanho);
-        } catch (MalformedURLException ex) {
-            System.out.println("Deu Pauuuu");
-        }
-        return Font.font("Arial", tamanho);
     }
 
     public void ySetFont(Font font) {
@@ -125,6 +115,9 @@ public class Texto extends Text implements Forma {
         double where_wasX = yGetTranslateX(0);
         double where_wasY = yGetTranslateY(0);
         
+        if(width > MAX_WIDTH.get() && MAX_WIDTH.get() != -1)
+            width = MAX_WIDTH.get();
+        
         ySetSize(width, stroke_included, 0);
         
         if(correct_location){
@@ -141,6 +134,9 @@ public class Texto extends Text implements Forma {
     public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
         double where_wasX = yGetTranslateX(0);
         double where_wasY = yGetTranslateY(0);
+        
+        if(height > MAX_HEIGHT.get() && MAX_HEIGHT.get() != -1)
+            height = MAX_HEIGHT.get();
         
         ySetSize(height, stroke_included, 1);
         
@@ -316,6 +312,9 @@ public class Texto extends Text implements Forma {
         double where_wasX = yGetTranslateX(0);
         double where_wasY = yGetTranslateY(0);
         
+        if(width > MAX_WIDTH.get() && MAX_WIDTH.get() != -1)
+            width = MAX_WIDTH.get();
+        
         String new_text = new String(texto);
         if(unbreak_text_allowed)
             new_text = new_text.replace('\n', ' ');
@@ -406,6 +405,9 @@ public class Texto extends Text implements Forma {
         double where_wasY = yGetTranslateY(0);
         boolean sucess = false;
         
+        if(height > MAX_HEIGHT.get() && MAX_HEIGHT.get() != -1)
+            height = MAX_HEIGHT.get();
+        
         String new_text = new String(texto);
         int actual_font_size = (int) getFont().getSize();
         
@@ -424,7 +426,7 @@ public class Texto extends Text implements Forma {
                 if(unbreak_text_allowed){
                     int break_quantities = line_quantity_desired - 1;
                     new_text = new_text.replace('\n', ' ');
-                    int char_quantities = new_text.length() / break_quantities;
+                    int char_quantities = (new_text.length()-1) / (break_quantities);
                     new_text = break_text(new_text, char_quantities, break_word_allowed, try_break_in_spaces);
                 }else{
                     int remove_breaks = line_quantity - line_quantity_desired;
@@ -441,7 +443,7 @@ public class Texto extends Text implements Forma {
                 if(unbreak_text_allowed)
                         new_text = new_text.replace('\n', ' ');
                 
-                int char_quantities = new_text.length() / break_quantities;
+                int char_quantities = (new_text.length()-1) / (break_quantities);
                 new_text = break_text(new_text, char_quantities, break_word_allowed, try_break_in_spaces);
             }
         }
@@ -569,6 +571,7 @@ public class Texto extends Text implements Forma {
                 }else{//looks if there is a \n or SPACE beyond the limit to contiue the loops because it wasn't possible to break the text this time.
                     boolean breaked = false;
                     for (int i = from; i < new_text.length(); i++) {
+                        array[i + sintetical_breaks] = new_text.charAt(i);
                         if(new_text.charAt(i) == ' ' || new_text.charAt(i) == '\n'){
                             array[i + sintetical_breaks] = '\n';
                             to = i + 1;
@@ -589,5 +592,15 @@ public class Texto extends Text implements Forma {
             }
         }
         return new String(array);
+    }
+    
+    public Font carregar_fonte(String caminho_fonte, double tamanho) {
+        try {
+            font_path = caminho_fonte;
+            return Font.loadFont(new File(caminho_fonte).toURI().toURL().toExternalForm(), tamanho);
+        } catch (MalformedURLException ex) {
+            System.out.println("Deu Pauuuu");
+        }
+        return Font.font("Arial", tamanho);
     }
 }

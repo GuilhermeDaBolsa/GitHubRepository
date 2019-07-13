@@ -16,6 +16,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 public class Poligono extends Polygon implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     public ySimpleMap<String, ObservableValue<? extends Number>> yWeak_listeners = new ySimpleMap();
+    
     DoubleProperty left_X = new SimpleDoubleProperty(0);
     DoubleProperty right_X = new SimpleDoubleProperty(0);
     DoubleProperty up_Y = new SimpleDoubleProperty(0);
@@ -159,9 +160,16 @@ public class Poligono extends Polygon implements Forma{
 
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
-        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);
+        double where_wasX = yGetTranslateX(0);
+        double where_wasY = yGetTranslateY(0);
         
-        //MANDA O CALCULATE AI MAGRAO, !NAO SERIA AQUI MAGRAO!
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);
+        calculate(getPoints());
+        
+        if(correct_location){
+            ySetTranslateX(where_wasX, 0);
+            ySetTranslateY(where_wasY, 0);
+        }
     }
     
     
@@ -257,9 +265,9 @@ public class Poligono extends Polygon implements Forma{
     /**
      * @param points Pontos que formam a forma.
      */
-    public void calculate(Double... points){
+    public void calculate(Object... points){//ANGULOS MENORES DO QUE 11,475 TEM STROKE = 0 (NAO HA INTERSECÇÃO DE RETAS)
         if(points.length <= 2){
-            System.out.println("Not enought points.");
+            System.out.println("Not enought points.");//if they are 2, isn't it a line?
             return;
         }
         
@@ -274,34 +282,70 @@ public class Poligono extends Polygon implements Forma{
             Point2D pN1 = new Point2D(cPoints.get(i-2), cPoints.get(i-1));
             Point2D p0 = new Point2D(cPoints.get(i), cPoints.get(i+1));
             Point2D p1 = new Point2D(cPoints.get(i+2), cPoints.get(i+3));
+            
+            double[] info_r1 = reta_paralela(pN1, p0); //gets the coeficient (m) and complement (n) of the two possible RETAS (x * m + n)
+            double[] info_r2 = reta_paralela(p0, p1);
+            
+            System.out.println("\tRETAS 1");
+            System.out.println("M: " + info_r1[0] + "      N: "+ info_r1[1]);
+            System.out.println("M: " + info_r1[0] + "      N: "+ info_r1[2]);
+            
+            System.out.println("\n\n\tRETAS 2");
+            System.out.println("M: " + info_r2[0] + "      N: "+ info_r2[1]);
+            System.out.println("M: " + info_r2[0] + "      N: "+ info_r2[2]);
+            
+            System.out.println("\n-----------------------------------");
+            
+            for (int j = 0; j < 2; j++) { //intersects the RETAS to find the four possible poits
+                for (int k = 0; k < 2; k++) {
+                    double x = (info_r2[0] + info_r2[k + 1] - info_r1[j + 1]) / info_r1[0];
+                    double y = info_r1[0] * x + info_r1[j+1];
+                    
+                    if(x < left)
+                        left = x;
+                    else if(x > right)
+                        right = x;
+                    
+                    if(y < up)
+                        up = y;
+                    else if(y > down)
+                        down = y;
+                }
+            }
+            yOutsideStrokeOcupation = new YstrokeOcupation(left_X.get() - left, right - right_X.get(), up_Y.get() - up, down - down_Y.get());
         }
     }
     
-    public void reta_paralela(Point2D a, Point2D b){
+    public double[] reta_paralela(Point2D a, Point2D b){
             double m = 0;
             double n = 0;
             
             try {
-                m = (b.getY() - a.getY()) / (b.getX() - a.getX());
+                m = (b.getY() - a.getY()) / (b.getX() - a.getX()); // coeficiente da reta criada pelos 2 pontos
             } catch (Exception e) {
                 //VER DEPOIS
             }
-//            bOne = p1.getY() - aOne * p1.getX();
-//            bNone = pN1.getY() - aNone * pN1.getX();
+
+            double reflected_m = m != 0 ? -1/m : 0; //coeficiente da reta perpendicular a reta criada pelos 2 pontos
             
-            double reflected_m = -1/m;
+            //do a sistem to discover the 2 points of a possible RETA of the stroke
+            double complement = (YshapeHandler.yGetStrokeOcupation(this)/2)/Math.sqrt(1+(reflected_m * reflected_m)); //+/- result
             
-            double complement = (YshapeHandler.yGetStrokeOcupation(this)/2)/Math.sqrt(1+(reflected_m * reflected_m));
-            
+            //the 2 possible points for the RETA of the stroke calculated by the sistem (+/- because it is x²)
             double x1 = a.getX() + complement;
             double y1 = reflected_m * (x1 - a.getX()) + a.getY();
             double x2 = a.getX() - complement;
             double y2 = reflected_m * (x2 - a.getX()) + a.getY();
             
+            double n1 = -m * x1 + y1;//PARECE QUE TA DANDO ERRADO NOS N's
+            double n2 = -m * x2 + y2;
             
+            //retorna os m's e n's para comparar com as proximas retas que vierem
+            double arr[] = {m, n1, n2};
+            return arr;
     }
     
     public void calculate(ObservableList<Double> points){
-        calculate((Double[]) points.toArray());
+        calculate(points.toArray());
     }
 }

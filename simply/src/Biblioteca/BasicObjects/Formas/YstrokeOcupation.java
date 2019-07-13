@@ -1,7 +1,7 @@
 package Biblioteca.BasicObjects.Formas;
 
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.DoublePropertyBase;
+import javafx.beans.property.SimpleDoubleProperty;
 
 public class YstrokeOcupation{
     public DoubleProperty LEFT;
@@ -20,12 +20,12 @@ public class YstrokeOcupation{
     }
     
     public YstrokeOcupation(double LEFT, double RIGHT, double UP, double BOTTOM) {
-        this.LEFT = creatorHelper(LEFT);
-        this.RIGHT = creatorHelper(RIGHT);
-        this.UP = creatorHelper(UP);
-        this.BOTTOM = creatorHelper(BOTTOM);
-        this.WIDTH = creatorHelper(LEFT + RIGHT);
-        this.HEIGHT = creatorHelper(UP + BOTTOM);
+        this.LEFT = new SimpleDoubleProperty(LEFT);
+        this.RIGHT = new SimpleDoubleProperty(RIGHT);
+        this.UP = new SimpleDoubleProperty(UP);
+        this.BOTTOM = new SimpleDoubleProperty(BOTTOM);
+        this.WIDTH = new SimpleDoubleProperty(LEFT + RIGHT);
+        this.HEIGHT = new SimpleDoubleProperty(UP + BOTTOM);
     }
     
     public void setStrokeOcupation(double LEFT, double RIGHT, double UP, double BOTTOM) {
@@ -40,18 +40,12 @@ public class YstrokeOcupation{
     public void setStrokeOcupation(double WIDTH, double HEIGHT) {
         setStrokeOcupation(WIDTH/2, WIDTH/2, HEIGHT/2, HEIGHT/2);
     }
-    
-    private DoublePropertyBase creatorHelper(double value){
-        return new DoublePropertyBase(value) {
-            @Override
-            public Object getBean() {
-                return YstrokeOcupation.this;
-            }
-            
-            @Override
-            public String getName() {
-                return "yStrokeProperty";
-            }
-        };
+
+    @Override
+    public String toString(){
+        return "Left stroke: " + LEFT.get() + "\n" +
+                "Right stroke: " + RIGHT.get() + "\n" +
+                "Up stroke: " + UP.get() + "\n" +
+                "BOTTOM stroke: " + BOTTOM.get() + "\n";
     }
 }

@@ -29,19 +29,18 @@ public class teste2 extends Application {
         
         Caixa t2 = new Caixa(t1);//AAA
         t2.ySetTranslateX(600, 0);
-        t2.ySetTranslateY(600, 0);
+        t2.ySetTranslateY(600, 0);*/
         Poligono a = new Poligono(
-                0, 0,
-                20.3, 0,
-                0, 100
+                0, 100,
+                100, 100,
+                50, 0
         );
 
         a.setFill(Color.ALICEBLUE);
         a.ySetStroke(5.0, Color.RED, StrokeType.OUTSIDE, true);
-        a.reta_paralela(new Point2D(0, 0), new Point2D(3, 4));
-        a.ySetPosition(600, 600, 0, 0);
+        //a.ySetPosition(600, 600, 0, 0);
 
-        Linha c = new Linha(50, 150, 40, Color.DARKSEAGREEN);
+        /*Linha c = new Linha(50, 150, 40, Color.DARKSEAGREEN);
         c.ySetPosition(0, 0, 0, 0);
 
         Circulo b = new Circulo(2);
@@ -72,7 +71,7 @@ public class teste2 extends Application {
         
         teste.setOnMousePressed( event -> System.gc());
         
-        Texto t = new Texto("Essa\né apenas uma frase de\nteste, mas o\nportuguês precisa\nestar bem\ndesenvolvido! :)");
+        /*Texto t = new Texto("Essa\né apenas uma frase de\nteste, mas o\nportuguês precisa\nestar bem\ndesenvolvido! :)");
         
         double ponhasenoseulugar = 400;
         
@@ -88,10 +87,14 @@ public class teste2 extends Application {
         
         //lb.yAddBind("personalized", teste.heightProperty());
         
-        teste.getChildren().addAll(lb, t);
+        teste.getChildren().addAll(lb, t, a);*/
         
         //height ainda ta erradinha, os 70% (um poco mais) é real????
         //fazer la os set height q ainda falta e os setMaxWidth e height e mudar o codigo pra aguenta eles.
+        
+        
+        teste.getChildren().addAll(a);
+        
         
         
         Scene scene = new Scene(teste, 1440, 900);

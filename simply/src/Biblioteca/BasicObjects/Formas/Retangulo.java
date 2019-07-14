@@ -115,12 +115,12 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        YshapeHandler.setTranslateX(this, (position - yGetWidth(false)/2) + yGetWidth(true)/2, pivo);
+        YshapeHandler.setTranslateX(this, position + yOutsideStrokeOcupation.LEFT.get(), pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {
-        YshapeHandler.setTranslateY(this, (position - yGetHeight(false)/2) + yGetHeight(true)/2, pivo);
+        YshapeHandler.setTranslateY(this, position + yOutsideStrokeOcupation.UP.get(), pivo);
     }
     
     @Override

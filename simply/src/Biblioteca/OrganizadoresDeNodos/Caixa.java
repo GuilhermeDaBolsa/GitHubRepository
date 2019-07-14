@@ -25,7 +25,7 @@ public class Caixa extends CenaVisivel {
      * @param cor_borda Cor da borda da caixa.
      */
     public Caixa(Shape forma, Paint cor_fundo, double grossura_borda, Paint cor_borda){
-        //caixa = (Shape) YshapeHandler.copyObject(forma);//AAAAAAAAAAAAAAAA AINDA É UM PONTEIRRROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO, TEM CERTEZA? TESTA NA AULA DO FELEF
+        //caixa = (Shape) YshapeHandler.copyObject(forma);//AAAAAAAAAAAAAAAA AINDA É UM PONTEIRRROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
         //Node n = (Node) YshapeHandler.cloneObject(forma);
         //((Forma)caixa).ySetWidth(n.getBoundsInLocal().getWidth(), false, true);
         caixa = forma;

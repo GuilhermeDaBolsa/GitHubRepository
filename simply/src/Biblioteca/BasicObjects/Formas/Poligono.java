@@ -140,12 +140,12 @@ public class Poligono extends Polygon implements Forma{
 
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        YshapeHandler.setTranslateX(this, (position - yGetWidth(false)/2) + yGetWidth(true)/2, pivo);
+        YshapeHandler.setTranslateX(this, position + yOutsideStrokeOcupation.LEFT.get(), pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {
-        YshapeHandler.setTranslateY(this, (position - yGetHeight(false)/2) + yGetHeight(true)/2, pivo);
+        YshapeHandler.setTranslateY(this, position + yOutsideStrokeOcupation.UP.get(), pivo);
     }
     
     @Override
@@ -260,14 +260,12 @@ public class Poligono extends Polygon implements Forma{
         YshapeHandler.yUnbind(yWeak_listeners, bind_name);
     }
     
-    //STROKEEEEEEEEEEEEE AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA A A A A A A A 
-    
     /**
      * @param points Pontos que formam a forma.
      */
-    public void calculate(Object... points){//ANGULOS MENORES DO QUE 11,475 TEM STROKE = 0 (NAO HA INTERSECÇÃO DE RETAS)
+    public void calculate(Object... points){//ANGULOS MENORES DO QUE 11,475 (achar um valor mais preciso) TEM STROKE = 0 (NAO HA INTERSECÇÃO DE RETAS)
         if(points.length <= 2){
-            System.out.println("Not enought points.");//if they are 2, isn't it a line?
+            System.out.println("Not enought points.");//if they are 2, isn't it a line? (ver isso dps)
             return;
         }
         
@@ -286,20 +284,12 @@ public class Poligono extends Polygon implements Forma{
             double[] info_r1 = reta_paralela(pN1, p0); //gets the coeficient (m) and complement (n) of the two possible RETAS (x * m + n)
             double[] info_r2 = reta_paralela(p0, p1);
             
-            System.out.println("\tRETAS 1");
-            System.out.println("M: " + info_r1[0] + "      N: "+ info_r1[1]);
-            System.out.println("M: " + info_r1[0] + "      N: "+ info_r1[2]);
-            
-            System.out.println("\n\n\tRETAS 2");
-            System.out.println("M: " + info_r2[0] + "      N: "+ info_r2[1]);
-            System.out.println("M: " + info_r2[0] + "      N: "+ info_r2[2]);
-            
-            System.out.println("\n-----------------------------------");
+            //AS INFORMAÇõES DAS RETAS ESTAO CORRETAS, TIRANDO QUANDO A RETA É PARALELA OU PERPENDICULAR A UM EIXO
             
             for (int j = 0; j < 2; j++) { //intersects the RETAS to find the four possible poits
                 for (int k = 0; k < 2; k++) {
-                    double x = (info_r2[0] + info_r2[k + 1] - info_r1[j + 1]) / info_r1[0];
-                    double y = info_r1[0] * x + info_r1[j+1];
+                    double x = (info_r2[j+1] - info_r1[k+1]) / (info_r1[0] - info_r2[0]);
+                    double y = info_r1[0] * x + info_r1[k+1];
                     
                     if(x < left)
                         left = x;
@@ -321,21 +311,21 @@ public class Poligono extends Polygon implements Forma{
             double n = 0;
             
             try {
-                m = (b.getY() - a.getY()) / (b.getX() - a.getX()); // coeficiente da reta criada pelos 2 pontos
+                m = (b.getY() - a.getY()) / (b.getX() - a.getX()); //SE DE ZERO EM QUALQUER UM DOS LADOS DA DIVISAO VAI DA RUIM// coeficiente da reta criada pelos 2 pontos
             } catch (Exception e) {
                 //VER DEPOIS
             }
 
-            double reflected_m = m != 0 ? -1/m : 0; //coeficiente da reta perpendicular a reta criada pelos 2 pontos
+            double inverse_m = m != 0 ? -1/m : 0; //NAO E ZEROOOOO//coeficiente da reta perpendicular a reta criada pelos 2 pontos
             
             //do a sistem to discover the 2 points of a possible RETA of the stroke
-            double complement = (YshapeHandler.yGetStrokeOcupation(this)/2)/Math.sqrt(1+(reflected_m * reflected_m)); //+/- result
+            double complement = (YshapeHandler.yGetStrokeOcupation(this)/2)/Math.sqrt(1+(inverse_m * inverse_m)); //+/- result
             
             //the 2 possible points for the RETA of the stroke calculated by the sistem (+/- because it is x²)
             double x1 = a.getX() + complement;
-            double y1 = reflected_m * (x1 - a.getX()) + a.getY();
+            double y1 = inverse_m * (x1 - a.getX()) + a.getY();
             double x2 = a.getX() - complement;
-            double y2 = reflected_m * (x2 - a.getX()) + a.getY();
+            double y2 = inverse_m * (x2 - a.getX()) + a.getY();
             
             double n1 = -m * x1 + y1;//PARECE QUE TA DANDO ERRADO NOS N's
             double n2 = -m * x2 + y2;

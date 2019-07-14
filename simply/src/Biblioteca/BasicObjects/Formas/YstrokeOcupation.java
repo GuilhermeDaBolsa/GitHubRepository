@@ -46,6 +46,6 @@ public class YstrokeOcupation{
         return "Left stroke: " + LEFT.get() + "\n" +
                 "Right stroke: " + RIGHT.get() + "\n" +
                 "Up stroke: " + UP.get() + "\n" +
-                "BOTTOM stroke: " + BOTTOM.get() + "\n";
+                "Bottom stroke: " + BOTTOM.get() + "\n";
     }
 }

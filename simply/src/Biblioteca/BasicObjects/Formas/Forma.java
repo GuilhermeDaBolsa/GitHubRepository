@@ -172,6 +172,11 @@ public interface Forma{
     
     //----------------------------- BIND/LISTENER METHODS -----------------------------\\
     
+    /**
+     * The porpouse of this method is to store any bind, because depending on the circunstances it can be caught by garbadge collector.
+     * @param bind_name Binding name
+     * @param bind Bind itself
+     */
     public void yAddBind(String bind_name, ObservableValue<? extends Number> bind);
     
     /**

@@ -31,13 +31,13 @@ public class teste2 extends Application {
         t2.ySetTranslateX(600, 0);
         t2.ySetTranslateY(600, 0);*/
         Poligono a = new Poligono(
-                0, 100,
-                100, 100,
-                50, 0
+                0, 0,
+                100, 20,
+                150, 200
         );
 
         a.setFill(Color.ALICEBLUE);
-        a.ySetStroke(5.0, Color.RED, StrokeType.OUTSIDE, true);
+        a.ySetStroke(25.0, Color.RED, StrokeType.OUTSIDE, true);
         //a.ySetPosition(600, 600, 0, 0);
 
         /*Linha c = new Linha(50, 150, 40, Color.DARKSEAGREEN);

@@ -34,6 +34,8 @@ public class Caixa extends CenaVisivel {
         caixa.setFill(cor_fundo);
         ySetStroke(grossura_borda, cor_borda, StrokeType.OUTSIDE, true);
         
+        realocar_conteudos(grossura_borda/2, grossura_borda/2);
+        
         events_handler.setUpInteractiveObject();//BOTAR ISSO NAS OUTRAS CLASSES PQ N BOTEI :P
         
         getChildren().addAll(caixa, container);
@@ -68,12 +70,7 @@ public class Caixa extends CenaVisivel {
     }
     
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
-        double X = ((Forma) caixa).yGetTranslateX(0);
-        double Y = ((Forma) caixa).yGetTranslateY(0);
-        
         ((Forma) caixa).ySetStroke(stroke_width, stroke_color, stroke_type, correct_location);
-        
-        mover_conteudos(((Forma) caixa).yGetTranslateX(0) - X, ((Forma) caixa).yGetTranslateY(0) - Y);
     }
 
     /**
@@ -205,7 +202,7 @@ public class Caixa extends CenaVisivel {
 
         deltaWidth = getLarguraCaixa() - deltaWidth;
         deltaHeight = getAlturaCaixa() - deltaHeight;
-        mover_conteudos(content_delta_positionX/this.getWidth()*deltaWidth, content_delta_positionY/this.getHeight()*deltaHeight);
+        mover_conteudos(-content_delta_positionX/this.yGetWidth()*deltaWidth, -content_delta_positionY/this.yGetHeight()*deltaHeight);
     }
     
     public void resizeBoxWithItsContent(boolean strokeX_included, boolean strokeY_included, boolean correct_location, boolean proportion){

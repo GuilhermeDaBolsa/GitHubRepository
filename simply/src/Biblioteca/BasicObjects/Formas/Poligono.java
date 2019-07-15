@@ -28,9 +28,19 @@ public class Poligono extends Polygon implements Forma{
     
     public Poligono(double... points){
         super(points);
+        
         if(points.length % 2 != 0)
             getPoints().add(0.0);
+        
         calc_points();
+    }
+    
+    /**
+     * Ever call this method when a change in the points is made.
+     */
+    public void change_in_points(){
+        calc_points();
+        calculate_stroke(getPoints());
     }
     
     protected void calc_points(){
@@ -130,12 +140,12 @@ public class Poligono extends Polygon implements Forma{
     
     @Override
     public double yGetTranslateX(double pivo) {
-        return (getTranslateX() + yGetWidth(false)/2) + yGetWidth(true)*(pivo - 0.5);
+        return getTranslateX() - yOutsideStrokeOcupation.LEFT.get() + yGetWidth(true) * pivo;
     }
 
     @Override
     public double yGetTranslateY(double pivo) {
-        return (getTranslateY() + yGetHeight(false)/2) + yGetHeight(true)*(pivo - 0.5);
+        return getTranslateY() - yOutsideStrokeOcupation.UP.get() + yGetHeight(true) * pivo;
     }
 
     @Override
@@ -164,7 +174,7 @@ public class Poligono extends Polygon implements Forma{
         double where_wasY = yGetTranslateY(0);
         
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);
-        calculate(getPoints());
+        calculate_stroke(getPoints());
         
         if(correct_location){
             ySetTranslateX(where_wasX, 0);
@@ -260,10 +270,14 @@ public class Poligono extends Polygon implements Forma{
         YshapeHandler.yUnbind(yWeak_listeners, bind_name);
     }
     
+    private void calculate_stroke(ObservableList<Double> points){
+        calculate_stroke(points.toArray());
+    }
+    
     /**
      * @param points Pontos que formam a forma.
      */
-    public void calculate(Object... points){//ANGULOS MENORES DO QUE 11,475 (achar um valor mais preciso) TEM STROKE = 0 (NAO HA INTERSECÇÃO DE RETAS)
+    private void calculate_stroke(Object... points){//ANGULOS MENORES DO QUE 11,475 (achar um valor mais preciso) TEM STROKE = 0 (NAO HA INTERSECÇÃO DE RETAS)
         if(points.length <= 2){
             System.out.println("Not enought points.");//if they are 2, isn't it a line? (ver isso dps)
             return;
@@ -306,17 +320,17 @@ public class Poligono extends Polygon implements Forma{
         }
     }
     
-    public double[] reta_paralela(Point2D a, Point2D b){
+    private double[] reta_paralela(Point2D a, Point2D b){
             double m = 0;
             double n = 0;
             
             try {
-                m = (b.getY() - a.getY()) / (b.getX() - a.getX()); //SE DE ZERO EM QUALQUER UM DOS LADOS DA DIVISAO VAI DA RUIM// coeficiente da reta criada pelos 2 pontos
+                m = (b.getY() - a.getY()) / (b.getX() - a.getX());// coeficiente da reta criada pelos 2 pontos
             } catch (Exception e) {
-                //VER DEPOIS
+                //POR ENQUANTO NAO HÁ CONFLITOS POIS O JAVA TA TRABALHANDO COM OS INFINITOS DELE LA, DEXA ELE QUIETO QUE TA TRANQUILO
             }
 
-            double inverse_m = m != 0 ? -1/m : 0; //NAO E ZEROOOOO//coeficiente da reta perpendicular a reta criada pelos 2 pontos
+            double inverse_m = m != 0 ? -1/m : 0;//coeficiente da reta perpendicular a reta criada pelos 2 pontos
             
             //do a sistem to discover the 2 points of a possible RETA of the stroke
             double complement = (YshapeHandler.yGetStrokeOcupation(this)/2)/Math.sqrt(1+(inverse_m * inverse_m)); //+/- result
@@ -327,15 +341,11 @@ public class Poligono extends Polygon implements Forma{
             double x2 = a.getX() - complement;
             double y2 = inverse_m * (x2 - a.getX()) + a.getY();
             
-            double n1 = -m * x1 + y1;//PARECE QUE TA DANDO ERRADO NOS N's
+            double n1 = -m * x1 + y1;
             double n2 = -m * x2 + y2;
             
             //retorna os m's e n's para comparar com as proximas retas que vierem
             double arr[] = {m, n1, n2};
             return arr;
-    }
-    
-    public void calculate(ObservableList<Double> points){
-        calculate(points.toArray());
     }
 }

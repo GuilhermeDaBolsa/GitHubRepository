@@ -105,12 +105,12 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     
     @Override
     public double yGetTranslateX(double pivo) {
-        return (getTranslateX() + yGetWidth(false)/2) + yGetWidth(true)*(pivo - 0.5);
+        return getTranslateX() - yOutsideStrokeOcupation.LEFT.get() + yGetWidth(true) * pivo;
     }
 
     @Override
     public double yGetTranslateY(double pivo) {
-        return (getTranslateY() + yGetHeight(false)/2) + yGetHeight(true)*(pivo - 0.5);
+        return getTranslateY() - yOutsideStrokeOcupation.UP.get() + yGetHeight(true) * pivo;
     }
     
     @Override

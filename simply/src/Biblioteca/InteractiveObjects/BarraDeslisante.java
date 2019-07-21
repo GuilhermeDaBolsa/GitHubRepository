@@ -1,164 +1,80 @@
 package Biblioteca.InteractiveObjects;
 
 import Biblioteca.BasicObjects.CenaVisivel;
-import Biblioteca.BasicObjects.Formas.Retangulo;
-import Biblioteca.BasicObjects.Formas.Texto;
 import Biblioteca.OrganizadoresDeNodos.Caixa;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.event.EventHandler;
+import java.util.ArrayList;
+import javafx.animation.PathTransition;
+import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
+import javafx.scene.shape.Path;
+import javafx.util.Duration;
+
+//FAZER OS ESQUEMAS DO TRAKER E, COM BASE NO PONTO ATUAL DA ANIMAÇÃO + POSICAO DO MOUSE, CALCULAR O VETOR DE FORÇA QUE O MOUSE ESTÁ "APLICANDO" NO ELEMENTO
+//E VER SE A FORÇA APLICADA AO ELEMENTO O TRAZ MAIS PERTO DO PROXIMO PONTO.... (n fazer com os esquemas de pegar o ponto mais proximo :)
 
 public class BarraDeslisante extends CenaVisivel {
-    private Retangulo fundo;
-    private Retangulo path; //VER AS CLASSES PATH DO JAVA PRA PODER FAZER UM CAMINHO DE QUALQUER TIPO ^^
-    private Caixa bolinha;
-    private Texto mostra_valor;
-    private Runnable acao;
+    private Path path;
+    private Caixa slider;
     
-    public double altura;
-    public double largura;
+    private PathTransition path_animation;
+    private ArrayList<Point2D> PATH_POINT_LIST;
+    private int FRAMES;
     
-    public double min;
-    public double max;
-    public double start_number;
-    public double incremento; //its inactiveted! samerda atrapalha pacas
+    private double MIN;
+    private double MAX;
+    private double INITIAL_VALUE;
     
-    private double deltaX;
-    private double deltaY;
-    
-    public boolean is_pressed = false;
+    private double deltaX_from_center;
+    private double deltaY_from_center;
 
-    public BarraDeslisante(double altura, double largura, double min, double max, double start_number, double incremento, Runnable action) {
-        this.altura = altura;
-        this.largura = largura;
-        this.min = min;
-        this.max = max;
-        this.start_number = start_number;
-        this.incremento = incremento;
-        this.acao = action;
+    public BarraDeslisante(double endX, double endY, double stroke_width, Caixa slider, int FRAMES, double MIN, double MAX, double INITIAL_VALUE) {
         
-        fundo = new Retangulo(largura, altura,Color.GRAY);
-        path = new Retangulo(largura, altura, Color.DARKCYAN);
-        
-        if (altura > largura) {
-            mostra_valor = new Texto(""+start_number, Font.font(largura), Color.BLACK);
-            criar_tudo_e_a_bolinha(largura, false, action);
-        } else {
-            mostra_valor = new Texto(""+start_number, Font.font(altura), Color.BLACK);
-            criar_tudo_e_a_bolinha(altura, true, action);
-        }
-        
-        this.getChildren().addAll(fundo, path, mostra_valor, bolinha);
     }
 
-    private void criar_tudo_e_a_bolinha(double tamanho, boolean eixoX, Runnable action) {
-        bolinha = new Caixa(tamanho, tamanho, Color.BLACK, 0, Color.TRANSPARENT);
+    public BarraDeslisante(Path path, Caixa slider, int FRAMES, double MIN, double MAX, double INITIAL_VALUE) {
+        this.path = path;
+        this.slider = slider;
+        this.FRAMES = FRAMES-1;
+        this.MIN = MIN;
+        this.MAX = MAX;
+        this.INITIAL_VALUE = INITIAL_VALUE;
+        
+        path_animation = new PathTransition();
+        path_animation.setDuration(Duration.seconds(FRAMES));
+        path_animation.setPath(path);
+        path_animation.setNode(slider);
+        path_animation.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        path_animation.setCycleCount(1);
+        path_animation.playFromStart();
+        path_animation.pause();
+        path_animation.jumpTo("end");
 
-        if(eixoX){
-            path.widthProperty().bind(bolinha.layoutXProperty());
-            bolinha.setLayoutX((largura/(max-min))*(start_number - min) - bolinha.yGetHeight()/2);
-            
-            mostra_valor.setTranslateY(20);
-            mostra_valor.translateXProperty().bind(bolinha.layoutXProperty());
-            mostra_valor.textProperty().bind(
-                Bindings.format("%.1f",(bolinha.layoutXProperty().add(bolinha.yGetHeight()/2)).multiply((max-min)/largura).add(min))
-            );
-        }else{
-            bolinha.setLayoutY((altura/(max-min))*(start_number - min) - bolinha.yGetWidth()/2);
-            path.heightProperty().bind(bolinha.layoutYProperty());
-            
-            mostra_valor.setTranslateX(mostra_valor.getBoundsInLocal().getWidth()*-1 -4);
-            mostra_valor.translateYProperty().bind(bolinha.layoutYProperty().add(mostra_valor.getBoundsInLocal().getWidth()/2 - 2));
-            mostra_valor.textProperty().bind(
-                Bindings.format("%.1f",(bolinha.layoutYProperty().add(bolinha.yGetWidth()/2)).multiply((max-min)/altura).add(min))
-            );
-        }
+        // Save the positions on the path
+        PATH_POINT_LIST = new ArrayList<>();
+        savePositions();
         
-        bolinha.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                is_pressed = true;
-                // record a delta distance for the drag and drop operation.
-                deltaX = bolinha.getLayoutX() - mouseEvent.getSceneX();
-                deltaY = bolinha.getLayoutY() - mouseEvent.getSceneY();
-            }
-        });
-        bolinha.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                double posicaoX = mouseEvent.getSceneX() + deltaX;
-                double posicaoY = mouseEvent.getSceneY() + deltaY;
-                
-                if(eixoX){
-                    if(posicaoX < limiteEsquerda()){
-                        posicaoX = limiteEsquerda();
-                    }else if(posicaoX > limiteDireita()){
-                            posicaoX = limiteDireita();
-                    }
-                    bolinha.setLayoutX(posicaoX);
-                }else{
-                    if(posicaoY < limiteCima()){
-                        posicaoY = limiteCima();
-                    }else if(posicaoY > limiteBaixo()){
-                            posicaoY = limiteBaixo();
-                    }
-                    bolinha.setLayoutY(posicaoY);
-                }
-                if(action != null)
-                    action.run();
-            }
+        slider.setOnMousePressed((event) -> { 
+            deltaX_from_center = slider.yGetTranslateX(0.5) - event.getSceneX();
+            deltaY_from_center = slider.yGetTranslateY(0.5) - event.getSceneY(); 
         });
         
-        bolinha.setOnMouseReleased((event) -> {
-            is_pressed = false;
+        slider.setOnMouseDragged((event) -> {
+            //mouseEvent.getSceneX() + deltaX_from_center;
         });
     }
     
-    public double getValor(){
-        return bolinha.layoutYProperty().add(bolinha.yGetWidth()/2).multiply((max-min)/altura).add(min).doubleValue();
-    }
-    
-    public double getPosicao(){
-        return bolinha.layoutYProperty().doubleValue();
-    }
-    
-    public void bind_valor(DoubleProperty objeto){
-        objeto.bind((bolinha.layoutYProperty().add(bolinha.yGetWidth()/2)).multiply((max-min)/altura).add(min));
-    }
-    
-    public void setAction(Runnable action){
-        this.acao = action;
-    }
-    
-    
-    public void aumentar_valor(double valor){
-        double posicao = getPosicao() + valor;
+    /**
+     * Save the position of the slider for every second of the animation in
+     * a list.
+     */
+    private void savePositions() {
+        if (PATH_POINT_LIST == null)
+            return;
 
-        if(posicao < limiteCima()){
-            posicao = limiteCima();
-        }else if(posicao > limiteBaixo()){
-            posicao = limiteBaixo();
+        for (int i=0; i<=(int)FRAMES; i++) {
+            path_animation.jumpTo(Duration.seconds(i));
+            PATH_POINT_LIST.add(new Point2D(slider.yGetTranslateX(0.5), slider.yGetTranslateY(0.5)));
         }
-        bolinha.setLayoutY(posicao);
-    }
-    
-    private double limiteEsquerda(){
-        return -bolinha.yGetHeight()/2;
-    }
-    
-    private double limiteDireita(){
-        return largura-bolinha.yGetHeight()/2;
-    }
-    
-    private double limiteCima(){
-        return -bolinha.yGetWidth()/2;
-    }
-    
-    private double limiteBaixo(){
-        return altura-bolinha.yGetWidth()/2;
     }
 
 }

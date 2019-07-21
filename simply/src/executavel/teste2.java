@@ -39,17 +39,12 @@ public class teste2 extends Application {
         p.setFill(Color.ALICEBLUE);
         p.ySetStroke(6.0, Color.RED, StrokeType.OUTSIDE, true);
         
+        //System.out.println(p.yOutsideStrokeOcupation.toString());
         
-        Circulo a = new Circulo(4);
+        
+       /* Circulo a = new Circulo(4);
         Circulo b = new Circulo(4);
         Circulo c = new Circulo(4);
-        
-        Caixa t = new Caixa(10, 10, Color.KHAKI, 4, Color.BLACK);
-        
-        t.add(p, a, b, c);
-        t.resizeBoxWithItsContent(false, false, true, false);
-        t.ySetTranslateX(600, 0.5);
-        t.ySetTranslateY(600, 0.5);
         
         a.ySetPosition(100 + p.getTranslateX(), 100 + p.getTranslateY(), 0.5, 0.5);
         b.ySetPosition(200 + p.getTranslateX(), 100 + p.getTranslateY(), 0.5, 0.5);
@@ -113,14 +108,22 @@ public class teste2 extends Application {
                 p.getPoints().addAll(a.yGetTranslateX(0.5) - p.getTranslateX(), a.yGetTranslateY(0.5) - p.getTranslateY(), b.yGetTranslateX(0.5) - p.getTranslateX(), b.yGetTranslateY(0.5) - p.getTranslateY(), c.yGetTranslateX(0.5) - p.getTranslateX(), c.yGetTranslateY(0.5) - p.getTranslateY());
                 p.change_in_points();
             }
-        });
+        });*/
             
-        //teste.setOnMousePressed( event -> System.gc());
+        teste.setOnMousePressed((event) -> {
+            if(event.isSecondaryButtonDown()){
+                p.ySetTranslateX(0, 0);
+                p.ySetTranslateY(0, 0);
+            }
+                
+            //System.gc();
+        });
         //TEXTO:
         //height ainda ta erradinha, os 70% (um poco mais) é real????
         //falta os setMaxWidth e height e mudar o codigo pra aguenta eles.
+        //os reajusta tamanho automatico da caixa ta meio quebrado
         
-        teste.getChildren().addAll(t);
+        teste.getChildren().addAll(p);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");

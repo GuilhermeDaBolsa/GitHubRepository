@@ -28,7 +28,7 @@ public class Poligono extends Polygon implements Forma{
     
     public Poligono(double... points){
         super(points);
-        
+
         if(points.length % 2 != 0)
             getPoints().add(0.0);
         
@@ -295,21 +295,20 @@ public class Poligono extends Polygon implements Forma{
             Point2D p0 = new Point2D(cPoints.get(i), cPoints.get(i+1));
             Point2D p1 = new Point2D(cPoints.get(i+2), cPoints.get(i+3));
             
-            double[] info_r1 = reta_paralela(pN1, p0); //gets the coeficient (m) and complement (n) of the two possible RETAS (x * m + n)
+            //gets the coeficient (m) and complement (n) of the two possible RETAS (x * m + n)
+            double[] info_r1 = reta_paralela(pN1, p0); 
             double[] info_r2 = reta_paralela(p0, p1);
-            
-            //AS INFORMAÇõES DAS RETAS ESTAO CORRETAS, TIRANDO QUANDO A RETA É PARALELA OU PERPENDICULAR A UM EIXO
             
             for (int j = 0; j < 2; j++) { //intersects the RETAS to find the four possible poits
                 for (int k = 0; k < 2; k++) {
                     double x = (info_r2[j+1] - info_r1[k+1]) / (info_r1[0] - info_r2[0]);
                     double y = info_r1[0] * x + info_r1[k+1];
-                    
+
                     if(x < left)
                         left = x;
                     else if(x > right)
                         right = x;
-                    
+
                     if(y < up)
                         up = y;
                     else if(y > down)
@@ -321,31 +320,27 @@ public class Poligono extends Polygon implements Forma{
     }
     
     private double[] reta_paralela(Point2D a, Point2D b){
-            double m = 0;
-            double n = 0;
-            
-            try {
-                m = (b.getY() - a.getY()) / (b.getX() - a.getX());// coeficiente da reta criada pelos 2 pontos
-            } catch (Exception e) {
-                //POR ENQUANTO NAO HÁ CONFLITOS POIS O JAVA TA TRABALHANDO COM OS INFINITOS DELE LA, DEXA ELE QUIETO QUE TA TRANQUILO
-            }
+        double m = 0;
+        double n = 0;
 
-            double inverse_m = m != 0 ? -1/m : 0;//coeficiente da reta perpendicular a reta criada pelos 2 pontos
-            
-            //do a sistem to discover the 2 points of a possible RETA of the stroke
-            double complement = (YshapeHandler.yGetStrokeOcupation(this)/2)/Math.sqrt(1+(inverse_m * inverse_m)); //+/- result
-            
-            //the 2 possible points for the RETA of the stroke calculated by the sistem (+/- because it is x²)
-            double x1 = a.getX() + complement;
-            double y1 = inverse_m * (x1 - a.getX()) + a.getY();
-            double x2 = a.getX() - complement;
-            double y2 = inverse_m * (x2 - a.getX()) + a.getY();
-            
-            double n1 = -m * x1 + y1;
-            double n2 = -m * x2 + y2;
-            
-            //retorna os m's e n's para comparar com as proximas retas que vierem
-            double arr[] = {m, n1, n2};
-            return arr;
+        m = (b.getY() - a.getY()) / (b.getX() - a.getX());// coeficiente da reta criada pelos 2 pontos
+
+        double inverse_m = -1/m;//coeficiente da reta perpendicular a reta criada pelos 2 pontos
+
+        //do a sistem to discover the 2 points of a possible RETA of the stroke
+        double complement = (YshapeHandler.yGetStrokeOcupation(this)/2)/Math.sqrt(1+(inverse_m * inverse_m)); //+/- result
+
+        //the 2 possible points for the RETA of the stroke calculated by the sistem (+/- because it is x²)
+        double x1 = a.getX() + complement;
+        double y1 = inverse_m * (x1 - a.getX()) + a.getY();
+        double x2 = a.getX() - complement;
+        double y2 = inverse_m * (x2 - a.getX()) + a.getY();
+
+        double n1 = -m * x1 + y1;
+        double n2 = -m * x2 + y2;
+
+        //retorna os m's e n's para comparar com as proximas retas que vierem
+        double arr[] = {m, n1, n2};
+        return arr;
     }
 }

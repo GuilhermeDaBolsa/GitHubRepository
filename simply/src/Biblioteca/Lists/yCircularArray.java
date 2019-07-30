@@ -1,14 +1,18 @@
 package Biblioteca.Lists;
 
 public class yCircularArray<T> {
-    public T[] array;
+    public Object[] array;
+    
+    public yCircularArray(int elements){
+        this.array = new Object[elements];
+    }
     
     public yCircularArray(T[] array) {
         this.array = array;
     }
     
     public T get(int index){
-        return array[get_real_index(index)];
+        return (T) array[get_real_index(index)];
     }
     
     public void set(int index, T object){

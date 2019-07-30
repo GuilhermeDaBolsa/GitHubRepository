@@ -78,11 +78,8 @@ public class Linha extends Line implements Forma{
      * @see #yGetWidth(boolean)  
      * @see #yGetHeight(boolean) 
      */
-    public double yDeltaHypotenuse(){
-        double X = yGetWidth(false);
-        double Y = yGetHeight(false);
-        
-        return Math.sqrt(X*X + Y*Y);
+    public double yHypotenuse(){
+        return Matematicas.hypotenuse(yGetWidth(false), yGetHeight(false));
     }
     
     /**
@@ -188,8 +185,8 @@ public class Linha extends Line implements Forma{
             setStrokeLineCap(StrokeLineCap.BUTT);
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, false);
         
-        yOutsideStrokeOcupation = new YstrokeOcupation((yGetHeight(false)/yDeltaHypotenuse())*getStrokeWidth(),
-                (yGetWidth(false)/yDeltaHypotenuse())*getStrokeWidth());
+        yOutsideStrokeOcupation = new YstrokeOcupation((yGetHeight(false)/yHypotenuse())*getStrokeWidth(),
+                (yGetWidth(false)/yHypotenuse())*getStrokeWidth());
         
         ySetTranslateX(where_wasX, 0.5);
         ySetTranslateY(where_wasY, 0.5);

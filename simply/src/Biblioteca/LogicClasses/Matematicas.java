@@ -93,6 +93,10 @@ package Biblioteca.LogicClasses;
         }
         return numero;
     }
+    
+    public static double hypotenuse(double x, double y){
+        return Math.sqrt(x * x + y * y);
+    }
 }
 
 

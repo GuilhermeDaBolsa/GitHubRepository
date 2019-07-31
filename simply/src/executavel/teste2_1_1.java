@@ -23,18 +23,15 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
 public class teste2_1_1 extends Application {
-double x;
-        double y;
-        double forcX;
-        double forcY;
+
     @Override
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
         
-        BarraDeslisante k = new BarraDeslisante(new Circle(60), new Caixa(4, Color.WHITE, 2, Color.BLACK), 800, 0, 0, 0, true);
+        BarraDeslisante k = new BarraDeslisante(new Circulo(60, Color.ALICEBLUE, 2, Color.BLACK), new Caixa(4, Color.WHITE, 2, Color.BLACK), 25, 0, 0, 0, false);
         
-        k.ySetTranslateX(200, 0.5);
-        k.ySetTranslateY(200, 0.5);
+        k.ySetTranslateX(400, 0.5);
+        k.ySetTranslateY(400, 0.5);
         
         teste.getChildren().addAll(k);
         

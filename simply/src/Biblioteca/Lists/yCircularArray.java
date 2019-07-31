@@ -21,7 +21,7 @@ public class yCircularArray<T> {
     
     public int get_real_index(int index){
         if(index < 0){
-            return array.length + (index % array.length);
+            return array.length + (index % array.length) - 1;
         }
         return index % array.length;
     }

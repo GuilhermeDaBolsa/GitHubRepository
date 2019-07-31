@@ -4,6 +4,7 @@ import Biblioteca.BasicObjects.CenaVisivel;
 import Biblioteca.Lists.yCircularArray;
 import Biblioteca.LogicClasses.Matematicas;
 import Biblioteca.OrganizadoresDeNodos.Caixa;
+import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Path;
@@ -26,10 +27,8 @@ public class BarraDeslisante extends CenaVisivel {
     private double INITIAL_VALUE;
     private int CURRENT_POSITION_INDEX;
     
-    private double mouse_positionX;
-    private double mouse_positionY;
-    private double forceX;
-    private double forceY;
+    private double mouseX;
+    private double mouseY;
 
     public BarraDeslisante(double endX, double endY, double stroke_width, Caixa slider, int FRAMES, double MIN, double MAX, double INITIAL_VALUE) {
         
@@ -51,6 +50,7 @@ public class BarraDeslisante extends CenaVisivel {
         path_animation.setNode(slider);
         path_animation.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         path_animation.setCycleCount(1);
+        path_animation.setInterpolator(Interpolator.LINEAR);
         path_animation.playFromStart();
         path_animation.pause();
         path_animation.jumpTo("end");
@@ -59,30 +59,24 @@ public class BarraDeslisante extends CenaVisivel {
         PATH_POINT_LIST = new yCircularArray(FRAMES);
         savePositions(path_animation);
         
-        slider.setOnMousePressed((event) -> { 
-            mouse_positionX = event.getSceneX();
-            mouse_positionY = event.getSceneY(); 
+        slider.setOnMouseDragged((event) -> {
+            mouseX = event.getSceneX();
+            mouseY = event.getSceneY();
             
-            while(true){
-                int index = CURRENT_POSITION_INDEX - 1;
+            int index = CURRENT_POSITION_INDEX - 1;
                 if(CYCLIC){
-                    if(!nextFrame(index, forceX, forceY))
-                        nextFrame(index + 2, forceX, forceY);
+                    if(!nextFrame(index, mouseX, mouseY))
+                        nextFrame(index + 2, mouseX, mouseY);
                 }else{
                     boolean sucess = false;
 
                     if(!(index < 0))
-                        sucess = nextFrame(index, forceX, forceY);
+                        sucess = nextFrame(index, mouseX, mouseY);
 
                     index+=2;
                     if(!sucess && index < PATH_POINT_LIST.array.length)
-                        nextFrame(index, forceX, forceY);
+                        nextFrame(index, mouseX, mouseY);
                 }
-            }
-        });
-        slider.setOnMouseDragged((event) -> {
-            forceX = event.getSceneX() - mouse_positionX;
-            forceY = event.getSceneY() - mouse_positionY;
         });
         
         getChildren().addAll(path, this.slider);
@@ -102,13 +96,13 @@ public class BarraDeslisante extends CenaVisivel {
         }
     }
     
-    private boolean nextFrame(int frame_index, double fx, double fy){
+    private boolean nextFrame(int frame_index, double mouseX, double mouseY){
         double next_frame_x = PATH_POINT_LIST.get(frame_index).getX();
         double next_frame_y = PATH_POINT_LIST.get(frame_index).getY();
-        double distance_x = next_frame_x - fx;
-        double distance_y = next_frame_y - fy;
+        double distance_x = mouseX - next_frame_x;
+        double distance_y = mouseY - next_frame_y;
         
-        if(Matematicas.hypotenuse(distance_x, distance_y) < Matematicas.hypotenuse(slider.yGetTranslateX(0.5) - fx, slider.yGetTranslateY(0.5) - fy)){
+        if(Matematicas.hypotenuse(distance_x, distance_y) < Matematicas.hypotenuse(mouseX - slider.yGetTranslateX(0.5), mouseY - slider.yGetTranslateY(0.5))){
             slider.ySetTranslateX(next_frame_x, 0.5);
             slider.ySetTranslateY(next_frame_y, 0.5);
             CURRENT_POSITION_INDEX = frame_index;

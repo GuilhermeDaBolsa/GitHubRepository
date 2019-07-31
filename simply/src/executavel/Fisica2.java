@@ -33,7 +33,8 @@ public class Fisica2 extends Application {
         botao_menu.setTranslateX(botao_menu.caixa.getStrokeWidth());
         
         grade = new MathGrid(200, 200);
-        barra_escala = new BarraDeslisante(160, 0, 1, 100, 50, 2);
+        //barra_escala = new BarraDeslisante(160, 0, 1, 100, 50, 2);
+        
         barra_escala.translateXProperty().bind(pane_principal.widthProperty().subtract(196));
         barra_escala.translateYProperty().bind(pane_principal.heightProperty().subtract(30));
         

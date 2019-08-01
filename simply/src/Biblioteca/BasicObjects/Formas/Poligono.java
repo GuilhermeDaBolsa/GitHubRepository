@@ -140,22 +140,23 @@ public class Poligono extends Polygon implements Forma{
     
     @Override
     public double yGetTranslateX(double pivo) {
-        return getTranslateX() - yOutsideStrokeOcupation.LEFT.get() + yGetWidth(true) * pivo;
+        System.out.println(left_X);
+        return getTranslateX() - yOutsideStrokeOcupation.LEFT.get() + left_X.get() + yGetWidth(true) * pivo;
     }
 
     @Override
     public double yGetTranslateY(double pivo) {
-        return getTranslateY() - yOutsideStrokeOcupation.UP.get() + yGetHeight(true) * pivo;
+        return getTranslateY() - yOutsideStrokeOcupation.UP.get() + up_Y.get() + yGetHeight(true) * pivo;
     }
-
+    
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        YshapeHandler.setTranslateX(this, position + yOutsideStrokeOcupation.LEFT.get(), pivo);
+        YshapeHandler.setTranslateX(this, position - left_X.get() + yOutsideStrokeOcupation.LEFT.get(), pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {
-        YshapeHandler.setTranslateY(this, position + yOutsideStrokeOcupation.UP.get(), pivo);
+        YshapeHandler.setTranslateY(this, position - up_Y.get() + yOutsideStrokeOcupation.UP.get(), pivo);
     }
     
     @Override
@@ -318,6 +319,10 @@ public class Poligono extends Polygon implements Forma{
             yOutsideStrokeOcupation = new YstrokeOcupation(left_X.get() - left, right - right_X.get(), up_Y.get() - up, down - down_Y.get());
         }
     }
+    
+    /*private Point2D[] border_points(Point2D a, Point2D b){
+        
+    }*/
     
     private double[] reta_paralela(Point2D a, Point2D b){
         double m = 0;

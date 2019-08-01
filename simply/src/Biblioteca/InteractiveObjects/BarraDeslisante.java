@@ -50,7 +50,7 @@ public class BarraDeslisante extends CenaVisivel {
         path_animation.setDuration(Duration.seconds(FRAMES));
         path_animation.setPath(path);
         path_animation.setNode(slider);
-        path_animation.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        path_animation.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);//ISSO NAO VAI FUNFA PQ TA SETANDO A POSICAO, TEM Q SETAR O TEMPO DE ANIMAÇÂO, QU#E NEM O CARA
         path_animation.setCycleCount(1);
         path_animation.setInterpolator(Interpolator.LINEAR);
         path_animation.playFromStart();
@@ -87,6 +87,8 @@ public class BarraDeslisante extends CenaVisivel {
                     sucess = nextFrame(index < 0 ? 0 : index, index+2 > PATH_POINT_LIST.array.length ? PATH_POINT_LIST.array.length : index+2, newXPosition, newYPosition);
             
             }while(sucess);//EM VEZ DE FICAR DANDO O SET POSITION / PEGANDO POSITION / DANDO SET POSITION... SO CALCULAR POR DENTRO E MANDAR O PONTO DIRETAMENTE PRO LUGAR, ACHO QUE VAI TIRAR O LAGZIN
+        
+            //ACHO QUE SE EU TIRAR OS SETS POSITIONS DE LA DO METODO E BOTA AQUI JA FUNCIONA (É... SO ISSO)
         });
         
         getChildren().addAll(path, this.slider);

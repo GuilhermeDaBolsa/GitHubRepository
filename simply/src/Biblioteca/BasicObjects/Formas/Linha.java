@@ -9,6 +9,7 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
+import java.text.DecimalFormat;
 
 public class Linha extends Line implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
@@ -142,28 +143,27 @@ public class Linha extends Line implements Forma{
     
     
     //----------------------------- TRANSLATE METHODS -----------------------------\\
-    
-    @Override
-    public double yGetTranslateX(double pivo) {
-        return (getTranslateX() + yGetWidth(false)/2) + yGetWidth(true)*(pivo - 0.5);
-    }
-
-    //LEMBRAR OU AVISAR O USUARIO DE QUE SE ELE USAR O TRANSLATE DO JAVA PROVAVELMENTE O PONTO QUE SERA MOVIDO É O DA MEIUCA DO STROKE
+     //LEMBRAR OU AVISAR O USUARIO DE QUE SE ELE USAR O TRANSLATE DO JAVA PROVAVELMENTE O PONTO QUE SERA MOVIDO É O DA MEIUCA DO STROKE
     //(O IMAGINARIO, QUE ATÉ É BOM TER ISSO EM MAOS)
     
     @Override
+    public double yGetTranslateX(double pivo) {
+        return getTranslateX() - yOutsideStrokeOcupation.LEFT.get() + getStartX() + yGetWidth(true) * pivo;
+    }
+
+    @Override
     public double yGetTranslateY(double pivo) {
-        return (getTranslateY() + yGetHeight(false)/2) + yGetHeight(true)*(pivo - 0.5);
+        return getTranslateY() - yOutsideStrokeOcupation.UP.get() + getStartY() + yGetHeight(true) * pivo;
     }
     
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        YshapeHandler.setTranslateX(this, (position - yGetWidth(false)/2) + yGetWidth(true)/2, pivo);
+        YshapeHandler.setTranslateX(this, position - getStartX() + yOutsideStrokeOcupation.LEFT.get(), pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {
-        YshapeHandler.setTranslateY(this, (position - yGetHeight(false)/2) + yGetHeight(true)/2, pivo);
+        YshapeHandler.setTranslateY(this, position - getStartY() + yOutsideStrokeOcupation.UP.get(), pivo);
     }
     
     @Override

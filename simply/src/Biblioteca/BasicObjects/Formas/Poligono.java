@@ -285,45 +285,106 @@ public class Poligono extends Polygon implements Forma{
         
         yCircularArray<Double> cPoints = new yCircularArray(points);
         
-        double left = 0;
-        double right = 0;
-        double up = 0;
-        double down = 0;
+        double left = left_X.get();
+        double right = right_X.get();
+        double up = up_Y.get();
+        double down = down_Y.get();
         
         for (int i = 0; i < points.length; i+=2) {
             Point2D pN1 = new Point2D(cPoints.get(i-2), cPoints.get(i-1));
             Point2D p0 = new Point2D(cPoints.get(i), cPoints.get(i+1));
             Point2D p1 = new Point2D(cPoints.get(i+2), cPoints.get(i+3));
             
-            //gets the coeficient (m) and complement (n) of the two possible RETAS (x * m + n)
-            double[] info_r1 = reta_paralela(pN1, p0); 
-            double[] info_r2 = reta_paralela(p0, p1);
+            Point2D crossed_array_r1[] = border_points(pN1, p0);
+            Point2D crossed_array_r2[] = border_points(p0, p1);
             
-            for (int j = 0; j < 2; j++) { //intersects the RETAS to find the four possible poits
-                for (int k = 0; k < 2; k++) {
-                    double x = (info_r2[j+1] - info_r1[k+1]) / (info_r1[0] - info_r2[0]);
-                    double y = info_r1[0] * x + info_r1[k+1];
+            for (int j = 0; j < 2; j+=2) {
+                for (int k = 0; k < 2; k+=2) {
+                    Point2D point = calculateInterceptionPoint(crossed_array_r1[j], crossed_array_r1[j + 1], crossed_array_r2[k], crossed_array_r2[k + 1]);
+                    
+                    if(point.getX() < left)
+                        left = point.getX();
+                    else if(point.getX() > right)
+                        right = point.getX();
 
-                    if(x < left)
-                        left = x;
-                    else if(x > right)
-                        right = x;
-
-                    if(y < up)
-                        up = y;
-                    else if(y > down)
-                        down = y;
+                    if(point.getY() < up)
+                        up = point.getY();
+                    else if(point.getY() > down)
+                        down = point.getY();
                 }
             }
+            
+            
             yOutsideStrokeOcupation = new YstrokeOcupation(left_X.get() - left, right - right_X.get(), up_Y.get() - up, down - down_Y.get());
         }
     }
     
-    /*private Point2D[] border_points(Point2D a, Point2D b){
+    public static Point2D calculateInterceptionPoint(Point2D p1, Point2D p2, Point2D d1, Point2D d2) {
+        double A1 = p1.getY() - p2.getY();
+        double B1 = p2.getX() - p1.getX();
+        double C1 = p1.getX() * p2.getY() - p2.getX() * p1.getY();
         
-    }*/
+        double A2 = d1.getY() - d2.getY();
+        double B2 = d2.getX() - d1.getX();
+        double C2 = d1.getX() * d2.getY() - d2.getX() * d1.getY();
+        
+        double X = 0;
+        double Y = (A1 * C2 - A2 * C1) / (A2 * B1 - A1 * B2);
+        
+        if(A1 == 0)
+            X = (-B2 * Y - C2) / A2;
+        else
+            X = (-B1 * Y - C1) / A1;
+        
+        return new Point2D(X, Y);
+    }
     
-    private double[] reta_paralela(Point2D a, Point2D b){
+    //calculate the points that might belong to the stroke line
+    private Point2D[] border_points(Point2D a, Point2D b){
+        Point2D crossed_array[] = new Point2D[4];
+        
+        //cases for 0 and 90 degrees lines
+        if(a.getY() - b.getY() == 0){//equals 0 because it may serve for other cases beyond just equal
+            crossed_array[0] = new Point2D(a.getX(), a.getY() + YshapeHandler.yGetStrokeOcupation(this));
+            crossed_array[1] = new Point2D(b.getX(), b.getY() + YshapeHandler.yGetStrokeOcupation(this));
+            crossed_array[2] = new Point2D(a.getX(), a.getY() - YshapeHandler.yGetStrokeOcupation(this));
+            crossed_array[3] = new Point2D(b.getX(), b.getY() - YshapeHandler.yGetStrokeOcupation(this));
+            
+        }else if(a.getX() - b.getX() == 0){
+            crossed_array[0] = new Point2D(a.getX() - YshapeHandler.yGetStrokeOcupation(this), a.getY());
+            crossed_array[1] = new Point2D(b.getX() - YshapeHandler.yGetStrokeOcupation(this), b.getY());
+            crossed_array[2] = new Point2D(a.getX() + YshapeHandler.yGetStrokeOcupation(this), a.getY());
+            crossed_array[3] = new Point2D(b.getX() + YshapeHandler.yGetStrokeOcupation(this), b.getY());
+            
+        }else{
+            //an almost general case :)
+            double m = (b.getY() - a.getY()) / (b.getX() - a.getX());// coeficiente da reta criada pelos 2 pontos
+            double inverse_m = -1/m;//coeficiente da reta perpendicular a reta criada pelos 2 pontos
+
+            //do a sistem to discover the 2 points of a possible RETA of the stroke
+            double complement = (YshapeHandler.yGetStrokeOcupation(this)/2)/Math.sqrt(1+(inverse_m * inverse_m)); //+/- result
+            
+            //the 4 possible points for the RETA of the stroke calculated by the sistem (+/- because it is x²)
+            double a1x = a.getX() + complement;
+            double a1y = inverse_m * (a1x - a.getX()) + a.getY();
+            double a2x = a.getX() - complement;
+            double a2y = inverse_m * (a2x - a.getX()) + a.getY();
+            
+            double b1x = b.getX() + complement;
+            double b1y = inverse_m * (b1x - b.getX()) + b.getY();
+            double b2x = b.getX() - complement;
+            double b2y = inverse_m * (b2x - b.getX()) + b.getY();
+            
+            crossed_array[0] = new Point2D(a1x, a1y);
+            crossed_array[1] = new Point2D(b1x, b1y);
+            crossed_array[2] = new Point2D(a2x, a2y);
+            crossed_array[3] = new Point2D(b2x, b2y);
+        }
+        
+        return crossed_array;
+    }
+    
+    /*private double[] reta_paralela(Point2D a, Point2D b){
         double m = 0;
         double n = 0;
 
@@ -346,5 +407,5 @@ public class Poligono extends Polygon implements Forma{
         //retorna os m's e n's para comparar com as proximas retas que vierem
         double arr[] = {m, n1, n2};
         return arr;
-    }
+    }*/
 }

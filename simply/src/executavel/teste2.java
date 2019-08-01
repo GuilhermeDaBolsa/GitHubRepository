@@ -32,7 +32,7 @@ public class teste2 extends Application {
         Pane teste = new Pane();
         
         Poligono p = new Poligono(
-                40, 50,
+                50, 50,
                 100, 30,
                 110, 100
         );
@@ -42,8 +42,6 @@ public class teste2 extends Application {
         p.ySetPosition(0, 0, 0, 0);
         
         System.out.println(p.yOutsideStrokeOcupation.toString());
-        
-        //System.out.println(p.yOutsideStrokeOcupation.toString());
         
         
        /* Circulo a = new Circulo(4);

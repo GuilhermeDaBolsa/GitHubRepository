@@ -28,7 +28,7 @@ public class teste2_1_1 extends Application {
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
         
-        BarraDeslisante k = new BarraDeslisante(new Circulo(60, Color.ALICEBLUE, 2, Color.BLACK), new Caixa(4, Color.WHITE, 2, Color.BLACK), 25, 0, 0, 0, false);
+        BarraDeslisante k = new BarraDeslisante(new Circulo(60, Color.ALICEBLUE, 2, Color.BLACK), new Caixa(4, Color.WHITE, 2, Color.BLACK), 500, 0, 0, 0, false);
         
         k.ySetTranslateX(400, 0.5);
         k.ySetTranslateY(400, 0.5);

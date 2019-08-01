@@ -29,6 +29,8 @@ public class BarraDeslisante extends CenaVisivel {
     
     private double mouseX;
     private double mouseY;
+    private double tINITx;
+    private double tINITy;
 
     public BarraDeslisante(double endX, double endY, double stroke_width, Caixa slider, int FRAMES, double MIN, double MAX, double INITIAL_VALUE) {
         
@@ -59,24 +61,32 @@ public class BarraDeslisante extends CenaVisivel {
         PATH_POINT_LIST = new yCircularArray(FRAMES);
         savePositions(path_animation);
         
-        slider.setOnMouseDragged((event) -> {
+        slider.setOnMousePressed((event) -> {
+            // Store initial position
+            tINITx = slider.yGetTranslateX(0.5);
+            tINITy = slider.yGetTranslateY(0.5);
             mouseX = event.getSceneX();
             mouseY = event.getSceneY();
+        });
+        
+        slider.setOnMouseDragged((event) -> {
+            double dragX = event.getSceneX() - mouseX;
+            double dragY = event.getSceneY() - mouseY;
             
-            int index = CURRENT_POSITION_INDEX - 1;
-                if(CYCLIC){
-                    if(!nextFrame(index, mouseX, mouseY))
-                        nextFrame(index + 2, mouseX, mouseY);
-                }else{
-                    boolean sucess = false;
+            double newXPosition = tINITx + dragX;
+            double newYPosition = tINITy + dragY;
+            
+            boolean sucess;
+            
+            do{
+                int index = CURRENT_POSITION_INDEX - 1;
 
-                    if(!(index < 0))
-                        sucess = nextFrame(index, mouseX, mouseY);
-
-                    index+=2;
-                    if(!sucess && index < PATH_POINT_LIST.array.length)
-                        nextFrame(index, mouseX, mouseY);
-                }
+                if(CYCLIC)
+                    sucess = nextFrame(index, index+2, newXPosition, newYPosition);
+                else
+                    sucess = nextFrame(index < 0 ? 0 : index, index+2 > PATH_POINT_LIST.array.length ? PATH_POINT_LIST.array.length : index+2, newXPosition, newYPosition);
+            
+            }while(sucess);//EM VEZ DE FICAR DANDO O SET POSITION / PEGANDO POSITION / DANDO SET POSITION... SO CALCULAR POR DENTRO E MANDAR O PONTO DIRETAMENTE PRO LUGAR, ACHO QUE VAI TIRAR O LAGZIN
         });
         
         getChildren().addAll(path, this.slider);
@@ -96,16 +106,28 @@ public class BarraDeslisante extends CenaVisivel {
         }
     }
     
-    private boolean nextFrame(int frame_index, double mouseX, double mouseY){
-        double next_frame_x = PATH_POINT_LIST.get(frame_index).getX();
-        double next_frame_y = PATH_POINT_LIST.get(frame_index).getY();
-        double distance_x = mouseX - next_frame_x;
-        double distance_y = mouseY - next_frame_y;
+    private double distanceToNextPoint(int frame_index, double pX, double pY){
+        return Matematicas.hypotenuse(pX - PATH_POINT_LIST.get(frame_index).getX(), pY - PATH_POINT_LIST.get(frame_index).getY());
+    }
+    
+    private boolean nextFrame(int frame_index1, int frame_index2, double pX, double pY){
+        double distance1 = distanceToNextPoint(frame_index1, pX, pY);
+        double distance2 = distanceToNextPoint(frame_index2, pX, pY);
+        double minor_distance;
+        int index;
         
-        if(Matematicas.hypotenuse(distance_x, distance_y) < Matematicas.hypotenuse(mouseX - slider.yGetTranslateX(0.5), mouseY - slider.yGetTranslateY(0.5))){
-            slider.ySetTranslateX(next_frame_x, 0.5);
-            slider.ySetTranslateY(next_frame_y, 0.5);
-            CURRENT_POSITION_INDEX = frame_index;
+        if(distance1 < distance2){
+            minor_distance = distance1;
+            index = frame_index1;
+        }else{
+            minor_distance = distance2;
+            index = frame_index2;
+        }
+        
+        if(minor_distance < Matematicas.hypotenuse(pX - PATH_POINT_LIST.get(CURRENT_POSITION_INDEX).getX(), pY - PATH_POINT_LIST.get(CURRENT_POSITION_INDEX).getY())){
+            slider.ySetTranslateX(PATH_POINT_LIST.get(index).getX(), 0.5);
+            slider.ySetTranslateY(PATH_POINT_LIST.get(index).getY(), 0.5);
+            CURRENT_POSITION_INDEX = index;
             return true;
         }
         return false;

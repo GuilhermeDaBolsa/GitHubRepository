@@ -32,16 +32,16 @@ public class teste2 extends Application {
         Pane teste = new Pane();
         
         Poligono p = new Poligono(
-                20, 20,
-                100, 20,
-                100, 100
+                40, 50,
+                100, 30,
+                110, 100
         );
         p.setFill(Color.ALICEBLUE);
         p.ySetStroke(6.0, Color.RED, StrokeType.OUTSIDE, true);
         
         p.ySetPosition(0, 0, 0, 0);
         
-        System.out.println(p.yGetTranslateX(0));
+        System.out.println(p.yOutsideStrokeOcupation.toString());
         
         //System.out.println(p.yOutsideStrokeOcupation.toString());
         

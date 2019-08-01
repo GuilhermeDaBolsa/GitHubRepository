@@ -140,7 +140,6 @@ public class Poligono extends Polygon implements Forma{
     
     @Override
     public double yGetTranslateX(double pivo) {
-        System.out.println(left_X);
         return getTranslateX() - yOutsideStrokeOcupation.LEFT.get() + left_X.get() + yGetWidth(true) * pivo;
     }
 

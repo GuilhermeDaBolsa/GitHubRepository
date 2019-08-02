@@ -58,7 +58,7 @@ public abstract class YshapeHandler{
             shape.setStrokeType(stroke_type);
         
         double real_stroke_width = yGetStrokeOcupation(shape);
-        stroke_ocupation.setStrokeOcupation(real_stroke_width, real_stroke_width);
+        stroke_ocupation.setStrokeOcupation(real_stroke_width*2, real_stroke_width*2);
         
         if(correct_location){
             ((Forma) shape).ySetTranslateX(where_wasX, 0);

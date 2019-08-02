@@ -39,7 +39,7 @@ public class teste2 extends Application {
         p.setFill(Color.ALICEBLUE);
         p.ySetStroke(20.0, Color.RED, StrokeType.OUTSIDE, true);
         
-       Circulo a = new Circulo(4);
+        Circulo a = new Circulo(4);
         Circulo b = new Circulo(4);
         Circulo c = new Circulo(4);
         

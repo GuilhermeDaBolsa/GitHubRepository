@@ -1,6 +1,7 @@
 package executavel;
 
 import Biblioteca.BasicObjects.Formas.Circulo;
+import Biblioteca.BasicObjects.Formas.Linha;
 import Biblioteca.BasicObjects.Formas.Retangulo;
 import Biblioteca.InteractiveObjects.BarraDeslisante;
 import Biblioteca.OrganizadoresDeNodos.Caixa;
@@ -17,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
@@ -27,20 +29,24 @@ public class teste2_1_1 extends Application {
     @Override
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
+
+        Linha testa = new Linha(200, 200, 10, Color.BLACK);
         
-        BarraDeslisante k = new BarraDeslisante(new Circulo(60, Color.ALICEBLUE, 2, Color.BLACK), new Caixa(10, 10, Color.WHITE, 2, Color.BLACK), 50, 50, 100, true);
+        testa.ySetStroke(20.0, null, StrokeType.OUTSIDE, true);
+        
+        System.out.println(testa.yOutsideStrokeOcupation.toString());
+        /*BarraDeslisante k = new BarraDeslisante(new Circulo(60, Color.ALICEBLUE, 2, Color.BLACK), new Caixa(10, 10, Color.WHITE, 2, Color.BLACK), 50, 50, 100, true);
         
         k.ySetTranslateX(400, 0.5);
-        k.ySetTranslateY(400, 0.5);
+        k.ySetTranslateY(400, 0.5);*/
         
-        teste.getChildren().addAll(k);
+        teste.getChildren().addAll(testa);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");
         primaryStage.setScene(scene);
         primaryStage.show();
-        k.setValue(50);
-        k.getValue();
+//        k.setValue(50);
         
     }
 

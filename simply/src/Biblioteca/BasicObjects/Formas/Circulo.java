@@ -60,7 +60,7 @@ public class Circulo extends Circle implements Forma{
     public double yGetWidth(boolean plusStroke) {
         double width = getRadius() * 2;
         if(plusStroke)
-            width += yOutsideStrokeOcupation.WIDTH.get();
+            width += yOutsideStrokeOcupation.WIDTH;
         
         return width;
     }
@@ -69,7 +69,7 @@ public class Circulo extends Circle implements Forma{
     public double yGetHeight(boolean plusStroke) {
         double height = getRadius() * 2;
         if(plusStroke)
-            height += yOutsideStrokeOcupation.HEIGHT.get();
+            height += yOutsideStrokeOcupation.HEIGHT;
         
         return height;
     }
@@ -88,7 +88,7 @@ public class Circulo extends Circle implements Forma{
     public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
         width /= 2;
         if(stroke_included)
-            width -= yOutsideStrokeOcupation.WIDTH.get() / 2;
+            width -= yOutsideStrokeOcupation.WIDTH / 2;
                     
         if(correct_location)
             ySetRadius(width);
@@ -100,7 +100,7 @@ public class Circulo extends Circle implements Forma{
     public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
         height /= 2;
         if(stroke_included)
-            height -= yOutsideStrokeOcupation.HEIGHT.get() / 2;
+            height -= yOutsideStrokeOcupation.HEIGHT / 2;
                     
         if(correct_location)
             ySetRadius(height);

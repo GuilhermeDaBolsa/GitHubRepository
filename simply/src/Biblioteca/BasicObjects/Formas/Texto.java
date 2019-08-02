@@ -82,7 +82,7 @@ public class Texto extends Text implements Forma {
     public double yGetWidth(boolean plusStroke) {
         double width = this.width.get();
         if (!plusStroke) {
-            width -= yOutsideStrokeOcupation.WIDTH.get();
+            width -= yOutsideStrokeOcupation.WIDTH;
         }
         return width;
     }
@@ -91,7 +91,7 @@ public class Texto extends Text implements Forma {
     public double yGetHeight(boolean plusStroke) {
         double height = this.height.get();
         if (!plusStroke) {
-            height -= yOutsideStrokeOcupation.HEIGHT.get();
+            height -= yOutsideStrokeOcupation.HEIGHT;
         }
         return height;
     }
@@ -490,7 +490,7 @@ public class Texto extends Text implements Forma {
         double stringHeight = metrics.getLineHeight() * cont;
 
         //return 3 informations, witdh, height and number of lines
-        double a[] = {stringWidth + (stroke_included ? yOutsideStrokeOcupation.WIDTH.get() : 0), stringHeight + (stroke_included ? yOutsideStrokeOcupation.HEIGHT.get() : 0), cont};
+        double a[] = {stringWidth + (stroke_included ? yOutsideStrokeOcupation.WIDTH : 0), stringHeight + (stroke_included ? yOutsideStrokeOcupation.HEIGHT : 0), cont};
         return a;
     }
     

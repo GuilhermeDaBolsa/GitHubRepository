@@ -9,7 +9,6 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
-import java.text.DecimalFormat;
 
 public class Linha extends Line implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
@@ -90,7 +89,7 @@ public class Linha extends Line implements Forma{
     public double yGetWidth(boolean plusStroke){
         double delta = Matematicas.modulo(getEndX() - getStartX());
         if(plusStroke)
-            delta += yOutsideStrokeOcupation.WIDTH.get();
+            delta += yOutsideStrokeOcupation.WIDTH;
         
         return delta;
     }
@@ -102,7 +101,7 @@ public class Linha extends Line implements Forma{
     public double yGetHeight(boolean plusStroke){
         double delta = Matematicas.modulo(getEndY() - getStartY());
         if(plusStroke)
-            delta += yOutsideStrokeOcupation.HEIGHT.get();
+            delta += yOutsideStrokeOcupation.HEIGHT;
         
         return delta;
     }
@@ -124,7 +123,7 @@ public class Linha extends Line implements Forma{
             width = -width;
         
         if(stroke_included)
-            width -= yOutsideStrokeOcupation.WIDTH.get();
+            width -= yOutsideStrokeOcupation.WIDTH;
         
         setPontoFinal(getStartX() + width, null);
     }
@@ -132,7 +131,7 @@ public class Linha extends Line implements Forma{
     @Override
     public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
         if(stroke_included)
-            height += height > 0 ? -yOutsideStrokeOcupation.HEIGHT.get() : yOutsideStrokeOcupation.HEIGHT.get();
+            height += height > 0 ? -yOutsideStrokeOcupation.HEIGHT : yOutsideStrokeOcupation.HEIGHT;
             
         if(getStartY() > getEndY())
             height = -height;
@@ -148,22 +147,22 @@ public class Linha extends Line implements Forma{
     
     @Override
     public double yGetTranslateX(double pivo) {
-        return getTranslateX() - yOutsideStrokeOcupation.LEFT.get() + getStartX() + yGetWidth(true) * pivo;
+        return getTranslateX() - yOutsideStrokeOcupation.LEFT + getStartX() + yGetWidth(true) * pivo;
     }
 
     @Override
     public double yGetTranslateY(double pivo) {
-        return getTranslateY() - yOutsideStrokeOcupation.UP.get() + getStartY() + yGetHeight(true) * pivo;
+        return getTranslateY() - yOutsideStrokeOcupation.UP + getStartY() + yGetHeight(true) * pivo;
     }
     
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        YshapeHandler.setTranslateX(this, position - getStartX() + yOutsideStrokeOcupation.LEFT.get(), pivo);
+        YshapeHandler.setTranslateX(this, position - getStartX() + yOutsideStrokeOcupation.LEFT, pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {
-        YshapeHandler.setTranslateY(this, position - getStartY() + yOutsideStrokeOcupation.UP.get(), pivo);
+        YshapeHandler.setTranslateY(this, position - getStartY() + yOutsideStrokeOcupation.UP, pivo);
     }
     
     @Override
@@ -178,18 +177,18 @@ public class Linha extends Line implements Forma{
 
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_size) {
-        double where_wasX = yGetTranslateX(0.5);
-        double where_wasY = yGetTranslateY(0.5);
+        double where_wasX = yGetTranslateX(0);
+        double where_wasY = yGetTranslateY(0);
         
         if(correct_size)
             setStrokeLineCap(StrokeLineCap.BUTT);
-        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, false);
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, true);
         
-        yOutsideStrokeOcupation = new YstrokeOcupation((yGetHeight(false)/yHypotenuse())*getStrokeWidth(),
-                (yGetWidth(false)/yHypotenuse())*getStrokeWidth());
+        yOutsideStrokeOcupation = new YstrokeOcupation((yGetHeight(false)/yHypotenuse())*YshapeHandler.yGetStrokeOcupation(this)*2,
+                (yGetWidth(false)/yHypotenuse())*YshapeHandler.yGetStrokeOcupation(this)*2);
         
-        ySetTranslateX(where_wasX, 0.5);
-        ySetTranslateY(where_wasY, 0.5);
+        ySetTranslateX(where_wasX, 0);
+        ySetTranslateY(where_wasY, 0);
     }
     
     

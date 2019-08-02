@@ -49,7 +49,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     public double yGetWidth(boolean plusStroke){
         double width = getWidth();
         if(plusStroke)
-            width += yOutsideStrokeOcupation.WIDTH.get();
+            width += yOutsideStrokeOcupation.WIDTH;
         
         return width;
     }
@@ -58,7 +58,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     public double yGetHeight(boolean plusStroke){
         double height = getHeight();
         if(plusStroke)
-            height += yOutsideStrokeOcupation.HEIGHT.get();
+            height += yOutsideStrokeOcupation.HEIGHT;
         
         return height;
     }
@@ -78,7 +78,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         double where_wasX = yGetTranslateX(0);
         
         if(stroke_included)
-            width -= yOutsideStrokeOcupation.WIDTH.get();
+            width -= yOutsideStrokeOcupation.WIDTH;
         
         setWidth(width);
         
@@ -91,7 +91,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
         double where_wasY = yGetTranslateY(0);
         
         if(stroke_included)
-            height -= yOutsideStrokeOcupation.HEIGHT.get();
+            height -= yOutsideStrokeOcupation.HEIGHT;
         
         setHeight(height);
         
@@ -105,22 +105,22 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     
     @Override
     public double yGetTranslateX(double pivo) {
-        return getTranslateX() - yOutsideStrokeOcupation.LEFT.get() + yGetWidth(true) * pivo;
+        return getTranslateX() - yOutsideStrokeOcupation.LEFT + yGetWidth(true) * pivo;
     }
 
     @Override
     public double yGetTranslateY(double pivo) {
-        return getTranslateY() - yOutsideStrokeOcupation.UP.get() + yGetHeight(true) * pivo;
+        return getTranslateY() - yOutsideStrokeOcupation.UP + yGetHeight(true) * pivo;
     }
     
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        YshapeHandler.setTranslateX(this, position + yOutsideStrokeOcupation.LEFT.get(), pivo);
+        YshapeHandler.setTranslateX(this, position + yOutsideStrokeOcupation.LEFT, pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {
-        YshapeHandler.setTranslateY(this, position + yOutsideStrokeOcupation.UP.get(), pivo);
+        YshapeHandler.setTranslateY(this, position + yOutsideStrokeOcupation.UP, pivo);
     }
     
     @Override

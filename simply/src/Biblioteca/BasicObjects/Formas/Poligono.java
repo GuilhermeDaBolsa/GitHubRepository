@@ -77,7 +77,7 @@ public class Poligono extends Polygon implements Forma{
     public double yGetWidth(boolean plusStroke){
         double width = right_X.get() - left_X.get();
         if(plusStroke)
-            width += yOutsideStrokeOcupation.WIDTH.get();
+            width += yOutsideStrokeOcupation.WIDTH;
         
         return width;
     }
@@ -89,7 +89,7 @@ public class Poligono extends Polygon implements Forma{
     public double yGetHeight(boolean plusStroke){
         double height = down_Y.get() - up_Y.get();
         if(plusStroke)
-            height += yOutsideStrokeOcupation.HEIGHT.get();
+            height += yOutsideStrokeOcupation.HEIGHT;
         
         return height;
     }
@@ -106,11 +106,8 @@ public class Poligono extends Polygon implements Forma{
 
     @Override
     public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
-        if(stroke_included)
-            width -= yOutsideStrokeOcupation.WIDTH.get()/2;
-        
         double pivo = yGetWidth(false)/2;
-        double increment = width - right_X.get();
+        double increment = width - yGetWidth(stroke_included);
         
         for (int i = 0; i < getPoints().size(); i+=2) {
             double X = getPoints().get(i);
@@ -120,12 +117,9 @@ public class Poligono extends Polygon implements Forma{
     }
 
     @Override
-    public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
-        if(stroke_included)
-            height -= yOutsideStrokeOcupation.HEIGHT.get()/2;
-        
+    public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {      
         double pivo = yGetHeight(false)/2;
-        double increment = height - down_Y.get();
+        double increment = height - yGetHeight(stroke_included);
         
         for (int i = 1; i < getPoints().size(); i+=2) {
             double Y = getPoints().get(i);
@@ -140,22 +134,22 @@ public class Poligono extends Polygon implements Forma{
     
     @Override
     public double yGetTranslateX(double pivo) {
-        return getTranslateX() - yOutsideStrokeOcupation.LEFT.get() + left_X.get() + yGetWidth(true) * pivo;
+        return getTranslateX() - yOutsideStrokeOcupation.LEFT + left_X.get() + yGetWidth(true) * pivo;
     }
 
     @Override
     public double yGetTranslateY(double pivo) {
-        return getTranslateY() - yOutsideStrokeOcupation.UP.get() + up_Y.get() + yGetHeight(true) * pivo;
+        return getTranslateY() - yOutsideStrokeOcupation.UP + up_Y.get() + yGetHeight(true) * pivo;
     }
     
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        YshapeHandler.setTranslateX(this, position - left_X.get() + yOutsideStrokeOcupation.LEFT.get(), pivo);
+        YshapeHandler.setTranslateX(this, position - left_X.get() + yOutsideStrokeOcupation.LEFT, pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {
-        YshapeHandler.setTranslateY(this, position - up_Y.get() + yOutsideStrokeOcupation.UP.get(), pivo);
+        YshapeHandler.setTranslateY(this, position - up_Y.get() + yOutsideStrokeOcupation.UP, pivo);
     }
     
     @Override
@@ -277,7 +271,7 @@ public class Poligono extends Polygon implements Forma{
     /**
      * @param points Pontos que formam a forma.
      */
-    public void calculate_stroke(Object... points){//ANGULOS MENORES DO QUE 11,475 (achar um valor mais preciso) TEM STROKE = 0 (NAO HA INTERSECÇÃO DE RETAS)
+    private void calculate_stroke(Object... points){//ANGULOS MENORES DO QUE 11,475 (achar um valor mais preciso) TEM STROKE = 0 (NAO HA INTERSECÇÃO DE RETAS)
         if(points.length <= 2){
             System.out.println("Not enought points.");//if they are 2, isn't it a line? (ver isso dps)
             return;
@@ -320,7 +314,7 @@ public class Poligono extends Polygon implements Forma{
         }
     }
     
-    public static Point2D calculateInterceptionPoint(Point2D p1, Point2D p2, Point2D d1, Point2D d2) {
+    private Point2D calculateInterceptionPoint(Point2D p1, Point2D p2, Point2D d1, Point2D d2) {
         double A1 = p1.getY() - p2.getY();
         double B1 = p2.getX() - p1.getX();
         double C1 = p1.getX() * p2.getY() - p2.getX() * p1.getY();

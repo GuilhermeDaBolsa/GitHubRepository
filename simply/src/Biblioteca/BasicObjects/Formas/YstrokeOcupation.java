@@ -1,15 +1,12 @@
 package Biblioteca.BasicObjects.Formas;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-
 public class YstrokeOcupation{
-    public DoubleProperty LEFT;
-    public DoubleProperty RIGHT;
-    public DoubleProperty UP;
-    public DoubleProperty BOTTOM;
-    public DoubleProperty WIDTH;
-    public DoubleProperty HEIGHT;
+    public double LEFT;
+    public double RIGHT;
+    public double UP;
+    public double BOTTOM;
+    public double WIDTH;
+    public double HEIGHT;
 
     public YstrokeOcupation() {
         this(0, 0, 0 ,0);
@@ -20,21 +17,21 @@ public class YstrokeOcupation{
     }
     
     public YstrokeOcupation(double LEFT, double RIGHT, double UP, double BOTTOM) {
-        this.LEFT = new SimpleDoubleProperty(LEFT);
-        this.RIGHT = new SimpleDoubleProperty(RIGHT);
-        this.UP = new SimpleDoubleProperty(UP);
-        this.BOTTOM = new SimpleDoubleProperty(BOTTOM);
-        this.WIDTH = new SimpleDoubleProperty(LEFT + RIGHT);
-        this.HEIGHT = new SimpleDoubleProperty(UP + BOTTOM);
+        this.LEFT = LEFT;
+        this.RIGHT = RIGHT;
+        this.UP = UP;
+        this.BOTTOM = BOTTOM;
+        this.WIDTH = LEFT + RIGHT;
+        this.HEIGHT = UP + BOTTOM;
     }
     
     public void setStrokeOcupation(double LEFT, double RIGHT, double UP, double BOTTOM) {
-        this.LEFT.setValue(LEFT);
-        this.RIGHT.setValue(RIGHT);
-        this.UP.setValue(UP);
-        this.BOTTOM.setValue(BOTTOM);
-        this.WIDTH.setValue(LEFT + RIGHT);
-        this.HEIGHT.setValue(UP + BOTTOM);
+        this.LEFT = LEFT;
+        this.RIGHT = RIGHT;
+        this.UP = UP;
+        this.BOTTOM = BOTTOM;
+        this.WIDTH = LEFT + RIGHT;
+        this.HEIGHT = UP + BOTTOM;
     }
     
     public void setStrokeOcupation(double WIDTH, double HEIGHT) {
@@ -43,9 +40,9 @@ public class YstrokeOcupation{
 
     @Override
     public String toString(){
-        return "Left stroke: " + LEFT.get() + "\n" +
-                "Right stroke: " + RIGHT.get() + "\n" +
-                "Up stroke: " + UP.get() + "\n" +
-                "Bottom stroke: " + BOTTOM.get() + "\n";
+        return "Left stroke: " + LEFT + "\n" +
+                "Right stroke: " + RIGHT + "\n" +
+                "Up stroke: " + UP + "\n" +
+                "Bottom stroke: " + BOTTOM + "\n";
     }
 }

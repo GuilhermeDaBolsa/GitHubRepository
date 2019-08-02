@@ -37,13 +37,12 @@ public class BarraDeslisante extends CenaVisivel {
         
     }
 
-    public BarraDeslisante(/*Path*/Shape path, Caixa slider, int FRAMES, double MIN, double MAX, double INITIAL_VALUE, boolean cyclic) {
+    public BarraDeslisante(/*Path*/Shape path, Caixa slider, int FRAMES, double MIN, double MAX, boolean cyclic) {
         //this.path = path;
         this.slider = slider;
         this.FRAMES = FRAMES-1;
         this.MIN = MIN;
         this.MAX = MAX;
-        this.INITIAL_VALUE = INITIAL_VALUE;
         this.CURRENT_POSITION_INDEX = 0;
         this.CYCLIC = cyclic;
         
@@ -80,16 +79,26 @@ public class BarraDeslisante extends CenaVisivel {
             boolean sucess;
             
             do{//acho que o motivo do lag vem desse do while que nao deveria estar aqui no mouse dragged...ou pcausa do jeito...se fizesse usando força vetorial podia n da
-                int index = CURRENT_POSITION_INDEX - 1;
+                int index = CURRENT_POSITION_INDEX;
 
                 if(CYCLIC)
-                    sucess = nextFrame(index, index+2, newXPosition, newYPosition);
+                    sucess = nextFrame(index - 1, index + 1, newXPosition, newYPosition);
                 else
-                    sucess = nextFrame(index < 0 ? 0 : index, index+2 > PATH_POINT_LIST.array.length ? PATH_POINT_LIST.array.length : index+2, newXPosition, newYPosition);
+                    sucess = nextFrame(index - 1 <= 0 ? 0 : index - 1, index + 1 > FRAMES ? FRAMES : index + 1, newXPosition, newYPosition);
             }while(sucess);
         });
         
         getChildren().addAll(path, this.slider);
+    }
+    
+    public void setValue(double value){
+        if(value > MAX)
+            value = MAX;
+        else if(value < MIN)
+            value = MIN;
+        
+        double percentage = (MAX != MIN ? (value - MIN) / (MAX - MIN) : 0);
+        path_animation.jumpTo(Duration.seconds((int) (FRAMES * percentage)));
     }
     
     /**
@@ -121,8 +130,8 @@ public class BarraDeslisante extends CenaVisivel {
         }
         
         if(minor_distance < Matematicas.hypotenuse(pX - PATH_POINT_LIST.get(CURRENT_POSITION_INDEX).getX(), pY - PATH_POINT_LIST.get(CURRENT_POSITION_INDEX).getY())){
-            path_animation.jumpTo(Duration.seconds(PATH_POINT_LIST.get_real_index(index)));
-            CURRENT_POSITION_INDEX = index;
+            CURRENT_POSITION_INDEX = index % (FRAMES+1);
+            path_animation.jumpTo(Duration.seconds(PATH_POINT_LIST.get_real_index(CURRENT_POSITION_INDEX)));
             return true;
         }
         return false;

@@ -28,17 +28,20 @@ public class teste2_1_1 extends Application {
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
         
-        BarraDeslisante k = new BarraDeslisante(new Circulo(60, Color.ALICEBLUE, 2, Color.BLACK), new Caixa(10, 10, Color.WHITE, 2, Color.BLACK), 200, 0, 0, 0, true);
+        BarraDeslisante k = new BarraDeslisante(new Circulo(60, Color.ALICEBLUE, 2, Color.BLACK), new Caixa(10, 10, Color.WHITE, 2, Color.BLACK), 50, 0, 100, true);
         
         k.ySetTranslateX(400, 0.5);
         k.ySetTranslateY(400, 0.5);
         
         teste.getChildren().addAll(k);
         
+        
+        
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");
         primaryStage.setScene(scene);
         primaryStage.show();
+        k.setValue(50);
     }
 
     public static void main(String[] args) {

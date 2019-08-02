@@ -18,6 +18,7 @@ public class BarraDeslisante extends CenaVisivel {
     private Path path;
     private Caixa slider;
     
+    private PathTransition path_animation;
     private yCircularArray<Point2D> PATH_POINT_LIST;
     private int FRAMES;
     private boolean CYCLIC;
@@ -46,7 +47,7 @@ public class BarraDeslisante extends CenaVisivel {
         this.CURRENT_POSITION_INDEX = 0;
         this.CYCLIC = cyclic;
         
-        PathTransition path_animation = new PathTransition();
+        path_animation = new PathTransition();
         path_animation.setDuration(Duration.seconds(FRAMES));
         path_animation.setPath(path);
         path_animation.setNode(slider);
@@ -78,17 +79,14 @@ public class BarraDeslisante extends CenaVisivel {
             
             boolean sucess;
             
-            do{
+            do{//acho que o motivo do lag vem desse do while que nao deveria estar aqui no mouse dragged...ou pcausa do jeito...se fizesse usando força vetorial podia n da
                 int index = CURRENT_POSITION_INDEX - 1;
 
                 if(CYCLIC)
                     sucess = nextFrame(index, index+2, newXPosition, newYPosition);
                 else
                     sucess = nextFrame(index < 0 ? 0 : index, index+2 > PATH_POINT_LIST.array.length ? PATH_POINT_LIST.array.length : index+2, newXPosition, newYPosition);
-            
-            }while(sucess);//EM VEZ DE FICAR DANDO O SET POSITION / PEGANDO POSITION / DANDO SET POSITION... SO CALCULAR POR DENTRO E MANDAR O PONTO DIRETAMENTE PRO LUGAR, ACHO QUE VAI TIRAR O LAGZIN
-        
-            //ACHO QUE SE EU TIRAR OS SETS POSITIONS DE LA DO METODO E BOTA AQUI JA FUNCIONA (É... SO ISSO)
+            }while(sucess);
         });
         
         getChildren().addAll(path, this.slider);
@@ -108,10 +106,6 @@ public class BarraDeslisante extends CenaVisivel {
         }
     }
     
-    private double distanceToNextPoint(int frame_index, double pX, double pY){
-        return Matematicas.hypotenuse(pX - PATH_POINT_LIST.get(frame_index).getX(), pY - PATH_POINT_LIST.get(frame_index).getY());
-    }
-    
     private boolean nextFrame(int frame_index1, int frame_index2, double pX, double pY){
         double distance1 = distanceToNextPoint(frame_index1, pX, pY);
         double distance2 = distanceToNextPoint(frame_index2, pX, pY);
@@ -127,11 +121,14 @@ public class BarraDeslisante extends CenaVisivel {
         }
         
         if(minor_distance < Matematicas.hypotenuse(pX - PATH_POINT_LIST.get(CURRENT_POSITION_INDEX).getX(), pY - PATH_POINT_LIST.get(CURRENT_POSITION_INDEX).getY())){
-            slider.ySetTranslateX(PATH_POINT_LIST.get(index).getX(), 0.5);
-            slider.ySetTranslateY(PATH_POINT_LIST.get(index).getY(), 0.5);
+            path_animation.jumpTo(Duration.seconds(PATH_POINT_LIST.get_real_index(index)));
             CURRENT_POSITION_INDEX = index;
             return true;
         }
         return false;
+    }
+    
+    private double distanceToNextPoint(int frame_index, double pX, double pY){
+        return Matematicas.hypotenuse(pX - PATH_POINT_LIST.get(frame_index).getX(), pY - PATH_POINT_LIST.get(frame_index).getY());
     }
 }

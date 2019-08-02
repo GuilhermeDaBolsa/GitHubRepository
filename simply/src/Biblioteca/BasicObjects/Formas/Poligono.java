@@ -277,7 +277,7 @@ public class Poligono extends Polygon implements Forma{
     /**
      * @param points Pontos que formam a forma.
      */
-    private void calculate_stroke(Object... points){//ANGULOS MENORES DO QUE 11,475 (achar um valor mais preciso) TEM STROKE = 0 (NAO HA INTERSECÇÃO DE RETAS)
+    public void calculate_stroke(Object... points){//ANGULOS MENORES DO QUE 11,475 (achar um valor mais preciso) TEM STROKE = 0 (NAO HA INTERSECÇÃO DE RETAS)
         if(points.length <= 2){
             System.out.println("Not enought points.");//if they are 2, isn't it a line? (ver isso dps)
             return;
@@ -298,8 +298,8 @@ public class Poligono extends Polygon implements Forma{
             Point2D crossed_array_r1[] = border_points(pN1, p0);
             Point2D crossed_array_r2[] = border_points(p0, p1);
             
-            for (int j = 0; j < 2; j+=2) {
-                for (int k = 0; k < 2; k+=2) {
+            for (int j = 0; j < 3; j+=2) {
+                for (int k = 0; k < 3; k+=2) {
                     Point2D point = calculateInterceptionPoint(crossed_array_r1[j], crossed_array_r1[j + 1], crossed_array_r2[k], crossed_array_r2[k + 1]);
                     
                     if(point.getX() < left)
@@ -313,7 +313,6 @@ public class Poligono extends Polygon implements Forma{
                         down = point.getY();
                 }
             }
-            
             
             yOutsideStrokeOcupation = new YstrokeOcupation(left_X.get() - left, right - right_X.get(), up_Y.get() - up, down - down_Y.get());
         }
@@ -362,7 +361,7 @@ public class Poligono extends Polygon implements Forma{
             double inverse_m = -1/m;//coeficiente da reta perpendicular a reta criada pelos 2 pontos
 
             //do a sistem to discover the 2 points of a possible RETA of the stroke
-            double complement = (YshapeHandler.yGetStrokeOcupation(this)/2)/Math.sqrt(1+(inverse_m * inverse_m)); //+/- result
+            double complement = YshapeHandler.yGetStrokeOcupation(this)/Math.sqrt(1+(inverse_m * inverse_m)); //+/- result
             
             //the 4 possible points for the RETA of the stroke calculated by the sistem (+/- because it is x²)
             double a1x = a.getX() + complement;

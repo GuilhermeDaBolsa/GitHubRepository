@@ -35,14 +35,13 @@ public class teste2_1_1 extends Application {
         
         teste.getChildren().addAll(k);
         
-        
-        
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");
         primaryStage.setScene(scene);
         primaryStage.show();
         k.setValue(50);
         k.getValue();
+        
     }
 
     public static void main(String[] args) {

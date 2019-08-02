@@ -33,15 +33,13 @@ public class teste2 extends Application {
         
         Poligono p = new Poligono(
                 50, 50,
-                100, 30,
-                110, 100
+                100, 50,
+                100, 100
         );
         p.setFill(Color.ALICEBLUE);
-        p.ySetStroke(6.0, Color.RED, StrokeType.OUTSIDE, true);
+        p.ySetStroke(20.0, Color.RED, StrokeType.OUTSIDE, true);
         
         p.ySetPosition(0, 0, 0, 0);
-        
-        System.out.println(p.yOutsideStrokeOcupation.toString());
         
         
        /* Circulo a = new Circulo(4);

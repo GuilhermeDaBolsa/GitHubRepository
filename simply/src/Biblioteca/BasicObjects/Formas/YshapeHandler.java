@@ -33,9 +33,9 @@ public abstract class YshapeHandler{
      * because it calculates the average stroke width based just on the stroke width value and the stroke type.
      */
     public static double yGetStrokeOcupation(Shape shape) {
-        double coeficient = 1;
+        double coeficient = 0.5;
         if(shape.getStrokeType() == StrokeType.OUTSIDE)
-            coeficient = 2;
+            coeficient = 1;
         else if(shape.getStrokeType() == StrokeType.INSIDE)
             coeficient = 0;
         

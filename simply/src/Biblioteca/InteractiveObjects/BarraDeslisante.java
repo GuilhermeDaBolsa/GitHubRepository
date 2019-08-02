@@ -7,6 +7,7 @@ import Biblioteca.OrganizadoresDeNodos.Caixa;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.geometry.Point2D;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
@@ -25,7 +26,6 @@ public class BarraDeslisante extends CenaVisivel {
     
     private double MIN;
     private double MAX;
-    private double INITIAL_VALUE;
     private int CURRENT_POSITION_INDEX;
     
     private double mouseX;
@@ -40,7 +40,7 @@ public class BarraDeslisante extends CenaVisivel {
     public BarraDeslisante(/*Path*/Shape path, Caixa slider, int FRAMES, double MIN, double MAX, boolean cyclic) {
         //this.path = path;
         this.slider = slider;
-        this.FRAMES = FRAMES-1;
+        this.FRAMES = FRAMES-1;//AVERIGUAR a QUESTAO DOS -1 e +1
         this.MIN = MIN;
         this.MAX = MAX;
         this.CURRENT_POSITION_INDEX = 0;
@@ -85,6 +85,7 @@ public class BarraDeslisante extends CenaVisivel {
                     sucess = nextFrame(index - 1, index + 1, newXPosition, newYPosition);
                 else
                     sucess = nextFrame(index - 1 <= 0 ? 0 : index - 1, index + 1 > FRAMES ? FRAMES : index + 1, newXPosition, newYPosition);
+
             }while(sucess);
         });
         
@@ -101,6 +102,13 @@ public class BarraDeslisante extends CenaVisivel {
         path_animation.jumpTo(Duration.seconds((int) (FRAMES * percentage)));
     }
     
+    public double getValue(){
+        double current_frame = path_animation.getCurrentTime().toSeconds();
+        double percentage = FRAMES != 0 ? (current_frame / FRAMES) : 0;
+        
+        return MIN + (MAX - MIN) * percentage;
+    }
+    
     /**
      * Save the position of the slider for every second of the animation in
      * a list.
@@ -109,7 +117,7 @@ public class BarraDeslisante extends CenaVisivel {
         if (PATH_POINT_LIST == null)
             return;
 
-        for (int i=0; i<=(int)FRAMES; i++) {
+        for (int i=0; i<(int)FRAMES+1; i++) {
             path_animation.jumpTo(Duration.seconds(i));
             PATH_POINT_LIST.set(i, new Point2D(slider.yGetTranslateX(0.5), slider.yGetTranslateY(0.5)));
         }

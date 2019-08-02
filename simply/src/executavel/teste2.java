@@ -32,17 +32,14 @@ public class teste2 extends Application {
         Pane teste = new Pane();
         
         Poligono p = new Poligono(
-                50, 50,
-                100, 50,
+                0, 0,
+                100, 0,
                 100, 100
         );
         p.setFill(Color.ALICEBLUE);
         p.ySetStroke(20.0, Color.RED, StrokeType.OUTSIDE, true);
         
-        p.ySetPosition(0, 0, 0, 0);
-        
-        
-       /* Circulo a = new Circulo(4);
+       Circulo a = new Circulo(4);
         Circulo b = new Circulo(4);
         Circulo c = new Circulo(4);
         
@@ -108,7 +105,7 @@ public class teste2 extends Application {
                 p.getPoints().addAll(a.yGetTranslateX(0.5) - p.getTranslateX(), a.yGetTranslateY(0.5) - p.getTranslateY(), b.yGetTranslateX(0.5) - p.getTranslateX(), b.yGetTranslateY(0.5) - p.getTranslateY(), c.yGetTranslateX(0.5) - p.getTranslateX(), c.yGetTranslateY(0.5) - p.getTranslateY());
                 p.change_in_points();
             }
-        });*/
+        });
             
         teste.setOnMousePressed((event) -> {
             if(event.isSecondaryButtonDown()){
@@ -123,7 +120,7 @@ public class teste2 extends Application {
         //falta os setMaxWidth e height e mudar o codigo pra aguenta eles.
         //os reajusta tamanho automatico da caixa ta meio quebrado
         
-        teste.getChildren().addAll(p);
+        teste.getChildren().addAll(p, a, b, c);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");

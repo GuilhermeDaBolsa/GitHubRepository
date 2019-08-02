@@ -301,6 +301,8 @@ public class Poligono extends Polygon implements Forma{
             for (int j = 0; j < 3; j+=2) {
                 for (int k = 0; k < 3; k+=2) {
                     Point2D point = calculateInterceptionPoint(crossed_array_r1[j], crossed_array_r1[j + 1], crossed_array_r2[k], crossed_array_r2[k + 1]);
+                    if(point == null)
+                        continue;
                     
                     if(point.getX() < left)
                         left = point.getX();
@@ -326,6 +328,9 @@ public class Poligono extends Polygon implements Forma{
         double A2 = d1.getY() - d2.getY();
         double B2 = d2.getX() - d1.getX();
         double C2 = d1.getX() * d2.getY() - d2.getX() * d1.getY();
+        
+        if(A2 * B1 - A1 * B2 == 0)
+            return null;
         
         double X = 0;
         double Y = (A1 * C2 - A2 * C1) / (A2 * B1 - A1 * B2);

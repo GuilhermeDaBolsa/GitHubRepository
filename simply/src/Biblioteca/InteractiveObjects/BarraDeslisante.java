@@ -1,23 +1,21 @@
 package Biblioteca.InteractiveObjects;
 
 import Biblioteca.BasicObjects.CenaVisivel;
+import Biblioteca.BasicObjects.Formas.Texto;
 import Biblioteca.Lists.yCircularArray;
 import Biblioteca.LogicClasses.Matematicas;
 import Biblioteca.OrganizadoresDeNodos.Caixa;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.geometry.Point2D;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
-//FAZER OS ESQUEMAS DO TRAKER E, COM BASE NO PONTO ATUAL DA ANIMAÇÃO + POSICAO DO MOUSE, CALCULAR O VETOR DE FORÇA QUE O MOUSE ESTÁ "APLICANDO" NO ELEMENTO
-//E VER SE A FORÇA APLICADA AO ELEMENTO O TRAZ MAIS PERTO DO PROXIMO PONTO.... (n fazer com os esquemas de pegar o ponto mais proximo :)
-
 public class BarraDeslisante extends CenaVisivel {
     private Path path;
     private Caixa slider;
+    private Texto text;
     
     private PathTransition path_animation;
     private yCircularArray<Point2D> PATH_POINT_LIST;
@@ -26,6 +24,7 @@ public class BarraDeslisante extends CenaVisivel {
     
     private double MIN;
     private double MAX;
+    private double CURRENT_VALUE;
     private int CURRENT_POSITION_INDEX;
     
     private double mouseX;
@@ -40,7 +39,7 @@ public class BarraDeslisante extends CenaVisivel {
     public BarraDeslisante(/*Path*/Shape path, Caixa slider, int FRAMES, double MIN, double MAX, boolean cyclic) {
         //this.path = path;
         this.slider = slider;
-        this.FRAMES = FRAMES-1;//AVERIGUAR a QUESTAO DOS -1 e +1
+        this.FRAMES = FRAMES;//AVERIGUAR a QUESTAO DOS -1 e +1 ÉÉÉÉÉÉÉÉÉÉÉé.........
         this.MIN = MIN;
         this.MAX = MAX;
         this.CURRENT_POSITION_INDEX = 0;
@@ -50,7 +49,7 @@ public class BarraDeslisante extends CenaVisivel {
         path_animation.setDuration(Duration.seconds(FRAMES));
         path_animation.setPath(path);
         path_animation.setNode(slider);
-        path_animation.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);//ISSO NAO VAI FUNFA PQ TA SETANDO A POSICAO, TEM Q SETAR O TEMPO DE ANIMAÇÂO, QU#E NEM O CARA
+        path_animation.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         path_animation.setCycleCount(1);
         path_animation.setInterpolator(Interpolator.LINEAR);
         path_animation.playFromStart();
@@ -84,12 +83,15 @@ public class BarraDeslisante extends CenaVisivel {
                 if(CYCLIC)
                     sucess = nextFrame(index - 1, index + 1, newXPosition, newYPosition);
                 else
-                    sucess = nextFrame(index - 1 <= 0 ? 0 : index - 1, index + 1 > FRAMES ? FRAMES : index + 1, newXPosition, newYPosition);
+                    sucess = nextFrame(index - 1 <= 0 ? 0 : index - 1, index + 1 > FRAMES-1 ? FRAMES-1 : index + 1, newXPosition, newYPosition);
 
             }while(sucess);
         });
         
-        getChildren().addAll(path, this.slider);
+        text = new Texto("ab");//ver do problemaaqui
+        setValue(MIN);
+        
+        getChildren().addAll(path, this.slider, text);
     }
     
     public void setValue(double value){
@@ -98,17 +100,29 @@ public class BarraDeslisante extends CenaVisivel {
         else if(value < MIN)
             value = MIN;
         
-        double percentage = (MAX != MIN ? (value - MIN) / (MAX - MIN) : 0);
-        path_animation.jumpTo(Duration.seconds((int) (FRAMES * percentage)));
+        CURRENT_VALUE = value;
+        CURRENT_POSITION_INDEX = Math.round((float) ((FRAMES-1) * getPercentage()));
+        
+        path_animation.jumpTo(Duration.seconds(PATH_POINT_LIST.get_real_index(CURRENT_POSITION_INDEX)));
+        text.setText(""+String.format("%.2f", getPercentage()*100) + "%");
+    }
+    
+    /**
+     * 
+     * @param percentage from 0 to 1;
+     */
+    public void setValueByPercentage(double percentage){
+        setValue(percentage * (MAX - MIN) + MIN);
     }
     
     public double getValue(){
-        double current_frame = path_animation.getCurrentTime().toSeconds();
-        double percentage = FRAMES != 0 ? (current_frame / FRAMES) : 0;
-        
-        return MIN + (MAX - MIN) * percentage;
+        return CURRENT_VALUE;
     }
     
+    public double getPercentage(){
+        return MAX != MIN ? (CURRENT_VALUE - MIN) / (MAX - MIN) : 0;
+    }
+
     /**
      * Save the position of the slider for every second of the animation in
      * a list.
@@ -117,7 +131,7 @@ public class BarraDeslisante extends CenaVisivel {
         if (PATH_POINT_LIST == null)
             return;
 
-        for (int i=0; i<(int)FRAMES+1; i++) {
+        for (int i=0; i<(int)FRAMES; i++) {
             path_animation.jumpTo(Duration.seconds(i));
             PATH_POINT_LIST.set(i, new Point2D(slider.yGetTranslateX(0.5), slider.yGetTranslateY(0.5)));
         }
@@ -138,8 +152,9 @@ public class BarraDeslisante extends CenaVisivel {
         }
         
         if(minor_distance < Matematicas.hypotenuse(pX - PATH_POINT_LIST.get(CURRENT_POSITION_INDEX).getX(), pY - PATH_POINT_LIST.get(CURRENT_POSITION_INDEX).getY())){
-            CURRENT_POSITION_INDEX = index % (FRAMES+1);
-            path_animation.jumpTo(Duration.seconds(PATH_POINT_LIST.get_real_index(CURRENT_POSITION_INDEX)));
+            setValueByPercentage(PATH_POINT_LIST.lenght()-1 != 0 ? ((double) PATH_POINT_LIST.get_real_index(index % FRAMES)) / (PATH_POINT_LIST.lenght()-1) : 0);
+            text.setText(""+String.format("%.2f", getPercentage()*100) + "%");
+            
             return true;
         }
         return false;

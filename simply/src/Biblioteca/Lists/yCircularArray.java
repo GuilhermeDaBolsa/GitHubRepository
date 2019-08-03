@@ -19,6 +19,10 @@ public class yCircularArray<T> {
         array[get_real_index(index)] = object;
     }
     
+    public int lenght(){
+        return array.length;
+    }
+    
     public int get_real_index(int index){
         if(index < 0){
             return get_real_index(array.length + (index % array.length));

@@ -29,24 +29,18 @@ public class teste2_1_1 extends Application {
     @Override
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
-
-        Linha testa = new Linha(200, 200, 10, Color.BLACK);
-        
-        testa.ySetStroke(20.0, null, StrokeType.OUTSIDE, true);
-        
-        System.out.println(testa.yOutsideStrokeOcupation.toString());
-        /*BarraDeslisante k = new BarraDeslisante(new Circulo(60, Color.ALICEBLUE, 2, Color.BLACK), new Caixa(10, 10, Color.WHITE, 2, Color.BLACK), 50, 50, 100, true);
+        BarraDeslisante k = new BarraDeslisante(new Circulo(60, Color.ALICEBLUE, 2, Color.BLACK), new Caixa(10, 10, Color.WHITE, 2, Color.BLACK), 500, 0, 100, true);
         
         k.ySetTranslateX(400, 0.5);
-        k.ySetTranslateY(400, 0.5);*/
+        k.ySetTranslateY(400, 0.5);
         
-        teste.getChildren().addAll(testa);
+        teste.getChildren().addAll(k);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");
         primaryStage.setScene(scene);
         primaryStage.show();
-//        k.setValue(50);
+        k.setValue(50);
         
     }
 

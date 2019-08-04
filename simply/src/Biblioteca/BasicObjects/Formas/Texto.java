@@ -66,6 +66,9 @@ public class Texto extends Text implements Forma {
     }
     
     private void ySetMineText(String text){
+        if(text == null || text == "")
+            text = " ";
+        
         setText(text);
         recalc_values();
     }
@@ -321,7 +324,7 @@ public class Texto extends Text implements Forma {
 
         boolean sucess = false;
         double text_width = simulateTextSize(new_text, getFont().getSize(), stroke_included)[0];
-        if(change_font_size_allowed){
+        if(change_font_size_allowed){//acho que da pra tirar :P, talvez fique melhor
             int actual_font_size = (int) getFont().getSize();
             ySetWidth(width, stroke_included, true);
             int new_font_size = (int) getFont().getSize();
@@ -395,8 +398,6 @@ public class Texto extends Text implements Forma {
     }
     
     /**
-     * FAZER COM BASE NOS \n E TAMBÉM NO WRAPING (ALGO ASSIM)
-     *
      * @param height
      */
     public void ySetHeight(double height, boolean stroke_included, boolean change_font_size_allowed, boolean break_text_allowed,
@@ -467,7 +468,7 @@ public class Texto extends Text implements Forma {
         }
 
         int begin = 0;
-        int end = text.length();
+        int end = text.length()-1;
         int size = 0;
         int sizeH = 0;
         int cont = 0;

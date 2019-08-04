@@ -20,19 +20,19 @@ public class BarraDeslisante extends CenaVisivel {
     public Texto text;
     
     private PathTransition path_animation;
-    private yCircularArray<Point2D> PATH_POINT_LIST;
+    public yCircularArray<Point2D> PATH_POINT_LIST;
     private int FRAMES;
     private boolean CYCLIC;
     
-    private double MIN;
-    private double MAX;
+    public double MIN;
+    public double MAX;
     private DoubleProperty CURRENT_VALUE;
     private int CURRENT_POSITION_INDEX;
     
     private double mouseX;
     private double mouseY;
-    private double tINITx;
-    private double tINITy;
+    private double sliderX;
+    private double sliderY;
     
     public boolean TEXT_AS_PERCENTAGE = true;
 
@@ -50,25 +50,12 @@ public class BarraDeslisante extends CenaVisivel {
         this.CYCLIC = cyclic;
         CURRENT_VALUE = new SimpleDoubleProperty(0);
         
-        path_animation = new PathTransition();
-        path_animation.setDuration(Duration.seconds(FRAMES));
-        path_animation.setPath(path);
-        path_animation.setNode(slider);
-        path_animation.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-        path_animation.setCycleCount(1);
-        path_animation.setInterpolator(Interpolator.LINEAR);
-        path_animation.playFromStart();
-        path_animation.pause();
-        path_animation.jumpTo("end");
+        setPath(path);
 
-        // Save the positions on the path
-        PATH_POINT_LIST = new yCircularArray(FRAMES);
-        savePositions(path_animation);
-        
         slider.setOnMousePressed((event) -> {
             // Store initial position
-            tINITx = slider.yGetTranslateX(0.5);
-            tINITy = slider.yGetTranslateY(0.5);
+            sliderX = slider.yGetTranslateX(0.5);
+            sliderY = slider.yGetTranslateY(0.5);
             mouseX = event.getSceneX();
             mouseY = event.getSceneY();
         });
@@ -77,12 +64,12 @@ public class BarraDeslisante extends CenaVisivel {
             double dragX = event.getSceneX() - mouseX;
             double dragY = event.getSceneY() - mouseY;
             
-            double newXPosition = tINITx + dragX;
-            double newYPosition = tINITy + dragY;
+            double newXPosition = sliderX + dragX;
+            double newYPosition = sliderY + dragY;
             
             boolean sucess;
             
-            do{//acho que o motivo do lag vem desse do while que nao deveria estar aqui no mouse dragged...ou pcausa do jeito...se fizesse usando força vetorial podia n da
+            do{//acho que o motivo do lag vem desse do while que nao deveria estar aqui no mouse dragged...ou pcausa do jeito...nsei
                 int index = CURRENT_POSITION_INDEX;
 
                 if(CYCLIC)
@@ -93,7 +80,7 @@ public class BarraDeslisante extends CenaVisivel {
             }while(sucess);
         });
         
-        text = new Texto("ab");//ver do problemaaquiAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
+        text = new Texto("");//ver do problemaaquiAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
         setValue(MIN);
         
         getChildren().addAll(path, this.slider);
@@ -161,12 +148,21 @@ public class BarraDeslisante extends CenaVisivel {
     public double getPercentage(){
         return MAX != MIN ? (CURRENT_VALUE.get() - MIN) / (MAX - MIN) : 0;
     }
+    
+    private void syncTextValue(){
+        if(TEXT_AS_PERCENTAGE){
+            text.ySetText(String.format("%.2f", getPercentage()*100) + "%");
+        }else{
+            text.ySetText(String.format("%.2f", getValue()));
+        }
+    }
 
     /**
      * Save the position of the slider for every second of the animation in
      * a list.
      */
-    private void savePositions(PathTransition path_animation) {
+    public void savePositions(PathTransition path_animation) {
+        PATH_POINT_LIST = new yCircularArray(FRAMES);
         if (PATH_POINT_LIST == null)
             return;
 
@@ -220,11 +216,19 @@ public class BarraDeslisante extends CenaVisivel {
         return Matematicas.hypotenuse(pX - PATH_POINT_LIST.get(frame_index).getX(), pY - PATH_POINT_LIST.get(frame_index).getY());
     }
     
-    private void syncTextValue(){
-        if(TEXT_AS_PERCENTAGE){
-            text.ySetText(String.format("%.2f", getPercentage()*100) + "%");
-        }else{
-            text.ySetText(String.format("%.2f", getValue()));
-        }
+    public void setPath(Shape path){
+        path_animation = new PathTransition();
+        path_animation.setDuration(Duration.seconds(FRAMES));
+        path_animation.setPath(path);
+        path_animation.setNode(slider);
+        path_animation.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        path_animation.setCycleCount(1);
+        path_animation.setInterpolator(Interpolator.LINEAR);
+        path_animation.playFromStart();
+        path_animation.pause();
+        path_animation.jumpTo("end");
+        
+        // Save the positions on the path
+        savePositions(path_animation);
     }
 }

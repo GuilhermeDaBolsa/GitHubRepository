@@ -29,10 +29,14 @@ public class teste2_1_1 extends Application {
     @Override
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
-        BarraDeslisante k = new BarraDeslisante(new Circulo(60, Color.ALICEBLUE, 2, Color.BLACK), new Caixa(10, 10, Color.WHITE, 2, Color.BLACK), 500, 0, 100, true);
+        BarraDeslisante k = new BarraDeslisante(new Linha(60, 100, 2, Color.BLACK), new Caixa(10, 10, Color.WHITE, 2, Color.BLACK), 50, 0, 250, true);
         
         k.ySetTranslateX(400, 0.5);
         k.ySetTranslateY(400, 0.5);
+        
+        k.displayValue(false);
+        k.text.layoutXProperty().bind(k.slider.layoutXProperty());//AAAAAAAAA
+        k.text.layoutYProperty().bind(k.slider.layoutYProperty());
         
         teste.getChildren().addAll(k);
         
@@ -40,7 +44,7 @@ public class teste2_1_1 extends Application {
         primaryStage.setTitle("Física 0.65");
         primaryStage.setScene(scene);
         primaryStage.show();
-        k.setValue(50);
+        k.setValue(100);
         
     }
 

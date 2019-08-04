@@ -175,46 +175,16 @@ public class MathGrid extends CenaVisivel {
      * Coloca uma thread para verificar quando o tamanho da aplicação é alterada
      * para alterar o tamanho da grade.
      */
-    public void binda_tamanho(DoubleProperty largura, DoubleProperty altura) {
-        ObservableValue width = largura;
-        ObservableValue height = altura;
-        binda_tamanho(width, height);
-    }
-    
-    /**
-     * Coloca uma thread para verificar quando o tamanho da aplicação é alterada
-     * para alterar o tamanho da grade.
-     */
-    public void binda_tamanho(DoubleBinding largura, DoubleBinding altura) {
-        ObservableValue width = largura;
-        ObservableValue height = altura;
-        binda_tamanho(width, height);
-    }
-    
-    /**
-     * Coloca uma thread para verificar quando o tamanho da aplicação é alterada
-     * para alterar o tamanho da grade.
-     */
-    public void binda_tamanho(ReadOnlyDoubleProperty largura, ReadOnlyDoubleProperty altura) {
-        ObservableValue width = largura;
-        ObservableValue height = altura;
-        binda_tamanho(width, height);
-    }
-    
-    /**
-     * Coloca uma thread para verificar quando o tamanho da aplicação é alterada
-     * para alterar o tamanho da grade.
-     */
-    public void binda_tamanho(ObservableValue<Double> largura, ObservableValue<Double> altura) {
-        largura_grade = largura.getValue();
-        altura_grade = altura.getValue();
+    public void binda_tamanho(ObservableValue largura, ObservableValue altura) {
+        largura_grade = (Double) largura.getValue();
+        altura_grade = (Double) altura.getValue();
         largura.addListener((obs, oldVal, newVal) -> {
-            largura_grade = largura.getValue();
+            largura_grade = (Double) largura.getValue();
             atualizar();
         });
 
         altura.addListener((obs, oldVal, newVal) -> {
-            altura_grade = altura.getValue();
+            altura_grade = (Double) altura.getValue();
             atualizar();
         });
         atualizar();

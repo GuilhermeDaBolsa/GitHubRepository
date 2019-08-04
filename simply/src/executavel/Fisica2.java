@@ -16,7 +16,7 @@ public class Fisica2 extends Application {
     public static Caixa caixa_adicionar_carga;
     public static MathGrid grade;
     public static ArrayList<Entidade> cargas = new ArrayList();
-    BarraDeslisante barra_escala;
+    //BarraDeslisante barra_escala;
     
     @Override
     public void start(Stage primaryStage) {

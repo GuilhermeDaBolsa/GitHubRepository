@@ -1,33 +1,29 @@
 package Biblioteca.InteractiveObjects;
 
-import java.util.ArrayList;
+import Biblioteca.Lists.ySimpleMap;
 import javafx.event.EventHandler;
-
 
 //JUNTAR ESSE E O RUNNABLES EM UMA CLASSE SÓ QUE RECEBE O TIPO DEPOIS
 
-
 public class Handlebles {
-    private ArrayList<EventHandler> handlebles = new ArrayList();
+    private ySimpleMap<String, EventHandler> handlebles = new ySimpleMap();
 
-    public Handlebles() {
-    }
+    public Handlebles() {}
     
-    public Handlebles(EventHandler action) {
-        addHandleble(action);
+    /**
+     * Empurra os outros elementos pra frente
+     * @param action 
+     */
+    public void addHandleble(String name, EventHandler action){
+        handlebles.add(name, action);
     }
     
     public void addHandleble(EventHandler action){
-        handlebles.add(action);
+        handlebles.add(""+handlebles.size(), action);
     }
     
-    public void removeHandleble(int index){
-        handlebles.remove(index);
-    }
-    
-    //duvido que funcione
-    public void removeHandleble(EventHandler action){
-        handlebles.remove(action);
+    public void removeHandleble(String name){
+        handlebles.remove(name);
     }
     
     public void clear(){
@@ -40,12 +36,7 @@ public class Handlebles {
         }
     }
     
-    public void runEspecifc(int index){
-        handlebles.get(index).handle(null);
-    }
-    
-    //duvido que funcione
-    public void runEspecifc(Runnable action){
-        handlebles.get(handlebles.indexOf(action)).handle(null);
+    public void runEspecifc(String name){
+        handlebles.get(name).handle(null);
     }
 }

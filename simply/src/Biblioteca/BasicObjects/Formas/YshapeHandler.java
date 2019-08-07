@@ -242,11 +242,9 @@ public abstract class YshapeHandler{
     }
     
     
-    
-    
     /**
-     * FALHOU NOS TESTES, PARECIA PROMISSOR :(
-     */
+    * FALHOU NOS TESTES, PARECIA PROMISSOR :(
+    */
     public static Object cloneObject(Object obj){
         try{
             Object clone = obj.getClass().newInstance();

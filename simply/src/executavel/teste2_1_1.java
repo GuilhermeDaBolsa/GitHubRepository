@@ -34,9 +34,10 @@ public class teste2_1_1 extends Application {
         k.ySetTranslateX(400, 0.5);
         k.ySetTranslateY(400, 0.5);
         
-        k.displayValue(false);
+        k.yDisplayValue(false);
         k.text.layoutXProperty().bind(k.slider.layoutXProperty());//AAAAAAAAA
         k.text.layoutYProperty().bind(k.slider.layoutYProperty());
+
         
         teste.getChildren().addAll(k);
         
@@ -44,7 +45,7 @@ public class teste2_1_1 extends Application {
         primaryStage.setTitle("Física 0.65");
         primaryStage.setScene(scene);
         primaryStage.show();
-        k.setValue(100);
+        k.ySetValue(100);
         
     }
 

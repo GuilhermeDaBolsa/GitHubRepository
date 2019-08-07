@@ -1,6 +1,6 @@
 package Biblioteca.BasicObjects;
 
-import Biblioteca.InteractiveObjects.Runnables;
+import Biblioteca.InteractiveObjects.Handlebles;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
@@ -9,11 +9,11 @@ import javafx.scene.input.MouseEvent;
 public class ObjectEventsHandler {
     public Node objeto;
     
-    private Runnables actionRelease = new Runnables();
-    private Runnables actionPressed = new Runnables(); //TROCAR PROS HANDLEBLES??
-    private Runnables focus = new Runnables();
-    private Runnables outFocus = new Runnables();
-    private Runnables actionCleaner = new Runnables();
+    private Handlebles actionRelease = new Handlebles();
+    private Handlebles actionPressed = new Handlebles();
+    private Handlebles focus = new Handlebles();
+    private Handlebles outFocus = new Handlebles();
+    private Handlebles actionCleaner = new Handlebles();
     public boolean is_focused = false;
     public boolean is_selected = false;
 
@@ -36,23 +36,23 @@ public class ObjectEventsHandler {
         });
     }
     
-    public Runnables onMouseButtonPressed(){
+    public Handlebles onMouseButtonPressed(){
         return actionPressed;
     }
     
-    public Runnables onMouseButtonReleased(){
+    public Handlebles onMouseButtonReleased(){
         return actionRelease;
     }
     
-    public Runnables onMouseEntered(){
+    public Handlebles onMouseEntered(){
         return focus;
     }
     
-    public Runnables onMouseExited(){
+    public Handlebles onMouseExited(){
         return outFocus;
     }
     
-    public Runnables actionCleaner(){
+    public Handlebles actionCleaner(){
         return actionCleaner;
     }
     

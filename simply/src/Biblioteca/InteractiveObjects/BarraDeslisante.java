@@ -10,23 +10,22 @@ import javafx.animation.PathTransition;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point2D;
-import javafx.scene.shape.Path;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
 public class BarraDeslisante extends CenaVisivel {
-    private Path path;
+    private Shape path;
     public Caixa slider;
     public Texto text;
     
     private PathTransition path_animation;
     public yCircularArray<Point2D> PATH_POINT_LIST;
     private int FRAMES;
-    private boolean CYCLIC;
+    public boolean CYCLIC;
     
     public double MIN;
     public double MAX;
-    private DoubleProperty CURRENT_VALUE;
+    public DoubleProperty CURRENT_VALUE;
     private int CURRENT_POSITION_INDEX;
     
     private double mouseX;
@@ -36,12 +35,14 @@ public class BarraDeslisante extends CenaVisivel {
     
     public boolean TEXT_AS_PERCENTAGE = true;
 
+    //AO INVEZ DO USUARIO PASSAR O NUMERO DE FRAMES ELE PASSA O INCREMENTO, E BASEADO NISSO TU CALCULA O NUMERO DE FRAMES
+    
     public BarraDeslisante(double endX, double endY, double stroke_width, Caixa slider, int FRAMES, double MIN, double MAX, double INITIAL_VALUE) {
         
     }
 
-    public BarraDeslisante(/*Path*/Shape path, Caixa slider, int FRAMES, double MIN, double MAX, boolean cyclic) {
-        //this.path = path;
+    public BarraDeslisante(Shape path, Caixa slider, int FRAMES, double MIN, double MAX, boolean cyclic) {
+        this.path = path;
         this.slider = slider;
         this.FRAMES = FRAMES;
         this.MIN = MIN;
@@ -50,7 +51,7 @@ public class BarraDeslisante extends CenaVisivel {
         this.CYCLIC = cyclic;
         CURRENT_VALUE = new SimpleDoubleProperty(0);
         
-        setPath(path);
+        ySetSliderPath(path);
 
         slider.setOnMousePressed((event) -> {
             // Store initial position
@@ -81,18 +82,41 @@ public class BarraDeslisante extends CenaVisivel {
         });
         
         text = new Texto("");//ver do problemaaquiAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
-        setValue(MIN);
+        ySetValue(MIN);
         
         getChildren().addAll(path, this.slider);
     }
     
-    public void displayValue(boolean asPercentage){
+    public void ySetSliderPath(Shape path){
+        path_animation = new PathTransition();
+        path_animation.setDuration(Duration.seconds(FRAMES));
+        path_animation.setPath(path);
+        path_animation.setNode(slider);
+        path_animation.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        path_animation.setCycleCount(1);
+        path_animation.setInterpolator(Interpolator.LINEAR);
+        path_animation.playFromStart();
+        path_animation.pause();
+        path_animation.jumpTo("end");
+        
+        // Save the positions on the path
+        savePositions(path_animation);
+    }
+    
+    /**
+     * Shows a text with the current value of the slider (between MIN and MAX based on its position)
+     * @param asPercentage If you want the value to be in percentage mark true.
+     */
+    public void yDisplayValue(boolean asPercentage){
         this.TEXT_AS_PERCENTAGE = asPercentage;
 
         getChildren().add(text);
     }
     
-    public void unDisplayValue(){
+    /**
+     * Stops showing the text with the slider's value.
+     */
+    public void yUnDisplayValue(){
         getChildren().remove(text);
     }
     
@@ -102,7 +126,7 @@ public class BarraDeslisante extends CenaVisivel {
      * If the value < 0 then value = 0
      * @param value The new current value of the slider.
      */
-    public void setValue(double value){
+    public void ySetValue(double value){
         if(MAX > MIN){
             if(value < MIN)
                 value = MIN;
@@ -116,7 +140,7 @@ public class BarraDeslisante extends CenaVisivel {
         }
         
         CURRENT_VALUE.set(value);
-        CURRENT_POSITION_INDEX = Math.round((float) ((FRAMES-1) * getPercentage()));
+        CURRENT_POSITION_INDEX = Math.round((float) ((FRAMES-1) * yGetPercentage()));
         
         path_animation.jumpTo(Duration.seconds(PATH_POINT_LIST.get_real_index(CURRENT_POSITION_INDEX)));
         syncTextValue();
@@ -125,35 +149,27 @@ public class BarraDeslisante extends CenaVisivel {
     /**
      * Sets a new value based on a percentage and MIN & MAX variables
      * @param percentage Number from 0 to 1 coresponding the percentage (0 - begining, 1 - end)
-     * @see #setValue(double) 
+     * @see #ySetValue(double) 
      */
-    public void setValueByPercentage(double percentage){
-        setValue(percentage * (MAX - MIN) + MIN);
-    }
-    
-    /**
-     * @return The current value of the sliding bar.
-     */
-    public double getValue(){
-        return CURRENT_VALUE.get();
-    }
-    
-    public DoubleProperty valueProperty(){
-        return CURRENT_VALUE;
+    public void ySetValueByPercentage(double percentage){
+        ySetValue(percentage * (MAX - MIN) + MIN);
     }
     
     /**
      * @return The percentage of the sliding bar from 0 (begining) to 1 (end).
      */
-    public double getPercentage(){
+    public double yGetPercentage(){
         return MAX != MIN ? (CURRENT_VALUE.get() - MIN) / (MAX - MIN) : 0;
     }
     
+    /**
+     * Changes the text with the current value of the slider.
+     */
     private void syncTextValue(){
         if(TEXT_AS_PERCENTAGE){
-            text.ySetText(String.format("%.2f", getPercentage()*100) + "%");
+            text.ySetText(String.format("%.2f", yGetPercentage()*100) + "%");
         }else{
-            text.ySetText(String.format("%.2f", getValue()));
+            text.ySetText(String.format("%.2f", CURRENT_VALUE.get()));
         }
     }
 
@@ -161,7 +177,7 @@ public class BarraDeslisante extends CenaVisivel {
      * Save the position of the slider for every second of the animation in
      * a list.
      */
-    public void savePositions(PathTransition path_animation) {
+    private void savePositions(PathTransition path_animation) {
         PATH_POINT_LIST = new yCircularArray(FRAMES);
         if (PATH_POINT_LIST == null)
             return;
@@ -171,6 +187,8 @@ public class BarraDeslisante extends CenaVisivel {
             PATH_POINT_LIST.set(i, new Point2D(slider.yGetTranslateX(0.5), slider.yGetTranslateY(0.5)));
         }
     }
+    
+    public int yGetCurrentPositionIndex
     
     /**
      * Chose which frame is the nearest to a point.
@@ -198,7 +216,7 @@ public class BarraDeslisante extends CenaVisivel {
         
         //if the minor distance is smaller than the distance between the curent frame and the mouse, the smaller one will be the next frame
         if(minor_distance < Matematicas.hypotenuse(pX - PATH_POINT_LIST.get(CURRENT_POSITION_INDEX).getX(), pY - PATH_POINT_LIST.get(CURRENT_POSITION_INDEX).getY())){
-            setValueByPercentage(PATH_POINT_LIST.lenght()-1 != 0 ? ((double) PATH_POINT_LIST.get_real_index(index % FRAMES)) / (PATH_POINT_LIST.lenght()-1) : 0);
+            ySetValueByPercentage(PATH_POINT_LIST.lenght()-1 != 0 ? ((double) PATH_POINT_LIST.get_real_index(index % FRAMES)) / (PATH_POINT_LIST.lenght()-1) : 0);
             syncTextValue();
             
             return true;
@@ -214,21 +232,5 @@ public class BarraDeslisante extends CenaVisivel {
      */
     private double distanceToNextPoint(int frame_index, double pX, double pY){
         return Matematicas.hypotenuse(pX - PATH_POINT_LIST.get(frame_index).getX(), pY - PATH_POINT_LIST.get(frame_index).getY());
-    }
-    
-    public void setPath(Shape path){
-        path_animation = new PathTransition();
-        path_animation.setDuration(Duration.seconds(FRAMES));
-        path_animation.setPath(path);
-        path_animation.setNode(slider);
-        path_animation.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-        path_animation.setCycleCount(1);
-        path_animation.setInterpolator(Interpolator.LINEAR);
-        path_animation.playFromStart();
-        path_animation.pause();
-        path_animation.jumpTo("end");
-        
-        // Save the positions on the path
-        savePositions(path_animation);
     }
 }

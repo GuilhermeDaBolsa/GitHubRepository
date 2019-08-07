@@ -72,24 +72,24 @@ public class InterligaElementos {
                 elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                 int num = numeroDeConexao.get(i);
                 if(num < 0){
-                    elemento.events_handler.onMouseEntered().addRunnable(0, () -> {
+                    elemento.events_handler.onMouseEntered().addRunnable(() -> {
                         if(!elemento.events_handler.is_selected)
                             elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.HAND);
                     });
-                    elemento.events_handler.onMouseExited().addRunnable(0, () -> {
+                    elemento.events_handler.onMouseExited().addRunnable(() -> {
                         if(!elemento.events_handler.is_selected)
                             elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.DEFAULT);
                     });
-                    elemento.events_handler.onMouseButtonPressed().addRunnable(0, () -> {
+                    elemento.events_handler.onMouseButtonPressed().addRunnable(() -> {
                         if(!elemento.events_handler.is_selected){
                             elemento.ySetStroke(null, corBordaClick, StrokeType.CENTERED, true);
                         }else{
                             elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
                         }
                     });
-                    elemento.events_handler.onMouseButtonReleased().addRunnable(0, () -> {
+                    elemento.events_handler.onMouseButtonReleased().addRunnable(() -> {
                         if(!elemento.events_handler.is_selected){
                             if(num < -1){
                                 descelecionaOutrosElementos(corBordaPadrao, num);
@@ -101,18 +101,18 @@ public class InterligaElementos {
                         elemento.events_handler.is_selected = !elemento.events_handler.is_selected;
                     });
                 }else{
-                    elemento.events_handler.onMouseEntered().addRunnable(0, () -> {
-                        elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
+                    elemento.events_handler.onMouseEntered().addRunnable(() -> {
+                        elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);//BOTAR UM NOME PRA ESSES EVENTOS, DIZENDO Q VEIO DESSA CLASSE, E O CARA PODE DELETAR PASSANDO UMA PARTE DA CHAVE... COM UM * PRA DIZER Q TEM MAIS
                         elemento.setCursor(Cursor.HAND);
                     });
-                    elemento.events_handler.onMouseExited().addRunnable(0, () -> {
+                    elemento.events_handler.onMouseExited().addRunnable(() -> {
                         elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.DEFAULT);
                     });
-                    elemento.events_handler.onMouseButtonPressed().addRunnable(0, () -> {
+                    elemento.events_handler.onMouseButtonPressed().addHandleble((event) -> {
                         elemento.ySetStroke(null, corBordaClick, StrokeType.CENTERED, true);
                     });
-                    elemento.events_handler.onMouseButtonReleased().addRunnable(0, () -> {
+                    elemento.events_handler.onMouseButtonReleased().addHandleble(() -> {
                         if(num > 1){
                             descelecionaOutrosElementos(corBordaPadrao, num);
                         }

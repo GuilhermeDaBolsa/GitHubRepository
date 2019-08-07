@@ -36,7 +36,7 @@ public class Caixa extends CenaVisivel {
         
         realocar_conteudos(grossura_borda/2, grossura_borda/2);
         
-        events_handler.setUpInteractiveObject();//BOTAR ISSO NAS OUTRAS CLASSES PQ N BOTEI :P
+        yEvents_Handler.setUpInteractiveObject();//BOTAR ISSO NAS OUTRAS CLASSES PQ N BOTEI :P
         
         getChildren().addAll(caixa, container);
     }

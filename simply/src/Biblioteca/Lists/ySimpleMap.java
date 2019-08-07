@@ -25,7 +25,15 @@ public class ySimpleMap<Key, Content> {
     }
     
     public void remove(Key key){
-        int index = keys.indexOf(key);
+        remove(keys.indexOf(key));
+    }
+    
+    public void remove(int index){
+        if(index > keys.size()-1)
+            index = keys.size()-1;
+        else if(index < 0)
+            index = 0;
+        
         keys.remove(index);
         objects.remove(index);
     }
@@ -39,6 +47,10 @@ public class ySimpleMap<Key, Content> {
         objects.clear();
     }
     
+    public Content get(Key key){
+        return get(keys.indexOf(key));
+    }
+    
     public Content get(int index){
         if(index > keys.size()-1)
             index = keys.size()-1;
@@ -46,9 +58,5 @@ public class ySimpleMap<Key, Content> {
             index = 0;
         
         return objects.get(index);
-    }
-    
-    public Content get(Key key){
-        return get(keys.indexOf(key));
     }
 }

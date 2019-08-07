@@ -71,26 +71,27 @@ public class InterligaElementos {
                 
                 elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                 int num = numeroDeConexao.get(i);
+                String eventsName = "linked_elements";
                 if(num < 0){
-                    elemento.events_handler.onMouseEntered().addRunnable(() -> {
-                        if(!elemento.events_handler.is_selected)
+                    elemento.yEvents_Handler.onMouseEntered().addHandleble(eventsName, (event) -> {
+                        if(!elemento.yEvents_Handler.is_selected)
                             elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.HAND);
                     });
-                    elemento.events_handler.onMouseExited().addRunnable(() -> {
-                        if(!elemento.events_handler.is_selected)
+                    elemento.yEvents_Handler.onMouseExited().addHandleble(eventsName, (event) -> {
+                        if(!elemento.yEvents_Handler.is_selected)
                             elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.DEFAULT);
                     });
-                    elemento.events_handler.onMouseButtonPressed().addRunnable(() -> {
-                        if(!elemento.events_handler.is_selected){
+                    elemento.yEvents_Handler.onMouseButtonPressed().addHandleble(eventsName, (event) -> {
+                        if(!elemento.yEvents_Handler.is_selected){
                             elemento.ySetStroke(null, corBordaClick, StrokeType.CENTERED, true);
                         }else{
                             elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
                         }
                     });
-                    elemento.events_handler.onMouseButtonReleased().addRunnable(() -> {
-                        if(!elemento.events_handler.is_selected){
+                    elemento.yEvents_Handler.onMouseButtonReleased().addHandleble(eventsName, (event) -> {
+                        if(!elemento.yEvents_Handler.is_selected){
                             if(num < -1){
                                 descelecionaOutrosElementos(corBordaPadrao, num);
                             }
@@ -98,21 +99,21 @@ public class InterligaElementos {
                         }else{
                             elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);//ÉEEÈÈÈÈÈ``E
                         }
-                        elemento.events_handler.is_selected = !elemento.events_handler.is_selected;
+                        elemento.yEvents_Handler.is_selected = !elemento.yEvents_Handler.is_selected;
                     });
                 }else{
-                    elemento.events_handler.onMouseEntered().addRunnable(() -> {
-                        elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);//BOTAR UM NOME PRA ESSES EVENTOS, DIZENDO Q VEIO DESSA CLASSE, E O CARA PODE DELETAR PASSANDO UMA PARTE DA CHAVE... COM UM * PRA DIZER Q TEM MAIS
+                    elemento.yEvents_Handler.onMouseEntered().addHandleble(eventsName, (event) -> {
+                        elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.HAND);
                     });
-                    elemento.events_handler.onMouseExited().addRunnable(() -> {
+                    elemento.yEvents_Handler.onMouseExited().addHandleble(eventsName, (event) -> {
                         elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.DEFAULT);
                     });
-                    elemento.events_handler.onMouseButtonPressed().addHandleble((event) -> {
+                    elemento.yEvents_Handler.onMouseButtonPressed().addHandleble(eventsName, (event) -> {
                         elemento.ySetStroke(null, corBordaClick, StrokeType.CENTERED, true);
                     });
-                    elemento.events_handler.onMouseButtonReleased().addHandleble(() -> {
+                    elemento.yEvents_Handler.onMouseButtonReleased().addHandleble(eventsName, (event) -> {
                         if(num > 1){
                             descelecionaOutrosElementos(corBordaPadrao, num);
                         }
@@ -127,9 +128,9 @@ public class InterligaElementos {
         for (int i = 0; i < elementos.size(); i++) {
             if(elementos.get(i) instanceof Caixa && modulo(numeroDeConexao.get(i)) == modulo(ID)){
                 Caixa elemento = (Caixa) elementos.get(i);
-                elemento.events_handler.is_selected = false;
+                elemento.yEvents_Handler.is_selected = false;
                 elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
-                elemento.events_handler.actionCleaner().run();
+                elemento.yEvents_Handler.actionCleaner().run();
             }
         }
     }

@@ -6,7 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
 public class CenaVisivel extends Pane{
-    public ObjectEventsHandler events_handler = new ObjectEventsHandler(this);
+    public ObjectEventsHandler yEvents_Handler = new ObjectEventsHandler(this);
     
     public double yGetWidth(){
         return VisibleObjectHandler.getWidth(this);

@@ -9,47 +9,54 @@ import javafx.scene.input.MouseEvent;
 public class ObjectEventsHandler {
     public Node objeto;
     
-    private Handlebles actionRelease = new Handlebles();
-    private Handlebles actionPressed = new Handlebles();
-    private Handlebles focus = new Handlebles();
-    private Handlebles outFocus = new Handlebles();
-    private Handlebles actionCleaner = new Handlebles();
-    public boolean is_focused = false;
-    public boolean is_selected = false;
+    private Handlebles mouseReleased;
+    private Handlebles mousePressed;
+    private Handlebles mouseEntered;
+    private Handlebles mouseExited;
+    private Handlebles actionCleaner;
+    public boolean is_focused;
+    public boolean is_selected;
 
     public ObjectEventsHandler(Node objeto) {
         this.objeto = objeto;
+        mouseReleased = new Handlebles();
+        mousePressed = new Handlebles();
+        mouseEntered = new Handlebles();
+        mouseExited = new Handlebles();
+        actionCleaner = new Handlebles();
+        is_focused = false;
+        is_selected = false;
     }
     
     public void setUpInteractiveObject(){
         objeto.setOnMouseEntered((event) -> {
-            focus.run();
+            mouseEntered.run();
         });
         objeto.setOnMouseExited((event) -> {
-            outFocus.run();
+            mouseExited.run();
         });
         objeto.setOnMousePressed((event) -> {
-            actionPressed.run();
+            mousePressed.run();
         });
         objeto.setOnMouseReleased((event) -> {
-            actionRelease.run();
+            mouseReleased.run();
         });
     }
     
     public Handlebles onMouseButtonPressed(){
-        return actionPressed;
+        return mousePressed;
     }
     
     public Handlebles onMouseButtonReleased(){
-        return actionRelease;
+        return mouseReleased;
     }
     
     public Handlebles onMouseEntered(){
-        return focus;
+        return mouseEntered;
     }
     
     public Handlebles onMouseExited(){
-        return outFocus;
+        return mouseExited;
     }
     
     public Handlebles actionCleaner(){

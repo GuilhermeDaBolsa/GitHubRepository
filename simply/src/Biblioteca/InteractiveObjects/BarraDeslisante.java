@@ -7,6 +7,8 @@ import Biblioteca.LogicClasses.Matematicas;
 import Biblioteca.OrganizadoresDeNodos.Caixa;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point2D;
@@ -81,7 +83,7 @@ public class BarraDeslisante extends CenaVisivel {
             }while(sucess);
         });
         
-        text = new Texto("");//ver do problemaaquiAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
+        text = new Texto("");
         ySetValue(MIN);
         
         getChildren().addAll(path, this.slider);
@@ -188,7 +190,9 @@ public class BarraDeslisante extends CenaVisivel {
         }
     }
     
-    public int yGetCurrentPositionIndex
+    public int yGetCurrentPositionIndex(){
+        return CURRENT_POSITION_INDEX;
+    }
     
     /**
      * Chose which frame is the nearest to a point.

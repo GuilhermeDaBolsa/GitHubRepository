@@ -1,6 +1,6 @@
 package Biblioteca.BasicObjects;
 
-import Biblioteca.InteractiveObjects.Handlebles;
+import Biblioteca.InteractiveObjects.Runnables;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
@@ -9,57 +9,57 @@ import javafx.scene.input.MouseEvent;
 public class ObjectEventsHandler {
     public Node objeto;
     
-    private Handlebles mouseReleased;
-    private Handlebles mousePressed;
-    private Handlebles mouseEntered;
-    private Handlebles mouseExited;
-    private Handlebles actionCleaner;
+    private Runnables mouseReleased;
+    private Runnables mousePressed;
+    private Runnables mouseEntered;
+    private Runnables mouseExited;
+    private Runnables actionCleaner;
     public boolean is_focused;
     public boolean is_selected;
 
     public ObjectEventsHandler(Node objeto) {
         this.objeto = objeto;
-        mouseReleased = new Handlebles();
-        mousePressed = new Handlebles();
-        mouseEntered = new Handlebles();
-        mouseExited = new Handlebles();
-        actionCleaner = new Handlebles();
+        mouseReleased = new Runnables();
+        mousePressed = new Runnables();
+        mouseEntered = new Runnables();
+        mouseExited = new Runnables();
+        actionCleaner = new Runnables();
         is_focused = false;
         is_selected = false;
     }
     
     public void setUpInteractiveObject(){
         objeto.setOnMouseEntered((event) -> {
-            mouseEntered.run();
+            mouseEntered.run(event);
         });
         objeto.setOnMouseExited((event) -> {
-            mouseExited.run();
+            mouseExited.run(event);
         });
         objeto.setOnMousePressed((event) -> {
-            mousePressed.run();
+            mousePressed.run(event);
         });
         objeto.setOnMouseReleased((event) -> {
-            mouseReleased.run();
+            mouseReleased.run(event);
         });
     }
     
-    public Handlebles onMouseButtonPressed(){
+    public Runnables onMouseButtonPressed(){
         return mousePressed;
     }
     
-    public Handlebles onMouseButtonReleased(){
+    public Runnables onMouseButtonReleased(){
         return mouseReleased;
     }
     
-    public Handlebles onMouseEntered(){
+    public Runnables onMouseEntered(){
         return mouseEntered;
     }
     
-    public Handlebles onMouseExited(){
+    public Runnables onMouseExited(){
         return mouseExited;
     }
     
-    public Handlebles actionCleaner(){
+    public Runnables actionCleaner(){
         return actionCleaner;
     }
     

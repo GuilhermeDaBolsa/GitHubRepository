@@ -130,7 +130,7 @@ public class InterligaElementos {
                 Caixa elemento = (Caixa) elementos.get(i);
                 elemento.yEvents_Handler.is_selected = false;
                 elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
-                elemento.yEvents_Handler.actionCleaner().run();
+                elemento.yEvents_Handler.actionCleaner().run(null);
             }
         }
     }

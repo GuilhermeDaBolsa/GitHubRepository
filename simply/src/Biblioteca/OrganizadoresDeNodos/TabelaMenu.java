@@ -78,7 +78,7 @@ public class TabelaMenu extends CenaVisivel{
         nodo.setTranslateX(positionX);
         nodo.setTranslateY(positionY);
         if(elementos.size()+1 == numLimiteAtivador){
-            acaoLimite.run();
+            acaoLimite.run(null);
         }
     }
     

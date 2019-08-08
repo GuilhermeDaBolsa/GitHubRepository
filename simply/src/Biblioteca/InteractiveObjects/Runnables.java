@@ -1,41 +1,86 @@
 package Biblioteca.InteractiveObjects;
 
 import Biblioteca.Lists.ySimpleMap;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 
-//JUNTAR ESSE E O HANDABLES EM UMA CLASSE SÓ QUE RECEBE O TIPO DEPOIS
-
+/**
+ * Class created to store events by names.
+ */
 public class Runnables {
-    private ySimpleMap<String, Runnable> runnables = new ySimpleMap();
-
-    public Runnables() {}
-  
     /**
-     * Empurra os outros elementos pra frente
-     * @param action 
+     * A map that holds the actions (objects) and its names (keys).
      */
-    public void addRunnable(String name, Runnable action){
-        runnables.add(name, action);
+    private ySimpleMap<String, EventHandler> actions;
+
+    /**
+     * Creates a clean map of actions, Runnable.
+     */
+    public Runnables() {
+        actions = new ySimpleMap();
     }
     
-    public void addRunnable(Runnable action){
-        addRunnable(""+runnables.size(), action);
+    /**
+     * Adds an action that handles a event (or not) with a name.
+     * @param name The name of the action.
+     * @param action The action to be stored.
+     */
+    public void addHandleble(String name, EventHandler action){
+        actions.add(name, action);
     }
     
-    public void removeRunnable(String name){
-        runnables.remove(name);
-    }
-  
-    public void clear(){
-        runnables.clear();
+    /**
+     * Adds an action with a generic name (the name will be the position where it was placed in the map).
+     * @param action The action to be stored.
+     */
+    public void addHandleble(EventHandler action){
+        addHandleble(""+actions.size(), action);
     }
     
-    public void run(){
-        for (int i = 0; i < runnables.size(); i++) {
-            runnables.get(i).run();
+    /**
+     * Remove an action by its name.
+     * @param name The name of the action to be removed.
+     */
+    public void removeHandleble(String name){
+        actions.remove(name);
+    }
+    
+    /**
+     * Remove ALL actions whoses names contains a sub name.
+     * @param sub_name Part of the name of the action to be removed.
+     */
+    public void removeHandlebles(String sub_name){
+        String[] keys = actions.keys();
+        
+        for (int i = 0; i < keys.length; i++) {
+            if(sub_name.contains(keys[i]))
+                actions.remove(i);
         }
     }
     
-    public void runEspecifc(String name){
-        runnables.get(name).run();
+    /**
+     * Clear all actions and its names.
+     */
+    public void clear(){
+        actions.clear();
+    }
+    
+    /**
+     * Run all actions stored with an event (can be null if there is no action that uses the event).
+     * @param event Event that fired the run.
+     */
+    public void run(Event event){
+        for (int i = 0; i < actions.size(); i++) {
+            actions.get(i).handle(event);
+        }
+    }
+    
+    /**
+     * Runs an expecific action by its name with an event (can be null if the action dont uses the event).
+     * @param name
+     * @param event 
+     */
+    public void runEspecifc(String name, Event event){
+        actions.get(name).handle(event);
     }
 }

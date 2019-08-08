@@ -6,8 +6,9 @@ import javafx.event.EventHandler;
 
 /**
  * Class created to store events by names.
+ * @param <EventType> The type of the event handled by this runnable.
  */
-public class Runnables {
+public class Runnables<EventType extends Event> {
     /**
      * A map that holds the actions (objects) and its names (keys).
      */
@@ -25,7 +26,7 @@ public class Runnables {
      * @param name The name of the action.
      * @param action The action to be stored.
      */
-    public void addHandleble(String name, EventHandler action){
+    public void addHandleble(String name, EventHandler<? super EventType> action){
         actions.add(name, action);
     }
     
@@ -33,7 +34,7 @@ public class Runnables {
      * Adds an action with a generic name (the name will be the position where it was placed in the map).
      * @param action The action to be stored.
      */
-    public void addHandleble(EventHandler action){
+    public void addHandleble(EventHandler<? super EventType> action){
         addHandleble(""+actions.size(), action);
     }
     
@@ -69,7 +70,7 @@ public class Runnables {
      * Run all actions stored with an event (can be null if there is no action that uses the event).
      * @param event Event that fired the run.
      */
-    public void run(Event event){
+    public void run(EventType event){
         for (int i = 0; i < actions.size(); i++) {
             actions.get(i).handle(event);
         }
@@ -80,7 +81,7 @@ public class Runnables {
      * @param name
      * @param event 
      */
-    public void runEspecifc(String name, Event event){
+    public void runEspecifc(String name, EventType event){
         actions.get(name).handle(event);
     }
 }

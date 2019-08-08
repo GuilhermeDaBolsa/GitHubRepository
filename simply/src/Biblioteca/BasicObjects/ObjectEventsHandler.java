@@ -9,58 +9,40 @@ import javafx.scene.input.MouseEvent;
 public class ObjectEventsHandler {
     public Node objeto;
     
-    private Runnables mouseReleased;
-    private Runnables mousePressed;
-    private Runnables mouseEntered;
-    private Runnables mouseExited;
-    private Runnables actionCleaner;
+    public Runnables<MouseEvent> yOnMouseReleased;
+    public Runnables<MouseEvent> yOnMousePressed;
+    public Runnables<MouseEvent> yOnMouseEntered;
+    public Runnables<MouseEvent> yOnMouseExited;
+    public Runnables<MouseEvent> yActionCleaner;
     public boolean is_focused;
     public boolean is_selected;
 
     public ObjectEventsHandler(Node objeto) {
         this.objeto = objeto;
-        mouseReleased = new Runnables();
-        mousePressed = new Runnables();
-        mouseEntered = new Runnables();
-        mouseExited = new Runnables();
-        actionCleaner = new Runnables();
+        yOnMouseReleased = new Runnables();
+        yOnMousePressed = new Runnables();
+        yOnMouseEntered = new Runnables();
+        yOnMouseExited = new Runnables();
+        yActionCleaner = new Runnables();
+        //KEYBORD RUNNABLE || TODO
+        
         is_focused = false;
         is_selected = false;
     }
     
     public void setUpInteractiveObject(){
         objeto.setOnMouseEntered((event) -> {
-            mouseEntered.run(event);
+            yOnMouseEntered.run(event);
         });
         objeto.setOnMouseExited((event) -> {
-            mouseExited.run(event);
+            yOnMouseExited.run(event);
         });
         objeto.setOnMousePressed((event) -> {
-            mousePressed.run(event);
+            yOnMousePressed.run(event);
         });
         objeto.setOnMouseReleased((event) -> {
-            mouseReleased.run(event);
+            yOnMouseReleased.run(event);
         });
-    }
-    
-    public Runnables onMouseButtonPressed(){
-        return mousePressed;
-    }
-    
-    public Runnables onMouseButtonReleased(){
-        return mouseReleased;
-    }
-    
-    public Runnables onMouseEntered(){
-        return mouseEntered;
-    }
-    
-    public Runnables onMouseExited(){
-        return mouseExited;
-    }
-    
-    public Runnables actionCleaner(){
-        return actionCleaner;
     }
     
     public void setOnKeyEMouseAction(EventHandler<? super MouseEvent> value) {

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javafx.geometry.Pos;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeType;
 
@@ -25,17 +26,17 @@ public class CriadorMenu {
      */
     public static Caixa cria_menu() {
         Caixa btn_add = new Caixa(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, Color.CADETBLUE, 1, Color.BLACK);
-        btn_add.yEvents_Handler.onMouseButtonReleased().addHandleble((event) -> {
+        btn_add.yEvents_Handler.yOnMouseReleased.addHandleble((event) -> {
             Fisica2.caixa_adicionar_carga.switchAtivarDesativar();
         }); 
 
-        btn_add.yEvents_Handler.actionCleaner().addHandleble((event) -> {
+        btn_add.yEvents_Handler.yActionCleaner.addHandleble((event) -> {
             Fisica2.caixa_adicionar_carga.desativar();
         });
         botoes.add(btn_add);
         
         Caixa btn_config = new Caixa(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, Color.DARKGRAY, 1, Color.BLACK);
-        btn_config.yEvents_Handler.onMouseButtonReleased().addHandleble((event) -> {
+        btn_config.yEvents_Handler.yOnMouseReleased.addHandleble((event) -> {
             for (int i = -150; i < 151; i++) {
                 Fisica2.grade.adicionar_objeto(new Entidade(6, 12, Color.AQUA, i + ", " + i), i, i);
             }
@@ -44,8 +45,7 @@ public class CriadorMenu {
         
         Caixa btn_remove = new Caixa(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, Color.FIREBRICK, 1, Color.BLACK);
         botoes.add(btn_remove);
-        btn_remove.yEvents_Handler.onMouseButtonReleased().addHandleble((event) -> {
-            System.out.println(event.getEventType().toString());
+        btn_remove.yEvents_Handler.yOnMouseReleased.addHandleble((event) -> {
             Runtime runtime = Runtime.getRuntime();
             //runtime.gc();
             long memory = runtime.totalMemory() - runtime.freeMemory();

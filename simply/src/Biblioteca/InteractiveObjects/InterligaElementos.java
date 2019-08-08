@@ -73,24 +73,24 @@ public class InterligaElementos {
                 int num = numeroDeConexao.get(i);
                 String eventsName = "linked_elements";
                 if(num < 0){
-                    elemento.yEvents_Handler.onMouseEntered().addHandleble(eventsName, (event) -> {
+                    elemento.yEvents_Handler.yOnMouseEntered.addHandleble(eventsName, (event) -> {
                         if(!elemento.yEvents_Handler.is_selected)
                             elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.HAND);
                     });
-                    elemento.yEvents_Handler.onMouseExited().addHandleble(eventsName, (event) -> {
+                    elemento.yEvents_Handler.yOnMouseExited.addHandleble(eventsName, (event) -> {
                         if(!elemento.yEvents_Handler.is_selected)
                             elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.DEFAULT);
                     });
-                    elemento.yEvents_Handler.onMouseButtonPressed().addHandleble(eventsName, (event) -> {
+                    elemento.yEvents_Handler.yOnMousePressed.addHandleble(eventsName, (event) -> {
                         if(!elemento.yEvents_Handler.is_selected){
                             elemento.ySetStroke(null, corBordaClick, StrokeType.CENTERED, true);
                         }else{
                             elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
                         }
                     });
-                    elemento.yEvents_Handler.onMouseButtonReleased().addHandleble(eventsName, (event) -> {
+                    elemento.yEvents_Handler.yOnMouseReleased.addHandleble(eventsName, (event) -> {
                         if(!elemento.yEvents_Handler.is_selected){
                             if(num < -1){
                                 descelecionaOutrosElementos(corBordaPadrao, num);
@@ -102,18 +102,18 @@ public class InterligaElementos {
                         elemento.yEvents_Handler.is_selected = !elemento.yEvents_Handler.is_selected;
                     });
                 }else{
-                    elemento.yEvents_Handler.onMouseEntered().addHandleble(eventsName, (event) -> {
+                    elemento.yEvents_Handler.yOnMouseEntered.addHandleble(eventsName, (event) -> {
                         elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.HAND);
                     });
-                    elemento.yEvents_Handler.onMouseExited().addHandleble(eventsName, (event) -> {
+                    elemento.yEvents_Handler.yOnMouseExited.addHandleble(eventsName, (event) -> {
                         elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.DEFAULT);
                     });
-                    elemento.yEvents_Handler.onMouseButtonPressed().addHandleble(eventsName, (event) -> {
+                    elemento.yEvents_Handler.yOnMousePressed.addHandleble(eventsName, (event) -> {
                         elemento.ySetStroke(null, corBordaClick, StrokeType.CENTERED, true);
                     });
-                    elemento.yEvents_Handler.onMouseButtonReleased().addHandleble(eventsName, (event) -> {
+                    elemento.yEvents_Handler.yOnMouseReleased.addHandleble(eventsName, (event) -> {
                         if(num > 1){
                             descelecionaOutrosElementos(corBordaPadrao, num);
                         }
@@ -130,7 +130,7 @@ public class InterligaElementos {
                 Caixa elemento = (Caixa) elementos.get(i);
                 elemento.yEvents_Handler.is_selected = false;
                 elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
-                elemento.yEvents_Handler.actionCleaner().run(null);
+                elemento.yEvents_Handler.yActionCleaner.run(null);
             }
         }
     }

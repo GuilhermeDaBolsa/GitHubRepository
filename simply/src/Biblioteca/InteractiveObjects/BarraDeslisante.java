@@ -7,8 +7,6 @@ import Biblioteca.LogicClasses.Matematicas;
 import Biblioteca.OrganizadoresDeNodos.Caixa;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point2D;

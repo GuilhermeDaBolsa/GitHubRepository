@@ -311,7 +311,7 @@ public class Texto extends Text implements Forma {
      * @param break_text Mark true if you allow the method to break the text in more lines.
      */
     public void ySetWidth(double width, boolean stroke_included, boolean change_font_size_allowed, boolean break_text_allowed,
-     boolean break_word_allowed, boolean unbreak_text_allowed, boolean try_break_in_spaces, boolean correct_location) {
+     boolean break_word_allowed, boolean unbreak_text_allowed, boolean try_break_in_spaces, boolean correct_location) {//rever
         double where_wasX = yGetTranslateX(0);
         double where_wasY = yGetTranslateY(0);
         
@@ -457,7 +457,7 @@ public class Texto extends Text implements Forma {
         }
     }
     
-    //--------------------------------------------------\\
+    //--------------------------------------------------\\achar um lugar melhor pra esses metodos :T
     
     protected double[] simulateTextSize(String text, double font_size, boolean stroke_included) {
         Font font;

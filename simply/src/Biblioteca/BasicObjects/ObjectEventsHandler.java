@@ -6,14 +6,19 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Class created to 
+ */
 public class ObjectEventsHandler {
     public Node objeto;
     
-    public Runnables<MouseEvent> yOnMouseReleased;
-    public Runnables<MouseEvent> yOnMousePressed;
-    public Runnables<MouseEvent> yOnMouseEntered;
-    public Runnables<MouseEvent> yOnMouseExited;
-    public Runnables<MouseEvent> yActionCleaner;
+    private Runnables<MouseEvent> yOnMouseEntered;
+    private Runnables<MouseEvent> yOnMouseExited;
+    private Runnables<MouseEvent> yOnMousePressed;
+    private Runnables<MouseEvent> yOnMouseReleased;
+    private Runnables<MouseEvent> yOnMouseDragged;
+    private Runnables<MouseEvent> yActionCleaner;
+    
     public boolean is_focused;
     public boolean is_selected;
 
@@ -23,6 +28,7 @@ public class ObjectEventsHandler {
         yOnMousePressed = new Runnables();
         yOnMouseEntered = new Runnables();
         yOnMouseExited = new Runnables();
+        yOnMouseDragged = new Runnables();
         yActionCleaner = new Runnables();
         //KEYBORD RUNNABLE || TODO
         
@@ -30,19 +36,58 @@ public class ObjectEventsHandler {
         is_selected = false;
     }
     
-    public void setUpInteractiveObject(){
-        objeto.setOnMouseEntered((event) -> {
-            yOnMouseEntered.run(event);
-        });
-        objeto.setOnMouseExited((event) -> {
-            yOnMouseExited.run(event);
-        });
-        objeto.setOnMousePressed((event) -> {
-            yOnMousePressed.run(event);
-        });
-        objeto.setOnMouseReleased((event) -> {
-            yOnMouseReleased.run(event);
-        });
+    public Runnables<MouseEvent> yOnMouseEntered(){
+        if(yOnMouseEntered.size() == 0){//activates this action
+            objeto.setOnMouseEntered((event) -> {
+                yOnMouseEntered.run(event);
+            });
+        }
+        
+        return yOnMouseEntered;
+    }
+    
+    public Runnables<MouseEvent> yOnMouseExited(){
+        if(yOnMouseExited.size() == 0){//activates this action
+            objeto.setOnMouseExited((event) -> {
+                yOnMouseExited.run(event);
+            });
+        }
+        
+        return yOnMouseExited;
+    }
+    
+    public Runnables<MouseEvent> yOnMousePressed(){
+        if(yOnMousePressed.size() == 0){//activates this action
+            objeto.setOnMousePressed((event) -> {
+                yOnMousePressed.run(event);
+            });
+        }
+        
+        return yOnMousePressed;
+    }
+    
+    public Runnables<MouseEvent> yOnMouseReleased(){
+        if(yOnMouseReleased.size() == 0){//activates this action
+            objeto.setOnMouseReleased((event) -> {
+                yOnMouseReleased.run(event);
+            });
+        }
+        
+        return yOnMouseReleased;
+    }
+    
+    public Runnables<MouseEvent> yOnMouseDragged(){
+        if(yOnMouseDragged.size() == 0){//activates this action
+            objeto.setOnMouseDragged((event) -> {
+                yOnMouseDragged.run(event);
+            });
+        }
+        
+        return yOnMouseDragged;
+    }
+    
+    public Runnables<MouseEvent> yActionCleaner(){
+        return yActionCleaner;
     }
     
     public void setOnKeyEMouseAction(EventHandler<? super MouseEvent> value) {

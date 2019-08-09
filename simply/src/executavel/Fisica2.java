@@ -1,6 +1,6 @@
 package executavel;
 
-import Biblioteca.InteractiveObjects.BarraDeslisante;
+import Biblioteca.OrganizadoresDeNodos.BarraDeslisante;
 import Biblioteca.OrganizadoresDeNodos.MathGrid;
 import Biblioteca.OrganizadoresDeNodos.Caixa;
 import static executavel.CriadorMenu.espacinho;

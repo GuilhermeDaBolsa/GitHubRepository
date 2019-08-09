@@ -3,7 +3,8 @@ package executavel;
 import Biblioteca.BasicObjects.Formas.Circulo;
 import Biblioteca.BasicObjects.Formas.Linha;
 import Biblioteca.BasicObjects.Formas.Retangulo;
-import Biblioteca.InteractiveObjects.BarraDeslisante;
+import Biblioteca.BasicObjects.Formas.Texto;
+import Biblioteca.OrganizadoresDeNodos.BarraDeslisante;
 import Biblioteca.OrganizadoresDeNodos.Caixa;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -29,17 +30,30 @@ public class teste2_1_1 extends Application {
     @Override
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
-        BarraDeslisante k = new BarraDeslisante(new Linha(60, 100, 2, Color.BLACK), new Caixa(10, 10, Color.WHITE, 2, Color.BLACK), 50, 0, 250, true);
         
-        k.ySetTranslateX(400, 0.5);
-        k.ySetTranslateY(400, 0.5);
+        Circle a = new Circle(2, Color.RED);
+        a.setDisable(true);
+        Texto b = new Texto("AAA q saco mano");
+        
+        BarraDeslisante k = new BarraDeslisante(0, 100, 10, Color.BLACK, new Caixa(10, 10, Color.WHITE, 2, Color.BLACK), 50, 0, 250);
+        
+        //k.ySetTranslateX(400, 0);
+        //k.ySetTranslateY(400, 0);
         
         k.yDisplayValue(false);
-        k.text.layoutXProperty().bind(k.slider.layoutXProperty());//AAAAAAAAA
-        k.text.layoutYProperty().bind(k.slider.layoutYProperty());
+        k.text.yBindTranslateX("SliderTextTranslationX", k.sliderXposition, 0);
+        k.text.yBindTranslateY("SliderTextTranslationY", k.sliderYposition, 0);
+        k.text.setDisable(true);
+        a.layoutXProperty().bind(k.sliderXposition.add(400));
+        a.layoutYProperty().bind(k.sliderYposition.add(400));
+        
+        b.ySetTranslateX(0, 0);
+        b.ySetTranslateY(0, 0);
+        b.layoutXProperty().bind(k.sliderXposition);
+        b.layoutYProperty().bind(k.sliderYposition);
 
         
-        teste.getChildren().addAll(k);
+        teste.getChildren().addAll(k, a, b);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");

@@ -1,15 +1,16 @@
-package Biblioteca.InteractiveObjects;
+package Biblioteca.OrganizadoresDeNodos;
 
 import Biblioteca.BasicObjects.CenaVisivel;
+import Biblioteca.BasicObjects.Formas.Linha;
 import Biblioteca.BasicObjects.Formas.Texto;
 import Biblioteca.Lists.yCircularArray;
 import Biblioteca.LogicClasses.Matematicas;
-import Biblioteca.OrganizadoresDeNodos.Caixa;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
@@ -28,6 +29,9 @@ public class BarraDeslisante extends CenaVisivel {
     public DoubleProperty CURRENT_VALUE;
     private int CURRENT_POSITION_INDEX;
     
+    public DoubleProperty sliderXposition;
+    public DoubleProperty sliderYposition;
+    
     private double mouseX;
     private double mouseY;
     private double sliderX;
@@ -36,11 +40,8 @@ public class BarraDeslisante extends CenaVisivel {
     public boolean TEXT_AS_PERCENTAGE = true;
 
     //AO INVEZ DO USUARIO PASSAR O NUMERO DE FRAMES ELE PASSA O INCREMENTO, E BASEADO NISSO TU CALCULA O NUMERO DE FRAMES
+    //CADE O TRAILL QUE O SLIDER DEIXA AO PASSAR AAAAAAAAAAAA
     
-    public BarraDeslisante(double endX, double endY, double stroke_width, Caixa slider, int FRAMES, double MIN, double MAX, double INITIAL_VALUE) {
-        
-    }
-
     public BarraDeslisante(Shape path, Caixa slider, int FRAMES, double MIN, double MAX, boolean cyclic) {
         this.path = path;
         this.slider = slider;
@@ -50,18 +51,20 @@ public class BarraDeslisante extends CenaVisivel {
         this.CURRENT_POSITION_INDEX = 0;
         this.CYCLIC = cyclic;
         CURRENT_VALUE = new SimpleDoubleProperty(0);
+        sliderXposition = new SimpleDoubleProperty(0);
+        sliderYposition = new SimpleDoubleProperty(0);
         
         ySetSliderPath(path);
 
-        slider.setOnMousePressed((event) -> {
+        slider.yEvents_Handler.yOnMousePressed().addHandleble("SliderPress", (event) -> {
             // Store initial position
-            sliderX = slider.yGetTranslateX(0.5);
-            sliderY = slider.yGetTranslateY(0.5);
+            sliderX = slider.yGetTranslateX(0);
+            sliderY = slider.yGetTranslateY(0);
             mouseX = event.getSceneX();
             mouseY = event.getSceneY();
         });
         
-        slider.setOnMouseDragged((event) -> {
+        slider.yEvents_Handler.yOnMouseDragged().addHandleble("SliderDrag", (event) -> {
             double dragX = event.getSceneX() - mouseX;
             double dragY = event.getSceneY() - mouseY;
             
@@ -70,7 +73,7 @@ public class BarraDeslisante extends CenaVisivel {
             
             boolean sucess;
             
-            do{//acho que o motivo do lag vem desse do while que nao deveria estar aqui no mouse dragged...ou pcausa do jeito...nsei
+            do{//acho que o lag vem desse do while que nao deveria estar aqui no mouse dragged...ou pcausa do jeito...nsei
                 int index = CURRENT_POSITION_INDEX;
 
                 if(CYCLIC)
@@ -85,6 +88,10 @@ public class BarraDeslisante extends CenaVisivel {
         ySetValue(MIN);
         
         getChildren().addAll(path, this.slider);
+    }
+    
+    public BarraDeslisante(double endX, double endY, double stroke_width, Color line_color, Caixa slider, int FRAMES, double MIN, double MAX) {
+        this(new Linha(endX, endY, stroke_width, line_color), slider, FRAMES, MIN, MAX, false);
     }
     
     public void ySetSliderPath(Shape path){
@@ -141,6 +148,8 @@ public class BarraDeslisante extends CenaVisivel {
         
         CURRENT_VALUE.set(value);
         CURRENT_POSITION_INDEX = Math.round((float) ((FRAMES-1) * yGetPercentage()));
+        sliderXposition.set(PATH_POINT_LIST.get(CURRENT_POSITION_INDEX).getX());
+        sliderYposition.set(PATH_POINT_LIST.get(CURRENT_POSITION_INDEX).getY());
         
         path_animation.jumpTo(Duration.seconds(PATH_POINT_LIST.get_real_index(CURRENT_POSITION_INDEX)));
         syncTextValue();
@@ -184,12 +193,9 @@ public class BarraDeslisante extends CenaVisivel {
 
         for (int i=0; i<(int)FRAMES; i++) {
             path_animation.jumpTo(Duration.seconds(i));
-            PATH_POINT_LIST.set(i, new Point2D(slider.yGetTranslateX(0.5), slider.yGetTranslateY(0.5)));
+            PATH_POINT_LIST.set(i, new Point2D(slider.yGetTranslateX(0), slider.yGetTranslateY(0)));//a little bug: 0 is 0.5 here i dont know why
+                                                                                //, na verdade parece que aqui dentro é um pivo e la fora é outro, com 0.5 de diferença entre os 2
         }
-    }
-    
-    public int yGetCurrentPositionIndex(){
-        return CURRENT_POSITION_INDEX;
     }
     
     /**

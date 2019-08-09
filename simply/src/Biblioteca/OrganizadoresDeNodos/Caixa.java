@@ -25,9 +25,6 @@ public class Caixa extends CenaVisivel {
      * @param cor_borda Cor da borda da caixa.
      */
     public Caixa(Shape forma, Paint cor_fundo, double grossura_borda, Paint cor_borda){
-        //caixa = (Shape) YshapeHandler.copyObject(forma);//AAAAAAAAAAAAAAAA AINDA É UM PONTEIRRROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-        //Node n = (Node) YshapeHandler.cloneObject(forma);
-        //((Forma)caixa).ySetWidth(n.getBoundsInLocal().getWidth(), false, true);
         caixa = forma;
         
         container = new Pane();
@@ -35,8 +32,6 @@ public class Caixa extends CenaVisivel {
         ySetStroke(grossura_borda, cor_borda, StrokeType.OUTSIDE, true);
         
         realocar_conteudos(grossura_borda/2, grossura_borda/2);
-        
-        yEvents_Handler.setUpInteractiveObject();//BOTAR ISSO NAS OUTRAS CLASSES PQ N BOTEI :P
         
         getChildren().addAll(caixa, container);
     }

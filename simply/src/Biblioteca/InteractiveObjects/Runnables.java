@@ -5,7 +5,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 
 /**
- * Class created to store events by names.
+ * Class created to store runnables and it's event by name.
  * @param <EventType> The type of the event handled by this runnable.
  */
 public class Runnables<EventType extends Event> {
@@ -64,6 +64,13 @@ public class Runnables<EventType extends Event> {
      */
     public void clear(){
         actions.clear();
+    }
+    
+    /**
+     * @return How many actions are stored.
+     */
+    public int size(){
+        return actions.size();
     }
     
     /**

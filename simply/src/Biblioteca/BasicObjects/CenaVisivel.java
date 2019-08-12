@@ -1,12 +1,11 @@
 package Biblioteca.BasicObjects;
 
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
 public class CenaVisivel extends Pane{
-    public ObjectEventsHandler yEvents_Handler = new ObjectEventsHandler(this);
+    public YobjectEventsHandler yEvents_Handler = new YobjectEventsHandler(this);
     
     public double yGetWidth(){
         return VisibleObjectHandler.getWidth(this);
@@ -32,28 +31,12 @@ public class CenaVisivel extends Pane{
         VisibleObjectHandler.setTranslateY(this, Y, pivo);
     }
     
-    public DoubleProperty getPosicaoXListener(){
-        return VisibleObjectHandler.getPosicaoXListener(this);
-    }
-    
-    public DoubleProperty getPosicaoYListener(){
-        return VisibleObjectHandler.getPosicaoYListener(this);
-    }
-    
     public void bindPosicaoX(DoubleProperty posicao, double eixo){
         VisibleObjectHandler.bindPosicaoX(this, posicao, eixo);
     }
     
     public void bindPosicaoY(Node nodo, DoubleProperty posicao, double eixo){
         VisibleObjectHandler.bindPosicaoY(this, posicao, eixo);
-    }
-    
-    public ReadOnlyDoubleProperty getBindLargura(){
-        return this.widthProperty();
-    }
-    
-    public ReadOnlyDoubleProperty getBindAltura(){
-        return this.heightProperty();
     }
     
     /**

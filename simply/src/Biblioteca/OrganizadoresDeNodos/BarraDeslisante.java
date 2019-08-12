@@ -56,7 +56,7 @@ public class BarraDeslisante extends CenaVisivel {
         
         ySetSliderPath(path);
 
-        slider.yEvents_Handler.yOnMousePressed().addHandleble("SliderPress", (event) -> {
+        slider.yEvents_Handler.onMousePressed().addHandleble("SliderPress", (event) -> {
             // Store initial position
             sliderX = slider.yGetTranslateX(0);
             sliderY = slider.yGetTranslateY(0);
@@ -64,7 +64,7 @@ public class BarraDeslisante extends CenaVisivel {
             mouseY = event.getSceneY();
         });
         
-        slider.yEvents_Handler.yOnMouseDragged().addHandleble("SliderDrag", (event) -> {
+        slider.yEvents_Handler.onMouseDragged().addHandleble("SliderDrag", (event) -> {
             double dragX = event.getSceneX() - mouseX;
             double dragY = event.getSceneY() - mouseY;
             

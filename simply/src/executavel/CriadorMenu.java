@@ -26,17 +26,17 @@ public class CriadorMenu {
      */
     public static Caixa cria_menu() {
         Caixa btn_add = new Caixa(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, Color.CADETBLUE, 1, Color.BLACK);
-        btn_add.yEvents_Handler.yOnMouseReleased().addHandleble((event) -> {
+        btn_add.yEvents_Handler.onMouseReleased().addHandleble((event) -> {
             Fisica2.caixa_adicionar_carga.switchAtivarDesativar();
         }); 
 
-        btn_add.yEvents_Handler.yActionCleaner().addHandleble((event) -> {
+        btn_add.yEvents_Handler.actionCleaner().addHandleble((event) -> {
             Fisica2.caixa_adicionar_carga.desativar();
         });
         botoes.add(btn_add);
         
         Caixa btn_config = new Caixa(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, Color.DARKGRAY, 1, Color.BLACK);
-        btn_config.yEvents_Handler.yOnMouseReleased().addHandleble((event) -> {
+        btn_config.yEvents_Handler.onMouseReleased().addHandleble((event) -> {
             for (int i = -150; i < 151; i++) {
                 Fisica2.grade.adicionar_objeto(new Entidade(6, 12, Color.AQUA, i + ", " + i), i, i);
             }
@@ -45,7 +45,7 @@ public class CriadorMenu {
         
         Caixa btn_remove = new Caixa(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, Color.FIREBRICK, 1, Color.BLACK);
         botoes.add(btn_remove);
-        btn_remove.yEvents_Handler.yOnMouseReleased().addHandleble((event) -> {
+        btn_remove.yEvents_Handler.onMouseReleased().addHandleble((event) -> {
             Runtime runtime = Runtime.getRuntime();
             //runtime.gc();
             long memory = runtime.totalMemory() - runtime.freeMemory();

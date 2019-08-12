@@ -1,6 +1,5 @@
 package Biblioteca.BasicObjects.Formas;
 
-import Biblioteca.Lists.ySimpleMap;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Paint;
@@ -99,6 +98,11 @@ public interface Forma{
     
     
     
+    //----------------------------- ROTATE METHODS -----------------------------\\
+    
+    //public void ySetRotate(double pivo, double angle);
+    
+    
     //----------------------------- STROKE METHODS -----------------------------\\
     
     /**
@@ -170,7 +174,7 @@ public interface Forma{
     
     
     
-    //----------------------------- BIND/LISTENER METHODS -----------------------------\\
+    //----------------------------- BIND/LISTENER METHODS -----------------------------\\REMOVE THIS OBRIGATIONAAAAAAAAAAAAAAAAAAAAAAA
     
     /**
      * The porpouse of this method is to store any bind, because depending on the circunstances it can be caught by garbadge collector.

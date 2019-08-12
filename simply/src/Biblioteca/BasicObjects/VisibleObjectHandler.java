@@ -6,15 +6,11 @@ import javafx.scene.Node;
 public abstract class VisibleObjectHandler{
     
     public static double getWidth(Node nodo){
-        return nodo.getBoundsInLocal().getWidth()*nodo.getScaleX();
+        return nodo.getBoundsInLocal().getWidth()*nodo.getScaleX();//VER ESSE NEGOCIO DO SCALE AQUI EM... ACHO Q SE DEIXAR SEPARADO É MELHOR EM.......
     }
     
     public static double getHeight(Node nodo){
         return nodo.getBoundsInLocal().getHeight()*nodo.getScaleY();
-    }
-    
-    public static double getDepth(Node nodo){
-        return nodo.getBoundsInLocal().getDepth();
     }
     
     public static double yGetTranslateX(Node nodo, double pivo){
@@ -48,17 +44,6 @@ public abstract class VisibleObjectHandler{
     }
     
     /**
-     * Método para mover a forma com base  no pivo.
-     * @param pivo Pivo é o ponto referente, ou seja, é ele que ficará no Y informado,
-     * ele é dado por valores entre 0 e 1, sendo 0 o ponto mais a cima e 1 o mais a baixo.
-     * (nao precisa ser necessariamente entre 0 e 1 :D)
-     * @param Z Onde a forma deve ficar, no eixo Z.
-     */
-    public static void setTranslateZ(Node nodo, double Z, double pivo){//VER QUAL Q É A DO EIXO Z ANTES DE SAIR FAZENDO AS COISAS NEééééé´DAR
-        nodo.setTranslateZ(Z - getDepth(nodo)*pivo);
-    }
-    
-    /**
      * Faz com que o objeto desapareça e não interaja com nada. Porém ele 
      * continua com suas propriedades, apenas se tornará invisivel e inalvejavel.
      */
@@ -83,14 +68,6 @@ public abstract class VisibleObjectHandler{
         nodo.setDisable(!nodo.isDisable());
     }
     
-    public static DoubleProperty getPosicaoXListener(Node nodo){
-        return nodo.translateXProperty();
-    }
-    
-    public static DoubleProperty getPosicaoYListener(Node nodo){
-        return nodo.translateYProperty();
-    }
-    
     public static void bindPosicaoX(Node nodo, DoubleProperty posicao, double eixo){
         nodo.translateXProperty().bind(posicao.subtract(eixo*getWidth(nodo)));
     }
@@ -98,4 +75,8 @@ public abstract class VisibleObjectHandler{
     public static void bindPosicaoY(Node nodo, DoubleProperty posicao, double eixo){
         nodo.translateYProperty().bind(posicao.subtract(eixo*getHeight(nodo)));
     }
+    
+    //TALVEZ FAZER UMA INTERFASSE PRA PODER FAZER UMA CENAVISIVEL
+    //FAZER UM SET ROTATE
+    //VER QUE MAIS METODOS PODERIA VIR AQUI (TALVEZ UNS LA DA YSHAPEHANDLER)
 }

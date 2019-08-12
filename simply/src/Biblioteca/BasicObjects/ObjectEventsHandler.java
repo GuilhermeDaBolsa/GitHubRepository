@@ -18,6 +18,7 @@ public class ObjectEventsHandler {
     private Runnables<MouseEvent> yOnMouseReleased;
     private Runnables<MouseEvent> yOnMouseDragged;
     private Runnables<MouseEvent> yActionCleaner;
+    //KEYBORD RUNNABLE || TODO
     
     public boolean is_focused;
     public boolean is_selected;

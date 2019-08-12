@@ -11,7 +11,7 @@ import Biblioteca.BasicObjects.VisibleObjectHandler;
 
 public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM METODOS EM COMUM....
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
-    public ySimpleMap<String, ObservableValue<? extends Number>> yWeak_listeners = new ySimpleMap();
+    public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
     
     public Retangulo(){
         //fazer um standard? atribuir coisas com base no nodo pai? só bota qlcr coisa? deixar em branco?
@@ -177,7 +177,7 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     //----------------------------- BIND/LISTENER METHODS -----------------------------\\
     
     @Override
-    public void yAddBind(String bind_name, ObservableValue<? extends Number> bind){
+    public void yAddBind(String bind_name, ObservableValue bind){
         YshapeHandler.yAddBind(yWeak_listeners, bind_name, bind);
     }
     

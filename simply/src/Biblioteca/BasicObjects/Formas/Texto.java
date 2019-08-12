@@ -20,7 +20,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class Texto extends Text implements Forma {
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
-    public ySimpleMap<String, ObservableValue<? extends Number>> yWeak_listeners = new ySimpleMap();
+    public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
     
     protected String texto;
     public String font_path = null;
@@ -287,7 +287,7 @@ public class Texto extends Text implements Forma {
 
     @Override
     public void yBindWidth(String bind_name, ObservableValue<? extends Number> width, boolean correct_location) {
-        YshapeHandler.yBindWidth(this, yWeak_listeners, bind_name, height, correct_location);
+        YshapeHandler.yBindWidth(this, yWeak_listeners, bind_name, width, correct_location);
     }
 
     @Override

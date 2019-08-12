@@ -15,7 +15,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class Poligono extends Polygon implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
-    public ySimpleMap<String, ObservableValue<? extends Number>> yWeak_listeners = new ySimpleMap();
+    public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
     
     DoubleProperty left_X = new SimpleDoubleProperty(0);
     DoubleProperty right_X = new SimpleDoubleProperty(0);

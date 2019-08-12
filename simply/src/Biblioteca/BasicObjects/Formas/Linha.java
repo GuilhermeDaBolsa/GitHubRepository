@@ -12,7 +12,7 @@ import Biblioteca.BasicObjects.VisibleObjectHandler;
 
 public class Linha extends Line implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
-    public ySimpleMap<String, ObservableValue<? extends Number>> yWeak_listeners = new ySimpleMap();
+    public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
     
     public Linha(Linha line){
         this((Line) line);

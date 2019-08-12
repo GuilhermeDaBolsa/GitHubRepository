@@ -134,7 +134,7 @@ public abstract class YshapeHandler{
         yScaleYby(shape, scale, correct_location);
     }
     
-    public static void yAddBind(ySimpleMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> bind){
+    public static void yAddBind(ySimpleMap<String, ObservableValue> map, String bind_name, ObservableValue bind){
         map.add(bind_name, bind);
     }
     
@@ -160,7 +160,7 @@ public abstract class YshapeHandler{
      * (otherwise it would be lost and caught by the garbage collector)
      * @see Forma#yBindTranslateX(java.lang.String, javafx.beans.value.ObservableValue, double) 
      */
-    public static void yBindTranslateX(Shape shape, ySimpleMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> X, double pivo){
+    public static void yBindTranslateX(Shape shape, ySimpleMap<String, ObservableValue> map, String bind_name, ObservableValue<? extends Number> X, double pivo){
         X.addListener((observable) -> {
             ((Forma) shape).ySetTranslateX(X.getValue().doubleValue(), pivo);
         });
@@ -173,7 +173,7 @@ public abstract class YshapeHandler{
      * (otherwise it would be lost and caught by the garbage collector)
      * @see Forma#yBindTranslateY(java.lang.String, javafx.beans.value.ObservableValue, double) 
      */
-    public static void yBindTranslateY(Shape shape, ySimpleMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> Y, double pivo){
+    public static void yBindTranslateY(Shape shape, ySimpleMap<String, ObservableValue> map, String bind_name, ObservableValue<? extends Number> Y, double pivo){
         Y.addListener((observable) -> {
             ((Forma) shape).ySetTranslateY(Y.getValue().doubleValue(), pivo);
         });
@@ -212,7 +212,7 @@ public abstract class YshapeHandler{
      * (otherwise it would be lost and caught by the garbage collector)
      * @see Forma#yBindWidth(java.lang.String, javafx.beans.value.ObservableValue, boolean) 
      */
-    public static void yBindWidth(Shape shape, ySimpleMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> width, boolean stroke_included){
+    public static void yBindWidth(Shape shape, ySimpleMap<String, ObservableValue> map, String bind_name, ObservableValue<? extends Number> width, boolean stroke_included){
         width.addListener((observable) -> {
             ((Forma) shape).ySetWidth(width.getValue().doubleValue(), stroke_included, true);
         });
@@ -225,7 +225,7 @@ public abstract class YshapeHandler{
      * (otherwise it would be lost and caught by the garbage collector)
      * @see Forma#yBindWidth(java.lang.String, javafx.beans.value.ObservableValue, boolean) 
      */
-    public static void yBindHeight(Shape shape, ySimpleMap<String, ObservableValue<? extends Number>> map, String bind_name, ObservableValue<? extends Number> height, boolean stroke_included){
+    public static void yBindHeight(Shape shape, ySimpleMap<String, ObservableValue> map, String bind_name, ObservableValue<? extends Number> height, boolean stroke_included){
         height.addListener((observable) -> {
             ((Forma) shape).ySetHeight(height.getValue().doubleValue(), stroke_included, true);
         });
@@ -236,7 +236,7 @@ public abstract class YshapeHandler{
      * @param map A map of Strings (keys) and ObservableValues (objects) to maintain the binds references.
      * @see Forma#yUnbind(java.lang.String) 
      */
-    public static void yUnbind(ySimpleMap<String, ObservableValue<? extends Number>> map, String bind_name){
+    public static void yUnbind(ySimpleMap<String, ObservableValue> map, String bind_name){
         map.remove(bind_name);
         System.gc();
     }

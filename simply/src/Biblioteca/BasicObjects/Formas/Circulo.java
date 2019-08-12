@@ -11,7 +11,7 @@ import Biblioteca.BasicObjects.VisibleObjectHandler;
 
 public class Circulo extends Circle implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
-    public ySimpleMap<String, ObservableValue<? extends Number>> yWeak_listeners = new ySimpleMap();
+    public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
     
     public Circulo(){
         //fazer um standard? atribuir coisas com base no nodo pai? só bota qlcr coisa? deixar em branco?

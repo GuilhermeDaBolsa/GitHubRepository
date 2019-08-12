@@ -175,16 +175,16 @@ public class MathGrid extends CenaVisivel {
      * Coloca uma thread para verificar quando o tamanho da aplicação é alterada
      * para alterar o tamanho da grade.
      */
-    public void binda_tamanho(ObservableValue largura, ObservableValue altura) {
-        largura_grade = (Double) largura.getValue();
-        altura_grade = (Double) altura.getValue();
+    public void binda_tamanho(ObservableValue<? extends Number> largura, ObservableValue<? extends Number> altura) {
+        largura_grade = largura.getValue().doubleValue();
+        altura_grade = altura.getValue().doubleValue();
         largura.addListener((obs, oldVal, newVal) -> {
-            largura_grade = (Double) largura.getValue();
+            largura_grade = largura.getValue().doubleValue();
             atualizar();
         });
 
         altura.addListener((obs, oldVal, newVal) -> {
-            altura_grade = (Double) altura.getValue();
+            altura_grade = altura.getValue().doubleValue();
             atualizar();
         });
         atualizar();

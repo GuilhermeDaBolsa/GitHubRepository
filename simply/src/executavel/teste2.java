@@ -42,6 +42,9 @@ public class teste2 extends Application {
         Circulo a = new Circulo(4);
         Circulo b = new Circulo(4);
         Circulo c = new Circulo(4);
+        Circulo o = new Circulo(3);
+        o.ySetTranslateX(p.yGetTranslateX(0.5), 0.5);
+        o.ySetTranslateY(p.yGetTranslateY(0.5), 0.5);
         
         a.ySetPosition(100 + p.getTranslateX(), 100 + p.getTranslateY(), 0.5, 0.5);
         b.ySetPosition(200 + p.getTranslateX(), 100 + p.getTranslateY(), 0.5, 0.5);
@@ -109,8 +112,11 @@ public class teste2 extends Application {
             
         teste.setOnMousePressed((event) -> {
             if(event.isSecondaryButtonDown()){
-                p.ySetTranslateX(0, 0);
-                p.ySetTranslateY(0, 0);
+                //p.ySetTranslateX(0, 0);
+                //p.ySetTranslateY(0, 0);
+                o.ySetTranslateX(p.yGetTranslateX(0.5), 0.5);
+        o.ySetTranslateY(p.yGetTranslateY(0.5), 0.5);
+                p.setRotate(p.getRotate()-90);
             }
                 
             //System.gc();
@@ -120,7 +126,7 @@ public class teste2 extends Application {
         //falta os setMaxWidth e height e mudar o codigo pra aguenta eles.
         //os reajusta tamanho automatico da caixa ta meio quebrado
         
-        teste.getChildren().addAll(p, a, b, c);
+        teste.getChildren().addAll(p, a, b, c, o);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");

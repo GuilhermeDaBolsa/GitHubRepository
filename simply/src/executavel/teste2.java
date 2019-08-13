@@ -26,6 +26,8 @@ public class teste2 extends Application {
     double pbY;
     double pcX;
     double pcY;
+    double pdX;
+    double pdY;
 
     @Override
     public void start(Stage primaryStage) {
@@ -34,21 +36,25 @@ public class teste2 extends Application {
         Poligono p = new Poligono(
                 0, 0,
                 100, 0,
-                100, 100
+                100, 100,
+                0, 100
         );
         p.setFill(Color.ALICEBLUE);
-        p.ySetStroke(20.0, Color.RED, StrokeType.OUTSIDE, true);
+        p.ySetStroke(10.0, Color.BLACK, StrokeType.OUTSIDE, true);
         
         Circulo a = new Circulo(4);
         Circulo b = new Circulo(4);
         Circulo c = new Circulo(4);
+        Circulo d = new Circulo(4);
         Circulo o = new Circulo(3);
+        
         o.ySetTranslateX(p.yGetTranslateX(0.5), 0.5);
         o.ySetTranslateY(p.yGetTranslateY(0.5), 0.5);
         
-        a.ySetPosition(100 + p.getTranslateX(), 100 + p.getTranslateY(), 0.5, 0.5);
-        b.ySetPosition(200 + p.getTranslateX(), 100 + p.getTranslateY(), 0.5, 0.5);
-        c.ySetPosition(200 + p.getTranslateX(), 200 + p.getTranslateY(), 0.5, 0.5);
+        a.ySetPosition(p.getTranslateX(), p.getTranslateY(), 0.5, 0.5);
+        b.ySetPosition(100 + p.getTranslateX(), p.getTranslateY(), 0.5, 0.5);
+        c.ySetPosition(100 + p.getTranslateX(), 100 + p.getTranslateY(), 0.5, 0.5);
+        d.ySetPosition(p.getTranslateX(), 100 + p.getTranslateY(), 0.5, 0.5);
         
         a.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -74,6 +80,14 @@ public class teste2 extends Application {
                 pcY = c.yGetTranslateY(0.5) - mouseEvent.getSceneY();
             }
         });
+        d.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                // record a delta distance for the drag and drop operation.
+                pdX = d.yGetTranslateX(0.5) - mouseEvent.getSceneX();
+                pdY = d.yGetTranslateY(0.5) - mouseEvent.getSceneY();
+            }
+        });
             
         a.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
@@ -82,7 +96,10 @@ public class teste2 extends Application {
                 a.ySetTranslateY(mouseEvent.getSceneY() + paY, 0.5);
                 
                 p.getPoints().clear();
-                p.getPoints().addAll(a.yGetTranslateX(0.5) - p.getTranslateX(), a.yGetTranslateY(0.5) - p.getTranslateY(), b.yGetTranslateX(0.5) - p.getTranslateX(), b.yGetTranslateY(0.5) - p.getTranslateY(), c.yGetTranslateX(0.5) - p.getTranslateX(), c.yGetTranslateY(0.5) - p.getTranslateY());
+                p.getPoints().addAll(a.yGetTranslateX(0.5) - p.getTranslateX(), a.yGetTranslateY(0.5) - p.getTranslateY(),
+                        b.yGetTranslateX(0.5) - p.getTranslateX(), b.yGetTranslateY(0.5) - p.getTranslateY(),
+                        c.yGetTranslateX(0.5) - p.getTranslateX(), c.yGetTranslateY(0.5) - p.getTranslateY(),
+                        d.yGetTranslateX(0.5) - p.getTranslateX(), d.yGetTranslateY(0.5) - p.getTranslateY());
                 p.change_in_points();
                 //t.resizeBoxWithItsContent(false, false, true, false);
             }
@@ -94,7 +111,10 @@ public class teste2 extends Application {
                 b.ySetTranslateY(mouseEvent.getSceneY() + pbY, 0.5);
                 
                 p.getPoints().clear();
-                p.getPoints().addAll(a.yGetTranslateX(0.5) - p.getTranslateX(), a.yGetTranslateY(0.5) - p.getTranslateY(), b.yGetTranslateX(0.5) - p.getTranslateX(), b.yGetTranslateY(0.5) - p.getTranslateY(), c.yGetTranslateX(0.5) - p.getTranslateX(), c.yGetTranslateY(0.5) - p.getTranslateY());
+                p.getPoints().addAll(a.yGetTranslateX(0.5) - p.getTranslateX(), a.yGetTranslateY(0.5) - p.getTranslateY(),
+                        b.yGetTranslateX(0.5) - p.getTranslateX(), b.yGetTranslateY(0.5) - p.getTranslateY(),
+                        c.yGetTranslateX(0.5) - p.getTranslateX(), c.yGetTranslateY(0.5) - p.getTranslateY(),
+                        d.yGetTranslateX(0.5) - p.getTranslateX(), d.yGetTranslateY(0.5) - p.getTranslateY());
                 p.change_in_points();
             }
         });
@@ -105,18 +125,36 @@ public class teste2 extends Application {
                 c.ySetTranslateY(mouseEvent.getSceneY() + pcY, 0.5);
                 
                 p.getPoints().clear();
-                p.getPoints().addAll(a.yGetTranslateX(0.5) - p.getTranslateX(), a.yGetTranslateY(0.5) - p.getTranslateY(), b.yGetTranslateX(0.5) - p.getTranslateX(), b.yGetTranslateY(0.5) - p.getTranslateY(), c.yGetTranslateX(0.5) - p.getTranslateX(), c.yGetTranslateY(0.5) - p.getTranslateY());
+                p.getPoints().addAll(a.yGetTranslateX(0.5) - p.getTranslateX(), a.yGetTranslateY(0.5) - p.getTranslateY(),
+                        b.yGetTranslateX(0.5) - p.getTranslateX(), b.yGetTranslateY(0.5) - p.getTranslateY(),
+                        c.yGetTranslateX(0.5) - p.getTranslateX(), c.yGetTranslateY(0.5) - p.getTranslateY(),
+                        d.yGetTranslateX(0.5) - p.getTranslateX(), d.yGetTranslateY(0.5) - p.getTranslateY());
+                p.change_in_points();
+            }
+        });
+        d.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                d.ySetTranslateX(mouseEvent.getSceneX() + pdX, 0.5);
+                d.ySetTranslateY(mouseEvent.getSceneY() + pdY, 0.5);
+                
+                p.getPoints().clear();
+                p.getPoints().addAll(a.yGetTranslateX(0.5) - p.getTranslateX(), a.yGetTranslateY(0.5) - p.getTranslateY(),
+                        b.yGetTranslateX(0.5) - p.getTranslateX(), b.yGetTranslateY(0.5) - p.getTranslateY(),
+                        c.yGetTranslateX(0.5) - p.getTranslateX(), c.yGetTranslateY(0.5) - p.getTranslateY(),
+                        d.yGetTranslateX(0.5) - p.getTranslateX(), d.yGetTranslateY(0.5) - p.getTranslateY());
                 p.change_in_points();
             }
         });
             
         teste.setOnMousePressed((event) -> {
             if(event.isSecondaryButtonDown()){
-                //p.ySetTranslateX(0, 0);
-                //p.ySetTranslateY(0, 0);
+                p.ySetTranslateX(0, 0);
+                p.ySetTranslateY(0, 0);
                 o.ySetTranslateX(p.yGetTranslateX(0.5), 0.5);
-        o.ySetTranslateY(p.yGetTranslateY(0.5), 0.5);
-                p.setRotate(p.getRotate()-90);
+                o.ySetTranslateY(p.yGetTranslateY(0.5), 0.5);
+                //System.out.println(p.yOutsideStrokeOcupation.toString());
+                //p.setRotate(p.getRotate()-90);
             }
                 
             //System.gc();
@@ -126,7 +164,7 @@ public class teste2 extends Application {
         //falta os setMaxWidth e height e mudar o codigo pra aguenta eles.
         //os reajusta tamanho automatico da caixa ta meio quebrado
         
-        teste.getChildren().addAll(p, a, b, c, o);
+        teste.getChildren().addAll(p, a, b, c, d, o);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");

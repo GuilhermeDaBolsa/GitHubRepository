@@ -10,9 +10,17 @@ import javafx.scene.shape.StrokeType;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
+import static Biblioteca.LogicClasses.Matematicas.calculate_angle;
+import static Biblioteca.LogicClasses.Matematicas.hypotenuse;
+import static Biblioteca.LogicClasses.Matematicas.modulo;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
+/**
+ * This class is an upgrade of Oracle's polygon class.
+ * Note that it is highly recommended that the points be in clock-wise order and that the figure
+ * is not a complex polygon (self-intersecting) because of border and angle calculations.
+ */
 public class Poligono extends Polygon implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
@@ -283,35 +291,53 @@ public class Poligono extends Polygon implements Forma{
         double right = right_X.get();
         double up = up_Y.get();
         double down = down_Y.get();
-        
+        System.out.println("AAAAAAAAAAAAa");
         for (int i = 0; i < points.length; i+=2) {
             Point2D pN1 = new Point2D(cPoints.get(i-2), cPoints.get(i-1));
             Point2D p0 = new Point2D(cPoints.get(i), cPoints.get(i+1));
             Point2D p1 = new Point2D(cPoints.get(i+2), cPoints.get(i+3));
+            Point2D array[] = new Point2D[4];
             
-            Point2D crossed_array_r1[] = border_points(pN1, p0);
-            Point2D crossed_array_r2[] = border_points(p0, p1);
-            
-            for (int j = 0; j < 3; j+=2) {
-                for (int k = 0; k < 3; k+=2) {
-                    Point2D point = calculateInterceptionPoint(crossed_array_r1[j], crossed_array_r1[j + 1], crossed_array_r2[k], crossed_array_r2[k + 1]);
-                    if(point == null)
-                        continue;
-                    
-                    if(point.getX() < left)
-                        left = point.getX();
-                    else if(point.getX() > right)
-                        right = point.getX();
+            if(calculate_angle(pN1, p0, p1) >= 11.475){
+                Point2D crossed_array_r1[] = border_points(pN1, p0);
+                Point2D crossed_array_r2[] = border_points(p0, p1);
 
-                    if(point.getY() < up)
-                        up = point.getY();
-                    else if(point.getY() > down)
-                        down = point.getY();
-                }
+                for (int j = 0; j < 3; j+=2)//little complicated logic to store the 4 crossing points of the border lines
+                    for (int k = 0; k < 3; k+=2) 
+                        array[j + k/2] = calculateInterceptionPoint(crossed_array_r1[j], crossed_array_r1[j + 1], crossed_array_r2[k], crossed_array_r2[k + 1]);
+            }else{
+                Point2D nP = new Point2D((pN1.getX() + p1.getX())/2, (pN1.getY() + p1.getY())/2);
+                double height = modulo(nP.getY() - p0.getY());
+                double width = modulo(nP.getX() - p0.getX());
+                double hypotenuse = hypotenuse(width, height);
+                double widS = height / hypotenuse * YshapeHandler.yGetStrokeOcupation(this);
+                double heigS = width / hypotenuse * YshapeHandler.yGetStrokeOcupation(this);
+                
+                array[0] = new Point2D(p0.getX() - widS, p0.getY() - heigS);
+                array[1] = new Point2D(p0.getX() + widS, p0.getY() + heigS);
+                array[2] = new Point2D(p0.getX() + widS, p0.getY() - heigS);
+                array[3] = new Point2D(p0.getX() - widS, p0.getY() + heigS);
             }
             
-            yOutsideStrokeOcupation = new YstrokeOcupation(left_X.get() - left, right - right_X.get(), up_Y.get() - up, down - down_Y.get());
+            for (int j = 0; j < array.length; j++) {
+                Point2D point = array[j];
+                
+                if(point == null)
+                    continue;
+
+                if(point.getX() < left)
+                    left = point.getX();
+                else if(point.getX() > right)
+                    right = point.getX();
+
+                if(point.getY() < up)
+                    up = point.getY();
+                else if(point.getY() > down)
+                    down = point.getY();
+            }
         }
+        
+        yOutsideStrokeOcupation = new YstrokeOcupation(left_X.get() - left, right - right_X.get(), up_Y.get() - up, down - down_Y.get());
     }
     
     private Point2D calculateInterceptionPoint(Point2D p1, Point2D p2, Point2D d1, Point2D d2) {
@@ -327,7 +353,7 @@ public class Poligono extends Polygon implements Forma{
             return null;
         
         double X = 0;
-        double Y = (A1 * C2 - A2 * C1) / (A2 * B1 - A1 * B2);
+        double Y = (A1 * C2 - A2 * C1) / (A2 * B1 - A1 * B2);//TA ERRADO O METODO QUANDO ELAS SAO QUASE PARALELAS (PONTOS ALINHADOS DA PROBLEMA)
         
         if(A1 == 0)
             X = (-B2 * Y - C2) / A2;
@@ -340,19 +366,20 @@ public class Poligono extends Polygon implements Forma{
     //calculate the points that might belong to the stroke line
     private Point2D[] border_points(Point2D a, Point2D b){
         Point2D crossed_array[] = new Point2D[4];
+        double stroke_ocupation = YshapeHandler.yGetStrokeOcupation(this);
         
         //cases for 0 and 90 degrees lines
         if(a.getY() - b.getY() == 0){//equals 0 because it may serve for other cases beyond just equal
-            crossed_array[0] = new Point2D(a.getX(), a.getY() + YshapeHandler.yGetStrokeOcupation(this));
-            crossed_array[1] = new Point2D(b.getX(), b.getY() + YshapeHandler.yGetStrokeOcupation(this));
-            crossed_array[2] = new Point2D(a.getX(), a.getY() - YshapeHandler.yGetStrokeOcupation(this));
-            crossed_array[3] = new Point2D(b.getX(), b.getY() - YshapeHandler.yGetStrokeOcupation(this));
+            crossed_array[0] = new Point2D(a.getX(), a.getY() + stroke_ocupation);
+            crossed_array[1] = new Point2D(b.getX(), b.getY() + stroke_ocupation);
+            crossed_array[2] = new Point2D(a.getX(), a.getY() - stroke_ocupation);
+            crossed_array[3] = new Point2D(b.getX(), b.getY() - stroke_ocupation);
             
         }else if(a.getX() - b.getX() == 0){
-            crossed_array[0] = new Point2D(a.getX() - YshapeHandler.yGetStrokeOcupation(this), a.getY());
-            crossed_array[1] = new Point2D(b.getX() - YshapeHandler.yGetStrokeOcupation(this), b.getY());
-            crossed_array[2] = new Point2D(a.getX() + YshapeHandler.yGetStrokeOcupation(this), a.getY());
-            crossed_array[3] = new Point2D(b.getX() + YshapeHandler.yGetStrokeOcupation(this), b.getY());
+            crossed_array[0] = new Point2D(a.getX() - stroke_ocupation, a.getY());
+            crossed_array[1] = new Point2D(b.getX() - stroke_ocupation, b.getY());
+            crossed_array[2] = new Point2D(a.getX() + stroke_ocupation, a.getY());
+            crossed_array[3] = new Point2D(b.getX() + stroke_ocupation, b.getY());
             
         }else{
             //an almost general case :)
@@ -360,7 +387,7 @@ public class Poligono extends Polygon implements Forma{
             double inverse_m = -1/m;//coeficiente da reta perpendicular a reta criada pelos 2 pontos
 
             //do a sistem to discover the 2 points of a possible RETA of the stroke
-            double complement = YshapeHandler.yGetStrokeOcupation(this)/Math.sqrt(1+(inverse_m * inverse_m)); //+/- result
+            double complement = stroke_ocupation/Math.sqrt(1+(inverse_m * inverse_m)); //+/- result
             
             //the 4 possible points for the RETA of the stroke calculated by the sistem (+/- because it is x²)
             double a1x = a.getX() + complement;
@@ -381,29 +408,4 @@ public class Poligono extends Polygon implements Forma{
         
         return crossed_array;
     }
-    
-    /*private double[] reta_paralela(Point2D a, Point2D b){
-        double m = 0;
-        double n = 0;
-
-        m = (b.getY() - a.getY()) / (b.getX() - a.getX());// coeficiente da reta criada pelos 2 pontos
-
-        double inverse_m = -1/m;//coeficiente da reta perpendicular a reta criada pelos 2 pontos
-
-        //do a sistem to discover the 2 points of a possible RETA of the stroke
-        double complement = (YshapeHandler.yGetStrokeOcupation(this)/2)/Math.sqrt(1+(inverse_m * inverse_m)); //+/- result
-
-        //the 2 possible points for the RETA of the stroke calculated by the sistem (+/- because it is x²)
-        double x1 = a.getX() + complement;
-        double y1 = inverse_m * (x1 - a.getX()) + a.getY();
-        double x2 = a.getX() - complement;
-        double y2 = inverse_m * (x2 - a.getX()) + a.getY();
-
-        double n1 = -m * x1 + y1;
-        double n2 = -m * x2 + y2;
-
-        //retorna os m's e n's para comparar com as proximas retas que vierem
-        double arr[] = {m, n1, n2};
-        return arr;
-    }*/
 }

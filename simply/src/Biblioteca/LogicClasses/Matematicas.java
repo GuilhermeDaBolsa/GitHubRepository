@@ -1,5 +1,7 @@
 package Biblioteca.LogicClasses;
 
+import javafx.geometry.Point2D;
+
     public class Matematicas {
 
     /**
@@ -96,6 +98,13 @@ package Biblioteca.LogicClasses;
     
     public static double hypotenuse(double x, double y){
         return Math.sqrt(x * x + y * y);
+    }
+    
+    public static double calculate_angle(Point2D a, Point2D b, Point2D c){
+        double angle = Math.atan2((c.getX() - b.getX()) * (b.getY() - a.getY()) - (c.getY() - b.getY()) * (b.getX() - a.getX()),
+                (c.getX() - b.getX()) * (b.getX() - a.getX()) + (c.getY() - b.getY()) * (b.getY() - a.getY()));
+        
+        return 180 + (angle / Math.PI * 180);
     }
 }
 

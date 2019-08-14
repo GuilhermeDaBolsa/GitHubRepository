@@ -8,14 +8,14 @@ import javafx.scene.shape.StrokeType;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
+import javafx.scene.transform.Rotate;
 
-public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM METODOS EM COMUM....
+public class Retangulo extends Rectangle implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
-    
-    public Retangulo(){
-        //fazer um standard? atribuir coisas com base no nodo pai? só bota qlcr coisa? deixar em branco?
-    }
+    public Rotate yRotation = new Rotate(0);
+    private double oldpX = 0;
+    private double oldpY = 0;
     
     public Retangulo(double largura, double altura){
         this(largura, altura, Color.BLACK);
@@ -136,6 +136,34 @@ public class Retangulo extends Rectangle implements Forma{//TODAS AS FORMAS TEM 
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);
+    }
+    
+    
+    
+    //----------------------------- ROTATE METHODS -----------------------------\\
+    
+    @Override
+    public void ySetRotate(double angle, double pivoX, double pivoY){
+        if(getTransforms().remove(yRotation)){
+            ySetTranslateX(oldpX, 0.5);
+            ySetTranslateY(oldpY, 0.5);
+        }
+        
+        double X = yGetTranslateX(0.5) - yGetTranslateX(pivoX);
+        double Y = yGetTranslateY(0.5) - yGetTranslateY(pivoY);
+        double newX = X * Math.cos(Math.toRadians(angle)) - Y * Math.sin(Math.toRadians(angle)) + yGetTranslateX(pivoX);
+        double newY = X * Math.sin(Math.toRadians(angle)) + Y * Math.cos(Math.toRadians(angle)) + yGetTranslateY(pivoY);
+        
+        oldpX = yGetTranslateX(0.5);
+        oldpY = yGetTranslateY(0.5);
+        
+        ySetTranslateX(newX, 0.5);
+        ySetTranslateY(newY, 0.5);
+            
+        yRotation.setAngle(angle);
+        yRotation.setPivotX(yGetWidth(false)/2);
+        yRotation.setPivotY(yGetHeight(false)/2);
+        getTransforms().add(yRotation);
     }
     
     

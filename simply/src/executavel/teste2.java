@@ -3,6 +3,7 @@ package executavel;
 import Biblioteca.BasicObjects.Formas.Circulo;
 import Biblioteca.BasicObjects.Formas.Linha;
 import Biblioteca.BasicObjects.Formas.Poligono;
+import Biblioteca.BasicObjects.Formas.Retangulo;
 import Biblioteca.BasicObjects.Formas.Texto;
 import Biblioteca.OrganizadoresDeNodos.Caixa;
 import javafx.application.Application;
@@ -17,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
 public class teste2 extends Application {
@@ -33,11 +35,15 @@ public class teste2 extends Application {
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
         
+        Retangulo as = new Retangulo(200, 150);
+        as.setTranslateX(300);
+        as.setTranslateY(300);
+        
         Poligono p = new Poligono(
-                0, 0,
-                100, 0,
                 100, 100,
-                0, 100
+                300, 105,
+                500, 100,
+                500, 300
         );
         p.setFill(Color.ALICEBLUE);
         p.ySetStroke(10.0, Color.BLACK, StrokeType.OUTSIDE, true);
@@ -46,15 +52,15 @@ public class teste2 extends Application {
         Circulo b = new Circulo(4);
         Circulo c = new Circulo(4);
         Circulo d = new Circulo(4);
-        Circulo o = new Circulo(3);
+        Circulo o = new Circulo(3, Color.RED);
         
         o.ySetTranslateX(p.yGetTranslateX(0.5), 0.5);
         o.ySetTranslateY(p.yGetTranslateY(0.5), 0.5);
         
-        a.ySetPosition(p.getTranslateX(), p.getTranslateY(), 0.5, 0.5);
-        b.ySetPosition(100 + p.getTranslateX(), p.getTranslateY(), 0.5, 0.5);
-        c.ySetPosition(100 + p.getTranslateX(), 100 + p.getTranslateY(), 0.5, 0.5);
-        d.ySetPosition(p.getTranslateX(), 100 + p.getTranslateY(), 0.5, 0.5);
+        a.ySetPosition(100+p.getTranslateX(), 100+p.getTranslateY(), 0.5, 0.5);
+        b.ySetPosition(300 + p.getTranslateX(), 105+p.getTranslateY(), 0.5, 0.5);
+        c.ySetPosition(500 + p.getTranslateX(), 100 + p.getTranslateY(), 0.5, 0.5);
+        d.ySetPosition(500+p.getTranslateX(), 300 + p.getTranslateY(), 0.5, 0.5);
         
         a.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -151,20 +157,22 @@ public class teste2 extends Application {
             if(event.isSecondaryButtonDown()){
                 p.ySetTranslateX(0, 0);
                 p.ySetTranslateY(0, 0);
-                o.ySetTranslateX(p.yGetTranslateX(0.5), 0.5);
-                o.ySetTranslateY(p.yGetTranslateY(0.5), 0.5);
-                //System.out.println(p.yOutsideStrokeOcupation.toString());
-                //p.setRotate(p.getRotate()-90);
+                //o.ySetTranslateX(p.yGetTranslateX(0), 0.5);
+                //o.ySetTranslateY(p.yGetTranslateY(0), 0.5);
+                //as.ySetRotate(as.yRotation.getAngle()-10, 1, 1);
+            }else{
+                //as.ySetRotate(as.yRotation.getAngle() + 10, 0.5, 0.5);
             }
                 
             //System.gc();
         });
+        
         //TEXTO:
         //height ainda ta erradinha, os 70% (um poco mais) é real????
         //falta os setMaxWidth e height e mudar o codigo pra aguenta eles.
         //os reajusta tamanho automatico da caixa ta meio quebrado
         
-        teste.getChildren().addAll(p, a, b, c, d, o);
+        teste.getChildren().addAll(p, a, b, c, d, o, as);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");

@@ -80,7 +80,10 @@ public class Texto extends Text implements Forma {
         line_height = text_size[1] / text_size[2];
     }
 
+    
+    
     //----------------------------- SIZE METHODS -----------------------------\\
+    
     @Override
     public double yGetWidth(boolean plusStroke) {
         double width = this.width.get();
@@ -184,7 +187,10 @@ public class Texto extends Text implements Forma {
         ySetFont(font);
     }
 
+    
+    
     //----------------------------- TRANSLATE METHODS -----------------------------\\
+    
     @Override
     public double yGetTranslateX(double pivo) {
         return getTranslateX() + yGetWidth(true) * pivo;
@@ -211,13 +217,27 @@ public class Texto extends Text implements Forma {
         ySetTranslateY(Y, pivoY);
     }
 
+    
+    
     //----------------------------- STROKE METHODS -----------------------------\\
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);//DEVE TA ERRADO ISSO JSUS
     }
 
+    
+    
+    //----------------------------- ROTATE METHODS -----------------------------\\
+    
+    @Override
+    public void ySetRotate(double angle, double pivoX, double pivoY){
+        
+    }
+    
+    
+    
     //----------------------------- SCALE METHODS -----------------------------\\
+    
     @Override
     public void ySetScaleX(double scale, boolean correct_location) {
         YshapeHandler.ySetScaleX(this, scale, correct_location);
@@ -248,6 +268,8 @@ public class Texto extends Text implements Forma {
         YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
     }
 
+    
+    
     //----------------------------- BIND/LISTENER METHODS -----------------------------\\
     
     @Override
@@ -456,6 +478,8 @@ public class Texto extends Text implements Forma {
             ySetTranslateY(where_wasY, 0);
         }
     }
+    
+    
     
     //--------------------------------------------------\\achar um lugar melhor pra esses metodos :T
     

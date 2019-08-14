@@ -14,10 +14,6 @@ public class Linha extends Line implements Forma{//COLOCAR NAS FORMAS OS EVENTOS
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
     
-    public Linha(Linha line){
-        this((Line) line);
-    }
-    
     public Linha(Line line){
         this(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY(), line.getStrokeWidth(), line.getStroke());
     }
@@ -189,6 +185,15 @@ public class Linha extends Line implements Forma{//COLOCAR NAS FORMAS OS EVENTOS
         
         ySetTranslateX(where_wasX, 0);
         ySetTranslateY(where_wasY, 0);
+    }
+    
+    
+    
+    //----------------------------- ROTATE METHODS -----------------------------\\
+    
+    @Override
+    public void ySetRotate(double angle, double pivoX, double pivoY){
+        
     }
     
     

@@ -100,7 +100,7 @@ public interface Forma{
     
     //----------------------------- ROTATE METHODS -----------------------------\\
     
-    //public void ySetRotate(double pivo, double angle);
+    public void ySetRotate(double angle, double pivoX, double pivoY);
     
     
     //----------------------------- STROKE METHODS -----------------------------\\

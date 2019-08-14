@@ -25,10 +25,10 @@ public class Poligono extends Polygon implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
     
-    DoubleProperty left_X = new SimpleDoubleProperty(0);
-    DoubleProperty right_X = new SimpleDoubleProperty(0);
-    DoubleProperty up_Y = new SimpleDoubleProperty(0);
-    DoubleProperty down_Y = new SimpleDoubleProperty(0);
+    public DoubleProperty yLeft_X = new SimpleDoubleProperty(0);
+    public DoubleProperty yRight_X = new SimpleDoubleProperty(0);
+    public DoubleProperty yUp_Y = new SimpleDoubleProperty(0);
+    public DoubleProperty yDown_Y = new SimpleDoubleProperty(0);
     
     /*public Poligono(int sides){
         
@@ -52,24 +52,24 @@ public class Poligono extends Polygon implements Forma{
     }
     
     protected void calc_points(){
-        left_X.setValue(getPoints().get(0));
-        right_X.setValue(getPoints().get(0));
-        up_Y.setValue(getPoints().get(1));
-        down_Y.setValue(getPoints().get(1));
+        yLeft_X.setValue(getPoints().get(0));
+        yRight_X.setValue(getPoints().get(0));
+        yUp_Y.setValue(getPoints().get(1));
+        yDown_Y.setValue(getPoints().get(1));
         for (int i = 0; i < getPoints().size(); i+=2) {
             double X = getPoints().get(i);
             double Y = getPoints().get(i+1);
             
-            if(X < left_X.get()){
-                left_X.setValue(X);
-            }else if(X > right_X.get()){
-                right_X.setValue(X);
+            if(X < yLeft_X.get()){
+                yLeft_X.setValue(X);
+            }else if(X > yRight_X.get()){
+                yRight_X.setValue(X);
             }
             
-            if(Y < up_Y.get()){
-                up_Y.setValue(Y);
-            }else if(Y > down_Y.get()){
-                down_Y.setValue(Y);
+            if(Y < yUp_Y.get()){
+                yUp_Y.setValue(Y);
+            }else if(Y > yDown_Y.get()){
+                yDown_Y.setValue(Y);
             }
         }
     }
@@ -79,11 +79,11 @@ public class Poligono extends Polygon implements Forma{
     //----------------------------- SIZE METHODS -----------------------------\\
 
     /**
-     * @return The width based just in the points (right_X - left_X).
+     * @return The width based just in the points (yRight_X - yLeft_X).
      */
     @Override
     public double yGetWidth(boolean plusStroke){
-        double width = right_X.get() - left_X.get();
+        double width = yRight_X.get() - yLeft_X.get();
         if(plusStroke)
             width += yOutsideStrokeOcupation.WIDTH;
         
@@ -91,11 +91,11 @@ public class Poligono extends Polygon implements Forma{
     }
     
     /**
-     * @return The height based just in the points (down_Y - up_Y).
+     * @return The height based just in the points (yDown_Y - yUp_Y).
      */
     @Override
     public double yGetHeight(boolean plusStroke){
-        double height = down_Y.get() - up_Y.get();
+        double height = yDown_Y.get() - yUp_Y.get();
         if(plusStroke)
             height += yOutsideStrokeOcupation.HEIGHT;
         
@@ -119,9 +119,9 @@ public class Poligono extends Polygon implements Forma{
         
         for (int i = 0; i < getPoints().size(); i+=2) {
             double X = getPoints().get(i);
-            getPoints().set(i, X + ((X - left_X.get())/yGetWidth(false)) * increment);
+            getPoints().set(i, X + ((X - yLeft_X.get())/yGetWidth(false)) * increment);
         }
-        right_X.set(right_X.get() + increment);
+        yRight_X.set(yRight_X.get() + increment);
     }
 
     @Override
@@ -131,9 +131,9 @@ public class Poligono extends Polygon implements Forma{
         
         for (int i = 1; i < getPoints().size(); i+=2) {
             double Y = getPoints().get(i);
-            getPoints().set(i, Y + ((Y - up_Y.get())/yGetHeight(false)) * increment);
+            getPoints().set(i, Y + ((Y - yUp_Y.get())/yGetHeight(false)) * increment);
         }
-        down_Y.set(down_Y.get() + increment);
+        yDown_Y.set(yDown_Y.get() + increment);
     }
 
     
@@ -142,22 +142,22 @@ public class Poligono extends Polygon implements Forma{
     
     @Override
     public double yGetTranslateX(double pivo) {
-        return getTranslateX() - yOutsideStrokeOcupation.LEFT + left_X.get() + yGetWidth(true) * pivo;
+        return getTranslateX() - yOutsideStrokeOcupation.LEFT + yLeft_X.get() + yGetWidth(true) * pivo;
     }
 
     @Override
     public double yGetTranslateY(double pivo) {
-        return getTranslateY() - yOutsideStrokeOcupation.UP + up_Y.get() + yGetHeight(true) * pivo;
+        return getTranslateY() - yOutsideStrokeOcupation.UP + yUp_Y.get() + yGetHeight(true) * pivo;
     }
     
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        YshapeHandler.setTranslateX(this, position - left_X.get() + yOutsideStrokeOcupation.LEFT, pivo);
+        YshapeHandler.setTranslateX(this, position - yLeft_X.get() + yOutsideStrokeOcupation.LEFT, pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {
-        YshapeHandler.setTranslateY(this, position - up_Y.get() + yOutsideStrokeOcupation.UP, pivo);
+        YshapeHandler.setTranslateY(this, position - yUp_Y.get() + yOutsideStrokeOcupation.UP, pivo);
     }
     
     @Override
@@ -182,6 +182,15 @@ public class Poligono extends Polygon implements Forma{
             ySetTranslateX(where_wasX, 0);
             ySetTranslateY(where_wasY, 0);
         }
+    }
+    
+    
+    
+    //----------------------------- ROTATE METHODS -----------------------------\\
+    
+    @Override
+    public void ySetRotate(double angle, double pivoX, double pivoY){
+        
     }
     
     
@@ -249,12 +258,12 @@ public class Poligono extends Polygon implements Forma{
     
     @Override
     public DoubleBinding yWidthBind(boolean stroke_included){
-        return YshapeHandler.yWidthBind(right_X.subtract(left_X), stroke_included ? yOutsideStrokeOcupation : null);
+        return YshapeHandler.yWidthBind(yRight_X.subtract(yLeft_X), stroke_included ? yOutsideStrokeOcupation : null);
     }  
     
     @Override
     public DoubleBinding yHeightBind(boolean stroke_included){
-        return YshapeHandler.yHeightBind(down_Y.subtract(up_Y), stroke_included ? yOutsideStrokeOcupation : null);
+        return YshapeHandler.yHeightBind(yDown_Y.subtract(yUp_Y), stroke_included ? yOutsideStrokeOcupation : null);
     }
     
     @Override
@@ -287,10 +296,10 @@ public class Poligono extends Polygon implements Forma{
         
         yCircularArray<Double> cPoints = new yCircularArray(points);
         
-        double left = left_X.get();
-        double right = right_X.get();
-        double up = up_Y.get();
-        double down = down_Y.get();
+        double left = yLeft_X.get();
+        double right = yRight_X.get();
+        double up = yUp_Y.get();
+        double down = yDown_Y.get();
         System.out.println("AAAAAAAAAAAAa");
         for (int i = 0; i < points.length; i+=2) {
             Point2D pN1 = new Point2D(cPoints.get(i-2), cPoints.get(i-1));
@@ -337,7 +346,7 @@ public class Poligono extends Polygon implements Forma{
             }
         }
         
-        yOutsideStrokeOcupation = new YstrokeOcupation(left_X.get() - left, right - right_X.get(), up_Y.get() - up, down - down_Y.get());
+        yOutsideStrokeOcupation = new YstrokeOcupation(yLeft_X.get() - left, right - yRight_X.get(), yUp_Y.get() - up, down - yDown_Y.get());
     }
     
     private Point2D calculateInterceptionPoint(Point2D p1, Point2D p2, Point2D d1, Point2D d2) {
@@ -349,17 +358,20 @@ public class Poligono extends Polygon implements Forma{
         double B2 = d2.getX() - d1.getX();
         double C2 = d1.getX() * d2.getY() - d2.getX() * d1.getY();
         
+        //System.out.println(A1 + "x + " + B1 + "y +" + C1+ " = 0");
+        //System.out.println(A2 + "x + " + B2 + "y +" + C2+ " = 0");
+        
         if(A2 * B1 - A1 * B2 == 0)
             return null;
         
-        double X = 0;
-        double Y = (A1 * C2 - A2 * C1) / (A2 * B1 - A1 * B2);//TA ERRADO O METODO QUANDO ELAS SAO QUASE PARALELAS (PONTOS ALINHADOS DA PROBLEMA)
+        double X;
+        double Y = (A1 * C2 - A2 * C1) / (A2 * B1 - A1 * B2);//TA ERRADO O METODO QUANDO ELAS SAO QUASE PARALELAS (PONTOS ALINHADOS DA PROBLEMA) | tenho minhas duvidas
         
         if(A1 == 0)
             X = (-B2 * Y - C2) / A2;
         else
             X = (-B1 * Y - C1) / A1;
-        
+        System.out.println(X + "         " + Y);
         return new Point2D(X, Y);
     }
     
@@ -405,7 +417,7 @@ public class Poligono extends Polygon implements Forma{
             crossed_array[2] = new Point2D(a2x, a2y);
             crossed_array[3] = new Point2D(b2x, b2y);
         }
-        
+
         return crossed_array;
     }
 }

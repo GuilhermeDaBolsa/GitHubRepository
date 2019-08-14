@@ -13,10 +13,6 @@ public class Circulo extends Circle implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
     
-    public Circulo(){
-        //fazer um standard? atribuir coisas com base no nodo pai? só bota qlcr coisa? deixar em branco?
-    }
-    
     public Circulo(double raio){
         this(raio, Color.BLACK, 0, Color.BLACK);
     }
@@ -145,6 +141,15 @@ public class Circulo extends Circle implements Forma{
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
         YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);
+    }
+    
+    
+    
+    //----------------------------- ROTATE METHODS -----------------------------\\
+    
+    @Override
+    public void ySetRotate(double angle, double pivoX, double pivoY){
+        
     }
     
     

@@ -10,6 +10,7 @@ import javafx.scene.shape.StrokeType;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
+import Biblioteca.LogicClasses.Matematicas;
 import static Biblioteca.LogicClasses.Matematicas.calculate_angle;
 import static Biblioteca.LogicClasses.Matematicas.hypotenuse;
 import static Biblioteca.LogicClasses.Matematicas.modulo;
@@ -300,20 +301,40 @@ public class Poligono extends Polygon implements Forma{
         double right = yRight_X.get();
         double up = yUp_Y.get();
         double down = yDown_Y.get();
-        System.out.println("AAAAAAAAAAAAa");
         for (int i = 0; i < points.length; i+=2) {
             Point2D pN1 = new Point2D(cPoints.get(i-2), cPoints.get(i-1));
             Point2D p0 = new Point2D(cPoints.get(i), cPoints.get(i+1));
             Point2D p1 = new Point2D(cPoints.get(i+2), cPoints.get(i+3));
             Point2D array[] = new Point2D[4];
+            double angle = calculate_angle(pN1, p0, p1);
+            boolean nulo = false;
             
-            if(calculate_angle(pN1, p0, p1) >= 11.475){
+            if(angle >= 11.475){
                 Point2D crossed_array_r1[] = border_points(pN1, p0);
                 Point2D crossed_array_r2[] = border_points(p0, p1);
 
-                for (int j = 0; j < 3; j+=2)//little complicated logic to store the 4 crossing points of the border lines
-                    for (int k = 0; k < 3; k+=2) 
+                for (int j = 0; j < 3; j+=2){//little complicated logic to store the 4 crossing points of the border lines
+                    for (int k = 0; k < 3; k+=2){
                         array[j + k/2] = calculateInterceptionPoint(crossed_array_r1[j], crossed_array_r1[j + 1], crossed_array_r2[k], crossed_array_r2[k + 1]);
+                        if(array[j + k/2] == null)
+                            nulo = true;
+                    }
+                }
+                if(!nulo && angle > 120 && modulo(angle - 180) < 20){//20 OMFGD //FIND THE 2 MORE DISTANCE ANGLES AND EXCLUDE THEM
+                    double distance = 0;
+                    int index1 = 0;
+                    int index2 = 1;
+                    for (int j = 0; j < 2; j++) {
+                        for (int k = 0; k < array.length; k++) {
+                            if(array[j].distance(array[k]) > distance){
+                                distance = array[j].distance(array[k]);
+                                index1 = j;
+                                index2 = k;
+                            }
+                        }
+                    }
+                    array[index1] = array[index2] = null;
+                }
             }else{
                 Point2D nP = new Point2D((pN1.getX() + p1.getX())/2, (pN1.getY() + p1.getY())/2);
                 double height = modulo(nP.getY() - p0.getY());
@@ -358,20 +379,17 @@ public class Poligono extends Polygon implements Forma{
         double B2 = d2.getX() - d1.getX();
         double C2 = d1.getX() * d2.getY() - d2.getX() * d1.getY();
         
-        //System.out.println(A1 + "x + " + B1 + "y +" + C1+ " = 0");
-        //System.out.println(A2 + "x + " + B2 + "y +" + C2+ " = 0");
-        
         if(A2 * B1 - A1 * B2 == 0)
             return null;
         
         double X;
-        double Y = (A1 * C2 - A2 * C1) / (A2 * B1 - A1 * B2);//TA ERRADO O METODO QUANDO ELAS SAO QUASE PARALELAS (PONTOS ALINHADOS DA PROBLEMA) | tenho minhas duvidas
+        double Y = (A1 * C2 - A2 * C1) / (A2 * B1 - A1 * B2);
         
         if(A1 == 0)
             X = (-B2 * Y - C2) / A2;
         else
             X = (-B1 * Y - C1) / A1;
-        System.out.println(X + "         " + Y);
+
         return new Point2D(X, Y);
     }
     

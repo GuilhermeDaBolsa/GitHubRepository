@@ -320,7 +320,7 @@ public class Poligono extends Polygon implements Forma{
                             nulo = true;
                     }
                 }
-                if(!nulo && angle > 120 && modulo(angle - 180) < 20){//20 OMFGD //FIND THE 2 MORE DISTANCE ANGLES AND EXCLUDE THEM
+                if(!nulo && modulo(angle - 180) < 90){//<90 because in 90º the 4 points forms a perfect square.
                     double distance = 0;
                     int index1 = 0;
                     int index2 = 1;

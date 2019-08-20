@@ -22,28 +22,29 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
 public class teste2 extends Application {
-    double paX;
-    double paY;
-    double pbX;
-    double pbY;
-    double pcX;
-    double pcY;
-    double pdX;
-    double pdY;
-
+    double paX = 300;
+    double paY = 300;
+    double pbX = 290;
+    double pbY = 290;
+    double pcX = 500;
+    double pcY = 300;
+    double pdX = 290;
+    double pdY = 310;
+    
     @Override
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
         
         Retangulo as = new Retangulo(200, 150);
-        as.setTranslateX(300);
-        as.setTranslateY(300);
+        as.setFill(Color.RED);
+        as.ySetTranslateX(0, 0.5);
+        as.ySetTranslateY(0, 0.5);
         
         Poligono p = new Poligono(
-                100, 100,
-                300, 105,
-                500, 100,
-                500, 300
+                paX, paY,
+                pbX, pbY,
+                pcX, pcY,
+                pdX, pdY
         );
         p.setFill(Color.ALICEBLUE);
         p.ySetStroke(10.0, Color.BLACK, StrokeType.OUTSIDE, true);
@@ -57,10 +58,10 @@ public class teste2 extends Application {
         o.ySetTranslateX(p.yGetTranslateX(0.5), 0.5);
         o.ySetTranslateY(p.yGetTranslateY(0.5), 0.5);
         
-        a.ySetPosition(100+p.getTranslateX(), 100+p.getTranslateY(), 0.5, 0.5);
-        b.ySetPosition(300 + p.getTranslateX(), 105+p.getTranslateY(), 0.5, 0.5);
-        c.ySetPosition(500 + p.getTranslateX(), 100 + p.getTranslateY(), 0.5, 0.5);
-        d.ySetPosition(500+p.getTranslateX(), 300 + p.getTranslateY(), 0.5, 0.5);
+        a.ySetPosition(paX + p.getTranslateX(), paY + p.getTranslateY(), 0.5, 0.5);
+        b.ySetPosition(pbX + p.getTranslateX(), pbY + p.getTranslateY(), 0.5, 0.5);
+        c.ySetPosition(pcX + p.getTranslateX(), pcY + p.getTranslateY(), 0.5, 0.5);
+        d.ySetPosition(pdX + p.getTranslateX(), pdY + p.getTranslateY(), 0.5, 0.5);
         
         a.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -172,7 +173,7 @@ public class teste2 extends Application {
         //falta os setMaxWidth e height e mudar o codigo pra aguenta eles.
         //os reajusta tamanho automatico da caixa ta meio quebrado
         
-        teste.getChildren().addAll(p, a, b, c, d, o, as);
+        teste.getChildren().addAll(as, p, a, b, c, d, o);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");

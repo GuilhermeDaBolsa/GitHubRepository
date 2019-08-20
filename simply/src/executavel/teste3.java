@@ -25,44 +25,35 @@ import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
-public class teste2_1_1 extends Application {
+public class teste3 extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        double X = 200;
+        double Y = 200;
+        
         Pane teste = new Pane();
         
-        Circle a = new Circle(2, Color.RED);
-        a.setDisable(true);
-        Texto b = new Texto("AAA q saco mano");
+        Circulo p = new Circulo(3, Color.RED);
+        p.ySetTranslateX(X, 0.5);
+        p.ySetTranslateY(Y, 0.5);
         
-        BarraDeslisante k = new BarraDeslisante(0, 100, 10, Color.BLACK, new Caixa(10, 10, Color.WHITE, 2, Color.BLACK), 50, 0, 250);
+        Retangulo r = new Retangulo(150, 100, Color.CYAN, 3, Color.BLACK);
+        teste.widthProperty().addListener((observable, oldValue, newValue) -> {
+            int inc = 1;
+            if(newValue.doubleValue() < oldValue.doubleValue())
+                inc = -1;
+               
+            r.ySetRotate(inc, X, Y);
+        });
         
-        k.ySetTranslateX(400, 0);
-        k.ySetTranslateY(400, 0);
         
-        
-        //ver p faz esse baguiu do bind text 
-        k.yDisplayValue(false);
-        k.text.yBindTranslateX("SliderTextTranslationX", k.sliderXposition, 0);
-        k.text.yBindTranslateY("SliderTextTranslationY", k.sliderYposition, 0);
-        k.text.setDisable(true);
-        a.layoutXProperty().bind(k.sliderXposition.add(400));
-        a.layoutYProperty().bind(k.sliderYposition.add(400));
-        
-        b.ySetTranslateX(0, 0);
-        b.ySetTranslateY(0, 0);
-        b.layoutXProperty().bind(k.sliderXposition);
-        b.layoutYProperty().bind(k.sliderYposition);
-
-        
-        teste.getChildren().addAll(k, a, b);
+        teste.getChildren().addAll(r, p);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");
         primaryStage.setScene(scene);
         primaryStage.show();
-        k.ySetValue(100);
-        
     }
 
     public static void main(String[] args) {

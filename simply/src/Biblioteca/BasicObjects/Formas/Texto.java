@@ -30,7 +30,7 @@ public class Texto extends Text implements Forma {
     
     private DoubleProperty width = new SimpleDoubleProperty(0);
     private DoubleProperty height = new SimpleDoubleProperty(0);
-    public DoubleProperty MAX_WIDTH  = new SimpleDoubleProperty(-1);
+    public DoubleProperty MAX_WIDTH  = new SimpleDoubleProperty(-1);//ESSES MAX VAO NAS OUTRAS FORMAS TBM??
     public DoubleProperty MAX_HEIGHT  = new SimpleDoubleProperty(-1);
     public double line_height;
     

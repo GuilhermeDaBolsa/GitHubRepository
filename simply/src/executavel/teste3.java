@@ -44,12 +44,21 @@ public class teste3 extends Application {
                 200, 200,
                 400, 400
         );
+        Linha l = new Linha(100, 25, 3, Color.BLUEVIOLET);
+        l.ySetTranslateX(100, 0);
+        l.ySetTranslateY(200, 0);
+        
         teste.widthProperty().addListener((observable, oldValue, newValue) -> {
-            r.ySetRotate(teste.getWidth(), X, Y);
+            int inc = 1;
+            if(newValue.doubleValue() < oldValue.doubleValue())
+                inc = -1;
+            
+            r.yRotateBy(inc*5, X, Y);
+            l.yRotateBy(inc * 3, X, Y);
         });
         
         
-        teste.getChildren().addAll(r, p);
+        teste.getChildren().addAll(r, l, p);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");

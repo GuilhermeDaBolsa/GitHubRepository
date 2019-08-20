@@ -155,7 +155,7 @@ public class Linha extends Line implements Forma{//COLOCAR NAS FORMAS OS EVENTOS
     
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        YshapeHandler.setTranslateX(this, position - getStartX() + yOutsideStrokeOcupation.LEFT, pivo);
+        YshapeHandler.setTranslateX(this, position - getStartX() + yOutsideStrokeOcupation.LEFT, pivo);//MUDAR O SET TrANSLATE DA LINHA E DO POLIGONO, PRA MECHER NOS PONTOS DIRETAMENTE
     }
 
     @Override
@@ -198,6 +198,21 @@ public class Linha extends Line implements Forma{//COLOCAR NAS FORMAS OS EVENTOS
         YshapeHandler.ySetRotate(this, yRotation, angle, getStartX() + pivoX, getStartY() + pivoY);
     }
     
+    public void yRotateBy(double angle, double pivoX, double pivoY){
+        double points[] = {getStartX(), getStartY(), getEndX(), getEndY()};
+        
+        for (int i = 0; i < points.length; i+=2) {
+            double X = points[i] - pivoX;
+            double Y = points[i + 1] - pivoY;
+            double newX = X * Math.cos(Math.toRadians(angle)) - Y * Math.sin(Math.toRadians(angle)) + pivoX;
+            double newY = X * Math.sin(Math.toRadians(angle)) + Y * Math.cos(Math.toRadians(angle)) + pivoY;
+
+            points[i] = newX;
+            points[i + 1] = newY;
+        }
+        setPontoInicial(points[0], points[1]);
+        setPontoFinal(points[2], points[3]);
+    }
     
     
     //----------------------------- SCALE METHODS -----------------------------\\

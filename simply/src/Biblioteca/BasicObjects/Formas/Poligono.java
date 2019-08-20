@@ -195,6 +195,19 @@ public class Poligono extends Polygon implements Forma{
         YshapeHandler.ySetRotate(this, yRotation, angle, yLeft_X.get() + pivoX, yUp_Y.get() + pivoY);
     }
     
+    public void yRotateBy(double angle, double pivoX, double pivoY){
+        for (int i = 0; i < getPoints().size(); i+=2) {
+            double X = getPoints().get(i) - pivoX;
+            double Y = getPoints().get(i + 1) - pivoY;
+            double newX = X * Math.cos(Math.toRadians(angle)) - Y * Math.sin(Math.toRadians(angle)) + pivoX;
+            double newY = X * Math.sin(Math.toRadians(angle)) + Y * Math.cos(Math.toRadians(angle)) + pivoY;
+
+            getPoints().set(i, newX);
+            getPoints().set(i + 1, newY);
+        }
+        change_in_points();
+    }
+    
     
     
     //----------------------------- SCALE METHODS -----------------------------\\

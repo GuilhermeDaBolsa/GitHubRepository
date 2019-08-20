@@ -14,6 +14,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.transform.Rotate;
 
 //FAZER UM SETMAXWIDTH e SETMAXHEIGHT, que nem o label.
 //O TEXTO GUARDA SEMPRE UM ESPAÇO PROS ACENTOS (EU ACHO), MESMO QUE ELES NAO EXISTAO, ENTAO O TEXTO PODE SER MAIS ALTO DO QUE REALMENTE APARENTA...
@@ -21,6 +22,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 public class Texto extends Text implements Forma {
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
+    public Rotate yRotation = new Rotate(0);
     
     protected String texto;
     public String font_path = null;
@@ -231,7 +233,7 @@ public class Texto extends Text implements Forma {
     
     @Override
     public void ySetRotate(double angle, double pivoX, double pivoY){
-        
+        YshapeHandler.ySetRotate(this, yRotation, angle, pivoX, pivoY);
     }
     
     

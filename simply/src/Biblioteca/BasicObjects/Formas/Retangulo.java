@@ -141,21 +141,8 @@ public class Retangulo extends Rectangle implements Forma{
     //----------------------------- ROTATE METHODS -----------------------------\\
     
     @Override
-    public void ySetRotate(double angle, double pivoX, double pivoY){//there is an aceleration in the position :/ it is setRotation, not addRotation!
-        getTransforms().remove(yRotation);
-        
-        double X = yGetTranslateX(0.5) - pivoX;
-        double Y = yGetTranslateY(0.5) - pivoY;
-        double newX = X * Math.cos(Math.toRadians(angle)) - Y * Math.sin(Math.toRadians(angle)) + pivoX;
-        double newY = X * Math.sin(Math.toRadians(angle)) + Y * Math.cos(Math.toRadians(angle)) + pivoY;
-        
-        ySetTranslateX(newX, 0.5);
-        ySetTranslateY(newY, 0.5);
-
-        yRotation.setAngle(angle);
-        yRotation.setPivotX(yGetWidth(false)/2);
-        yRotation.setPivotY(yGetHeight(false)/2);
-        getTransforms().add(yRotation);
+    public void ySetRotate(double angle, double pivoX, double pivoY){
+        YshapeHandler.ySetRotate(this, yRotation, angle, pivoX, pivoY);
     }
     
     

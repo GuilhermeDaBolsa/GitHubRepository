@@ -8,10 +8,12 @@ import javafx.scene.shape.StrokeType;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
+import javafx.scene.transform.Rotate;
 
 public class Circulo extends Circle implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
+    public Rotate yRotation = new Rotate(0);
     
     public Circulo(double raio){
         this(raio, Color.BLACK, 0, Color.BLACK);
@@ -149,7 +151,7 @@ public class Circulo extends Circle implements Forma{
     
     @Override
     public void ySetRotate(double angle, double pivoX, double pivoY){
-        
+        YshapeHandler.ySetRotate(this, yRotation, angle, pivoX, pivoY);
     }
     
     

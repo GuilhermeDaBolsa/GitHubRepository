@@ -8,8 +8,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
+import javafx.scene.transform.Rotate;
 
 public abstract class YshapeHandler{
+    
+    
+    
+    //----------------------------- TRANSLATE METHODS -----------------------------\\
     
     /**
      * @param shape The shape to be translated.
@@ -27,6 +32,10 @@ public abstract class YshapeHandler{
         shape.setTranslateY(Y - ((Forma) shape).yGetHeight(true) * pivo);
     }
     
+    
+    
+    //----------------------------- STROKE METHODS -----------------------------\\
+
     /**
      * @param shape The shape to get it's stroke width.
      * @return How much does the stroke occupie outside the shape, use it for regular shapes (rectangle, circle, etc)
@@ -65,6 +74,32 @@ public abstract class YshapeHandler{
             ((Forma) shape).ySetTranslateY(where_wasY, 0);
         }
     }
+    
+    
+    
+    //----------------------------- ROTATE METHODS -----------------------------\\
+    
+    public static void ySetRotate(Shape shape, Rotate rotation, double angle, double pivoX, double pivoY){
+        shape.getTransforms().remove(rotation);
+        
+        double newAngle = angle - rotation.getAngle();
+        rotation.setAngle(angle);
+        double X = ((Forma) shape).yGetTranslateX(0.5) - pivoX;
+        double Y = ((Forma) shape).yGetTranslateY(0.5) - pivoY;
+        double newX = X * Math.cos(Math.toRadians(newAngle)) - Y * Math.sin(Math.toRadians(newAngle)) + pivoX;
+        double newY = X * Math.sin(Math.toRadians(newAngle)) + Y * Math.cos(Math.toRadians(newAngle)) + pivoY;
+        
+        ((Forma) shape).ySetTranslateX(newX, 0.5);
+        ((Forma) shape).ySetTranslateY(newY, 0.5);
+
+        rotation.setPivotX(((Forma) shape).yGetWidth(false)/2);
+        rotation.setPivotY(((Forma) shape).yGetHeight(false)/2);
+        shape.getTransforms().add(rotation);
+    }
+    
+    
+    
+    //----------------------------- SCALE METHODS -----------------------------\\
     
     /**
      * @param shape The shape to be scaled.
@@ -133,6 +168,10 @@ public abstract class YshapeHandler{
         
         yScaleYby(shape, scale, correct_location);
     }
+    
+
+    
+    //----------------------------- BIND/LISTENER METHODS -----------------------------\\
     
     public static void yAddBind(ySimpleMap<String, ObservableValue> map, String bind_name, ObservableValue bind){
         map.add(bind_name, bind);
@@ -241,6 +280,12 @@ public abstract class YshapeHandler{
         System.gc();
     }
     
+    
+    
+    
+    
+    //----------------------------- MISCELANEOUS METHODS -----------------------------\\
+
     
     /**
     * FALHOU NOS TESTES, PARECIA PROMISSOR :(

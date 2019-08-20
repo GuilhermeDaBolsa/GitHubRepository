@@ -29,8 +29,8 @@ public class teste3 extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        double X = 200;
-        double Y = 200;
+        double X = 15;
+        double Y = 103;
         
         Pane teste = new Pane();
         
@@ -40,11 +40,7 @@ public class teste3 extends Application {
         
         Retangulo r = new Retangulo(150, 100, Color.CYAN, 3, Color.BLACK);
         teste.widthProperty().addListener((observable, oldValue, newValue) -> {
-            int inc = 1;
-            if(newValue.doubleValue() < oldValue.doubleValue())
-                inc = -1;
-               
-            r.ySetRotate(inc, X, Y);
+            r.ySetRotate(teste.getWidth(), X, Y);
         });
         
         

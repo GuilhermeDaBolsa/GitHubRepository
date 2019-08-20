@@ -9,10 +9,12 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
+import javafx.scene.transform.Rotate;
 
 public class Linha extends Line implements Forma{//COLOCAR NAS FORMAS OS EVENTOSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
+    public Rotate yRotation = new Rotate(0);
     
     public Linha(Line line){
         this(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY(), line.getStrokeWidth(), line.getStroke());
@@ -193,7 +195,7 @@ public class Linha extends Line implements Forma{//COLOCAR NAS FORMAS OS EVENTOS
     
     @Override
     public void ySetRotate(double angle, double pivoX, double pivoY){
-        
+        YshapeHandler.ySetRotate(this, yRotation, angle, pivoX, pivoY);
     }
     
     

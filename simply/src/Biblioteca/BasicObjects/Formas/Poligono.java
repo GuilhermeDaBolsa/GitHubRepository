@@ -10,12 +10,12 @@ import javafx.scene.shape.StrokeType;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
-import Biblioteca.LogicClasses.Matematicas;
 import static Biblioteca.LogicClasses.Matematicas.calculate_angle;
 import static Biblioteca.LogicClasses.Matematicas.hypotenuse;
 import static Biblioteca.LogicClasses.Matematicas.modulo;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.transform.Rotate;
 
 /**
  * This class is an upgrade of Oracle's polygon class.
@@ -25,6 +25,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 public class Poligono extends Polygon implements Forma{
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
+    public Rotate yRotation = new Rotate(0);
     
     public DoubleProperty yLeft_X = new SimpleDoubleProperty(0);
     public DoubleProperty yRight_X = new SimpleDoubleProperty(0);
@@ -191,7 +192,7 @@ public class Poligono extends Polygon implements Forma{
     
     @Override
     public void ySetRotate(double angle, double pivoX, double pivoY){
-        
+        YshapeHandler.ySetRotate(this, yRotation, angle, pivoX, pivoY);
     }
     
     

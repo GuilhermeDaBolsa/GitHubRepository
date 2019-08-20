@@ -192,7 +192,7 @@ public class Poligono extends Polygon implements Forma{
     
     @Override
     public void ySetRotate(double angle, double pivoX, double pivoY){
-        YshapeHandler.ySetRotate(this, yRotation, angle, pivoX, pivoY);
+        YshapeHandler.ySetRotate(this, yRotation, angle, yLeft_X.get() + pivoX, yUp_Y.get() + pivoY);
     }
     
     

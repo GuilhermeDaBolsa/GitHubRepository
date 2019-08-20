@@ -195,7 +195,7 @@ public class Linha extends Line implements Forma{//COLOCAR NAS FORMAS OS EVENTOS
     
     @Override
     public void ySetRotate(double angle, double pivoX, double pivoY){
-        YshapeHandler.ySetRotate(this, yRotation, angle, pivoX, pivoY);
+        YshapeHandler.ySetRotate(this, yRotation, angle, getStartX() + pivoX, getStartY() + pivoY);
     }
     
     

@@ -17,7 +17,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.transform.Rotate;
 
 //FAZER UM SETMAXWIDTH e SETMAXHEIGHT, que nem o label.
-//O TEXTO GUARDA SEMPRE UM ESPAÇO PROS ACENTOS (EU ACHO), MESMO QUE ELES NAO EXISTAO, ENTAO O TEXTO PODE SER MAIS ALTO DO QUE REALMENTE APARENTA...
+//O TEXTO GUARDA SEMPRE UM ESPAÇO PROS ACENTOS (E PRA SEPARA AS LINHAS), dai a primeira linha é mais alta;
 
 public class Texto extends Text implements Forma {
     public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
@@ -348,7 +348,7 @@ public class Texto extends Text implements Forma {
 
         boolean sucess = false;
         double text_width = simulateTextSize(new_text, getFont().getSize(), stroke_included)[0];
-        if(change_font_size_allowed){//acho que da pra tirar :P, talvez fique melhor
+        if(change_font_size_allowed){//acho que da pra tirar :P, talvez fique melhor MAS DA PRA TESTAR UMA HORA DESSAAAAAAAAASSSSSSSSSSSSSSSSSS
             int actual_font_size = (int) getFont().getSize();
             ySetWidth(width, stroke_included, true);
             int new_font_size = (int) getFont().getSize();

@@ -2,6 +2,7 @@ package executavel;
 
 import Biblioteca.BasicObjects.Formas.Circulo;
 import Biblioteca.BasicObjects.Formas.Linha;
+import Biblioteca.BasicObjects.Formas.Poligono;
 import Biblioteca.BasicObjects.Formas.Retangulo;
 import Biblioteca.BasicObjects.Formas.Texto;
 import Biblioteca.OrganizadoresDeNodos.BarraDeslisante;
@@ -29,8 +30,8 @@ public class teste3 extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        double X = 15;
-        double Y = 103;
+        double X = 200;
+        double Y = 200;
         
         Pane teste = new Pane();
         
@@ -38,7 +39,11 @@ public class teste3 extends Application {
         p.ySetTranslateX(X, 0.5);
         p.ySetTranslateY(Y, 0.5);
         
-        Retangulo r = new Retangulo(150, 100, Color.CYAN, 3, Color.BLACK);
+        Poligono r = new Poligono(
+                150, 100,
+                200, 200,
+                400, 400
+        );
         teste.widthProperty().addListener((observable, oldValue, newValue) -> {
             r.ySetRotate(teste.getWidth(), X, Y);
         });

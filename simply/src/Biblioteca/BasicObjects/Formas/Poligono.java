@@ -196,6 +196,8 @@ public class Poligono extends Polygon implements Forma{
     }
     
     public void yRotateBy(double angle, double pivoX, double pivoY){
+        pivoX -= getTranslateX();
+        pivoY -= getTranslateY();
         for (int i = 0; i < getPoints().size(); i+=2) {
             double X = getPoints().get(i) - pivoX;
             double Y = getPoints().get(i + 1) - pivoY;

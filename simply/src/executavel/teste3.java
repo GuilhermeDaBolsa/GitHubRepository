@@ -30,8 +30,8 @@ public class teste3 extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        double X = 200;
-        double Y = 200;
+        double X = 405;
+        double Y = 405;
         
         Pane teste = new Pane();
         
@@ -44,17 +44,17 @@ public class teste3 extends Application {
                 200, 200,
                 400, 400
         );
-        Linha l = new Linha(100, 25, 3, Color.BLUEVIOLET);
-        l.ySetTranslateX(100, 0);
-        l.ySetTranslateY(200, 0);
+        Linha l = new Linha(100, 00, 20, Color.BLUEVIOLET);
+        l.ySetTranslateX(405, 0);
+        l.ySetTranslateY(405, 0);
         
         teste.widthProperty().addListener((observable, oldValue, newValue) -> {
             int inc = 1;
             if(newValue.doubleValue() < oldValue.doubleValue())
                 inc = -1;
             
-            r.yRotateBy(inc*5, X, Y);
-            l.yRotateBy(inc * 3, X, Y);
+            r.yRotateBy(inc * 3, X, Y);
+            l.yRotateBy(inc * 5, X, Y);
         });
         
         

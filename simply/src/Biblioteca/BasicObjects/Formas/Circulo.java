@@ -8,12 +8,18 @@ import javafx.scene.shape.StrokeType;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
+import Biblioteca.BasicObjects.YobjectEventsHandler;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.transform.Rotate;
 
 public class Circulo extends Circle implements Forma{
-    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+    public YobjectEventsHandler yEvents = new YobjectEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
-    public Rotate yRotation = new Rotate(0);
+    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+    private Rotate yRotation = new Rotate(0);
+    public DoubleProperty yMax_width = new SimpleDoubleProperty(-1);
+    public DoubleProperty yMax_height = new SimpleDoubleProperty(-1);
     
     public Circulo(double raio){
         this(raio, Color.BLACK, 0, Color.BLACK);
@@ -85,8 +91,7 @@ public class Circulo extends Circle implements Forma{
     @Override
     public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
         width /= 2;
-        if(stroke_included)
-            width -= yOutsideStrokeOcupation.WIDTH / 2;
+        width = YshapeHandler.ySizeControler(width, stroke_included, yOutsideStrokeOcupation.WIDTH / 2, yMax_width.get());
                     
         if(correct_location)
             ySetRadius(width);
@@ -97,8 +102,7 @@ public class Circulo extends Circle implements Forma{
     @Override
     public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
         height /= 2;
-        if(stroke_included)
-            height -= yOutsideStrokeOcupation.HEIGHT / 2;
+        height = YshapeHandler.ySizeControler(height, stroke_included, yOutsideStrokeOcupation.HEIGHT / 2, yMax_height.get());
                     
         if(correct_location)
             ySetRadius(height);
@@ -148,6 +152,11 @@ public class Circulo extends Circle implements Forma{
     
     
     //----------------------------- ROTATE METHODS -----------------------------\\
+    
+    @Override
+    public Rotate yGetRotate(){
+        return yRotation;
+    }
     
     @Override
     public void ySetRotate(double angle, double pivoX, double pivoY){

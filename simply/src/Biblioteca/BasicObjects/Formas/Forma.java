@@ -4,6 +4,7 @@ import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.StrokeType;
+import javafx.scene.transform.Rotate;
 
 public interface Forma{
     
@@ -99,6 +100,8 @@ public interface Forma{
     
     
     //----------------------------- ROTATE METHODS -----------------------------\\
+    
+    public Rotate yGetRotate();
     
     public void ySetRotate(double angle, double pivoX, double pivoY);
     

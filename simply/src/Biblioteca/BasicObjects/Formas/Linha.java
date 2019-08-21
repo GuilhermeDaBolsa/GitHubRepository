@@ -9,12 +9,18 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
+import Biblioteca.BasicObjects.YobjectEventsHandler;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.transform.Rotate;
 
-public class Linha extends Line implements Forma{//COLOCAR NAS FORMAS OS EVENTOSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa
-    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+public class Linha extends Line implements Forma{
+    public YobjectEventsHandler yEvents = new YobjectEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
-    public Rotate yRotation = new Rotate(0);
+    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+    private Rotate yRotation = new Rotate(0);
+    public DoubleProperty yMax_width = new SimpleDoubleProperty(-1);
+    public DoubleProperty yMax_height = new SimpleDoubleProperty(-1);
     
     public Linha(Line line){
         this(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY(), line.getStrokeWidth(), line.getStroke());
@@ -38,8 +44,8 @@ public class Linha extends Line implements Forma{//COLOCAR NAS FORMAS OS EVENTOS
      * @param cor Cor da linha
      */
     public Linha(double Xinicial, double Yinicial, double Xfinal, double Yfinal, double grossura, Paint cor, StrokeType stroke_type, boolean correct_location){
-        setPontoInicial(Xinicial, Yinicial);
-        setPontoFinal(Xfinal, Yfinal);
+        ySetInitialPoint(Xinicial, Yinicial);
+        ySetEndPoint(Xfinal, Yfinal);
         ySetStroke(grossura, cor, stroke_type, correct_location);
     }
     
@@ -47,14 +53,14 @@ public class Linha extends Line implements Forma{//COLOCAR NAS FORMAS OS EVENTOS
     
     //----------------------------- SIZE METHODS -----------------------------\\
     
-    public void setPontoInicial(Double Xinicial, Double Yinicial){
+    public void ySetInitialPoint(Double Xinicial, Double Yinicial){
         if(Xinicial != null)
             setStartX(Xinicial);
         if(Yinicial != null)
             setStartY(Yinicial);
     }
     
-    public void setPontoFinal(Double Xfinal, Double Yfinal){
+    public void ySetEndPoint(Double Xfinal, Double Yfinal){
         if(Xfinal != null)
             setEndX(Xfinal);
         if(Yfinal != null)
@@ -117,24 +123,16 @@ public class Linha extends Line implements Forma{//COLOCAR NAS FORMAS OS EVENTOS
     
     @Override
     public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
-        if(width < 0)
-            width = -width;
+        width = YshapeHandler.ySizeControler(width, stroke_included, yOutsideStrokeOcupation.WIDTH, yMax_width.get());
         
-        if(stroke_included)
-            width -= yOutsideStrokeOcupation.WIDTH;
-        
-        setPontoFinal(getStartX() + width, null);
+        ySetEndPoint(getStartX() + width, null);
     }
 
     @Override
     public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
-        if(stroke_included)
-            height += height > 0 ? -yOutsideStrokeOcupation.HEIGHT : yOutsideStrokeOcupation.HEIGHT;
-            
-        if(getStartY() > getEndY())
-            height = -height;
-            
-        setPontoFinal(null, getStartY() + height);
+        height = YshapeHandler.ySizeControler(height, stroke_included, yOutsideStrokeOcupation.HEIGHT, yMax_height.get());
+        
+        ySetEndPoint(null, getStartY() + height);
     }
     
     
@@ -194,6 +192,11 @@ public class Linha extends Line implements Forma{//COLOCAR NAS FORMAS OS EVENTOS
     //----------------------------- ROTATE METHODS -----------------------------\\
     
     @Override
+    public Rotate yGetRotate(){
+        return yRotation;
+    }
+    
+    @Override
     public void ySetRotate(double angle, double pivoX, double pivoY){
         YshapeHandler.ySetRotate(this, yRotation, angle, getStartX() + pivoX, getStartY() + pivoY);
     }
@@ -213,8 +216,8 @@ public class Linha extends Line implements Forma{//COLOCAR NAS FORMAS OS EVENTOS
             points[i] = newX;
             points[i + 1] = newY;
         }
-        setPontoInicial(points[0], points[1]);
-        setPontoFinal(points[2], points[3]);
+        ySetInitialPoint(points[0], points[1]);
+        ySetEndPoint(points[2], points[3]);
     }
     
     

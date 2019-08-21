@@ -1,5 +1,6 @@
 package Biblioteca.BasicObjects.Formas;
 
+import Biblioteca.BasicObjects.YobjectEventsHandler;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import Biblioteca.Lists.ySimpleMap;
@@ -20,9 +21,12 @@ import javafx.scene.transform.Rotate;
 //O TEXTO GUARDA SEMPRE UM ESPAÇO PROS ACENTOS (E PRA SEPARA AS LINHAS), dai a primeira linha é mais alta;
 
 public class Texto extends Text implements Forma {
-    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+    public YobjectEventsHandler yEvents = new YobjectEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
-    public Rotate yRotation = new Rotate(0);
+    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+    private Rotate yRotation = new Rotate(0);
+    public DoubleProperty yMax_width = new SimpleDoubleProperty(-1);
+    public DoubleProperty yMax_height = new SimpleDoubleProperty(-1);
     
     protected String texto;
     public String font_path = null;
@@ -30,8 +34,6 @@ public class Texto extends Text implements Forma {
     
     private DoubleProperty width = new SimpleDoubleProperty(0);
     private DoubleProperty height = new SimpleDoubleProperty(0);
-    public DoubleProperty MAX_WIDTH  = new SimpleDoubleProperty(-1);//ESSES MAX VAO NAS OUTRAS FORMAS TBM??
-    public DoubleProperty MAX_HEIGHT  = new SimpleDoubleProperty(-1);
     public double line_height;
     
     public Texto(String texto) {
@@ -123,8 +125,7 @@ public class Texto extends Text implements Forma {
         double where_wasX = yGetTranslateX(0);
         double where_wasY = yGetTranslateY(0);
         
-        if(width > MAX_WIDTH.get() && MAX_WIDTH.get() != -1)
-            width = MAX_WIDTH.get();
+        width = YshapeHandler.ySizeControler(width, stroke_included, yOutsideStrokeOcupation.WIDTH, yMax_width.get());
         
         ySetSize(width, stroke_included, 0);
         
@@ -143,8 +144,7 @@ public class Texto extends Text implements Forma {
         double where_wasX = yGetTranslateX(0);
         double where_wasY = yGetTranslateY(0);
         
-        if(height > MAX_HEIGHT.get() && MAX_HEIGHT.get() != -1)
-            height = MAX_HEIGHT.get();
+        height = YshapeHandler.ySizeControler(height, stroke_included, yOutsideStrokeOcupation.HEIGHT, yMax_height.get());
         
         ySetSize(height, stroke_included, 1);
         
@@ -230,6 +230,11 @@ public class Texto extends Text implements Forma {
     
     
     //----------------------------- ROTATE METHODS -----------------------------\\
+    
+    @Override
+    public Rotate yGetRotate(){
+        return yRotation;
+    }
     
     @Override
     public void ySetRotate(double angle, double pivoX, double pivoY){
@@ -339,8 +344,7 @@ public class Texto extends Text implements Forma {
         double where_wasX = yGetTranslateX(0);
         double where_wasY = yGetTranslateY(0);
         
-        if(width > MAX_WIDTH.get() && MAX_WIDTH.get() != -1)
-            width = MAX_WIDTH.get();
+        width = YshapeHandler.ySizeControler(width, stroke_included, yOutsideStrokeOcupation.WIDTH, yMax_width.get());
         
         String new_text = new String(texto);
         if(unbreak_text_allowed)
@@ -430,8 +434,7 @@ public class Texto extends Text implements Forma {
         double where_wasY = yGetTranslateY(0);
         boolean sucess = false;
         
-        if(height > MAX_HEIGHT.get() && MAX_HEIGHT.get() != -1)
-            height = MAX_HEIGHT.get();
+        height = YshapeHandler.ySizeControler(height, stroke_included, yOutsideStrokeOcupation.HEIGHT, yMax_height.get());
         
         String new_text = new String(texto);
         int actual_font_size = (int) getFont().getSize();

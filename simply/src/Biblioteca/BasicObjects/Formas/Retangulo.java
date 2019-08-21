@@ -8,12 +8,18 @@ import javafx.scene.shape.StrokeType;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
+import Biblioteca.BasicObjects.YobjectEventsHandler;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.transform.Rotate;
 
 public class Retangulo extends Rectangle implements Forma{
-    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+    public YobjectEventsHandler yEvents = new YobjectEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
-    public Rotate yRotation = new Rotate(0);
+    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+    private Rotate yRotation = new Rotate(0);
+    public DoubleProperty yMax_width = new SimpleDoubleProperty(-1);
+    public DoubleProperty yMax_height = new SimpleDoubleProperty(-1);
     
     public Retangulo(double largura, double altura){
         this(largura, altura, Color.BLACK);
@@ -73,28 +79,16 @@ public class Retangulo extends Rectangle implements Forma{
     
     @Override
     public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
-        double where_wasX = yGetTranslateX(0);
-        
-        if(stroke_included)
-            width -= yOutsideStrokeOcupation.WIDTH;
+        width = YshapeHandler.ySizeControler(width, stroke_included, yOutsideStrokeOcupation.WIDTH, yMax_width.get());
         
         setWidth(width);
-        
-        if(correct_location)
-            ySetTranslateX(where_wasX, 0);
     }
 
     @Override
     public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {
-        double where_wasY = yGetTranslateY(0);
-        
-        if(stroke_included)
-            height -= yOutsideStrokeOcupation.HEIGHT;
+        height = YshapeHandler.ySizeControler(height, stroke_included, yOutsideStrokeOcupation.HEIGHT, yMax_height.get());
         
         setHeight(height);
-        
-        if(correct_location)
-            ySetTranslateY(where_wasY, 0);
     }
     
     
@@ -139,6 +133,11 @@ public class Retangulo extends Rectangle implements Forma{
     
     
     //----------------------------- ROTATE METHODS -----------------------------\\
+    
+    @Override
+    public Rotate yGetRotate(){
+        return yRotation;
+    }
     
     @Override
     public void ySetRotate(double angle, double pivoX, double pivoY){

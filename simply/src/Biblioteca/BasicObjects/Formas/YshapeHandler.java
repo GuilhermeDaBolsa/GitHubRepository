@@ -32,6 +32,19 @@ public abstract class YshapeHandler{
         shape.setTranslateY(Y - ((Forma) shape).yGetHeight(true) * pivo);
     }
     
+    public static double ySizeControler(double size, boolean stroke_included, double stroke_size, double max_value){
+        if(size < 0)
+            size = -size;
+        
+        if(max_value >= 0 && size > max_value)
+            size = max_value;
+        
+        if(stroke_included)
+            size -= stroke_size;
+        
+        return size;
+    }
+    
     
     
     //----------------------------- STROKE METHODS -----------------------------\\

@@ -10,6 +10,7 @@ import javafx.scene.shape.StrokeType;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
+import Biblioteca.BasicObjects.YobjectEventsHandler;
 import static Biblioteca.LogicClasses.Matematicas.calculate_angle;
 import static Biblioteca.LogicClasses.Matematicas.hypotenuse;
 import static Biblioteca.LogicClasses.Matematicas.modulo;
@@ -23,9 +24,12 @@ import javafx.scene.transform.Rotate;
  * is not a complex polygon (self-intersecting) because of border and angle calculations.
  */
 public class Poligono extends Polygon implements Forma{
-    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+    public YobjectEventsHandler yEvents = new YobjectEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
-    public Rotate yRotation = new Rotate(0);
+    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+    private Rotate yRotation = new Rotate(0);
+    public DoubleProperty yMax_width = new SimpleDoubleProperty(-1);
+    public DoubleProperty yMax_height = new SimpleDoubleProperty(-1);
     
     public DoubleProperty yLeft_X = new SimpleDoubleProperty(0);
     public DoubleProperty yRight_X = new SimpleDoubleProperty(0);
@@ -116,6 +120,8 @@ public class Poligono extends Polygon implements Forma{
 
     @Override
     public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
+        width = YshapeHandler.ySizeControler(width, stroke_included, yOutsideStrokeOcupation.WIDTH, yMax_width.get());
+        
         double pivo = yGetWidth(false)/2;
         double increment = width - yGetWidth(stroke_included);
         
@@ -127,7 +133,9 @@ public class Poligono extends Polygon implements Forma{
     }
 
     @Override
-    public void ySetHeight(double height, boolean stroke_included, boolean correct_location) {      
+    public void ySetHeight(double height, boolean stroke_included, boolean correct_location) { 
+        height = YshapeHandler.ySizeControler(height, stroke_included, yOutsideStrokeOcupation.HEIGHT, yMax_height.get());
+        
         double pivo = yGetHeight(false)/2;
         double increment = height - yGetHeight(stroke_included);
         
@@ -189,6 +197,11 @@ public class Poligono extends Polygon implements Forma{
     
     
     //----------------------------- ROTATE METHODS -----------------------------\\
+    
+    @Override
+    public Rotate yGetRotate(){
+        return yRotation;
+    }
     
     @Override
     public void ySetRotate(double angle, double pivoX, double pivoY){

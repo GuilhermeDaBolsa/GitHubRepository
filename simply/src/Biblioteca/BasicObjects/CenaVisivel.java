@@ -1,6 +1,6 @@
 package Biblioteca.BasicObjects;
 
-import javafx.beans.property.DoubleProperty;
+import javafx.beans.binding.DoubleBinding;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
@@ -31,11 +31,11 @@ public class CenaVisivel extends Pane{
         VisibleObjectHandler.setTranslateY(this, Y, pivo);
     }
     
-    public void bindPosicaoX(DoubleProperty posicao, double eixo){
+    public void bindPosicaoX(DoubleBinding posicao, double eixo){
         VisibleObjectHandler.bindPosicaoX(this, posicao, eixo);
     }
     
-    public void bindPosicaoY(DoubleProperty posicao, double eixo){
+    public void bindPosicaoY(DoubleBinding posicao, double eixo){
         VisibleObjectHandler.bindPosicaoY(this, posicao, eixo);
     }
     

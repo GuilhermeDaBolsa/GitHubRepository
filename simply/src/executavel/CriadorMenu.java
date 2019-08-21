@@ -53,13 +53,15 @@ public class CriadorMenu {
         });
         
         TabelaMenu tabela = new TabelaMenu(0, 50, 0, 40, 1, false, btn_add, btn_config, btn_remove);
+        
         InterligaElementos junta = new InterligaElementos(btn_add, btn_config, btn_remove);
         junta.setButtonTypes(-2,2,-2);
         junta.setEventosVisuais(Color.BLACK, Color.WHITE, Color.CHARTREUSE);
+        
         Caixa menu = new Caixa(largura_menu, 100, Color.BLACK, 2, Color.BLACK);
         menu.add(tabela);
-        menu.alinhar_conteudos_centro();
-        menu.mover_conteudos(-2, espacinho * 2);
+        //menu.alinhar_conteudos_centro();
+        //menu.mover_conteudos(-2, espacinho * 2);
         menu.setTranslateX(-largura_menu);
         menu.setTranslateY(0);
 

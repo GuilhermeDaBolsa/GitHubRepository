@@ -1,5 +1,6 @@
 package Biblioteca.BasicObjects;
 
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.Node;
 
@@ -68,11 +69,11 @@ public abstract class VisibleObjectHandler{
         nodo.setDisable(!nodo.isDisable());
     }
     
-    public static void bindPosicaoX(Node nodo, DoubleProperty posicao, double eixo){
+    public static void bindPosicaoX(Node nodo, DoubleBinding posicao, double eixo){
         nodo.translateXProperty().bind(posicao.subtract(eixo*getWidth(nodo)));
     }
     
-    public static void bindPosicaoY(Node nodo, DoubleProperty posicao, double eixo){
+    public static void bindPosicaoY(Node nodo, DoubleBinding posicao, double eixo){
         nodo.translateYProperty().bind(posicao.subtract(eixo*getHeight(nodo)));
     }
     

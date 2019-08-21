@@ -50,9 +50,8 @@ public class TabelaMenu extends CenaVisivel{
         this.espacoEntreElementosX = espacoElementosX;
         this.espacoEntreElementosY = espacoElementosY;
         
-        if(vetElemento != null){
+        if(vetElemento != null)
             adicionarElemento(tryToGessNextPosition, vetElemento);
-        }
         
         this.getChildren().addAll(elementos);
     }
@@ -97,14 +96,16 @@ public class TabelaMenu extends CenaVisivel{
             X = ultimoElemento.getTranslateX();
             Y = ultimoElemento.getTranslateY();
             tryToGessBasedOnLastNode = false;
-        }
-        
-        if(tryToGessBasedOnLastNode){
-            adicionarElemento(elemento, X + ultimoElemento.getLayoutBounds().getWidth() + espacoEntreElementosX,
-                    Y + ultimoElemento.getLayoutBounds().getHeight() + espacoEntreElementosY);//TA FAZENDO EM X E Y... VAI FAZER UMA DIAGONAL -> \
+            
+            if(tryToGessBasedOnLastNode){
+                adicionarElemento(elemento, X + ultimoElemento.getLayoutBounds().getWidth() + espacoEntreElementosX,
+                        Y + ultimoElemento.getLayoutBounds().getHeight() + espacoEntreElementosY);//TA FAZENDO EM X E Y... VAI FAZER UMA DIAGONAL -> \
+            }else{
+                adicionarElemento(elemento, X + positionPaternX + espacoEntreElementosX,
+                        Y + positionPaternY + espacoEntreElementosY);
+            }
         }else{
-            adicionarElemento(elemento, X + positionPaternX + espacoEntreElementosX,
-                    Y + positionPaternY + espacoEntreElementosY);
+            adicionarElemento(elemento, 0, 0);
         }
         
     }

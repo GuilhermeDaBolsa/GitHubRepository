@@ -60,7 +60,7 @@ public class teste extends Application {
         testeTabela.yAdd(chara, 2, 2);
         Caixa cc = new Caixa(40, 45, Color.WHITE, 1, Color.BLACK);
         cc.add(new Circulo(5, Color.CORNFLOWERBLUE));
-        cc.alinhar_conteudos_centro();
+        cc.alinhar_conteudos(0.5, 0.5, 0.5, 0.5);
         testeTabela.yAdd(cc, 0, 0);
         testeTabela.yAdd(portal, 2, 0);
         testeTabela.yAdd(gif, 1, 1);
@@ -73,7 +73,7 @@ public class teste extends Application {
         envolocro.add(testeTabela);
         envolocro.resizeBoxWithItsContent(false, false, true, false);
         envolocro.ySetStroke(null, null, StrokeType.OUTSIDE, true);
-        envolocro.alinhar_conteudos_centro();
+        envolocro.alinhar_conteudos(0.5, 0.5, 0.5, 0.5);
         
         teste.getChildren().addAll(envolocro);
         

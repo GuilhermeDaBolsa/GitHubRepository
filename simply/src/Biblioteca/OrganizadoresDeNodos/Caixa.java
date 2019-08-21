@@ -181,9 +181,9 @@ public class Caixa extends CenaVisivel {
      * Método para tentar alinhar o conteúdo da caixa ao centro da mesma (pode não funcionar
      * dependendo do elemento).
      */
-    public void alinhar_conteudos_centro(){
-        realocar_conteudos(((Forma) caixa).yGetTranslateX(0) + (getLarguraCaixa() - getLarguraConteudo())/2,
-                ((Forma) caixa).yGetTranslateY(0) + (getAlturaCaixa() - getAlturaConteudo())/2);
+    public void alinhar_conteudos(double pivoelementoX, double pivoelementoY, double pivoCaixaX, double pivoCaixaY){
+        realocar_conteudos(((Forma) caixa).yGetTranslateX(pivoelementoX) + getLarguraConteudo() * pivoCaixaX,
+                ((Forma) caixa).yGetTranslateY(pivoelementoY) + getAlturaConteudo() * pivoCaixaY);
     }
     
     public void resizeBox(double width, double height, boolean strokeX_included, boolean strokeY_included, boolean correct_location){

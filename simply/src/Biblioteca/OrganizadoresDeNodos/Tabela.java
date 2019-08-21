@@ -153,7 +153,7 @@ public class Tabela extends CenaVisivel{
                 double translateInY = posicaoY * (cells_height + cells_Y_distance);
                 caixa.ySetTranslateX(translateInX, 0);
                 caixa.ySetTranslateY(translateInY, 0);
-                caixa.alinhar_conteudos_centro();
+                caixa.alinhar_conteudos(0.5, 0.5, 0.5, 0.5);
                 this.getChildren().add(caixa);
             }
         }

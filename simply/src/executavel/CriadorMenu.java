@@ -60,7 +60,7 @@ public class CriadorMenu {
         
         Caixa menu = new Caixa(largura_menu, 100, Color.BLACK, 2, Color.BLACK);
         menu.add(tabela);
-        //menu.alinhar_conteudos_centro();
+        //menu.alinhar_conteudos();
         //menu.mover_conteudos(-2, espacinho * 2);
         menu.setTranslateX(-largura_menu);
         menu.setTranslateY(0);

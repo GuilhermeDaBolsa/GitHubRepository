@@ -35,7 +35,7 @@ public class CenaVisivel extends Pane{
         VisibleObjectHandler.bindPosicaoX(this, posicao, eixo);
     }
     
-    public void bindPosicaoY(Node nodo, DoubleProperty posicao, double eixo){
+    public void bindPosicaoY(DoubleProperty posicao, double eixo){
         VisibleObjectHandler.bindPosicaoY(this, posicao, eixo);
     }
     

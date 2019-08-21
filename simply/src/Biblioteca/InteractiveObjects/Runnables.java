@@ -30,6 +30,12 @@ public class Runnables<EventType extends Event> {
         actions.add(name, action);
     }
     
+    public void addHandlebles(String name, Runnables handlebles){
+        for (int i = 0; i < handlebles.size(); i++) {
+            actions.add(name+i, (EventHandler) handlebles.actions.get(i));
+        }
+    }
+    
     /**
      * Adds an action with a generic name (the name will be the position where it was placed in the map).
      * @param action The action to be stored.

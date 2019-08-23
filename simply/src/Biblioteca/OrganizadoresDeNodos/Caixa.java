@@ -31,7 +31,7 @@ public class Caixa extends CenaVisivel {
         caixa.setFill(cor_fundo);
         ySetStroke(grossura_borda, cor_borda, StrokeType.OUTSIDE, true);
         
-        realocar_conteudos(grossura_borda/2, grossura_borda/2);
+        realocar_conteudos(0.0, 0.0);
         
         getChildren().addAll(caixa, container);
     }
@@ -163,9 +163,9 @@ public class Caixa extends CenaVisivel {
      */
     public void realocar_conteudos(Double X, Double Y){
         if(X != null)
-            container.setTranslateX(((Forma) caixa).yGetTranslateX(0) + X);
+            container.setTranslateX(((Forma) caixa).yGetTranslateX(0) + X + ((Forma) caixa).yGetStrokeOcupation().LEFT);
         if(Y != null)
-            container.setTranslateY(((Forma) caixa).yGetTranslateY(0) + Y);
+            container.setTranslateY(((Forma) caixa).yGetTranslateY(0) + Y + ((Forma) caixa).yGetStrokeOcupation().UP);
     }
     
     /**
@@ -182,8 +182,8 @@ public class Caixa extends CenaVisivel {
      * dependendo do elemento).
      */
     public void alinhar_conteudos(double pivoelementoX, double pivoelementoY, double pivoCaixaX, double pivoCaixaY){
-        realocar_conteudos(((Forma) caixa).yGetTranslateX(pivoelementoX) + getLarguraConteudo() * pivoCaixaX,
-                ((Forma) caixa).yGetTranslateY(pivoelementoY) + getAlturaConteudo() * pivoCaixaY);
+        realocar_conteudos(((Forma) caixa).yGetTranslateX(pivoCaixaX) - getLarguraConteudo() * pivoelementoX,
+                ((Forma) caixa).yGetTranslateY(pivoCaixaY) - getAlturaConteudo() * pivoelementoY);
     }
     
     public void resizeBox(double width, double height, boolean strokeX_included, boolean strokeY_included, boolean correct_location){

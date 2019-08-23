@@ -23,7 +23,7 @@ import javafx.scene.transform.Rotate;
 public class Texto extends Text implements Forma {
     public YobjectEventsHandler yEvents = new YobjectEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
-    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+    private YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     private Rotate yRotation = new Rotate(0);
     public DoubleProperty yMax_width = new SimpleDoubleProperty(-1);
     public DoubleProperty yMax_height = new SimpleDoubleProperty(-1);
@@ -224,9 +224,14 @@ public class Texto extends Text implements Forma {
     //----------------------------- STROKE METHODS -----------------------------\\
     @Override
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
-        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);//DEVE TA ERRADO ISSO JSUS
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, correct_location);
     }
 
+    @Override
+    public YstrokeOcupation yGetStrokeOcupation(){
+        return yOutsideStrokeOcupation;
+    }
+    
     
     
     //----------------------------- ROTATE METHODS -----------------------------\\

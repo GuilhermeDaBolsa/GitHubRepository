@@ -58,9 +58,8 @@ public class CriadorMenu {
         junta.setButtonTypes(-2,2,-2);
         junta.setEventosVisuais(Color.BLACK, Color.WHITE, Color.CHARTREUSE);
         
-        Caixa menu = new Caixa(largura_menu, 100, Color.BLACK, 2, Color.BLACK);
+        Caixa menu = new Caixa(largura_menu, 200, Color.BLACK, 2, Color.BLACK);
         menu.add(tabela);
-        //menu.alinhar_conteudos();
         //menu.mover_conteudos(-2, espacinho * 2);
         menu.setTranslateX(-largura_menu);
         menu.setTranslateY(0);

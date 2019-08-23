@@ -68,7 +68,7 @@ public abstract class YshapeHandler{
      * @param shape The shape to change the stroke.
      * @see Forma#ySetStroke(java.lang.Double, javafx.scene.paint.Paint, javafx.scene.shape.StrokeType, boolean) 
      */
-    public static void ySetStroke(Shape shape, Double stroke_width, Paint stroke_color, StrokeType stroke_type, YstrokeOcupation stroke_ocupation, boolean correct_location) {
+    public static void ySetStroke(Shape shape, Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
         double where_wasX = ((Forma) shape).yGetTranslateX(0);
         double where_wasY = ((Forma) shape).yGetTranslateY(0);
         
@@ -80,7 +80,7 @@ public abstract class YshapeHandler{
             shape.setStrokeType(stroke_type);
         
         double real_stroke_width = yGetStrokeOcupation(shape);
-        stroke_ocupation.setStrokeOcupation(real_stroke_width*2, real_stroke_width*2);
+        ((Forma) shape).yGetStrokeOcupation().setStrokeOcupation(real_stroke_width*2, real_stroke_width*2);
         
         if(correct_location){
             ((Forma) shape).ySetTranslateX(where_wasX, 0);

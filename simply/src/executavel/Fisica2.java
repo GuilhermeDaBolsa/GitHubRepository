@@ -1,5 +1,6 @@
 package executavel;
 
+import Biblioteca.BasicObjects.Formas.Forma;
 import Biblioteca.OrganizadoresDeNodos.BarraDeslisante;
 import Biblioteca.OrganizadoresDeNodos.MathGrid;
 import Biblioteca.OrganizadoresDeNodos.Caixa;
@@ -26,7 +27,14 @@ public class Fisica2 extends Application {
         caixa_adicionar_carga.desativar();
         
         Caixa menu = CriadorMenu.cria_menu();
-        menu.caixa.scaleYProperty().bind(primaryStage.heightProperty());
+        ((Forma) menu.caixa).yBindHeight("altura", pane_principal.heightProperty(), true);
+        System.out.println("caixa     " +((Forma) menu.caixa).yGetTranslateX(0) + "  ,  " + ((Forma) menu.caixa).yGetTranslateX(0) + "  ---  " + ((Forma) menu.caixa).yGetWidth(true) + "   x   " + ((Forma) menu.caixa).yGetHeight(true));
+        System.out.println("container   " + menu.container.getTranslateX() + "    ,   " + menu.getTranslateY() + "  ---  " + menu.getLarguraConteudo() + "   x   " + menu.getAlturaConteudo());
+        menu.alinhar_conteudos(0.5, 0, 0.5, 0);
+        menu.mover_conteudos(0, 10);
+        
+        
+        
         caixa_adicionar_carga.translateXProperty().bind(menu.translateXProperty().add(largura_menu + espacinho/2));
         
         Caixa botao_menu = CriadorMenu.cria_botao_menu(menu);

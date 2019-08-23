@@ -17,7 +17,7 @@ import javafx.scene.transform.Rotate;
 public class Linha extends Line implements Forma{
     public YobjectEventsHandler yEvents = new YobjectEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
-    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+    private YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     private Rotate yRotation = new Rotate(0);
     public DoubleProperty yMax_width = new SimpleDoubleProperty(-1);
     public DoubleProperty yMax_height = new SimpleDoubleProperty(-1);
@@ -178,13 +178,18 @@ public class Linha extends Line implements Forma{
         
         if(correct_size)
             setStrokeLineCap(StrokeLineCap.BUTT);
-        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, true);
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, true);
         
         yOutsideStrokeOcupation = new YstrokeOcupation((yGetHeight(false)/yHypotenuse())*YshapeHandler.yGetStrokeOcupation(this)*2,
                 (yGetWidth(false)/yHypotenuse())*YshapeHandler.yGetStrokeOcupation(this)*2);
         
         ySetTranslateX(where_wasX, 0);
         ySetTranslateY(where_wasY, 0);
+    }
+    
+    @Override
+    public YstrokeOcupation yGetStrokeOcupation(){
+        return yOutsideStrokeOcupation;
     }
     
     

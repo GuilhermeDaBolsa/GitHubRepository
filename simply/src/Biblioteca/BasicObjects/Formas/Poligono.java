@@ -26,7 +26,7 @@ import javafx.scene.transform.Rotate;
 public class Poligono extends Polygon implements Forma{
     public YobjectEventsHandler yEvents = new YobjectEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
-    public YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
+    private YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     private Rotate yRotation = new Rotate(0);
     public DoubleProperty yMax_width = new SimpleDoubleProperty(-1);
     public DoubleProperty yMax_height = new SimpleDoubleProperty(-1);
@@ -185,13 +185,18 @@ public class Poligono extends Polygon implements Forma{
         double where_wasX = yGetTranslateX(0);
         double where_wasY = yGetTranslateY(0);
         
-        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, yOutsideStrokeOcupation, correct_location);
+        YshapeHandler.ySetStroke(this, stroke_width, stroke_color, stroke_type, correct_location);
         calculate_stroke(getPoints());
         
         if(correct_location){
             ySetTranslateX(where_wasX, 0);
             ySetTranslateY(where_wasY, 0);
         }
+    }
+    
+    @Override
+    public YstrokeOcupation yGetStrokeOcupation(){
+        return yOutsideStrokeOcupation;
     }
     
     

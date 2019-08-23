@@ -3,7 +3,7 @@ package executavel;
 import Biblioteca.BasicObjects.Formas.Forma;
 import Biblioteca.OrganizadoresDeNodos.BarraDeslisante;
 import Biblioteca.OrganizadoresDeNodos.MathGrid;
-import Biblioteca.OrganizadoresDeNodos.Caixa;
+import Biblioteca.OrganizadoresDeNodos.YBox;
 import static executavel.CriadorMenu.largura_menu;
 import java.util.ArrayList;
 import javafx.application.Application;
@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 public class Fisica2 extends Application {
     public static Pane pane_principal = new Pane();
-    public static Caixa caixa_adicionar_carga;
+    public static YBox caixa_adicionar_carga;
     public static MathGrid grade;
     public static ArrayList<Entidade> cargas = new ArrayList();
     //BarraDeslisante barra_escala;
@@ -25,19 +25,19 @@ public class Fisica2 extends Application {
         caixa_adicionar_carga.setTranslateY(largura_menu*0.6 + 10);
         caixa_adicionar_carga.desativar();
         
-        Caixa menu = CriadorMenu.cria_menu();
-        ((Forma) menu.caixa).yBindHeight("altura", pane_principal.heightProperty(), true);
-        System.out.println("caixa     " +((Forma) menu.caixa).yGetTranslateX(0) + "  ,  " + ((Forma) menu.caixa).yGetTranslateX(0) + "  ---  " + ((Forma) menu.caixa).yGetWidth(true) + "   x   " + ((Forma) menu.caixa).yGetHeight(true));
-        System.out.println("container   " + menu.container.getTranslateX() + "    ,   " + menu.getTranslateY() + "  ---  " + menu.getLarguraConteudo() + "   x   " + menu.getAlturaConteudo());
-        menu.alinhar_conteudos(0.5, 0, 0.5, 0);
-        menu.mover_conteudos(0, 20);
+        YBox menu = CriadorMenu.cria_menu();
+        ((Forma) menu.box).yBindHeight("altura", pane_principal.heightProperty(), true);
+        System.out.println("caixa     " +((Forma) menu.box).yGetTranslateX(0) + "  ,  " + ((Forma) menu.box).yGetTranslateX(0) + "  ---  " + ((Forma) menu.box).yGetWidth(true) + "   x   " + ((Forma) menu.box).yGetHeight(true));
+        System.out.println("container   " + menu.content.getTranslateX() + "    ,   " + menu.getTranslateY() + "  ---  " + menu.yGetContentWidth() + "   x   " + menu.yGetContentHeight());
+        menu.yAlignContents(0.5, 0, 0.5, 0);
+        menu.yMoveContents(0, 20);
         
         
         
         caixa_adicionar_carga.translateXProperty().bind(menu.translateXProperty().add(largura_menu + 10));
         
-        Caixa botao_menu = CriadorMenu.cria_botao_menu(menu);
-        botao_menu.setTranslateX(botao_menu.caixa.getStrokeWidth());
+        YBox botao_menu = CriadorMenu.cria_botao_menu(menu);
+        botao_menu.setTranslateX(botao_menu.box.getStrokeWidth());
         
         grade = new MathGrid(200, 200);
         //barra_escala = new BarraDeslisante(160, 0, 1, 100, 50, 2);

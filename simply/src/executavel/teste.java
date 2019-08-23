@@ -5,7 +5,7 @@ import Biblioteca.BasicObjects.Formas.Texto;
 import Biblioteca.Midia.Audio;
 import Biblioteca.Midia.VisualizadorImagemEgif;
 import Biblioteca.Midia.VisualizadorVideo;
-import Biblioteca.OrganizadoresDeNodos.Caixa;
+import Biblioteca.OrganizadoresDeNodos.YBox;
 import Biblioteca.OrganizadoresDeNodos.MathGrid;
 import Biblioteca.OrganizadoresDeNodos.Tabela;
 import javafx.application.Application;
@@ -58,9 +58,9 @@ public class teste extends Application {
         testeTabela.yAdd(new Rectangle(80, 80, Color.LAVENDER), 1, 2);
         testeTabela.yAdd(dados, 3, 0);
         testeTabela.yAdd(chara, 2, 2);
-        Caixa cc = new Caixa(40, 45, Color.WHITE, 1, Color.BLACK);
-        cc.add(new Circulo(5, Color.CORNFLOWERBLUE));
-        cc.alinhar_conteudos(0.5, 0.5, 0.5, 0.5);
+        YBox cc = new YBox(40, 45, Color.WHITE, 1, Color.BLACK);
+        cc.yAddContent(new Circulo(5, Color.CORNFLOWERBLUE));
+        cc.yAlignContents(0.5, 0.5, 0.5, 0.5);
         testeTabela.yAdd(cc, 0, 0);
         testeTabela.yAdd(portal, 2, 0);
         testeTabela.yAdd(gif, 1, 1);
@@ -69,11 +69,11 @@ public class teste extends Application {
         vem.yRefresh();
         testeTabela.yRefresh();
         
-        Caixa envolocro = new Caixa(13.5, 10, Color.WHITE, 8, Color.DIMGRAY);
-        envolocro.add(testeTabela);
-        envolocro.resizeBoxWithItsContent(false, false, true, false);
+        YBox envolocro = new YBox(13.5, 10, Color.WHITE, 8, Color.DIMGRAY);
+        envolocro.yAddContent(testeTabela);
+        envolocro.ySetBoxSizeWithItsContent(false, false, true, false);
         envolocro.ySetStroke(null, null, StrokeType.OUTSIDE, true);
-        envolocro.alinhar_conteudos(0.5, 0.5, 0.5, 0.5);
+        envolocro.yAlignContents(0.5, 0.5, 0.5, 0.5);
         
         teste.getChildren().addAll(envolocro);
         

@@ -1,7 +1,7 @@
 package Biblioteca.InteractiveObjects;
 
 import static Biblioteca.LogicClasses.Matematicas.modulo;
-import Biblioteca.OrganizadoresDeNodos.Caixa;
+import Biblioteca.OrganizadoresDeNodos.YBox;
 import java.util.ArrayList;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -66,8 +66,8 @@ public class InterligaElementos {
     //O RELEASE E O PRESSED TAO BUGANDO, MESMO SE TU NAO TIVER COM O MOUSE NO ELEMENTO ELES VAO FUNCIONAR AAAAAAAAAAAAAAAAAAAAAAAAA
     public void setEventosVisuais(Paint corBordaPadrao, Paint corBordaFoco, Paint corBordaClick){
         for (int i = 0; i < elementos.size(); i++) {
-            if(elementos.get(i) instanceof Caixa){
-                Caixa elemento = (Caixa) elementos.get(i);
+            if(elementos.get(i) instanceof YBox){
+                YBox elemento = (YBox) elementos.get(i);
                 
                 elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                 int num = numeroDeConexao.get(i);
@@ -126,8 +126,8 @@ public class InterligaElementos {
     
     private void descelecionaOutrosElementos(Paint corBordaPadrao, int ID){
         for (int i = 0; i < elementos.size(); i++) {
-            if(elementos.get(i) instanceof Caixa && modulo(numeroDeConexao.get(i)) == modulo(ID)){
-                Caixa elemento = (Caixa) elementos.get(i);
+            if(elementos.get(i) instanceof YBox && modulo(numeroDeConexao.get(i)) == modulo(ID)){
+                YBox elemento = (YBox) elementos.get(i);
                 elemento.yEvents_Handler.is_selected = false;
                 elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                 elemento.yEvents_Handler.actionCleaner().run(null);

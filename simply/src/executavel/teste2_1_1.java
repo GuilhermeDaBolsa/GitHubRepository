@@ -5,7 +5,7 @@ import Biblioteca.BasicObjects.Formas.Linha;
 import Biblioteca.BasicObjects.Formas.Retangulo;
 import Biblioteca.BasicObjects.Formas.Texto;
 import Biblioteca.OrganizadoresDeNodos.BarraDeslisante;
-import Biblioteca.OrganizadoresDeNodos.Caixa;
+import Biblioteca.OrganizadoresDeNodos.YBox;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.beans.property.DoubleProperty;
@@ -35,7 +35,7 @@ public class teste2_1_1 extends Application {
         a.setDisable(true);
         Texto b = new Texto("AAA q saco mano");
         
-        BarraDeslisante k = new BarraDeslisante(new Circle(50), new Caixa(10, 10, Color.WHITE, 2, Color.BLACK), 50, 0, 250, true);
+        BarraDeslisante k = new BarraDeslisante(new Circle(50), new YBox(10, 10, Color.WHITE, 2, Color.BLACK), 50, 0, 250, true);
         
         k.ySetTranslateX(400, 0);
         k.ySetTranslateY(400, 0);

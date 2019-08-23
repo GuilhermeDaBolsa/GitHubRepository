@@ -141,19 +141,19 @@ public class Tabela extends CenaVisivel{
                 if(posicaoX > n_colunas || posicaoY > n_linhas || posicaoX < 0 || posicaoY < 0)
                     continue;
                 
-                Caixa caixa= new Caixa(cells_width, cells_height, cell_background_color, cell_stroke_width, cell_stroke_color);
+                YBox caixa= new YBox(cells_width, cells_height, cell_background_color, cell_stroke_width, cell_stroke_color);
                 caixa.ySetStroke(null, null, StrokeType.INSIDE, true);
                 
                 int index = posicoes.indexOf(new Point2D(posicaoX, posicaoY));
                 if(index != -1){
-                    caixa.add(elementos.get(index));
+                    caixa.yAddContent(elementos.get(index));
                 }
                 
                 double translateInX = posicaoX * (cells_width + cells_X_distance);
                 double translateInY = posicaoY * (cells_height + cells_Y_distance);
                 caixa.ySetTranslateX(translateInX, 0);
                 caixa.ySetTranslateY(translateInY, 0);
-                caixa.alinhar_conteudos(0.5, 0.5, 0.5, 0.5);
+                caixa.yAlignContents(0.5, 0.5, 0.5, 0.5);
                 this.getChildren().add(caixa);
             }
         }

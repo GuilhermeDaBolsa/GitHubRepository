@@ -5,7 +5,7 @@ import Biblioteca.BasicObjects.Formas.Linha;
 import Biblioteca.BasicObjects.Formas.Poligono;
 import Biblioteca.BasicObjects.Formas.Retangulo;
 import Biblioteca.BasicObjects.Formas.Texto;
-import Biblioteca.OrganizadoresDeNodos.Caixa;
+import Biblioteca.OrganizadoresDeNodos.YBox;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.beans.property.DoubleProperty;

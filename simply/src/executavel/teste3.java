@@ -6,7 +6,7 @@ import Biblioteca.BasicObjects.Formas.Poligono;
 import Biblioteca.BasicObjects.Formas.Retangulo;
 import Biblioteca.BasicObjects.Formas.Texto;
 import Biblioteca.OrganizadoresDeNodos.BarraDeslisante;
-import Biblioteca.OrganizadoresDeNodos.Caixa;
+import Biblioteca.OrganizadoresDeNodos.YBox;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.beans.property.DoubleProperty;
@@ -44,9 +44,9 @@ public class teste3 extends Application {
                 200, 200,
                 400, 400
         );
-        Linha l = new Linha(100, 00, 20, Color.BLUEVIOLET);
-        l.ySetTranslateX(405, 0);
-        l.ySetTranslateY(405, 0);
+        Linha l = new Linha(60, 0, 10, Color.BLUEVIOLET);
+        l.ySetTranslateX(X, 0.5);
+        l.ySetTranslateY(390, 0);
         
         teste.widthProperty().addListener((observable, oldValue, newValue) -> {
             int inc = 1;

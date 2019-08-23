@@ -16,7 +16,7 @@ import javafx.util.Duration;
 
 public class BarraDeslisante extends CenaVisivel {
     private Shape path;
-    public Caixa slider;
+    public YBox slider;
     public Texto text;
     
     private PathTransition path_animation;
@@ -42,7 +42,7 @@ public class BarraDeslisante extends CenaVisivel {
     //AO INVEZ DO USUARIO PASSAR O NUMERO DE FRAMES ELE PASSA O INCREMENTO, E BASEADO NISSO TU CALCULA O NUMERO DE FRAMES
     //CADE O TRAILL QUE O SLIDER DEIXA AO PASSAR AAAAAAAAAAAA
     
-    public BarraDeslisante(Shape path, Caixa slider, int FRAMES, double MIN, double MAX, boolean cyclic) {
+    public BarraDeslisante(Shape path, YBox slider, int FRAMES, double MIN, double MAX, boolean cyclic) {
         this.path = path;
         this.slider = slider;
         this.FRAMES = FRAMES;
@@ -90,7 +90,7 @@ public class BarraDeslisante extends CenaVisivel {
         getChildren().addAll(path, this.slider);
     }
     
-    public BarraDeslisante(double endX, double endY, double stroke_width, Color line_color, Caixa slider, int FRAMES, double MIN, double MAX) {
+    public BarraDeslisante(double endX, double endY, double stroke_width, Color line_color, YBox slider, int FRAMES, double MIN, double MAX) {
         this(new Linha(endX, endY, stroke_width, line_color), slider, FRAMES, MIN, MAX, false);
     }
     

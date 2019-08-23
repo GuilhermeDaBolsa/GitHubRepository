@@ -17,7 +17,7 @@ public class TabelaMenu extends CenaVisivel{
     public int numLimiteAtivador;
     public Runnables acaoLimite;
     
-    private Caixa modelo = null;
+    private YBox modelo = null;
     
     
     // VER PRA FAZER BASEADO NO NODO PAI, TIPO... QUANTO ESPAÇO TEM, QUANTO MEDe O PROXIMO ELEMENTO... ETC
@@ -68,8 +68,8 @@ public class TabelaMenu extends CenaVisivel{
             if(modelo == null){
                
             }else{
-                modelo.limpar_caixa();
-                modelo.add(elemento);
+                modelo.yClear();
+                modelo.yAddContent(elemento);
                 nodo = modelo;
             }
         }
@@ -131,7 +131,7 @@ public class TabelaMenu extends CenaVisivel{
      */
     public void colocarProximosObjetoEmCaixa(Paint corFundo, Paint corBorda, double strokeWidth){
         inscreverElementosEmCaixas = true;
-        modelo = new Caixa(corFundo, strokeWidth, corBorda);
+        modelo = new YBox(corFundo, strokeWidth, corBorda);
     }
     
     /**
@@ -139,7 +139,7 @@ public class TabelaMenu extends CenaVisivel{
      * @param modelo É a caixa que será usada para colocar os objetos.
      * @see #caixa
      */
-    public void colocarProximosObjetoEmCaixa(Caixa modelo){
+    public void colocarProximosObjetoEmCaixa(YBox modelo){
         inscreverElementosEmCaixas = true;
         this.modelo = modelo;
     }

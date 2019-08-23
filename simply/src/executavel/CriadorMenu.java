@@ -14,7 +14,6 @@ import javafx.scene.shape.StrokeType;
 
 public class CriadorMenu {
     static double largura_menu = 75;
-    static double espacinho = 20;
     static double porcentagem_btn = 0.5;
     static double tempo_animacao_menu = 0.3;
     public static ArrayList<Caixa> botoes = new ArrayList();

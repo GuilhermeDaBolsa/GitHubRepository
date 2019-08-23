@@ -4,7 +4,6 @@ import Biblioteca.BasicObjects.Formas.Forma;
 import Biblioteca.OrganizadoresDeNodos.BarraDeslisante;
 import Biblioteca.OrganizadoresDeNodos.MathGrid;
 import Biblioteca.OrganizadoresDeNodos.Caixa;
-import static executavel.CriadorMenu.espacinho;
 import static executavel.CriadorMenu.largura_menu;
 import java.util.ArrayList;
 import javafx.application.Application;
@@ -22,8 +21,8 @@ public class Fisica2 extends Application {
     @Override
     public void start(Stage primaryStage) {
         caixa_adicionar_carga = CriadorMenu.criar_caixa_adicionar();
-        caixa_adicionar_carga.setTranslateX(largura_menu + espacinho/2);
-        caixa_adicionar_carga.setTranslateY(largura_menu*0.6 + espacinho/2);
+        caixa_adicionar_carga.setTranslateX(largura_menu + 10);
+        caixa_adicionar_carga.setTranslateY(largura_menu*0.6 + 10);
         caixa_adicionar_carga.desativar();
         
         Caixa menu = CriadorMenu.cria_menu();
@@ -31,11 +30,11 @@ public class Fisica2 extends Application {
         System.out.println("caixa     " +((Forma) menu.caixa).yGetTranslateX(0) + "  ,  " + ((Forma) menu.caixa).yGetTranslateX(0) + "  ---  " + ((Forma) menu.caixa).yGetWidth(true) + "   x   " + ((Forma) menu.caixa).yGetHeight(true));
         System.out.println("container   " + menu.container.getTranslateX() + "    ,   " + menu.getTranslateY() + "  ---  " + menu.getLarguraConteudo() + "   x   " + menu.getAlturaConteudo());
         menu.alinhar_conteudos(0.5, 0, 0.5, 0);
-        menu.mover_conteudos(0, 10);
+        menu.mover_conteudos(0, 20);
         
         
         
-        caixa_adicionar_carga.translateXProperty().bind(menu.translateXProperty().add(largura_menu + espacinho/2));
+        caixa_adicionar_carga.translateXProperty().bind(menu.translateXProperty().add(largura_menu + 10));
         
         Caixa botao_menu = CriadorMenu.cria_botao_menu(menu);
         botao_menu.setTranslateX(botao_menu.caixa.getStrokeWidth());

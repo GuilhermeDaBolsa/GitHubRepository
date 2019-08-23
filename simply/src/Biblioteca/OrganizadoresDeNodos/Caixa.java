@@ -163,9 +163,9 @@ public class Caixa extends CenaVisivel {
      */
     public void realocar_conteudos(Double X, Double Y){
         if(X != null)
-            container.setTranslateX(((Forma) caixa).yGetTranslateX(0) + X + ((Forma) caixa).yGetStrokeOcupation().LEFT);
+            container.setTranslateX(X + ((Forma) caixa).yGetStrokeOcupation().LEFT);
         if(Y != null)
-            container.setTranslateY(((Forma) caixa).yGetTranslateY(0) + Y + ((Forma) caixa).yGetStrokeOcupation().UP);
+            container.setTranslateY(Y + ((Forma) caixa).yGetStrokeOcupation().UP);
     }
     
     /**
@@ -174,7 +174,8 @@ public class Caixa extends CenaVisivel {
      * @param Y Distância em pixels para mover no eixo Y.
      */
      public void mover_conteudos(double X, double Y){
-         realocar_conteudos(container.getTranslateX() + X, container.getTranslateY() + Y);
+         realocar_conteudos(container.getTranslateX() + X - ((Forma) caixa).yGetStrokeOcupation().LEFT,
+                 container.getTranslateY() + Y - ((Forma) caixa).yGetStrokeOcupation().UP);
     }
      
      /**
@@ -182,8 +183,8 @@ public class Caixa extends CenaVisivel {
      * dependendo do elemento).
      */
     public void alinhar_conteudos(double pivoelementoX, double pivoelementoY, double pivoCaixaX, double pivoCaixaY){
-        realocar_conteudos(((Forma) caixa).yGetTranslateX(pivoCaixaX) - getLarguraConteudo() * pivoelementoX,
-                ((Forma) caixa).yGetTranslateY(pivoCaixaY) - getAlturaConteudo() * pivoelementoY);
+        realocar_conteudos(((Forma) caixa).yGetTranslateX(0) + ((Forma) caixa).yGetWidth(false) * pivoCaixaX - getLarguraConteudo() * pivoelementoX,
+                ((Forma) caixa).yGetTranslateY(0) + ((Forma) caixa).yGetHeight(false) * pivoCaixaY - getAlturaConteudo() * pivoelementoY);
     }
     
     public void resizeBox(double width, double height, boolean strokeX_included, boolean strokeY_included, boolean correct_location){

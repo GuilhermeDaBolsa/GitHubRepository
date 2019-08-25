@@ -10,26 +10,34 @@ import javafx.scene.shape.StrokeType;
 
 
 //POR ENQUANTO SO FUNCIONA PRA CAIXAS
-public class InterligaElementos {
+public class YLinkElements {
     public ArrayList<Node> elementos = new ArrayList();
     private ArrayList<Integer> numeroDeConexao = new ArrayList();
+    private String eventsName;
 
-    public InterligaElementos(Node... elementos) {
-        addAll(elementos);
+    public YLinkElements(Node... elementos) {
+        yAddAll(elementos);
+        eventsName = "linked_elements" + this;
     }
     
-    public void add(Node elemento){
+    public void yAdd(Node elemento){
         elementos.add(elemento);
     }
     
-    public void addAll(Node... elementos){
+    public void yAddAll(Node... elementos){
         for (int i = 0; i < elementos.length; i++) {
-            add(elementos[i]);
+            yAdd(elementos[i]);
         }
     }
     
-    //FAZER COM UM VETOR DIZENDO SE É BOTAO OU ALAVANCA (BOOLEAN)
-    //E COM OUTRO DIZENDO COM QUAL ELEMENTOS ESTE SE RELACIONA (UM VETOR PRA CADA ELEMENTO, POIS O MESMO PODE SE RELACIONAR COM MAIS DE 1)
+    public void yRemove(Node object){
+        if(elementos.contains(object))
+            yRemove(elementos.indexOf(object));
+    }
+    
+    public void yRemove(int index){
+        
+    }
     
     /**
      * Você pode inserir um ID para cada elemento na ordem dos parametros, para interliga-los ou identifica-los.
@@ -40,16 +48,19 @@ public class InterligaElementos {
      * nenhum outro será influenciado por meio desta classe), digite 1.
      * Caso queira que todos sejam alavancas e independentes como o caso acima, digite -1.
      * (OBS: NUMEROS INVERSOS TAMBÈM ESTAO CONECTADOS... EX: -3 e 3
-     * @param typeAndID 
+     * @param type 
      */
-    public void setButtonTypes(int... typeAndID){
-        if(typeAndID.length == 1 && typeAndID[0] < 2 && typeAndID[0] > -2){
+    //fazer apenas com 1, 2, 3... nao precisa do mesmo id pra estar conectados se eles estao nessa classe
+    // 1 - btn, 2- alavanca, 3- aba
+    //ajeitar o remove pra tirar os eventos que adicionanou8
+    public void setButtonTypes(int... type){
+        if(type.length == 1 && type[0] < 2 && type[0] > -2){
             for (int i = 0; i < elementos.size(); i++) {
-                numeroDeConexao.add(typeAndID[0]);
+                numeroDeConexao.add(type[0]);
             }
         }else{
-            for (int i = 0; i < typeAndID.length; i++) {
-                numeroDeConexao.add(typeAndID[i]);
+            for (int i = 0; i < type.length; i++) {
+                numeroDeConexao.add(type[i]);
             }
         }
     }
@@ -63,7 +74,7 @@ public class InterligaElementos {
     }
     
     //ver tbm como usar o action cleaner no outoffocus e release, ja que é bem plausivel
-    //O RELEASE E O PRESSED TAO BUGANDO, MESMO SE TU NAO TIVER COM O MOUSE NO ELEMENTO ELES VAO FUNCIONAR AAAAAAAAAAAAAAAAAAAAAAAAA
+    //O RELEASE E O PRESSED TAO BUGANDO, MESMO SE TU NAO TIVER COM O MOUSE NO ELEMENTO ELES VAO FUNCIONAR AAAAAAAAAAAAAAAAAAAAAAAAA, se pa com o click no lugar do release funfa, pq clic é a ação inteira
     public void setEventosVisuais(Paint corBordaPadrao, Paint corBordaFoco, Paint corBordaClick){
         for (int i = 0; i < elementos.size(); i++) {
             if(elementos.get(i) instanceof YBox){
@@ -71,27 +82,26 @@ public class InterligaElementos {
                 
                 elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                 int num = numeroDeConexao.get(i);
-                String eventsName = "linked_elements";
                 if(num < 0){
-                    elemento.yEvents_Handler.onMouseEntered().addHandleble(eventsName, (event) -> {
-                        if(!elemento.yEvents_Handler.is_selected)
+                    elemento.yGetEventsHandler().onMouseEntered().addHandleble(eventsName, (event) -> {
+                        if(!elemento.yGetEventsHandler().is_selected)
                             elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.HAND);
                     });
-                    elemento.yEvents_Handler.onMouseExited().addHandleble(eventsName, (event) -> {
-                        if(!elemento.yEvents_Handler.is_selected)
+                    elemento.yGetEventsHandler().onMouseExited().addHandleble(eventsName, (event) -> {
+                        if(!elemento.yGetEventsHandler().is_selected)
                             elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.DEFAULT);
                     });
-                    elemento.yEvents_Handler.onMousePressed().addHandleble(eventsName, (event) -> {
-                        if(!elemento.yEvents_Handler.is_selected){
+                    elemento.yGetEventsHandler().onMousePressed().addHandleble(eventsName, (event) -> {
+                        if(!elemento.yGetEventsHandler().is_selected){
                             elemento.ySetStroke(null, corBordaClick, StrokeType.CENTERED, true);
                         }else{
                             elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
                         }
                     });
-                    elemento.yEvents_Handler.onMouseReleased().addHandleble(eventsName, (event) -> {
-                        if(!elemento.yEvents_Handler.is_selected){
+                    elemento.yGetEventsHandler().onMouseReleased().addHandleble(eventsName, (event) -> {
+                        if(!elemento.yGetEventsHandler().is_selected){
                             if(num < -1){
                                 descelecionaOutrosElementos(corBordaPadrao, num);
                             }
@@ -99,21 +109,21 @@ public class InterligaElementos {
                         }else{
                             elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);//ÉEEÈÈÈÈÈ``E
                         }
-                        elemento.yEvents_Handler.is_selected = !elemento.yEvents_Handler.is_selected;
+                        elemento.yGetEventsHandler().is_selected = !elemento.yGetEventsHandler().is_selected;
                     });
                 }else{
-                    elemento.yEvents_Handler.onMouseEntered().addHandleble(eventsName, (event) -> {
+                    elemento.yGetEventsHandler().onMouseEntered().addHandleble(eventsName, (event) -> {
                         elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.HAND);
                     });
-                    elemento.yEvents_Handler.onMouseExited().addHandleble(eventsName, (event) -> {
+                    elemento.yGetEventsHandler().onMouseExited().addHandleble(eventsName, (event) -> {
                         elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
                         elemento.setCursor(Cursor.DEFAULT);
                     });
-                    elemento.yEvents_Handler.onMousePressed().addHandleble(eventsName, (event) -> {
+                    elemento.yGetEventsHandler().onMousePressed().addHandleble(eventsName, (event) -> {
                         elemento.ySetStroke(null, corBordaClick, StrokeType.CENTERED, true);
                     });
-                    elemento.yEvents_Handler.onMouseReleased().addHandleble(eventsName, (event) -> {
+                    elemento.yGetEventsHandler().onMouseReleased().addHandleble(eventsName, (event) -> {
                         if(num > 1){
                             descelecionaOutrosElementos(corBordaPadrao, num);
                         }
@@ -128,9 +138,9 @@ public class InterligaElementos {
         for (int i = 0; i < elementos.size(); i++) {
             if(elementos.get(i) instanceof YBox && modulo(numeroDeConexao.get(i)) == modulo(ID)){
                 YBox elemento = (YBox) elementos.get(i);
-                elemento.yEvents_Handler.is_selected = false;
+                elemento.yGetEventsHandler().is_selected = false;
                 elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
-                elemento.yEvents_Handler.actionCleaner().run(null);
+                elemento.yGetEventsHandler().actionCleaner().run(null);
             }
         }
     }

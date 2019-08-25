@@ -1,32 +1,42 @@
 package Biblioteca.BasicObjects;
 
 import javafx.beans.binding.DoubleBinding;
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
-public class CenaVisivel extends Pane{
-    public YobjectEventsHandler yEvents_Handler = new YobjectEventsHandler(this);
+public class CenaVisivel extends Pane implements yAbstractInterface{
+    private YEventsHandler yEvents_Handler = new YEventsHandler(this);
     
+    @Override
+    public YEventsHandler yGetEventsHandler(){
+        return yEvents_Handler;
+    }
+    
+    @Override
     public double yGetWidth(){
         return VisibleObjectHandler.getWidth(this);
     }
     
+    @Override
     public double yGetHeight(){
         return VisibleObjectHandler.getHeight(this);
     }
     
+    @Override
     public double yGetTranslateX(double pivo){
         return VisibleObjectHandler.yGetTranslateX(this, pivo);
     }
     
+    @Override
     public double yGetTranslateY(double pivo){
         return VisibleObjectHandler.yGetTranslateY(this, pivo);
     }
     
+    @Override
     public void ySetTranslateX(double X, double pivo){
         VisibleObjectHandler.setTranslateX(this, X, pivo);
     }
     
+    @Override
     public void ySetTranslateY(double Y, double pivo){
         VisibleObjectHandler.setTranslateY(this, Y, pivo);
     }

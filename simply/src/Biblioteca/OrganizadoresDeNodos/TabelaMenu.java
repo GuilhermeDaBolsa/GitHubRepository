@@ -20,21 +20,10 @@ public class TabelaMenu extends CenaVisivel{
     private YBox modelo = null;
     
     
-    // VER PRA FAZER BASEADO NO NODO PAI, TIPO... QUANTO ESPAÇO TEM, QUANTO MEDe O PROXIMO ELEMENTO... ETC
     //espacoEntreElementosX É o espaço entre os elementos (em X), para eles não ficarem grudados um no outro.
     //espacoEntreElementosY É o espaço entre os elementos (em Y), para eles não ficarem grudados um no outro.
     
     //E MUDAR O POSITION PATTERN PRA TIPO PODE SER 1px e SE O ESPAÇO ENTRE ELEMENTOS FOR MAIOR VAI O ESPAÇO ENTRE ELEMENTOS, EU ACHO
-    
-    /**
-     * Construtor que com base no Nodo pai desse elemento, calcula as medidas dos elementos (faz tudo automático).
-     * @param pai  É o Nodo pai ao atual elemento.
-     */
-    public TabelaMenu(Node pai) {
-        //ADIVINHA O QUE TU QUER
-        
-        this.getChildren().addAll(elementos);
-    }
     
     /**
      * Faz na mão, independente de outros objetos.
@@ -42,7 +31,7 @@ public class TabelaMenu extends CenaVisivel{
      * @param positionPaternY É a medida padrão de distância entre os elementos (eixo Y).
      * @param numLimiteAtivador Quando o número de elementos chegar ao numLimiteAtivador, será executada a acaoLimite.
      */
-    public TabelaMenu(double positionPaternX, double positionPaternY, double espacoElementosX, double espacoElementosY,
+    public TabelaMenu(double positionPaternX, double positionPaternY, double espacoElementosX, double espacoElementosY,//TIRAR OS POSITION PATERN E TENTAR PEGA ELES NA MÃO?
             int numLimiteAtivador, boolean tryToGessNextPosition, Node... vetElemento) {
         this.numLimiteAtivador = numLimiteAtivador;
         this.positionPaternX = positionPaternX;
@@ -139,6 +128,7 @@ public class TabelaMenu extends CenaVisivel{
      * @param modelo É a caixa que será usada para colocar os objetos.
      * @see #caixa
      */
+    @Deprecated //Still does not make copys of the modelo box, so it is always the same :(
     public void colocarProximosObjetoEmCaixa(YBox modelo){
         inscreverElementosEmCaixas = true;
         this.modelo = modelo;
@@ -214,7 +204,7 @@ public class TabelaMenu extends CenaVisivel{
             this.positionPaternY = positionPaternY;
     }
     
-    public void bindEspacoEntreElementos(/*BINDE DO CARAIO*/){
+    /*public void bindEspacoEntreElementos(/*BINDE DO CARAIO){
         
-    }
+    }*/
 }

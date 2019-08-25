@@ -1,6 +1,6 @@
 package Biblioteca.BasicObjects.Formas;
 
-import Biblioteca.BasicObjects.YobjectEventsHandler;
+import Biblioteca.BasicObjects.YEventsHandler;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import Biblioteca.Lists.ySimpleMap;
@@ -21,10 +21,12 @@ import javafx.scene.transform.Rotate;
 //O TEXTO GUARDA SEMPRE UM ESPAÇO PROS ACENTOS (E PRA SEPARA AS LINHAS), dai a primeira linha é mais alta;
 
 public class Texto extends Text implements Forma {
-    public YobjectEventsHandler yEvents = new YobjectEventsHandler(this);
+    private YEventsHandler yEvents_Handler = new YEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
+    
     private YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     private Rotate yRotation = new Rotate(0);
+    
     public DoubleProperty yMax_width = new SimpleDoubleProperty(-1);
     public DoubleProperty yMax_height = new SimpleDoubleProperty(-1);
     
@@ -279,7 +281,16 @@ public class Texto extends Text implements Forma {
     public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
         YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
     }
-
+    
+    
+    
+    //----------------------------- EVENTS METHODS -----------------------------\\
+    
+    @Override
+    public YEventsHandler yGetEventsHandler(){
+        return yEvents_Handler;
+    }
+    
     
     
     //----------------------------- BIND/LISTENER METHODS -----------------------------\\

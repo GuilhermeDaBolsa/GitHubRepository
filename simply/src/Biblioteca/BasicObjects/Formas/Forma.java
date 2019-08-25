@@ -1,12 +1,13 @@
 package Biblioteca.BasicObjects.Formas;
 
+import Biblioteca.BasicObjects.yAbstractInterface;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.transform.Rotate;
 
-public interface Forma{
+public interface Forma extends yAbstractInterface{
     
     //----------------------------- SIZE METHODS -----------------------------\\
     
@@ -25,11 +26,13 @@ public interface Forma{
     /**
      * @return The width that the entire shape (with all effects and attributes) occupies in the scene.
      */
+    @Override
     public double yGetWidth();
     
     /**
      * @return The height that the entire shape (with all effects and attributes) occupies in the scene.
      */
+    @Override
     public double yGetHeight();
     
     /**
@@ -58,6 +61,7 @@ public interface Forma{
      * 0.5 is the middle and 1 is the bottom point (it is not limited from 0 to 1, you can go further).
      * @return The X location of the pivo point.
      */
+    @Override
     public double yGetTranslateX(double pivo);
     
     /**
@@ -66,6 +70,7 @@ public interface Forma{
      * 0.5 is the middle and 1 is the bottom point (it is not limited from 0 to 1, you can go further).
      * @return The Y location of the pivo point.
      */
+    @Override
     public double yGetTranslateY(double pivo);
     
     /**
@@ -75,6 +80,7 @@ public interface Forma{
      * and 1 is the rightmost point (it is not limited from 0 to 1, you can go further).
      * @param X The new position in the X axis.
      */
+    @Override
     public void ySetTranslateX(double X, double pivo);
     
     /**
@@ -84,6 +90,7 @@ public interface Forma{
      * and 1 is the bottom point (it is not limited from 0 to 1, you can go further).
      * @param Y The new position in the Y axis.
      */
+    @Override
     public void ySetTranslateY(double Y, double pivo);
     
     /**

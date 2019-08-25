@@ -1,6 +1,6 @@
 package executavel;
 
-import Biblioteca.InteractiveObjects.InterligaElementos;
+import Biblioteca.InteractiveObjects.YLinkElements;
 import Biblioteca.Animacoes;
 import Biblioteca.OrganizadoresDeNodos.TabelaMenu;
 import Biblioteca.OrganizadoresDeNodos.YBox;
@@ -26,17 +26,17 @@ public class CriadorMenu {
      */
     public static YBox cria_menu() {
         YBox btn_add = new YBox(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, Color.CADETBLUE, 1, Color.BLACK);
-        btn_add.yEvents_Handler.onMouseReleased().addHandleble((event) -> {
+        btn_add.yGetEventsHandler().onMouseReleased().addHandleble((event) -> {
             Fisica2.caixa_adicionar_carga.switchAtivarDesativar();
         }); 
 
-        btn_add.yEvents_Handler.actionCleaner().addHandleble((event) -> {
+        btn_add.yGetEventsHandler().actionCleaner().addHandleble((event) -> {
             Fisica2.caixa_adicionar_carga.desativar();
         });
         botoes.add(btn_add);
         
         YBox btn_config = new YBox(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, Color.DARKGRAY, 1, Color.BLACK);
-        btn_config.yEvents_Handler.onMouseReleased().addHandleble((event) -> {
+        btn_config.yGetEventsHandler().onMouseReleased().addHandleble((event) -> {
             for (int i = -150; i < 151; i++) {
                 Fisica2.grade.adicionar_objeto(new Entidade(6, 12, Color.AQUA, i + ", " + i), i, i);
             }
@@ -45,7 +45,7 @@ public class CriadorMenu {
         
         YBox btn_remove = new YBox(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, Color.FIREBRICK, 1, Color.BLACK);
         botoes.add(btn_remove);
-        btn_remove.yEvents_Handler.onMouseReleased().addHandleble((event) -> {
+        btn_remove.yGetEventsHandler().onMouseReleased().addHandleble((event) -> {
             Runtime runtime = Runtime.getRuntime();
             //runtime.gc();
             long memory = runtime.totalMemory() - runtime.freeMemory();
@@ -54,7 +54,7 @@ public class CriadorMenu {
         
         TabelaMenu tabela = new TabelaMenu(0, 50, 0, 40, 1, false, btn_add, btn_config, btn_remove);
         
-        InterligaElementos junta = new InterligaElementos(btn_add, btn_config, btn_remove);
+        YLinkElements junta = new YLinkElements(btn_add, btn_config, btn_remove);
         junta.setButtonTypes(-2,2,-2);
         junta.setEventosVisuais(Color.BLACK, Color.WHITE, Color.CHARTREUSE);
         

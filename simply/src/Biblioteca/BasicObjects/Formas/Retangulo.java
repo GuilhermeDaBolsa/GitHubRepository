@@ -8,16 +8,18 @@ import javafx.scene.shape.StrokeType;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
-import Biblioteca.BasicObjects.YobjectEventsHandler;
+import Biblioteca.BasicObjects.YEventsHandler;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.transform.Rotate;
 
 public class Retangulo extends Rectangle implements Forma{
-    public YobjectEventsHandler yEvents = new YobjectEventsHandler(this);
+    private YEventsHandler yEvents_Handler = new YEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
+    
     private YstrokeOcupation yOutsideStrokeOcupation = new YstrokeOcupation();
     private Rotate yRotation = new Rotate(0);
+    
     public DoubleProperty yMax_width = new SimpleDoubleProperty(-1);
     public DoubleProperty yMax_height = new SimpleDoubleProperty(-1);
     
@@ -181,6 +183,15 @@ public class Retangulo extends Rectangle implements Forma{
     @Override
     public void ySetHeigthWithScale(double height, boolean stroke_included, boolean correct_location) {
         YshapeHandler.ySetHeigthWithScale(this, height, stroke_included, correct_location);
+    }
+
+    
+    
+    //----------------------------- EVENTS METHODS -----------------------------\\
+    
+    @Override
+    public YEventsHandler yGetEventsHandler(){
+        return yEvents_Handler;
     }
     
 

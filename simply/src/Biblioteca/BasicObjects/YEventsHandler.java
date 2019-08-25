@@ -9,7 +9,7 @@ import javafx.scene.input.MouseEvent;
 /**
  * Class created to 
  */
-public class YobjectEventsHandler {
+public class YEventsHandler {
     public Node object;
     
     private Runnables<MouseEvent> onMouseEntered;
@@ -23,7 +23,7 @@ public class YobjectEventsHandler {
     public boolean is_focused;
     public boolean is_selected;
 
-    public YobjectEventsHandler(Node objeto) {
+    public YEventsHandler(Node objeto) {
         this.object = objeto;
         onMouseReleased = new Runnables();
         onMousePressed = new Runnables();
@@ -89,6 +89,14 @@ public class YobjectEventsHandler {
     
     public Runnables<MouseEvent> actionCleaner(){
         return actionCleaner;
+    }
+    
+    public void clearEvents(){
+        onMouseEntered.clear();
+        onMouseExited.clear();
+        onMousePressed.clear();
+        onMouseReleased.clear();
+        onMouseDragged.clear();
     }
     
     public void setOnKeyEMouseAction(EventHandler<? super MouseEvent> value) {

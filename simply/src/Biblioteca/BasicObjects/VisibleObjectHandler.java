@@ -1,7 +1,6 @@
 package Biblioteca.BasicObjects;
 
 import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.DoubleProperty;
 import javafx.scene.Node;
 
 public abstract class VisibleObjectHandler{

@@ -40,8 +40,25 @@ public class ySimpleMap<Key, Content> {
      * @param object The object to be stored.
      */
     public void add(Key key, Content object){
-        keys.add(key);
-        objects.add(object);
+        int exist = keys.indexOf(key);
+        if(exist != -1){
+            keys.set(exist, key);
+            objects.set(exist, object);
+        }else{
+            keys.add(key);
+            objects.add(object);
+        }
+    }
+    
+    public void add(int priority, Key key, Content object){
+        int exist = keys.indexOf(key);
+        if(exist != -1){
+            keys.remove(key);
+            objects.remove(object);
+        }
+        
+        keys.add(priority, key);
+        objects.add(priority, object);
     }
     
     /**
@@ -59,11 +76,11 @@ public class ySimpleMap<Key, Content> {
     public void remove(int index){
         if(index > keys.size()-1)
             index = keys.size()-1;
-        else if(index < 0)
-            index = 0;
         
-        keys.remove(index);
-        objects.remove(index);
+        if(index >= 0){
+            keys.remove(index);
+            objects.remove(index);
+        }
     }
     
     /**

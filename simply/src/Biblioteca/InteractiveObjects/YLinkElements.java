@@ -1,151 +1,153 @@
 package Biblioteca.InteractiveObjects;
 
-import static Biblioteca.LogicClasses.Matematicas.modulo;
 import Biblioteca.OrganizadoresDeNodos.YBox;
 import java.util.ArrayList;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.StrokeType;
 
 
-//POR ENQUANTO SO FUNCIONA PRA CAIXAS
+//POR ENQUANTO SO FUNCIONA PRA YBox
 public class YLinkElements {
-    public ArrayList<Node> elementos = new ArrayList();
-    private ArrayList<Integer> numeroDeConexao = new ArrayList();
+    public ArrayList<YBox> elements = new ArrayList();
+    private ArrayList<Integer> types = new ArrayList();
+    private int whoIsSelected;
     private String eventsName;
 
-    public YLinkElements(Node... elementos) {
+    public YLinkElements(YBox... elementos) {
         yAddAll(elementos);
         eventsName = "linked_elements" + this;
     }
     
-    public void yAdd(Node elemento){
-        elementos.add(elemento);
+    public void yAdd(YBox elemento){
+        elements.add(elemento);
     }
     
-    public void yAddAll(Node... elementos){
+    public void yAddAll(YBox... elementos){
         for (int i = 0; i < elementos.length; i++) {
             yAdd(elementos[i]);
         }
     }
     
-    public void yRemove(Node object){
-        if(elementos.contains(object))
-            yRemove(elementos.indexOf(object));
+    public void yRemove(YBox object){
+        if(elements.contains(object))
+            yRemove(elements.indexOf(object));
     }
     
     public void yRemove(int index){
-        
+        ((YBox) elements.get(index)).yGetEventsHandler().removeFromAll(eventsName);
+        elements.remove(index);
+        types.remove(index);
     }
     
     /**
-     * Você pode inserir um ID para cada elemento na ordem dos parametros, para interliga-los ou identifica-los.
-     * Ao usar numeros negativos, o elemento será do tipo alavanca (use do -2 em diante) e ao usar positivos,
-     * será do tipo botão (use do 2 em diante) (ao posteriormente inserir eventos), para que ao clicar em um elemento,
-     * o outro receba um ActionClear (seja descelecionado) use o mesmo ID para ambos elementos, sendo assim estarão conectados.
-     * Se você quer que todos os elementos sejam do tipo botão e sejam todos independentes um do outro (ao clicar em um,
-     * nenhum outro será influenciado por meio desta classe), digite 1.
-     * Caso queira que todos sejam alavancas e independentes como o caso acima, digite -1.
-     * (OBS: NUMEROS INVERSOS TAMBÈM ESTAO CONECTADOS... EX: -3 e 3
-     * @param type 
+     * Possible parameters:
+     * 1 - Button (it clicks and releases)
+     * 2 - Lever (it switches between on and off)
+     * 3 - Tab (the same as a lever with an exception, clicking on itself)
+     * 
+     * @param type The element types in the same order of adding
      */
-    //fazer apenas com 1, 2, 3... nao precisa do mesmo id pra estar conectados se eles estao nessa classe
-    // 1 - btn, 2- alavanca, 3- aba
-    //ajeitar o remove pra tirar os eventos que adicionanou8
-    public void setButtonTypes(int... type){
-        if(type.length == 1 && type[0] < 2 && type[0] > -2){
-            for (int i = 0; i < elementos.size(); i++) {
-                numeroDeConexao.add(type[0]);
-            }
-        }else{
-            for (int i = 0; i < type.length; i++) {
-                numeroDeConexao.add(type[i]);
-            }
+    public void yAddElementsTypes(int... type){
+        for (int i = 0; i < type.length; i++) {
+            if(type[i] < 1)
+                type[i] = 1;
+            else if(type[i] > 3)
+                type[i] = 3;
+            
+            types.add(type[i]);
         }
     }
     /**
-     * @see #setButtonTypes(int...)
+     * @see #yAddElementsTypes(int[])
      * @param index
      * @param type 
      */
-    public void setEspecificButtonType(int index, int type){
-        numeroDeConexao.set(index, type);
+    public void ySetElementType(int index, int type){
+        if(type < 1)
+            type = 1;
+        else if(type > 3)
+            type = 3;
+        
+        types.set(index, type);
     }
     
     //ver tbm como usar o action cleaner no outoffocus e release, ja que é bem plausivel
     //O RELEASE E O PRESSED TAO BUGANDO, MESMO SE TU NAO TIVER COM O MOUSE NO ELEMENTO ELES VAO FUNCIONAR AAAAAAAAAAAAAAAAAAAAAAAAA, se pa com o click no lugar do release funfa, pq clic é a ação inteira
     public void setEventosVisuais(Paint corBordaPadrao, Paint corBordaFoco, Paint corBordaClick){
-        for (int i = 0; i < elementos.size(); i++) {
-            if(elementos.get(i) instanceof YBox){
-                YBox elemento = (YBox) elementos.get(i);
-                
-                elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
-                int num = numeroDeConexao.get(i);
-                if(num < 0){
-                    elemento.yGetEventsHandler().onMouseEntered().addHandleble(eventsName, (event) -> {
-                        if(!elemento.yGetEventsHandler().is_selected)
-                            elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
-                        elemento.setCursor(Cursor.HAND);
+        removerRecursosVisuais();
+        
+        for (int i = 0; i < elements.size(); i++) {
+            YBox elemento = elements.get(i);
+            elemento.ySetStroke(null, corBordaPadrao, null, false);
+            int num = types.get(i);
+
+            elemento.yGetEventsHandler().onMouseEntered().addHandleble(0, eventsName, (event) -> {
+                if(!elemento.yGetEventsHandler().is_selected)
+                    elemento.ySetStroke(null, corBordaFoco, null, false);
+                ((Node) elemento).setCursor(Cursor.HAND);
+            });
+            elemento.yGetEventsHandler().onMouseExited().addHandleble(0, eventsName, (event) -> {
+                if(!elemento.yGetEventsHandler().is_selected)
+                    elemento.ySetStroke(null, corBordaPadrao, null, false);
+                ((Node) elemento).setCursor(Cursor.DEFAULT);
+            });
+            elemento.yGetEventsHandler().onMousePressed().addHandleble(0, eventsName, (event) -> {
+                elemento.ySetStroke(null, corBordaClick, null, false);
+            });
+
+            switch (num) {
+                case 1:
+                    elemento.yGetEventsHandler().onMouseClicked().addHandleble(0, eventsName, (event) -> {
+                        disableSelectedElement(corBordaPadrao);
+                        whoIsSelected = -1;
+                        elemento.ySetStroke(null, corBordaFoco, null, false);
                     });
-                    elemento.yGetEventsHandler().onMouseExited().addHandleble(eventsName, (event) -> {
-                        if(!elemento.yGetEventsHandler().is_selected)
-                            elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
-                        elemento.setCursor(Cursor.DEFAULT);
-                    });
-                    elemento.yGetEventsHandler().onMousePressed().addHandleble(eventsName, (event) -> {
+                    break;
+                case 2:
+                    elemento.yGetEventsHandler().onMouseClicked().addHandleble(0, eventsName, (event) -> {
+                        
                         if(!elemento.yGetEventsHandler().is_selected){
-                            elemento.ySetStroke(null, corBordaClick, StrokeType.CENTERED, true);
+                            disableSelectedElement(corBordaPadrao);
+                            elemento.yGetEventsHandler().is_selected = true;
+                            elemento.ySetStroke(null, corBordaClick, null, false);
+                            whoIsSelected = elements.indexOf(elemento);
                         }else{
-                            elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
+                            disableSelectedElement(corBordaPadrao);
+                            whoIsSelected = -1;
+                            elemento.ySetStroke(null, corBordaFoco, null, false);
+                            elemento.yGetEventsHandler().onMouseClicked().stopEventPropagation();//REMEMBER THAT IT ONLY STOPS PROPAGATION ON MOUSE CLICKED!!!
                         }
                     });
-                    elemento.yGetEventsHandler().onMouseReleased().addHandleble(eventsName, (event) -> {
+                    break;
+                case 3:
+                    elemento.yGetEventsHandler().onMouseClicked().addHandleble(0, eventsName, (event) -> {
                         if(!elemento.yGetEventsHandler().is_selected){
-                            if(num < -1){
-                                descelecionaOutrosElementos(corBordaPadrao, num);
-                            }
-                            elemento.ySetStroke(null, corBordaClick, StrokeType.CENTERED, true);
+                            disableSelectedElement(corBordaPadrao);
+                            elemento.yGetEventsHandler().is_selected = true;
+                            elemento.ySetStroke(null, corBordaClick, null, false);
+                            whoIsSelected = elements.indexOf(elemento);
                         }else{
-                            elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);//ÉEEÈÈÈÈÈ``E
+                            elemento.yGetEventsHandler().onMouseClicked().stopEventPropagation();
                         }
-                        elemento.yGetEventsHandler().is_selected = !elemento.yGetEventsHandler().is_selected;
                     });
-                }else{
-                    elemento.yGetEventsHandler().onMouseEntered().addHandleble(eventsName, (event) -> {
-                        elemento.ySetStroke(null, corBordaFoco, StrokeType.CENTERED, true);
-                        elemento.setCursor(Cursor.HAND);
-                    });
-                    elemento.yGetEventsHandler().onMouseExited().addHandleble(eventsName, (event) -> {
-                        elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
-                        elemento.setCursor(Cursor.DEFAULT);
-                    });
-                    elemento.yGetEventsHandler().onMousePressed().addHandleble(eventsName, (event) -> {
-                        elemento.ySetStroke(null, corBordaClick, StrokeType.CENTERED, true);
-                    });
-                    elemento.yGetEventsHandler().onMouseReleased().addHandleble(eventsName, (event) -> {
-                        if(num > 1){
-                            descelecionaOutrosElementos(corBordaPadrao, num);
-                        }
-                        elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
-                    });
-                }
+                    break;
             }
         }  
     }
     
-    private void descelecionaOutrosElementos(Paint corBordaPadrao, int ID){
-        for (int i = 0; i < elementos.size(); i++) {
-            if(elementos.get(i) instanceof YBox && modulo(numeroDeConexao.get(i)) == modulo(ID)){
-                YBox elemento = (YBox) elementos.get(i);
-                elemento.yGetEventsHandler().is_selected = false;
-                elemento.ySetStroke(null, corBordaPadrao, StrokeType.CENTERED, true);
-                elemento.yGetEventsHandler().actionCleaner().run(null);
-            }
+    private void disableSelectedElement(Paint corBordaPadrao){
+        if(whoIsSelected != -1){
+            YBox elemento = elements.get(whoIsSelected);
+            elemento.yGetEventsHandler().is_selected = false;
+            elemento.ySetStroke(null, corBordaPadrao, null, false);
+            elemento.yGetEventsHandler().actionCleaner().run(null);
         }
     }
     
     public void removerRecursosVisuais(){
-        
+        for (int i = 0; i < elements.size(); i++) {
+            elements.get(i).yGetEventsHandler().removeFromAll(eventsName);
+        }
     }
 }

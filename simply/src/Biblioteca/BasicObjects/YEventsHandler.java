@@ -16,6 +16,7 @@ public class YEventsHandler {
     private Runnables<MouseEvent> onMouseExited;
     private Runnables<MouseEvent> onMousePressed;
     private Runnables<MouseEvent> onMouseReleased;
+    private Runnables<MouseEvent> onMouseClicked;
     private Runnables<MouseEvent> onMouseDragged;
     private Runnables<MouseEvent> actionCleaner;
     //KEYBORD RUNNABLE || TODO
@@ -25,6 +26,7 @@ public class YEventsHandler {
 
     public YEventsHandler(Node objeto) {
         this.object = objeto;
+        onMouseClicked = new Runnables();
         onMouseReleased = new Runnables();
         onMousePressed = new Runnables();
         onMouseEntered = new Runnables();
@@ -77,6 +79,16 @@ public class YEventsHandler {
         return onMouseReleased;
     }
     
+    public Runnables<MouseEvent> onMouseClicked(){
+        if(onMouseClicked.size() == 0){//activates this action
+            object.setOnMouseClicked((event) -> {
+                onMouseClicked.run(event);
+            });
+        }
+        
+        return onMouseClicked;
+    }
+    
     public Runnables<MouseEvent> onMouseDragged(){
         if(onMouseDragged.size() == 0){//activates this action
             object.setOnMouseDragged((event) -> {
@@ -89,6 +101,14 @@ public class YEventsHandler {
     
     public Runnables<MouseEvent> actionCleaner(){
         return actionCleaner;
+    }
+    
+    public void removeFromAll(String name){
+        onMouseEntered.removeHandleble(name);
+        onMouseExited.removeHandleble(name);
+        onMousePressed.removeHandleble(name);
+        onMouseReleased.removeHandleble(name);
+        onMouseDragged.removeHandleble(name);
     }
     
     public void clearEvents(){

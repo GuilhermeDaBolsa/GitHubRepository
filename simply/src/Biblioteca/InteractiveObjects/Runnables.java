@@ -13,6 +13,8 @@ public class Runnables<EventType extends Event> {
      * A map that holds the actions (objects) and its names (keys).
      */
     private ySimpleMap<String, EventHandler> actions;
+    
+    private int current_event_execution;
 
     /**
      * Creates a clean map of actions, Runnable.
@@ -28,6 +30,10 @@ public class Runnables<EventType extends Event> {
      */
     public void addHandleble(String name, EventHandler<? super EventType> action){
         actions.add(name, action);
+    }
+    
+    public void addHandleble(int priority, String name, EventHandler<? super EventType> action){
+        actions.add(priority, name, action);
     }
     
     public void addHandlebles(String name, Runnables handlebles){
@@ -84,8 +90,9 @@ public class Runnables<EventType extends Event> {
      * @param event Event that fired the run.
      */
     public void run(EventType event){
-        for (int i = 0; i < actions.size(); i++) {
-            actions.get(i).handle(event);
+        current_event_execution = 0;
+        for (; current_event_execution < actions.size(); current_event_execution++) {
+            actions.get(current_event_execution).handle(event);
         }
     }
     
@@ -96,5 +103,9 @@ public class Runnables<EventType extends Event> {
      */
     public void runEspecifc(String name, EventType event){
         actions.get(name).handle(event);
+    }
+    
+    public void stopEventPropagation(){
+        current_event_execution = actions.size();
     }
 }

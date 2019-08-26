@@ -1,5 +1,7 @@
 package Biblioteca.BasicObjects;
 
+import Biblioteca.Interactions.YEventsHandler;
+
 public interface yAbstractInterface {
     
     public YEventsHandler yGetEventsHandler();

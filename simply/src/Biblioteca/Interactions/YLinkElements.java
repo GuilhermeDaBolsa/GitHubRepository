@@ -1,4 +1,4 @@
-package Biblioteca.InteractiveObjects;
+package Biblioteca.Interactions;
 
 import Biblioteca.OrganizadoresDeNodos.YBox;
 import java.util.ArrayList;

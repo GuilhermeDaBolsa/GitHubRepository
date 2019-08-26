@@ -1,4 +1,4 @@
-package Biblioteca.InteractiveObjects;
+package Biblioteca.Interactions;
 
 import java.util.ArrayList;
 import java.util.Scanner;

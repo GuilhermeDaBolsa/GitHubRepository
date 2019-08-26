@@ -1,6 +1,6 @@
 package executavel;
 
-import Biblioteca.InteractiveObjects.YLinkElements;
+import Biblioteca.Interactions.YLinkElements;
 import Biblioteca.Animacoes;
 import Biblioteca.OrganizadoresDeNodos.TabelaMenu;
 import Biblioteca.OrganizadoresDeNodos.YBox;

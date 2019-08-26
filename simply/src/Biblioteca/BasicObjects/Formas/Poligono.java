@@ -10,7 +10,7 @@ import javafx.scene.shape.StrokeType;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.VisibleObjectHandler;
-import Biblioteca.BasicObjects.YEventsHandler;
+import Biblioteca.Interactions.YEventsHandler;
 import static Biblioteca.LogicClasses.Matematicas.calculate_angle;
 import static Biblioteca.LogicClasses.Matematicas.hypotenuse;
 import static Biblioteca.LogicClasses.Matematicas.modulo;

@@ -1,7 +1,7 @@
 package Biblioteca.OrganizadoresDeNodos;
 
 import Biblioteca.BasicObjects.CenaVisivel;
-import Biblioteca.InteractiveObjects.Runnables;
+import Biblioteca.Interactions.Runnables;
 import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.paint.Paint;

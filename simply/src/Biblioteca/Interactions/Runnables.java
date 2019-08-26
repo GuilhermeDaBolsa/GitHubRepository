@@ -1,4 +1,4 @@
-package Biblioteca.InteractiveObjects;
+package Biblioteca.Interactions;
 
 import Biblioteca.Lists.ySimpleMap;
 import javafx.event.Event;

@@ -1,5 +1,6 @@
 package Biblioteca.BasicObjects;
 
+import Biblioteca.Interactions.YEventsHandler;
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.layout.Pane;
 

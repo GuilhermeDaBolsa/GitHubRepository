@@ -1,6 +1,6 @@
 package Biblioteca.BasicObjects.Formas;
 
-import Biblioteca.BasicObjects.YEventsHandler;
+import Biblioteca.Interactions.YEventsHandler;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import Biblioteca.Lists.ySimpleMap;

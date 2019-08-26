@@ -1,6 +1,6 @@
-package Biblioteca.BasicObjects;
+package Biblioteca.Interactions;
 
-import Biblioteca.InteractiveObjects.Runnables;
+import Biblioteca.Interactions.Runnables;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;

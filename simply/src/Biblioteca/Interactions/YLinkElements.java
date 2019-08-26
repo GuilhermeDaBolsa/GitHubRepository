@@ -72,60 +72,58 @@ public class YLinkElements {
         types.set(index, type);
     }
     
-    //ver tbm como usar o action cleaner no outoffocus e release, ja que é bem plausivel
-    //O RELEASE E O PRESSED TAO BUGANDO, MESMO SE TU NAO TIVER COM O MOUSE NO ELEMENTO ELES VAO FUNCIONAR AAAAAAAAAAAAAAAAAAAAAAAAA, se pa com o click no lugar do release funfa, pq clic é a ação inteira
-    public void setEventosVisuais(Paint corBordaPadrao, Paint corBordaFoco, Paint corBordaClick){
-        removerRecursosVisuais();
+    public void ySetVisualEvents(Paint defaultStrokeColor, Paint onFocusStrokeColor, Paint onClickStrokeColor){
+        yRemoveVisualEvents();
         
         for (int i = 0; i < elements.size(); i++) {
             YBox elemento = elements.get(i);
-            elemento.ySetStroke(null, corBordaPadrao, null, false);
+            elemento.ySetStroke(null, defaultStrokeColor, null, false);
             int num = types.get(i);
 
             elemento.yGetEventsHandler().onMouseEntered().addHandleble(0, eventsName, (event) -> {
                 if(!elemento.yGetEventsHandler().is_selected)
-                    elemento.ySetStroke(null, corBordaFoco, null, false);
+                    elemento.ySetStroke(null, onFocusStrokeColor, null, false);
                 ((Node) elemento).setCursor(Cursor.HAND);
             });
             elemento.yGetEventsHandler().onMouseExited().addHandleble(0, eventsName, (event) -> {
                 if(!elemento.yGetEventsHandler().is_selected)
-                    elemento.ySetStroke(null, corBordaPadrao, null, false);
+                    elemento.ySetStroke(null, defaultStrokeColor, null, false);
                 ((Node) elemento).setCursor(Cursor.DEFAULT);
             });
             elemento.yGetEventsHandler().onMousePressed().addHandleble(0, eventsName, (event) -> {
-                elemento.ySetStroke(null, corBordaClick, null, false);
+                elemento.ySetStroke(null, onClickStrokeColor, null, false);
             });
 
             switch (num) {
                 case 1:
                     elemento.yGetEventsHandler().onMouseClicked().addHandleble(0, eventsName, (event) -> {
-                        disableSelectedElement(corBordaPadrao);
+                        yDisableSelectedElement(defaultStrokeColor);
                         whoIsSelected = -1;
-                        elemento.ySetStroke(null, corBordaFoco, null, false);
+                        elemento.ySetStroke(null, onFocusStrokeColor, null, false);
                     });
                     break;
                 case 2:
                     elemento.yGetEventsHandler().onMouseClicked().addHandleble(0, eventsName, (event) -> {
                         
                         if(!elemento.yGetEventsHandler().is_selected){
-                            disableSelectedElement(corBordaPadrao);
+                            yDisableSelectedElement(defaultStrokeColor);
                             elemento.yGetEventsHandler().is_selected = true;
-                            elemento.ySetStroke(null, corBordaClick, null, false);
+                            elemento.ySetStroke(null, onClickStrokeColor, null, false);
                             whoIsSelected = elements.indexOf(elemento);
                         }else{
-                            disableSelectedElement(corBordaPadrao);
+                            yDisableSelectedElement(defaultStrokeColor);
                             whoIsSelected = -1;
-                            elemento.ySetStroke(null, corBordaFoco, null, false);
-                            elemento.yGetEventsHandler().onMouseClicked().stopEventPropagation();//REMEMBER THAT IT ONLY STOPS PROPAGATION ON MOUSE CLICKED!!!
+                            elemento.ySetStroke(null, onFocusStrokeColor, null, false);
+                            elemento.yGetEventsHandler().onMouseClicked().stopEventPropagation();//REMEMBER THAT IT ONLY STOPS PROPAGATION ON: MOUSE CLICKED!!!
                         }
                     });
                     break;
                 case 3:
                     elemento.yGetEventsHandler().onMouseClicked().addHandleble(0, eventsName, (event) -> {
                         if(!elemento.yGetEventsHandler().is_selected){
-                            disableSelectedElement(corBordaPadrao);
+                            yDisableSelectedElement(defaultStrokeColor);
                             elemento.yGetEventsHandler().is_selected = true;
-                            elemento.ySetStroke(null, corBordaClick, null, false);
+                            elemento.ySetStroke(null, onClickStrokeColor, null, false);
                             whoIsSelected = elements.indexOf(elemento);
                         }else{
                             elemento.yGetEventsHandler().onMouseClicked().stopEventPropagation();
@@ -136,16 +134,16 @@ public class YLinkElements {
         }  
     }
     
-    private void disableSelectedElement(Paint corBordaPadrao){
+    public void yDisableSelectedElement(Paint defaultStrokeColor){
         if(whoIsSelected != -1){
             YBox elemento = elements.get(whoIsSelected);
             elemento.yGetEventsHandler().is_selected = false;
-            elemento.ySetStroke(null, corBordaPadrao, null, false);
+            elemento.ySetStroke(null, defaultStrokeColor, null, false);
             elemento.yGetEventsHandler().actionCleaner().run(null);
         }
     }
     
-    public void removerRecursosVisuais(){
+    public void yRemoveVisualEvents(){
         for (int i = 0; i < elements.size(); i++) {
             elements.get(i).yGetEventsHandler().removeFromAll(eventsName);
         }

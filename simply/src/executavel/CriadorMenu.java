@@ -36,9 +36,9 @@ public class CriadorMenu {
         
         YBox btn_config = new YBox(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, Color.DARKGRAY, 1, Color.BLACK);
         btn_config.yGetEventsHandler().onMouseClicked().addHandleble((event) -> {
-            for (int i = -150; i < 151; i++) {
+            /*for (int i = -150; i < 151; i++) {
                 Fisica2.grade.adicionar_objeto(new Entidade(6, 12, Color.AQUA, i + ", " + i), i, i);
-            }
+            }*/
         });
         botoes.add(btn_config);
         
@@ -51,15 +51,15 @@ public class CriadorMenu {
             System.out.println("Used memory in MB: " + memory / 1024 / 1024);
         });
         
-        TabelaMenu tabela = new TabelaMenu(0, 50, 0, 40, 1, false, btn_add, btn_config, btn_remove);
+        TabelaMenu tabela = new TabelaMenu(0, 50, 0, 25, 0, 0, 0, false, false);
+        tabela.yAddElements(btn_add, btn_config, btn_remove);
         
         YLinkElements junta = new YLinkElements(btn_add, btn_config, btn_remove);
-        junta.yAddElementsTypes(2, 2, 2);
-        junta.setEventosVisuais(Color.BLACK, Color.WHITE, Color.CHARTREUSE);
+        junta.yAddElementsTypes(1, 2, 3);
+        junta.ySetVisualEvents(Color.BLACK, Color.WHITE, Color.CHARTREUSE);
         
         YBox menu = new YBox(largura_menu, 200, Color.BLACK, 2, Color.BLACK);
         menu.yAddContent(tabela);
-        //menu.yMoveContents(-2, espacinho * 2);
         menu.setTranslateX(-largura_menu);
         menu.setTranslateY(0);
 

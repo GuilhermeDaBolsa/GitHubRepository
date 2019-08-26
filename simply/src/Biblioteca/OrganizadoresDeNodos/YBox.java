@@ -59,11 +59,6 @@ public class YBox extends CenaVisivel {
         this(new Circulo(radius), background_color, stroke_width, stroke_color);
     }
     
-    //
-    public YBox(YBox caixa){
-        this(caixa.box, caixa.box.getFill(), caixa.box.getStrokeWidth(), caixa.box.getStroke());
-    }
-    
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
         ((Forma) box).ySetStroke(stroke_width, stroke_color, stroke_type, correct_location);
     }

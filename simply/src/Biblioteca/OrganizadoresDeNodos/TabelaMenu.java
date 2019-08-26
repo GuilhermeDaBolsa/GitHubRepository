@@ -3,22 +3,21 @@ package Biblioteca.OrganizadoresDeNodos;
 import Biblioteca.BasicObjects.CenaVisivel;
 import Biblioteca.Interactions.Runnables;
 import java.util.ArrayList;
-import javafx.scene.Node;
-import javafx.scene.paint.Paint;
 
 public class TabelaMenu extends CenaVisivel{
-    public ArrayList<Node> elementos = new ArrayList();
-    public boolean inscreverElementosEmCaixas;
+    public ArrayList<YBox> elementos = new ArrayList();
     private double positionPaternX;
     private double positionPaternY;
-    private double espacoEntreElementosX;
-    private double espacoEntreElementosY;
+    private double spaceBetweenElementsX;
+    private double spaceBetweenElementsY;
     
-    public int numLimiteAtivador;
+    private double countDownX;
+    private double countDownY;
+    private int countDownLimit;
     public Runnables acaoLimite;
     
-    private YBox modelo = null;
-    
+    private boolean patternXisBoxBounds;
+    private boolean patternYisBoxBounds;
     
     //espacoEntreElementosX É o espaço entre os elementos (em X), para eles não ficarem grudados um no outro.
     //espacoEntreElementosY É o espaço entre os elementos (em Y), para eles não ficarem grudados um no outro.
@@ -29,179 +28,126 @@ public class TabelaMenu extends CenaVisivel{
      * Faz na mão, independente de outros objetos.
      * @param positionPaternX É a medida padrão de distância entre os elementos (eixo X).
      * @param positionPaternY É a medida padrão de distância entre os elementos (eixo Y).
-     * @param numLimiteAtivador Quando o número de elementos chegar ao numLimiteAtivador, será executada a acaoLimite.
+     * @param contDownLimit When contDownLimit reaches 0, acaoLimite will be executed.
      */
     public TabelaMenu(double positionPaternX, double positionPaternY, double espacoElementosX, double espacoElementosY,//TIRAR OS POSITION PATERN E TENTAR PEGA ELES NA MÃO?
-            int numLimiteAtivador, boolean tryToGessNextPosition, Node... vetElemento) {
-        this.numLimiteAtivador = numLimiteAtivador;
-        this.positionPaternX = positionPaternX;
-        this.positionPaternY = positionPaternY;
-        this.espacoEntreElementosX = espacoElementosX;
-        this.espacoEntreElementosY = espacoElementosY;
-        
-        if(vetElemento != null)
-            adicionarElemento(tryToGessNextPosition, vetElemento);
-        
-        this.getChildren().addAll(elementos);
+            int contDownLimit, double spaceInCountDownX, double spaceInCountDownY, boolean patternXasBounds, boolean patternYasBounds) {
+        ySetNewCountDown(contDownLimit, spaceInCountDownX, spaceInCountDownY);
+        ySetPositionPatern(positionPaternX, positionPaternY);
+        ySetSpaceBetweenElements(espacoElementosX, espacoElementosY);
+        ySetPatternAsBoxBounds(patternXasBounds, patternYasBounds);
     }
 
     /**
      * Adiciona um novo elemento em uma nova posição desejada e, apartir daí, será seguido o padrão de posicionamento.
      * @param elemento É o novo elemento.
-     * @param positionX Posição no eixo X.
-     * @param positionY Posição no eixo Y.
      */
-    public void adicionarElemento(Node elemento, double positionX, double positionY){
-        Node nodo = elemento;
-        if(inscreverElementosEmCaixas){
-            if(modelo == null){
-               
-            }else{
-                modelo.yClear();
-                modelo.yAddContent(elemento);
-                nodo = modelo;
-            }
-        }
-        elementos.add(nodo);
-        nodo.setTranslateX(positionX);
-        nodo.setTranslateY(positionY);
-        if(elementos.size()+1 == numLimiteAtivador){
-            acaoLimite.run(null);
-        }
-    }
-    
-    /**
-     * Adiciona um novo elemento seguindo os padrões de posicionamento.
-     * @param elemento É o novo elemento
-     * @param tryToGessBasedOnLastNode Caso verdadeiro, tentará adivinhar onde 
-     * deve se posicionar o próximo objeto, não seguindo o padrão e caso false seguirá o padrão.
-     */
-    public void adicionarElemento(Node elemento, boolean tryToGessBasedOnLastNode){
-        Node ultimoElemento = null;
-        double X = 0;
-        double Y = 0;
-        if(!elementos.isEmpty()){
-            ultimoElemento = elementos.get(elementos.size()-1);
-            X = ultimoElemento.getTranslateX();
-            Y = ultimoElemento.getTranslateY();
-            tryToGessBasedOnLastNode = false;
-            
-            if(tryToGessBasedOnLastNode){
-                adicionarElemento(elemento, X + ultimoElemento.getLayoutBounds().getWidth() + espacoEntreElementosX,
-                        Y + ultimoElemento.getLayoutBounds().getHeight() + espacoEntreElementosY);//TA FAZENDO EM X E Y... VAI FAZER UMA DIAGONAL -> \
-            }else{
-                adicionarElemento(elemento, X + positionPaternX + espacoEntreElementosX,
-                        Y + positionPaternY + espacoEntreElementosY);
-            }
-        }else{
-            adicionarElemento(elemento, 0, 0);
-        }
-        
+    public void yAddElement(YBox elemento){
+        elementos.add(elemento);
+        yRefresh();
     }
     
     /**
      * Adiciona vários elementos seguindo os padrões de posicionamento.
      * @param elemento São os novos elemento.
-     * @param tryToGessBasedOnLastNode Caso verdadeiro, tentará adivinhar onde 
-     * deve se posicionar o próximo objeto, não seguindo o padrão e caso false seguirá o padrão.
      */
-    public void adicionarElemento(boolean tryToGessBasedOnLastNode, Node... elemento){
-        for (int i = 0; i < elemento.length; i++) {
-            adicionarElemento(elemento[i], tryToGessBasedOnLastNode);
+    public void yAddElements(YBox... elemento){
+        for (YBox elemento1 : elemento) {
+            yAddElement(elemento1);
         }
     }
     
-    /**
-     * Os próximos objetos a serem adicionados serão colocados em uma caixa, sendo esta um quadrado.
-     * @param corFundo É a cor do fundo da caixa.
-     * @param corBorda É a cor da borda da caixa.
-     * @param strokeWidth É a grossura da borda da caixa.
-     * @see #caixa
-     */
-    public void colocarProximosObjetoEmCaixa(Paint corFundo, Paint corBorda, double strokeWidth){
-        inscreverElementosEmCaixas = true;
-        modelo = new YBox(corFundo, strokeWidth, corBorda);
+    public void yRemove(int index){
+        elementos.remove(index);//VER SE QUANDO REMOVE AQUI ELE REMOVE DO PANE, ACHO Q NAO :)
+        yRefresh();
     }
     
-    /**
-     * Os próximos objetos a serem adicionados serão colocados em uma caixa, sendo esta passada por parametro.
-     * @param modelo É a caixa que será usada para colocar os objetos.
-     * @see #caixa
-     */
-    @Deprecated //Still does not make copys of the modelo box, so it is always the same :(
-    public void colocarProximosObjetoEmCaixa(YBox modelo){
-        inscreverElementosEmCaixas = true;
-        this.modelo = modelo;
+    public void yRemove(YBox element){
+        int index = elementos.indexOf(element);
+        if(index != -1)
+            yRemove(index);
     }
     
-    /**
-     * Para de colocar os objetos dentro de caixas.
-     */
-    public void pararDeColocarObjetosEmCaixa(){
-        inscreverElementosEmCaixas = false;
-        modelo = null;
-    }
-    
-    /**
-     * Muda o espaço entre os elementos já adicionados e o que virão a ser.
-     * (OBS: se o valor de algum dos espaços for Double.NaN, o valor não será alterado)
-     * @param espacoEntreElementosX É o espaço entre os elementos (em X), para eles não ficarem grudados um no outro.
-     * @param espacoEntreElementosY É o espaço entre os elementos (em Y), para eles não ficarem grudados um no outro.
-     */
-    public void setEspacoEntreElementos(double espacoEntreElementosX, double espacoEntreElementosY){
-        for (int i = 0; i < elementos.size(); i++) {
-            Node elementoAtual = elementos.get(i);
-            if(espacoEntreElementosX != Double.NaN)
-                elementoAtual.setTranslateX(elementoAtual.getTranslateX() + (espacoEntreElementosX - this.espacoEntreElementosX));
+    public void yRefresh(){
+        getChildren().clear();
+        
+        if(!elementos.isEmpty()){
+            int countDown = countDownLimit;
+            double X = 0;
+            double Y = 0;
             
-            if(espacoEntreElementosY != Double.NaN)
-                elementoAtual.setTranslateY(elementoAtual.getTranslateY() + (espacoEntreElementosY - this.espacoEntreElementosY));
+            elementos.get(0).ySetTranslateX(0, 0);
+            elementos.get(0).ySetTranslateY(0, 0);
+            countDown--;
+            
+            for (int i = 1; i < elementos.size(); i++) {
+                YBox element = elementos.get(i);
+                
+                if(patternXisBoxBounds)
+                    X = elementos.get(i-1).yGetTranslateX(1) + spaceBetweenElementsX;
+                else
+                    X += positionPaternX + spaceBetweenElementsX;
+                
+                if(patternYisBoxBounds)
+                    Y = elementos.get(i-1).yGetTranslateY(1) + spaceBetweenElementsY;
+                else
+                    Y += positionPaternY + spaceBetweenElementsY;
+
+                if(countDown > -1 && countDown == 0){
+                    X = elementos.get(i-1).yGetTranslateX(1) + countDownX;//THIS NEEDS THOGHTS
+                    Y = elementos.get(i-1).yGetTranslateY(1) + countDownY;
+                    countDown = countDownLimit;
+                }
+
+                element.ySetTranslateX(X, 0);
+                element.ySetTranslateY(Y, 0);
+                countDown--;
+            }
         }
-        setNewEspacoEntreElementos(espacoEntreElementosX, espacoEntreElementosY);
+        
+        getChildren().addAll(elementos);
     }
     
     /**
-     * Muda o espaço entre os elementos que virão a ser adicionados.
-     * (OBS: se o valor de algum dos espaços for Double.NaN, o valor não será alterado)
-     * @param espacoEntreElementosX É o espaço entre os elementos (em X), para eles não ficarem grudados um no outro.
-     * @param espacoEntreElementosY É o espaço entre os elementos (em Y), para eles não ficarem grudados um no outro.
-     */
-    public void setNewEspacoEntreElementos(double espacoEntreElementosX, double espacoEntreElementosY){
-        if(espacoEntreElementosX != Double.NaN)
-            this.espacoEntreElementosX = espacoEntreElementosX;
-        if(espacoEntreElementosY != Double.NaN)
-            this.espacoEntreElementosY = espacoEntreElementosY;
-    }
-    
-    /**
-     * Muda a medida padrão de distância entre os elementos já adicionados e os que virão a ser.
-     * (OBS: se o valor de algum dos espaços for Double.NaN, o valor não será alterado)
+     * Muda a medida padrão de distância entre os elementos.
+     * (OBS: se o valor de algum dos espaços for null, o valor não será alterado)
      * @param positionPaternX É a medida padrão de distância entre os elementos (eixo X).
      * @param positionPaternY É a medida padrão de distância entre os elementos (eixo Y).
      */
-    public void setPositionPatern(double positionPaternX, double positionPaternY){
-        for (int i = 0; i < elementos.size(); i++) {
-            Node elementoAtual = elementos.get(i);
-            if(positionPaternX != Double.NaN)
-                elementoAtual.setTranslateX(elementoAtual.getTranslateX() + (positionPaternX - this.positionPaternX));
-            
-            if(positionPaternY != Double.NaN)
-                elementoAtual.setTranslateY(elementoAtual.getTranslateY() + (positionPaternY - this.positionPaternY));
-        }
-        setNewPositionPatern(positionPaternX, positionPaternY);
-    }
-    
-    /**
-     * Muda a medida padrão de distância entre os elementos que virão a ser adicionados.
-     * (OBS: se o valor de algum dos espaços for Double.NaN, o valor não será alterado)
-     * @param positionPaternX É a medida padrão de distância entre os elementos (eixo X).
-     * @param positionPaternY É a medida padrão de distância entre os elementos (eixo Y).
-     */
-    public void setNewPositionPatern(double positionPaternX, double positionPaternY){
-        if(positionPaternX != Double.NaN)
+    public void ySetPositionPatern(Double positionPaternX, Double positionPaternY){
+        if(positionPaternX != null)
             this.positionPaternX = positionPaternX;
-        if(positionPaternY != Double.NaN)
+        if(positionPaternY != null)
             this.positionPaternY = positionPaternY;
+    }
+    
+    /**
+     * Muda o espaço entre os elementos.
+     * (OBS: se o valor de algum dos espaços for null, o valor não será alterado)
+     * @param spaceBetweenElementsX É o espaço entre os elementos (em X), para eles não ficarem grudados um no outro.
+     * @param spaceBetweenElementsY É o espaço entre os elementos (em Y), para eles não ficarem grudados um no outro.
+     */
+    public void ySetSpaceBetweenElements(Double spaceBetweenElementsX, Double spaceBetweenElementsY){
+        if(spaceBetweenElementsX != null)
+            this.spaceBetweenElementsX = spaceBetweenElementsX;
+        if(spaceBetweenElementsY != null)
+            this.spaceBetweenElementsY = spaceBetweenElementsY;
+    }
+    
+    public void ySetNewCountDown(Integer limit, Double distanceX, Double distanceY){
+        if(limit != null)
+            countDownLimit = limit;
+        if(distanceX != null)
+            countDownX = distanceX;
+        if(distanceY != null)
+            countDownY = distanceY;
+    }
+    
+    public void ySetPatternAsBoxBounds(Boolean X, Boolean Y){
+        if(X != null)
+            patternXisBoxBounds = X;
+        if(Y != null)
+            patternYisBoxBounds = Y;
     }
     
     /*public void bindEspacoEntreElementos(/*BINDE DO CARAIO){

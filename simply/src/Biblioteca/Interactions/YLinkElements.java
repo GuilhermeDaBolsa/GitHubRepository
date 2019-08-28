@@ -14,6 +14,10 @@ public class YLinkElements {
     private int whoIsSelected;
     private String eventsName;
 
+    public YLinkElements() {
+        eventsName = "linked_elements" + this;
+    }
+    
     public YLinkElements(YBox... elementos) {
         yAddAll(elementos);
         eventsName = "linked_elements" + this;
@@ -21,6 +25,7 @@ public class YLinkElements {
     
     public void yAdd(YBox elemento){
         elements.add(elemento);
+        types.add(1);
     }
     
     public void yAddAll(YBox... elementos){
@@ -48,18 +53,13 @@ public class YLinkElements {
      * 
      * @param type The element types in the same order of adding
      */
-    public void yAddElementsTypes(int... type){
-        for (int i = 0; i < type.length; i++) {
-            if(type[i] < 1)
-                type[i] = 1;
-            else if(type[i] > 3)
-                type[i] = 3;
-            
-            types.add(type[i]);
+    public void ySetElementsTypes(int... type){
+        for (int i = 0; i < elements.size(); i++) {
+            ySetElementType(i, type[i]);
         }
     }
     /**
-     * @see #yAddElementsTypes(int[])
+     * @see #ySetElementsTypes(int[])
      * @param index
      * @param type 
      */
@@ -90,7 +90,7 @@ public class YLinkElements {
                     elemento.ySetStroke(null, defaultStrokeColor, null, false);
                 ((Node) elemento).setCursor(Cursor.DEFAULT);
             });
-            elemento.yGetEventsHandler().onMousePressed().addHandleble(0, eventsName, (event) -> {
+            elemento.yGetEventsHandler().onMousePressed().addHandleble(0, eventsName, (event) -> {//see this cases better another time :)
                 elemento.ySetStroke(null, onClickStrokeColor, null, false);
             });
 

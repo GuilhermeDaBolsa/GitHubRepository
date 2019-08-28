@@ -17,7 +17,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.transform.Rotate;
 
-//FAZER UM SETMAXWIDTH e SETMAXHEIGHT, que nem o label.
+//QUANDO VEM COM UM \n NO FIM ELE SE PERDEU (pelo menos parece q é isso)
 //O TEXTO GUARDA SEMPRE UM ESPAÇO PROS ACENTOS (E PRA SEPARA AS LINHAS), dai a primeira linha é mais alta;
 
 public class Texto extends Text implements Forma {
@@ -350,7 +350,7 @@ public class Texto extends Text implements Forma {
     /**
      * Sets the width that the text will ocuppie in the scene. (not ready for effects/can be a little wrong)
      * This method calculates the average width of a char based on the number of chars in the text.
-     * It may not give the resoults you expect.
+     * It may not give the results you expect.
      * @param width The width that the text should ocuppie.
      * @param change_font_size Mark true if you allow the method to change the font size.
      * @param break_text Mark true if you allow the method to break the text in more lines.

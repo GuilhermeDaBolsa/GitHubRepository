@@ -96,6 +96,7 @@ public class YBox extends CenaVisivel {
      */
     public void yClear(){
         content.getChildren().clear();
+        realocar_conteudos(0.0, 0.0);
     }
     
     /**

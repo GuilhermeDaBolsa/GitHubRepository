@@ -55,7 +55,7 @@ public class CriadorMenu {
         tabela.yAddElements(btn_add, btn_config, btn_remove);
         
         YLinkElements junta = new YLinkElements(btn_add, btn_config, btn_remove);
-        junta.yAddElementsTypes(1, 2, 3);
+        junta.ySetElementsTypes(1, 2, 3);
         junta.ySetVisualEvents(Color.BLACK, Color.WHITE, Color.CHARTREUSE);
         
         YBox menu = new YBox(largura_menu, 200, Color.BLACK, 2, Color.BLACK);

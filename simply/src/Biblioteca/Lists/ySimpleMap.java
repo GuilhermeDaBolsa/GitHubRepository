@@ -21,20 +21,6 @@ public class ySimpleMap<Key, Content> {
     }
     
     /**
-     * @return All keys stored in the map.
-     */
-    public Key[] keys(){
-        return (Key[]) keys.toArray();
-    }
-    
-    /**
-     * @return All objects stored in the map.
-     */
-    public Content[] objects(){
-        return (Content[]) objects.toArray();
-    }
-    
-    /**
      * Adds a new object to the map.
      * @param key Object's key (gives a "name" to the object)
      * @param object The object to be stored.
@@ -99,6 +85,14 @@ public class ySimpleMap<Key, Content> {
     }
     
     /**
+     * @param index Location of the key in the array.
+     * @return A key that is located in the index.
+     */
+    public Key getKey(int index){
+        return keys.get(index);
+    }
+    
+    /**
      * Gets an object by its key.
      * @param key Object's key.
      * @return The object.
@@ -118,6 +112,6 @@ public class ySimpleMap<Key, Content> {
         else if(index < 0)
             index = 0;
         
-        return objects.get(index);
+        return (Content) objects.get(index);
     }
 }

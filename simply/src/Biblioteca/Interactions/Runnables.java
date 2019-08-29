@@ -63,10 +63,8 @@ public class Runnables<EventType extends Event> {
      * @param sub_name Part of the name of the action to be removed.
      */
     public void removeHandlebles(String sub_name){
-        String[] keys = actions.keys();
-        
-        for (int i = 0; i < keys.length; i++) {
-            if(sub_name.contains(keys[i]))
+        for (int i = 0; i < actions.size(); i++) {
+            if(actions.getKey(i).contains(sub_name))
                 actions.remove(i);
         }
     }
@@ -107,5 +105,13 @@ public class Runnables<EventType extends Event> {
     
     public void stopEventPropagation(){
         current_event_execution = actions.size();
+    }
+    
+    public String[] getActionsName(){
+        String s[] = new String[actions.size()];
+        for (int i = 0; i < s.length; i++) {
+            s[i] = actions.getKey(i);
+        }
+        return s;
     }
 }

@@ -1,5 +1,6 @@
 package Biblioteca.BasicObjects.Formas;
 
+import Biblioteca.BasicObjects.YcoolBindings;
 import Biblioteca.Interactions.YEventsHandler;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
@@ -20,7 +21,7 @@ import javafx.scene.transform.Rotate;
 //QUANDO VEM COM UM \n NO FIM ELE SE PERDEU (pelo menos parece q é isso)
 //O TEXTO GUARDA SEMPRE UM ESPAÇO PROS ACENTOS (E PRA SEPARA AS LINHAS), dai a primeira linha é mais alta;
 
-public class Texto extends Text implements Forma {
+public class Texto extends Text implements Yshape, YcoolBindings{
     private YEventsHandler yEvents_Handler = new YEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
     

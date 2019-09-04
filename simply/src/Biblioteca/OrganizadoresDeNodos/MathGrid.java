@@ -1,7 +1,7 @@
 package Biblioteca.OrganizadoresDeNodos;
 
 import static Biblioteca.LogicClasses.Matematicas.modulo;
-import Biblioteca.BasicObjects.CenaVisivel;
+import Biblioteca.BasicObjects.YvisibleScene;
 import Biblioteca.BasicObjects.Formas.Linha;
 import Biblioteca.BasicObjects.Formas.Texto;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import javafx.scene.text.Font;
 //PARAR DE USAR AS COISAS DA MINHA BIBLIOTECA PRA POUPAR MEM ONDE NAO PRECISA TIPO AS LINHAS AQUI
 //FAZER UM FORZAO PRA DESENHAR AS LINHAS CERTINHO, PCAUSA DO PROBLEMA DO EIXO
 
-public class MathGrid extends CenaVisivel {
+public class MathGrid extends YvisibleScene {
     public ArrayList<Node> objetos = new ArrayList();
     private ArrayList<Point2D> posicoes_objetos = new ArrayList();
     

@@ -1,5 +1,6 @@
 package Biblioteca.BasicObjects.Formas;
 
+import Biblioteca.BasicObjects.YcoolBindings;
 import Biblioteca.Lists.yCircularArray;
 import javafx.scene.shape.Polygon;
 import javafx.collections.ObservableList;
@@ -9,7 +10,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.StrokeType;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
-import Biblioteca.BasicObjects.VisibleObjectHandler;
+import Biblioteca.BasicObjects.YvisibleObjectHandler;
 import Biblioteca.Interactions.YEventsHandler;
 import static Biblioteca.LogicClasses.Matematicas.calculate_angle;
 import static Biblioteca.LogicClasses.Matematicas.hypotenuse;
@@ -23,7 +24,7 @@ import javafx.scene.transform.Rotate;
  * Note that it is highly recommended that the points be in clock-wise order and that the figure
  * is not a complex polygon (self-intersecting) because of border and angle calculations.
  */
-public class Poligono extends Polygon implements Forma{
+public class Poligono extends Polygon implements Yshape, YcoolBindings{
     private YEventsHandler yEvents_Handler = new YEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
     
@@ -112,12 +113,12 @@ public class Poligono extends Polygon implements Forma{
 
     @Override
     public double yGetWidth() {
-        return VisibleObjectHandler.getWidth(this);
+        return YvisibleObjectHandler.yGetWidth(this);
     }
 
     @Override
     public double yGetHeight() {
-        return VisibleObjectHandler.getHeight(this);
+        return YvisibleObjectHandler.yGetHeight(this);
     }
 
     @Override

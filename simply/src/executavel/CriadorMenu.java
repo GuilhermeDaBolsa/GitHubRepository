@@ -26,11 +26,11 @@ public class CriadorMenu {
     public static YBox cria_menu() {
         YBox btn_add = new YBox(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, Color.CADETBLUE, 1, Color.BLACK);
         btn_add.yGetEventsHandler().onMouseClicked().addHandleble((event) -> {
-            Fisica2.caixa_adicionar_carga.switchAtivarDesativar();
+            Fisica2.caixa_adicionar_carga.ySwitchOnOff();
         }); 
 
         btn_add.yGetEventsHandler().actionCleaner().addHandleble((event) -> {
-            Fisica2.caixa_adicionar_carga.desativar();
+            Fisica2.caixa_adicionar_carga.yDeactivate();
         });
         botoes.add(btn_add);
         

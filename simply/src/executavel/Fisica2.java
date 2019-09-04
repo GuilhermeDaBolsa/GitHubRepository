@@ -1,6 +1,5 @@
 package executavel;
 
-import Biblioteca.BasicObjects.Formas.Forma;
 import Biblioteca.OrganizadoresDeNodos.BarraDeslisante;
 import Biblioteca.OrganizadoresDeNodos.MathGrid;
 import Biblioteca.OrganizadoresDeNodos.YBox;
@@ -10,6 +9,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import Biblioteca.BasicObjects.Formas.Yshape;
+import Biblioteca.BasicObjects.YcoolBindings;
 
 public class Fisica2 extends Application {
     public static Pane pane_principal = new Pane();
@@ -23,11 +24,11 @@ public class Fisica2 extends Application {
         caixa_adicionar_carga = CriadorMenu.criar_caixa_adicionar();
         caixa_adicionar_carga.setTranslateX(largura_menu + 10);
         caixa_adicionar_carga.setTranslateY(largura_menu*0.6 + 10);
-        caixa_adicionar_carga.desativar();
+        caixa_adicionar_carga.yDeactivate();
         
         YBox menu = CriadorMenu.cria_menu();
-        ((Forma) menu.box).yBindHeight("altura", pane_principal.heightProperty(), true);
-        System.out.println("caixa     " +((Forma) menu.box).yGetTranslateX(0) + "  ,  " + ((Forma) menu.box).yGetTranslateX(0) + "  ---  " + ((Forma) menu.box).yGetWidth(true) + "   x   " + ((Forma) menu.box).yGetHeight(true));
+        ((YcoolBindings) menu.box).yBindHeight("altura", pane_principal.heightProperty(), true);
+        System.out.println("caixa     " +((Yshape) menu.box).yGetTranslateX(0) + "  ,  " + ((Yshape) menu.box).yGetTranslateX(0) + "  ---  " + ((Yshape) menu.box).yGetWidth(true) + "   x   " + ((Yshape) menu.box).yGetHeight(true));
         System.out.println("container   " + menu.content.getTranslateX() + "    ,   " + menu.getTranslateY() + "  ---  " + menu.yGetContentWidth() + "   x   " + menu.yGetContentHeight());
         menu.yAlignContents(0.5, 0, 0.5, 0);
         menu.yMoveContents(0, 20);

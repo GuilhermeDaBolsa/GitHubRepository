@@ -1,6 +1,6 @@
 package Biblioteca.OrganizadoresDeNodos;
 
-import Biblioteca.BasicObjects.CenaVisivel;
+import Biblioteca.BasicObjects.YvisibleScene;
 import Biblioteca.BasicObjects.Formas.Linha;
 import java.util.ArrayList;
 import javafx.geometry.Bounds;
@@ -12,7 +12,7 @@ import javafx.scene.shape.StrokeType;
 
 //FAZER OS ITENS CABEÇALHOS (QUE CATEGORIZAM AQUELA LINHA OU COLUNA, EX: DIA)
 
-public class Tabela extends CenaVisivel{
+public class Tabela extends YvisibleScene{
     public ArrayList<Node> elementos = new ArrayList();
     private ArrayList<Point2D> posicoes = new ArrayList();
     

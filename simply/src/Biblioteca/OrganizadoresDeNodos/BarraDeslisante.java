@@ -1,6 +1,6 @@
 package Biblioteca.OrganizadoresDeNodos;
 
-import Biblioteca.BasicObjects.CenaVisivel;
+import Biblioteca.BasicObjects.YvisibleScene;
 import Biblioteca.BasicObjects.Formas.Linha;
 import Biblioteca.BasicObjects.Formas.Texto;
 import Biblioteca.Lists.yCircularArray;
@@ -14,7 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
-public class BarraDeslisante extends CenaVisivel {
+public class BarraDeslisante extends YvisibleScene {
     private Shape path;
     public YBox slider;
     public Texto text;

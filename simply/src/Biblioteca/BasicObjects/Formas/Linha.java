@@ -1,5 +1,6 @@
 package Biblioteca.BasicObjects.Formas;
 
+import Biblioteca.BasicObjects.YcoolBindings;
 import javafx.scene.shape.Line;
 import Biblioteca.Lists.ySimpleMap;
 import Biblioteca.LogicClasses.Matematicas;
@@ -8,13 +9,13 @@ import javafx.scene.shape.StrokeType;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
-import Biblioteca.BasicObjects.VisibleObjectHandler;
+import Biblioteca.BasicObjects.YvisibleObjectHandler;
 import Biblioteca.Interactions.YEventsHandler;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.transform.Rotate;
 
-public class Linha extends Line implements Forma{
+public class Linha extends Line implements Yshape, YcoolBindings{
     private YEventsHandler yEvents_Handler = new YEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
     
@@ -114,12 +115,12 @@ public class Linha extends Line implements Forma{
 
     @Override
     public double yGetWidth() {
-        return VisibleObjectHandler.getWidth(this);
+        return YvisibleObjectHandler.yGetWidth(this);
     }
 
     @Override
     public double yGetHeight() {
-        return VisibleObjectHandler.getHeight(this);
+        return YvisibleObjectHandler.yGetHeight(this);
     }
     
     

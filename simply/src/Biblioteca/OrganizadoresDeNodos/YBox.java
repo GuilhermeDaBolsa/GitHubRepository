@@ -1,6 +1,6 @@
 package Biblioteca.OrganizadoresDeNodos;
 
-import Biblioteca.BasicObjects.CenaVisivel;
+import Biblioteca.BasicObjects.YvisibleScene;
 import Biblioteca.BasicObjects.Formas.*;
 import java.util.ArrayList;
 import javafx.scene.Node;
@@ -12,7 +12,7 @@ import javafx.scene.shape.StrokeType;
 /**
  * Class to create a box with content (it is a shape, with a pane)
  */
-public class YBox extends CenaVisivel {
+public class YBox extends YvisibleScene {
     public Shape box;
     public Pane content;
     
@@ -60,7 +60,7 @@ public class YBox extends CenaVisivel {
     }
     
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
-        ((Forma) box).ySetStroke(stroke_width, stroke_color, stroke_type, correct_location);
+        ((Yshape) box).ySetStroke(stroke_width, stroke_color, stroke_type, correct_location);
     }
 
     /**
@@ -105,22 +105,13 @@ public class YBox extends CenaVisivel {
      * @param conteudo_velho O conteúdo velho.
      * @param conteudo_novo O conteúdo novo;
      */
-    public void ySetContent(Node conteudo_velho, Node conteudo_novo) {
-        realocar_conteudos(0.0, 0.0);
-        content.getChildren().clear();
+    public void ySetContent(Node conteudo_velho, Node... conteudo_novo) {
+        if(conteudo_velho != null)
+            yRemoveContent(conteudo_velho);
+        else
+            yClear();
         
-        if(conteudo_velho == null)
-            yAddContent(conteudo_novo);
-        else{
-            Node array[] = yGetContent();
-            
-            for (int i = 0; i < array.length; i++) {
-                if(array[i] == conteudo_velho){
-                    array[i] = conteudo_novo;
-                }
-            }
-            content.getChildren().addAll(array);
-        }
+        yAddContent(conteudo_novo);
     }
     
     public Node[] yGetContent(){
@@ -145,14 +136,14 @@ public class YBox extends CenaVisivel {
      * @return Quanto de largura a box ocupa.
      */
     public double yGetBoxWidth(){
-        return ((Forma) box).yGetWidth(true);
+        return ((Yshape) box).yGetWidth(true);
     }
     
     /**
      * @return Quanto de altura a box ocupa.
      */
     public double yGetBoxHeight(){
-        return ((Forma) box).yGetHeight(true);
+        return ((Yshape) box).yGetHeight(true);
     }
     
     /**
@@ -162,9 +153,9 @@ public class YBox extends CenaVisivel {
      */
     public void realocar_conteudos(Double X, Double Y){
         if(X != null)
-            content.setTranslateX(X + ((Forma) box).yGetStrokeOcupation().LEFT);
+            content.setTranslateX(X + ((Yshape) box).yGetStrokeOcupation().LEFT);
         if(Y != null)
-            content.setTranslateY(Y + ((Forma) box).yGetStrokeOcupation().UP);
+            content.setTranslateY(Y + ((Yshape) box).yGetStrokeOcupation().UP);
     }
     
     /**
@@ -173,8 +164,8 @@ public class YBox extends CenaVisivel {
      * @param Y Distância em pixels para mover no eixo Y.
      */
      public void yMoveContents(double X, double Y){
-         realocar_conteudos(content.getTranslateX() + X - ((Forma) box).yGetStrokeOcupation().LEFT,
-                 content.getTranslateY() + Y - ((Forma) box).yGetStrokeOcupation().UP);
+         realocar_conteudos(content.getTranslateX() + X - ((Yshape) box).yGetStrokeOcupation().LEFT,
+                 content.getTranslateY() + Y - ((Yshape) box).yGetStrokeOcupation().UP);
     }
      
      /**
@@ -182,8 +173,8 @@ public class YBox extends CenaVisivel {
  dependendo do elemento).
      */
     public void yAlignContents(double pivoelementoX, double pivoelementoY, double pivoCaixaX, double pivoCaixaY){
-        realocar_conteudos(((Forma) box).yGetTranslateX(0) + ((Forma) box).yGetWidth(false) * pivoCaixaX - yGetContentWidth() * pivoelementoX,
-                ((Forma) box).yGetTranslateY(0) + ((Forma) box).yGetHeight(false) * pivoCaixaY - yGetContentHeight() * pivoelementoY);
+        realocar_conteudos(((Yshape) box).yGetTranslateX(0) + ((Yshape) box).yGetWidth(false) * pivoCaixaX - yGetContentWidth() * pivoelementoX,
+                ((Yshape) box).yGetTranslateY(0) + ((Yshape) box).yGetHeight(false) * pivoCaixaY - yGetContentHeight() * pivoelementoY);
     }
     
     public void ySetBoxSize(double width, double height, boolean strokeX_included, boolean strokeY_included, boolean correct_location){
@@ -192,8 +183,8 @@ public class YBox extends CenaVisivel {
         double deltaWidth = yGetBoxWidth();
         double deltaHeight = yGetBoxHeight();
         
-        ((Forma) box).ySetWidth(width, strokeX_included, correct_location);
-        ((Forma) box).ySetHeight(height, strokeY_included, correct_location);
+        ((Yshape) box).ySetWidth(width, strokeX_included, correct_location);
+        ((Yshape) box).ySetHeight(height, strokeY_included, correct_location);
 
         deltaWidth = yGetBoxWidth() - deltaWidth;
         deltaHeight = yGetBoxHeight() - deltaHeight;

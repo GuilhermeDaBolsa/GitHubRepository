@@ -12,6 +12,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+/**
+ * This class is not completed, it is under development and it is not recomended to use it.
+ */
 public class Animacoes {
     /**
      * Anima o tamanho de um objeto (a escala).

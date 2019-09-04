@@ -1,6 +1,5 @@
 package Biblioteca.Interactions;
 
-import Biblioteca.Interactions.Runnables;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
@@ -109,6 +108,8 @@ public class YEventsHandler {
         onMousePressed.removeHandleble(name);
         onMouseReleased.removeHandleble(name);
         onMouseDragged.removeHandleble(name);
+        onMouseClicked.removeHandleble(name);
+        actionCleaner.removeHandleble(name);
     }
     
     public void clearEvents(){

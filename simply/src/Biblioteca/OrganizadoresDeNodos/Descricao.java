@@ -1,6 +1,6 @@
 package Biblioteca.OrganizadoresDeNodos;
 
-import Biblioteca.BasicObjects.CenaVisivel;
+import Biblioteca.BasicObjects.YvisibleScene;
 import Biblioteca.BasicObjects.Formas.Texto;
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 /**
  * Classe para criar uma descrição de algum item.
 */
-public class Descricao extends CenaVisivel{
+public class Descricao extends YvisibleScene{
     private YBox caixa;
     private Texto titulo;
     private ArrayList<Texto> descricao = new ArrayList();

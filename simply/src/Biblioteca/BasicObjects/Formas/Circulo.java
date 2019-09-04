@@ -1,5 +1,6 @@
 package Biblioteca.BasicObjects.Formas;
 
+import Biblioteca.BasicObjects.YcoolBindings;
 import javafx.scene.shape.Circle;
 import Biblioteca.Lists.ySimpleMap;
 import javafx.scene.paint.Paint;
@@ -7,13 +8,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeType;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
-import Biblioteca.BasicObjects.VisibleObjectHandler;
+import Biblioteca.BasicObjects.YvisibleObjectHandler;
 import Biblioteca.Interactions.YEventsHandler;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.transform.Rotate;
 
-public class Circulo extends Circle implements Forma{
+public class Circulo extends Circle implements Yshape, YcoolBindings{
     private YEventsHandler yEvents_Handler = new YEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
     
@@ -82,12 +83,12 @@ public class Circulo extends Circle implements Forma{
 
     @Override
     public double yGetWidth() {
-        return VisibleObjectHandler.getWidth(this);
+        return YvisibleObjectHandler.yGetWidth(this);
     }
 
     @Override
     public double yGetHeight() {
-        return VisibleObjectHandler.getHeight(this);
+        return YvisibleObjectHandler.yGetHeight(this);
     }
     
     @Override

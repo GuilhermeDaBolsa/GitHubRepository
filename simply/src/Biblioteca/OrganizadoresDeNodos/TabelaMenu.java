@@ -1,10 +1,10 @@
 package Biblioteca.OrganizadoresDeNodos;
 
-import Biblioteca.BasicObjects.CenaVisivel;
+import Biblioteca.BasicObjects.YvisibleScene;
 import Biblioteca.Interactions.Runnables;
 import java.util.ArrayList;
 
-public class TabelaMenu extends CenaVisivel{
+public class TabelaMenu extends YvisibleScene{
     public ArrayList<YBox> elementos = new ArrayList();
     private double positionPaternX;
     private double positionPaternY;

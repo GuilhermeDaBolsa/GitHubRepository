@@ -3,13 +3,13 @@ package Biblioteca.BasicObjects.Formas;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.transform.Rotate;
-import Biblioteca.BasicObjects.YabstractInterfacee;
+import Biblioteca.BasicObjects.YabstractInterface;
 
 /**
  * Standard methods to create a shape that is going to be used with this library.
  * NOTE: SHAPE here is almost always the shape and it's border (java does not take in count the border)
  */
-public interface Yshape extends YabstractInterfacee{
+public interface Yshape extends YabstractInterface{
     
     //----------------------------- SIZE METHODS -----------------------------\\
     

@@ -5,7 +5,7 @@ import Biblioteca.Interactions.YEventsHandler;
 /**
  * Says what methods every visual object should have.
  */
-public interface YabstractInterfacee {
+public interface YabstractInterface {
     
     /**
      * @return The handler that deal with the events of this object.

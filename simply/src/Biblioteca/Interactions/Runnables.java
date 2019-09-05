@@ -14,6 +14,9 @@ public class Runnables<EventType extends Event> {
      */
     private ySimpleMap<String, EventHandler> actions;
     
+    /**
+     * Number of the event beeing executed.
+     */
     private int current_event_execution;
 
     /**
@@ -32,22 +35,32 @@ public class Runnables<EventType extends Event> {
         actions.add(name, action);
     }
     
-    public void addHandleble(int priority, String name, EventHandler<? super EventType> action){
-        actions.add(priority, name, action);
-    }
-    
-    public void addHandlebles(String name, Runnables handlebles){
-        for (int i = 0; i < handlebles.size(); i++) {
-            actions.add(name+i, (EventHandler) handlebles.actions.get(i));
-        }
-    }
-    
     /**
      * Adds an action with a generic name (the name will be the position where it was placed in the map).
      * @param action The action to be stored.
      */
     public void addHandleble(EventHandler<? super EventType> action){
         addHandleble(""+actions.size(), action);
+    }
+    
+    /**
+     * Adds an action that handles a event (or not) with a name and a priority of execution (0 super important, size - 1, nothing important).
+     * @param name The name of the action.
+     * @param action The action to be stored.
+     */
+    public void addHandleble(int priority, String name, EventHandler<? super EventType> action){
+        actions.add(priority, name, action);
+    }
+    
+    /**
+     * Copies a content of a Runnables to this object, puting the name + its runnable number in the array of runnables.
+     * @param name Name of the events.
+     * @param handlebles The events.
+     */
+    public void addHandlebles(String name, Runnables handlebles){
+        for (int i = 0; i < handlebles.size(); i++) {
+            actions.add(name+i, (EventHandler) handlebles.actions.get(i));
+        }
     }
     
     /**
@@ -103,10 +116,16 @@ public class Runnables<EventType extends Event> {
         actions.get(name).handle(event);
     }
     
+    /**
+     * Stop the execution of the events when the current event ends executing.
+     */
     public void stopEventPropagation(){
         current_event_execution = actions.size();
     }
     
+    /**
+     * @return All the events names.
+     */
     public String[] getActionsName(){
         String s[] = new String[actions.size()];
         for (int i = 0; i < s.length; i++) {

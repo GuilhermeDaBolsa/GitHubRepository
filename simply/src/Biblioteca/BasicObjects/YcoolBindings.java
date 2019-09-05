@@ -3,6 +3,9 @@ package Biblioteca.BasicObjects;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ObservableValue;
 
+/**
+ * Some short but interesting binds some object could have.
+ */
 public interface YcoolBindings {
     /**
      * The porpouse of this method is to store any bind, because depending on

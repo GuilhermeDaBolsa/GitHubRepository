@@ -101,6 +101,12 @@ public abstract class YshapeHandler{
     
     //----------------------------- ROTATE METHODS -----------------------------\\
     
+    /**
+     * Sets a rotation based on the actual angle (newAngle - oldAngle), and a point made of pivos for both axis (X and Y).
+     * @param angle Add an angle rotation.
+     * @param pivoX X pivo.
+     * @param pivoY Y pivo.
+     */
     public static void ySetRotate(Shape shape, Rotate rotation, double angle, double pivoX, double pivoY){
         shape.getTransforms().remove(rotation);
         
@@ -195,6 +201,12 @@ public abstract class YshapeHandler{
     
     //----------------------------- BIND/LISTENER METHODS -----------------------------\\
     
+    /**
+     * The porpouse of this method is to store any bind, because depending on
+     * the circunstances it can be caught by garbadge collector.
+     * @param bind_name Binding name
+     * @param bind Bind itself
+     */
     public static void yAddBind(ySimpleMap<String, ObservableValue> map, String bind_name, ObservableValue bind){
         map.add(bind_name, bind);
     }

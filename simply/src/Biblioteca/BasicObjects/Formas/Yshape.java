@@ -3,13 +3,13 @@ package Biblioteca.BasicObjects.Formas;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.transform.Rotate;
-import Biblioteca.BasicObjects.YabstractInterface;
+import Biblioteca.BasicObjects.YabstractInterfacee;
 
 /**
  * Standard methods to create a shape that is going to be used with this library.
  * NOTE: SHAPE here is almost always the shape and it's border (java does not take in count the border)
  */
-public interface Yshape extends YabstractInterface{
+public interface Yshape extends YabstractInterfacee{
     
     //----------------------------- SIZE METHODS -----------------------------\\
     
@@ -98,8 +98,17 @@ public interface Yshape extends YabstractInterface{
     
     //----------------------------- ROTATE METHODS -----------------------------\\
     
+    /**
+     * @return The last rotation made on the shape (except for the angle that is the actual angle).
+     */
     public Rotate yGetRotate();
     
+    /**
+     * Sets a rotation based on the actual angle (newAngle - oldAngle), and a point made of pivos for both axis (X and Y).
+     * @param angle Add an angle rotation.
+     * @param pivoX X pivo.
+     * @param pivoY Y pivo.
+     */
     public void ySetRotate(double angle, double pivoX, double pivoY);
     
     
@@ -116,6 +125,9 @@ public interface Yshape extends YabstractInterface{
      */
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location);
     
+    /**
+     * @return The outside stroke ocupation handler.
+     */
     public YstrokeOcupation yGetStrokeOcupation();
     
     

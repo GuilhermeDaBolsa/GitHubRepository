@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 /**
  * It would be nice if every visual element that have multiple visiblue object extended this class :D.
  */
-public class YvisibleScene extends Pane implements YabstractInterface{
+public class YvisibleScene extends Pane implements YabstractInterfacee{
     private YEventsHandler yEvents_Handler = new YEventsHandler(this);
     
     @Override

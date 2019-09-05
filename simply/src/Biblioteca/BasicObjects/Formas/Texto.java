@@ -56,6 +56,10 @@ public class Texto extends Text implements Yshape, YcoolBindings{
         ySetTranslateY(0, 0);
     }
 
+    /**
+     * Sets a new font to the text.
+     * @param font The new font.
+     */
     public void ySetFont(Font font) {
         double where_wasX = yGetTranslateX(0);
         double where_wasY = yGetTranslateY(0);
@@ -67,6 +71,10 @@ public class Texto extends Text implements Yshape, YcoolBindings{
         ySetTranslateY(where_wasY, 0);
     }
     
+    /**
+     * Sets a new text to the text :).
+     * @param text The new text.
+     */
     public void ySetText(String text){
         texto = text;
         ySetMineText(text);

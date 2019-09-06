@@ -8,7 +8,7 @@ import javafx.event.EventHandler;
  * Class created to store runnables and it's event by name.
  * @param <EventType> The type of the event handled by this runnable.
  */
-public class Yhandlebles<EventType extends Event> {
+public class Runnables<EventType extends Event> {
     /**
      * A map that holds the actions (objects) and its names (keys).
      */
@@ -22,7 +22,7 @@ public class Yhandlebles<EventType extends Event> {
     /**
      * Creates a clean map of actions, Runnable.
      */
-    public Yhandlebles() {
+    public Runnables() {
         actions = new ySimpleMap();
     }
     
@@ -53,11 +53,11 @@ public class Yhandlebles<EventType extends Event> {
     }
     
     /**
-     * Copies a content of a Yhandlebles to this object, puting the name + its runnable number in the array of runnables.
+     * Copies a content of a Runnables to this object, puting the name + its runnable number in the array of runnables.
      * @param name Name of the events.
      * @param handlebles The events.
      */
-    public void addHandlebles(String name, Yhandlebles handlebles){
+    public void addHandlebles(String name, Runnables handlebles){
         for (int i = 0; i < handlebles.size(); i++) {
             actions.add(name+i, (EventHandler) handlebles.actions.get(i));
         }

@@ -7,10 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.paint.Paint;
 
 
-/**
- * Class created to link elements in their events (principaly visual events, like stroke and click).
- * (ONLY WORKS WITH YBOX).
- */
+//POR ENQUANTO SO FUNCIONA PRA YBox
 public class YLinkElements {
     public ArrayList<YBox> elements = new ArrayList();
     private ArrayList<Integer> types = new ArrayList();
@@ -26,38 +23,22 @@ public class YLinkElements {
         eventsName = "linked_elements" + this;
     }
     
-    /**
-     * Add an element to be linked to the others
-     * @param elemento The element.
-     */
     public void yAdd(YBox elemento){
         elements.add(elemento);
         types.add(1);
     }
     
-    /**
-     * Add several elments to be linked all to the others.
-     * @param elementos The elements
-     */
     public void yAddAll(YBox... elementos){
         for (int i = 0; i < elementos.length; i++) {
             yAdd(elementos[i]);
         }
     }
     
-    /**
-     * Remove an element and unlink it.
-     * @param object The element to be removed.
-     */
     public void yRemove(YBox object){
         if(elements.contains(object))
             yRemove(elements.indexOf(object));
     }
     
-    /**
-     * Remove an element by its index and unlink it.
-     * @param index The index of the element.
-     */
     public void yRemove(int index){
         ((YBox) elements.get(index)).yGetEventsHandler().removeFromAll(eventsName);
         elements.remove(index);
@@ -65,7 +46,6 @@ public class YLinkElements {
     }
     
     /**
-     * Sets element types (caracterizes its events)
      * Possible parameters:
      * 1 - Button (it clicks and releases)
      * 2 - Lever (it switches between on and off)
@@ -92,12 +72,6 @@ public class YLinkElements {
         types.set(index, type);
     }
     
-    /**
-     * Create a visual efects pattern with all elements in this object.
-     * @param defaultStrokeColor The default stroke.
-     * @param onFocusStrokeColor The stroke when mouse entered.
-     * @param onClickStrokeColor The stroke when mouse clicked.
-     */
     public void ySetVisualEvents(Paint defaultStrokeColor, Paint onFocusStrokeColor, Paint onClickStrokeColor){
         yRemoveVisualEvents();
         
@@ -160,10 +134,6 @@ public class YLinkElements {
         }  
     }
     
-    /**
-     * Disable the selected element.
-     * @param defaultStrokeColor The color the stroke will have after deactivation.
-     */
     public void yDisableSelectedElement(Paint defaultStrokeColor){
         if(whoIsSelected != -1){
             YBox elemento = elements.get(whoIsSelected);
@@ -173,9 +143,6 @@ public class YLinkElements {
         }
     }
     
-    /**
-     * Remove the visual events from all elements in this object.
-     */
     public void yRemoveVisualEvents(){
         for (int i = 0; i < elements.size(); i++) {
             elements.get(i).yGetEventsHandler().removeFromAll(eventsName);

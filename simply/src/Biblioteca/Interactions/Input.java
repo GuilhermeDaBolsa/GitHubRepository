@@ -3,7 +3,9 @@ package Biblioteca.Interactions;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
+/**
+ * Class is under development and it is not meant to be used.
+ */
 public class Input {
     //BOTH ARRAYS ARE SINCKED IN THEIR INDEXES
     private ArrayList<String> keys = new ArrayList();

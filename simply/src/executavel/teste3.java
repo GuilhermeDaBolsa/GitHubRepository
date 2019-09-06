@@ -1,11 +1,11 @@
 package executavel;
 
-import Biblioteca.BasicObjects.Formas.Circulo;
-import Biblioteca.BasicObjects.Formas.Linha;
-import Biblioteca.BasicObjects.Formas.Poligono;
-import Biblioteca.BasicObjects.Formas.Retangulo;
-import Biblioteca.BasicObjects.Formas.Texto;
-import Biblioteca.OrganizadoresDeNodos.BarraDeslisante;
+import Biblioteca.BasicObjects.Formas.Ycircle;
+import Biblioteca.BasicObjects.Formas.Yline;
+import Biblioteca.BasicObjects.Formas.Ypolygon;
+import Biblioteca.BasicObjects.Formas.Yrectangle;
+import Biblioteca.BasicObjects.Formas.yText;
+import Biblioteca.OrganizadoresDeNodos.YslidingBar;
 import Biblioteca.OrganizadoresDeNodos.YBox;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -35,16 +35,16 @@ public class teste3 extends Application {
         
         Pane teste = new Pane();
         
-        Circulo p = new Circulo(3, Color.RED);
+        Ycircle p = new Ycircle(3, Color.RED);
         p.ySetTranslateX(X, 0.5);
         p.ySetTranslateY(Y, 0.5);
         
-        Poligono r = new Poligono(
+        Ypolygon r = new Ypolygon(
                 150, 100,
                 200, 200,
                 400, 400
         );
-        Linha l = new Linha(60, 0, 10, Color.BLUEVIOLET);
+        Yline l = new Yline(60, 0, 10, Color.BLUEVIOLET);
         l.ySetTranslateX(X, 0.5);
         l.ySetTranslateY(390, 0);
         

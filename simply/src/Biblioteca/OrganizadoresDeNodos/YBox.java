@@ -17,7 +17,7 @@ public class YBox extends YvisibleScene {
     public Pane content;
     
     /**
-     * Create a box with a custom shape.
+     * Creates a box with a custom shape.
      * @param shape The shape.
      * @param stroke_width Stroke width.
      * @param background_color The background color of the shape.
@@ -30,7 +30,7 @@ public class YBox extends YvisibleScene {
         box.setFill(background_color);
         ySetStroke(stroke_width, stroke_color, StrokeType.OUTSIDE, true);
         
-        realocar_conteudos(0.0, 0.0);
+        yRealocateContent(0.0, 0.0);
         
         getChildren().addAll(box, content);
     }
@@ -41,14 +41,14 @@ public class YBox extends YvisibleScene {
      * @param height Box's height.
      */
     public YBox(double width, double height, Paint background_color, double stroke_width, Paint stroke_color) {
-        this(new Retangulo(width, height), background_color, stroke_width, stroke_color);
+        this(new Yrectangle(width, height), background_color, stroke_width, stroke_color);
     }
     
     /**
      * Creates a rectangular (10 x 10) box to be a model.
      */
     public YBox(Paint background_color, double stroke_width, Paint stroke_color) {
-        this(new Retangulo(10, 10), background_color, stroke_width, stroke_color);
+        this(new Yrectangle(10, 10), background_color, stroke_width, stroke_color);
     }
     
     /**
@@ -56,102 +56,105 @@ public class YBox extends YvisibleScene {
      * @param radius Box's radius.
      */
     public YBox(double radius, Paint background_color, double stroke_width, Paint stroke_color) {
-        this(new Circulo(radius), background_color, stroke_width, stroke_color);
+        this(new Ycircle(radius), background_color, stroke_width, stroke_color);
     }
-    
+
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location) {
         ((Yshape) box).ySetStroke(stroke_width, stroke_color, stroke_type, correct_location);
     }
 
     /**
-       * Adiciona determinados elementos a box (Nodo(s)).
-       * @param conteudo Conteúdo a ser adicionado.
+     * Adds some content to the box.
+     * @param contents The content to be added.
     */
-    public void yAddContent(Node... conteudo) {
-        for (int i = 0; i < conteudo.length; i++) {
-            content.getChildren().add(conteudo[i]);
+    public void yAddContent(Node... contents) {
+        for (int i = 0; i < contents.length; i++) {
+            content.getChildren().add(contents[i]);
         }
     }
     
     /**
-       * Adiciona uma array de Texto a box.
-       * @param conteudo Array com os elementos a serem adicionados.
+     * Adds some content (stored in a ArrayList) to the box.
+     * @param contents The ArrayList with the content.
     */
-    public void yAddContent(ArrayList<Node> conteudo) {
-        for (int i = 0; i < conteudo.size(); i++) {
-            YBox.this.yAddContent(conteudo.get(i));  
+    public void yAddContent(ArrayList<Node> contents) {
+        for (int i = 0; i < contents.size(); i++) {
+            YBox.this.yAddContent(contents.get(i));  
         }
     }
     
     /**
-     * Remove um conteúdo da box.
-     * @param conteudo Conteúdo a ser removido.
+     * Remove an object from the box.
+     * @param object Object to be removed.
      */
-    public void yRemoveContent(Node conteudo){
-        content.getChildren().remove(conteudo);
+    public void yRemoveContent(Node object){
+        content.getChildren().remove(object);
     }
     
     /**
-     * Remove todos os conteúdos da box.
+     * Clear the box.
      */
     public void yClear(){
         content.getChildren().clear();
-        realocar_conteudos(0.0, 0.0);
+        yRealocateContent(0.0, 0.0);
     }
     
     /**
-     * Método para ySetContent o conteúdo de uma box.
-     * OBS: se o conteudo_velho for == null, a box será limpa.
-     * @param conteudo_velho O conteúdo velho.
-     * @param conteudo_novo O conteúdo novo;
+     * Sets a new content in place of other.
+     * NOTE: if old_content == null, the box will be cleaned.
+     * @param old_content Old content.
+     * @param new_content New content;
      */
-    public void ySetContent(Node conteudo_velho, Node... conteudo_novo) {
-        if(conteudo_velho != null)
-            yRemoveContent(conteudo_velho);
+    public void ySetContent(Node old_content, Node... new_content) {
+        if(old_content != null)
+            yRemoveContent(old_content);
         else
             yClear();
         
-        yAddContent(conteudo_novo);
+        yAddContent(new_content);
     }
     
+    /**
+     * @return The objects stored in this box.
+     */
     public Node[] yGetContent(){
         return content.getChildren().toArray(new Node[content.getChildren().size()]);
     }
     
     /**
-     * @return Quanto de largura os objetos da box ocupam.
+     * @return The content width.
      */
     public double yGetContentWidth(){
         return content.getBoundsInLocal().getWidth();
     }
     
     /**
-     * @return Quanto de altura os objetos da box ocupam.
+     * @return The content height.
      */
     public double yGetContentHeight(){
         return content.getBoundsInLocal().getHeight();
     }
     
     /**
-     * @return Quanto de largura a box ocupa.
+     * @return The box width.
      */
     public double yGetBoxWidth(){
         return ((Yshape) box).yGetWidth(true);
     }
     
     /**
-     * @return Quanto de altura a box ocupa.
+     * @return The box height.
      */
     public double yGetBoxHeight(){
         return ((Yshape) box).yGetHeight(true);
     }
     
     /**
-     * Move os conteúdos da box para a posição desejada.
-     * @param X Distância em pixels para mover no eixo X.
-     * @param Y Distância em pixels para mover no eixo Y.
+     * Move all objects inside the box to the desired position (if null it will not be moved).
+     * @param X X position.
+     * @param Y Y position.
      */
-    public void realocar_conteudos(Double X, Double Y){
+    public void yRealocateContent(Double X, Double Y){
         if(X != null)
             content.setTranslateX(X + ((Yshape) box).yGetStrokeOcupation().LEFT);
         if(Y != null)
@@ -159,22 +162,25 @@ public class YBox extends YvisibleScene {
     }
     
     /**
-     * Move os conteúdos da box de acordo com a posição atual deles.
-     * @param X Distância em pixels para mover no eixo X.
-     * @param Y Distância em pixels para mover no eixo Y.
+     * Move all objects inside the box based on the current position (oldX + X, oldY + Y).
+     * @param X X distance.
+     * @param Y Y distance.
      */
      public void yMoveContents(double X, double Y){
-         realocar_conteudos(content.getTranslateX() + X - ((Yshape) box).yGetStrokeOcupation().LEFT,
+         yRealocateContent(content.getTranslateX() + X - ((Yshape) box).yGetStrokeOcupation().LEFT,
                  content.getTranslateY() + Y - ((Yshape) box).yGetStrokeOcupation().UP);
     }
      
-     /**
-     * Método para tentar alinhar o conteúdo da box ao centro da mesma (pode não funcionar
- dependendo do elemento).
+    /**
+     * Align the objects (as beeing one) inside the box.
+     * @param elementXpivo
+     * @param elementYpivo
+     * @param boxXpivo
+     * @param boxYpivo 
      */
-    public void yAlignContents(double pivoelementoX, double pivoelementoY, double pivoCaixaX, double pivoCaixaY){
-        realocar_conteudos(((Yshape) box).yGetTranslateX(0) + ((Yshape) box).yGetWidth(false) * pivoCaixaX - yGetContentWidth() * pivoelementoX,
-                ((Yshape) box).yGetTranslateY(0) + ((Yshape) box).yGetHeight(false) * pivoCaixaY - yGetContentHeight() * pivoelementoY);
+    public void yAlignContents(double elementXpivo, double elementYpivo, double boxXpivo, double boxYpivo){
+        yRealocateContent(((Yshape) box).yGetTranslateX(0) + ((Yshape) box).yGetWidth(false) * boxXpivo - yGetContentWidth() * elementXpivo,
+                ((Yshape) box).yGetTranslateY(0) + ((Yshape) box).yGetHeight(false) * boxYpivo - yGetContentHeight() * elementYpivo);
     }
     
     public void ySetBoxSize(double width, double height, boolean strokeX_included, boolean strokeY_included, boolean correct_location){

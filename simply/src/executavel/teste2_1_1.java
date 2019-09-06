@@ -1,10 +1,10 @@
 package executavel;
 
-import Biblioteca.BasicObjects.Formas.Circulo;
-import Biblioteca.BasicObjects.Formas.Linha;
-import Biblioteca.BasicObjects.Formas.Retangulo;
-import Biblioteca.BasicObjects.Formas.Texto;
-import Biblioteca.OrganizadoresDeNodos.BarraDeslisante;
+import Biblioteca.BasicObjects.Formas.Ycircle;
+import Biblioteca.BasicObjects.Formas.Yline;
+import Biblioteca.BasicObjects.Formas.Yrectangle;
+import Biblioteca.BasicObjects.Formas.yText;
+import Biblioteca.OrganizadoresDeNodos.YslidingBar;
 import Biblioteca.OrganizadoresDeNodos.YBox;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -33,9 +33,9 @@ public class teste2_1_1 extends Application {
         
         Circle a = new Circle(2, Color.RED);
         a.setDisable(true);
-        Texto b = new Texto("AAA q saco mano");
+        yText b = new yText("AAA q saco mano");
         
-        BarraDeslisante k = new BarraDeslisante(new Circle(50), new YBox(10, 10, Color.WHITE, 2, Color.BLACK), 50, 0, 250, true);
+        YslidingBar k = new YslidingBar(new Circle(50), new YBox(10, 10, Color.WHITE, 2, Color.BLACK), 50, 0, 250, true);
         
         k.ySetTranslateX(400, 0);
         k.ySetTranslateY(400, 0);

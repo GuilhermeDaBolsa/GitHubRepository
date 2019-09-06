@@ -1,9 +1,8 @@
 package Biblioteca.OrganizadoresDeNodos;
 
-import static Biblioteca.LogicClasses.Matematicas.modulo;
 import Biblioteca.BasicObjects.YvisibleScene;
-import Biblioteca.BasicObjects.Formas.Linha;
-import Biblioteca.BasicObjects.Formas.Texto;
+import Biblioteca.BasicObjects.Formas.Yline;
+import Biblioteca.BasicObjects.Formas.yText;
 import java.util.ArrayList;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
@@ -16,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import static Biblioteca.LogicClasses.Ymathematics.yModulo;
 
 //PARAR DE USAR AS COISAS DA MINHA BIBLIOTECA PRA POUPAR MEM ONDE NAO PRECISA TIPO AS LINHAS AQUI
 //FAZER UM FORZAO PRA DESENHAR AS LINHAS CERTINHO, PCAUSA DO PROBLEMA DO EIXO
@@ -80,12 +80,12 @@ public class MathGrid extends YvisibleScene {
         double posNumerosXemY = tamanho_numeros*2;
         double posNumerosYemX = tamanho_numeros*2;
                                             //MUDAR ESSES TESTES PQ TAO MEIO BUGADO
-        if (modulo(zeroX_escalado()) < largura_grade / 2 - tamanho_numeros*2) {
+        if (yModulo(zeroX_escalado()) < largura_grade / 2 - tamanho_numeros*2) {
             posNumerosYemX = meioR_telaX + 3;
         }else if (zeroX_escalado() > 0) {
             posNumerosYemX = (int) largura_grade - tamanho_numeros*2;
         }
-        if (modulo(zeroY_escalado()) < altura_grade / 2 - tamanho_numeros*2) {
+        if (yModulo(zeroY_escalado()) < altura_grade / 2 - tamanho_numeros*2) {
             posNumerosXemY = meioR_telaY + 3;
         }else if (zeroY_escalado() > 0) {
             posNumerosXemY = (int) altura_grade - tamanho_numeros*2;
@@ -153,7 +153,7 @@ public class MathGrid extends YvisibleScene {
      * @param altura Altura da linha
      */
     private void adicionar_linha(double X, double Y, double largura, double altura, Color cor) {
-        Linha linha = new Linha(X, Y, X + largura, Y + altura, grossura_linhas, cor);
+        Yline linha = new Yline(X, Y, X + largura, Y + altura, grossura_linhas, cor);
         this.getChildren().add(linha);
     }
 
@@ -163,7 +163,7 @@ public class MathGrid extends YvisibleScene {
      * @param Y Coordenada Y
      */
     private void adicionar_numero(String numero, double X, double Y) {
-        Texto text = new Texto(numero, Font.font(tamanho_numeros), Color.BLACK);
+        yText text = new yText(numero, Font.font(tamanho_numeros), Color.BLACK);
         text.setTranslateX(X);
         text.ySetTranslateY(Y, 0);
         this.getChildren().add(text);

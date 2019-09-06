@@ -14,7 +14,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.transform.Rotate;
 
-public class Retangulo extends Rectangle implements Yshape, YcoolBindings{
+public class Yrectangle extends Rectangle implements Yshape, YcoolBindings{
     private YEventsHandler yEvents_Handler = new YEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
     
@@ -24,19 +24,19 @@ public class Retangulo extends Rectangle implements Yshape, YcoolBindings{
     public DoubleProperty yMax_width = new SimpleDoubleProperty(-1);
     public DoubleProperty yMax_height = new SimpleDoubleProperty(-1);
     
-    public Retangulo(double largura, double altura){
+    public Yrectangle(double largura, double altura){
         this(largura, altura, Color.BLACK);
     }
     
-    public Retangulo(double largura, double altura, Paint cor){
+    public Yrectangle(double largura, double altura, Paint cor){
         this(largura, altura, cor,  0, Color.BLACK);
     }
     
-    public Retangulo(double largura, double altura, Paint corFundo, double grossuraBorda, Paint corBorda){
+    public Yrectangle(double largura, double altura, Paint corFundo, double grossuraBorda, Paint corBorda){
         this(largura, altura, corFundo, grossuraBorda, corBorda, null, true);
     }
     
-    public Retangulo(double largura, double altura, Paint corFundo, double grossuraBorda, Paint corBorda, StrokeType stroke_type, boolean correct_location){
+    public Yrectangle(double largura, double altura, Paint corFundo, double grossuraBorda, Paint corBorda, StrokeType stroke_type, boolean correct_location){
         setWidth(largura);
         setHeight(altura);
         setFill(corFundo);

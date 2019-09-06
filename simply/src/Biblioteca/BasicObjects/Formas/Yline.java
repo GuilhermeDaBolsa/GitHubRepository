@@ -3,7 +3,7 @@ package Biblioteca.BasicObjects.Formas;
 import Biblioteca.BasicObjects.YcoolBindings;
 import javafx.scene.shape.Line;
 import Biblioteca.Lists.ySimpleMap;
-import Biblioteca.LogicClasses.Matematicas;
+import Biblioteca.LogicClasses.Ymathematics;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.shape.StrokeLineCap;
@@ -15,7 +15,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.transform.Rotate;
 
-public class Linha extends Line implements Yshape, YcoolBindings{
+public class Yline extends Line implements Yshape, YcoolBindings{
     private YEventsHandler yEvents_Handler = new YEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
     
@@ -25,15 +25,15 @@ public class Linha extends Line implements Yshape, YcoolBindings{
     public DoubleProperty yMax_width = new SimpleDoubleProperty(-1);
     public DoubleProperty yMax_height = new SimpleDoubleProperty(-1);
     
-    public Linha(Line line){
+    public Yline(Line line){
         this(line.getStartX(), line.getStartY(), line.getEndX(), line.getEndY(), line.getStrokeWidth(), line.getStroke());
     }
     
-    public Linha(double Xfinal, double Yfinal, double grossura, Paint cor){
+    public Yline(double Xfinal, double Yfinal, double grossura, Paint cor){
         this(0, 0, Xfinal, Yfinal, grossura, cor);
     }
     
-    public Linha(double Xinicial, double Yinicial, double Xfinal, double Yfinal, double grossura, Paint cor){
+    public Yline(double Xinicial, double Yinicial, double Xfinal, double Yfinal, double grossura, Paint cor){
         this(Xinicial, Yinicial, Xfinal, Yfinal, grossura, cor, StrokeType.CENTERED, true);
     }
     
@@ -46,7 +46,7 @@ public class Linha extends Line implements Yshape, YcoolBindings{
      * @param grossura É a grossura da linha
      * @param cor Cor da linha
      */
-    public Linha(double Xinicial, double Yinicial, double Xfinal, double Yfinal, double grossura, Paint cor, StrokeType stroke_type, boolean correct_location){
+    public Yline(double Xinicial, double Yinicial, double Xfinal, double Yfinal, double grossura, Paint cor, StrokeType stroke_type, boolean correct_location){
         ySetInitialPoint(Xinicial, Yinicial);
         ySetEndPoint(Xfinal, Yfinal);
         ySetStroke(grossura, cor, stroke_type, correct_location);
@@ -86,7 +86,7 @@ public class Linha extends Line implements Yshape, YcoolBindings{
      * @see #yGetHeight(boolean) 
      */
     public double yHypotenuse(){
-        return Matematicas.hypotenuse(yGetWidth(false), yGetHeight(false));
+        return Ymathematics.yHypotenuse(yGetWidth(false), yGetHeight(false));
     }
     
     /**
@@ -94,7 +94,7 @@ public class Linha extends Line implements Yshape, YcoolBindings{
      */
     @Override
     public double yGetWidth(boolean plusStroke){
-        double delta = Matematicas.modulo(getEndX() - getStartX());
+        double delta = Ymathematics.yModulo(getEndX() - getStartX());
         if(plusStroke)
             delta += yOutsideStrokeOcupation.WIDTH;
         
@@ -106,7 +106,7 @@ public class Linha extends Line implements Yshape, YcoolBindings{
      */
     @Override
     public double yGetHeight(boolean plusStroke){
-        double delta = Matematicas.modulo(getEndY() - getStartY());
+        double delta = Ymathematics.yModulo(getEndY() - getStartY());
         if(plusStroke)
             delta += yOutsideStrokeOcupation.HEIGHT;
         

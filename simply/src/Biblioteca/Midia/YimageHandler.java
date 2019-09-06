@@ -17,7 +17,7 @@ import javax.imageio.ImageIO;
 //NA DOCUMENTAÇÃO DIZER PRO CARA USAR O IMAGEVIEW OU BUFFERED IMAGE DO JAVA MESMO PRA MOSTRAR
 
 
-public class ManipuladorImagem {
+public class YimageHandler {
     private static final int TAXA_DE_REDUCAO = 2;
     
     public static Image carregar_imagem(String caminho_imagem) {

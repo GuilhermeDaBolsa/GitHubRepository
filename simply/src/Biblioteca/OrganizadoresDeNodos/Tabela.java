@@ -1,7 +1,7 @@
 package Biblioteca.OrganizadoresDeNodos;
 
 import Biblioteca.BasicObjects.YvisibleScene;
-import Biblioteca.BasicObjects.Formas.Linha;
+import Biblioteca.BasicObjects.Formas.Yline;
 import java.util.ArrayList;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -161,7 +161,7 @@ public class Tabela extends YvisibleScene{
         //faz as linhas em X
         if(show_horizontal_lines){
             for (int i = 1; i < n_linhas; i++) {
-                Linha linhaX = new Linha(larguraLinhas, 0, lineX_stroke_width, lineX_stroke_color);
+                Yline linhaX = new Yline(larguraLinhas, 0, lineX_stroke_width, lineX_stroke_color);
                 linhaX.ySetTranslateY((cells_height + cells_X_distance) * i - cells_X_distance/2, 0.5);
                 this.getChildren().add(linhaX);
             }
@@ -170,7 +170,7 @@ public class Tabela extends YvisibleScene{
         //faz as linhas em Y
         if(show_vertical_lines){
             for (int i = 1; i < n_colunas; i++) {
-                Linha linhaY = new Linha(0, alturaLinhas, lineY_stroke_width, lineY_stroke_color);
+                Yline linhaY = new Yline(0, alturaLinhas, lineY_stroke_width, lineY_stroke_color);
                 linhaY.ySetTranslateX((cells_width + cells_Y_distance) * i - cells_Y_distance/2, 0.5);
                 this.getChildren().add(linhaY);
             }

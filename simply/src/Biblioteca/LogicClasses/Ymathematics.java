@@ -2,7 +2,10 @@ package Biblioteca.LogicClasses;
 
 import javafx.geometry.Point2D;
 
-    public class Matematicas {
+/**
+ * Some usefull mathematics methods.
+ */
+public class Ymathematics {
 
     /**
      * Gera um valor aleatório entre 0 (inclusive) e o valor de parametro (not inclusive).
@@ -67,7 +70,7 @@ import javafx.geometry.Point2D;
         return velocidade - velocidade / quebra_velocidade;
     }
     
-    public static boolean estao_na_mesma_direcao(double forca1, double forca2) {
+    public static boolean yAreInSameDirection(double forca1, double forca2) {
         if ((forca1*forca2 > 0)) {
             return true;
         }
@@ -75,37 +78,35 @@ import javafx.geometry.Point2D;
         return false;
     }
 
-    public static double quem_e_maior(double numero1, double numero2) {
+    public static double yWhoIsBigger(double numero1, double numero2) {
         if (numero1 > numero2) {
             return numero1;
         }
         return numero2;
     }
 
-    public static double quem_e_maior_modulo(double numero1, double numero2) {
-        if (modulo(numero1) > modulo(numero2)) {
+    public static double yWhoIsBiggerModulo(double numero1, double numero2) {
+        if (yModulo(numero1) > yModulo(numero2)) {
             return numero1;
         }
         return numero2;
     }
     
-    public static double modulo(double numero){
+    public static double yModulo(double numero){
         if(numero < 0){
             return -numero;
         }
         return numero;
     }
     
-    public static double hypotenuse(double x, double y){
+    public static double yHypotenuse(double x, double y){
         return Math.sqrt(x * x + y * y);
     }
     
-    public static double calculate_angle(Point2D a, Point2D b, Point2D c){
+    public static double yCalculateAngle(Point2D a, Point2D b, Point2D c){
         double angle = Math.atan2((c.getX() - b.getX()) * (b.getY() - a.getY()) - (c.getY() - b.getY()) * (b.getX() - a.getX()),
                 (c.getX() - b.getX()) * (b.getX() - a.getX()) + (c.getY() - b.getY()) * (b.getY() - a.getY()));
         
         return 180 + (angle / Math.PI * 180);
     }
 }
-
-

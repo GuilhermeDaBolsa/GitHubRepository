@@ -36,15 +36,21 @@ public class ySimpleMap<Key, Content> {
         }
     }
     
-    public void add(int priority, Key key, Content object){
+    /**
+     * Adds a new object to the map with a index.
+     * @param index The desired position in the map.
+     * @param key Object's key (gives a "name" to the object)
+     * @param object The object to be stored.
+     */
+    public void add(int index, Key key, Content object){
         int exist = keys.indexOf(key);
         if(exist != -1){
             keys.remove(key);
             objects.remove(object);
         }
         
-        keys.add(priority, key);
-        objects.add(priority, object);
+        keys.add(index, key);
+        objects.add(index, object);
     }
     
     /**

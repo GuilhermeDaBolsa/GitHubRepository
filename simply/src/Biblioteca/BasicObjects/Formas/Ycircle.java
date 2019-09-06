@@ -14,7 +14,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.transform.Rotate;
 
-public class Circulo extends Circle implements Yshape, YcoolBindings{
+public class Ycircle extends Circle implements Yshape, YcoolBindings{
     private YEventsHandler yEvents_Handler = new YEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
     
@@ -24,19 +24,19 @@ public class Circulo extends Circle implements Yshape, YcoolBindings{
     public DoubleProperty yMax_width = new SimpleDoubleProperty(-1);
     public DoubleProperty yMax_height = new SimpleDoubleProperty(-1);
     
-    public Circulo(double raio){
+    public Ycircle(double raio){
         this(raio, Color.BLACK, 0, Color.BLACK);
     }
     
-    public Circulo(double radius, Paint color){
+    public Ycircle(double radius, Paint color){
         this(radius, color, 0, Color.BLACK);
     }
     
-    public Circulo(double radius, Paint color, double stroke_width, Paint stroke_color){
+    public Ycircle(double radius, Paint color, double stroke_width, Paint stroke_color){
         this(radius, color, stroke_width, stroke_color, null, true);
     }
     
-    public Circulo(double radius, Paint color, double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location){
+    public Ycircle(double radius, Paint color, double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location){
         ySetRadius(radius);
         setFill(color);
         ySetStroke(stroke_width, stroke_color, stroke_type, correct_location);

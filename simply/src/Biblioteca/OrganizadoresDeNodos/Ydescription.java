@@ -1,26 +1,27 @@
 package Biblioteca.OrganizadoresDeNodos;
 
 import Biblioteca.BasicObjects.YvisibleScene;
-import Biblioteca.BasicObjects.Formas.Texto;
+import Biblioteca.BasicObjects.Formas.yText;
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
 
 /**
- * Classe para criar uma descrição de algum item.
+ * Class is under contruction and it is not meant to be used.
+ * (IDEA: use YBOX and YTEXT to create just a description, so it must be more especialized on positioning text and others...)
 */
-public class Descricao extends YvisibleScene{
+public class Ydescription extends YvisibleScene{
     private YBox caixa;
-    private Texto titulo;
-    private ArrayList<Texto> descricao = new ArrayList();
+    private yText titulo;
+    private ArrayList<yText> descricao = new ArrayList();
     
     //private static String fonte = "Imagens_jogo/Penumbra-HalfSerif-Std_35114.ttf";
     private static double tamanho_fonte_titulo = 18;
     private static double tamanho_fonte_descricao = 13;
 
-    public Descricao(double largura_caixa, double altura_caixa, String titulo, String... descricao) {
-        this.titulo = new Texto(titulo, this.titulo.carregar_fonte("fodase", tamanho_fonte_titulo), null);
+    public Ydescription(double largura_caixa, double altura_caixa, String titulo, String... descricao) {
+        this.titulo = new yText(titulo, this.titulo.carregar_fonte("fodase", tamanho_fonte_titulo), null);
         for (int i = 0; i < descricao.length; i++) {
-           this.descricao.add(new Texto(descricao[i], this.descricao.get(i).carregar_fonte("mds",tamanho_fonte_descricao), null)); 
+           this.descricao.add(new yText(descricao[i], this.descricao.get(i).carregar_fonte("mds",tamanho_fonte_descricao), null)); 
         }
         
                 

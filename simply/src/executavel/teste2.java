@@ -1,10 +1,10 @@
 package executavel;
 
-import Biblioteca.BasicObjects.Formas.Circulo;
-import Biblioteca.BasicObjects.Formas.Linha;
-import Biblioteca.BasicObjects.Formas.Poligono;
-import Biblioteca.BasicObjects.Formas.Retangulo;
-import Biblioteca.BasicObjects.Formas.Texto;
+import Biblioteca.BasicObjects.Formas.Ycircle;
+import Biblioteca.BasicObjects.Formas.Yline;
+import Biblioteca.BasicObjects.Formas.Ypolygon;
+import Biblioteca.BasicObjects.Formas.Yrectangle;
+import Biblioteca.BasicObjects.Formas.yText;
 import Biblioteca.OrganizadoresDeNodos.YBox;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -35,12 +35,12 @@ public class teste2 extends Application {
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
         
-        Retangulo as = new Retangulo(200, 150);
+        Yrectangle as = new Yrectangle(200, 150);
         as.setFill(Color.RED);
         as.ySetTranslateX(0, 0.5);
         as.ySetTranslateY(0, 0.5);
         
-        Poligono p = new Poligono(
+        Ypolygon p = new Ypolygon(
                 paX, paY,
                 pbX, pbY,
                 pcX, pcY,
@@ -49,11 +49,11 @@ public class teste2 extends Application {
         p.setFill(Color.ALICEBLUE);
         p.ySetStroke(10.0, Color.BLACK, StrokeType.OUTSIDE, true);
         
-        Circulo a = new Circulo(4);
-        Circulo b = new Circulo(4);
-        Circulo c = new Circulo(4);
-        Circulo d = new Circulo(4);
-        Circulo o = new Circulo(3, Color.RED);
+        Ycircle a = new Ycircle(4);
+        Ycircle b = new Ycircle(4);
+        Ycircle c = new Ycircle(4);
+        Ycircle d = new Ycircle(4);
+        Ycircle o = new Ycircle(3, Color.RED);
         
         o.ySetTranslateX(p.yGetTranslateX(0.5), 0.5);
         o.ySetTranslateY(p.yGetTranslateY(0.5), 0.5);

@@ -4,10 +4,13 @@ import java.io.File;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-public class Audio {//FAZER UM PLAYER PRA FICA VISIVEL NÉÈÈÈÈÈÈÈÈÈ!!!!!!!!
+/**
+ * Shortcut to create an audio object.
+ */
+public class Yaudio {//FAZER UM PLAYER PRA FICA VISIVEL NÉÈÈÈÈÈÈÈÈÈ!!!!!!!!
     public MediaPlayer player;
     
-    public Audio(String endereco_musica){
+    public Yaudio(String endereco_musica){
         player = new MediaPlayer(new Media(new File(endereco_musica).toURI().toString()));
     }
     

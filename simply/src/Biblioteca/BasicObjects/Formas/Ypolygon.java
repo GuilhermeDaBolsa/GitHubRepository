@@ -12,19 +12,19 @@ import javafx.beans.value.ObservableValue;
 import javafx.beans.binding.DoubleBinding;
 import Biblioteca.BasicObjects.YvisibleObjectHandler;
 import Biblioteca.Interactions.YEventsHandler;
-import static Biblioteca.LogicClasses.Matematicas.calculate_angle;
-import static Biblioteca.LogicClasses.Matematicas.hypotenuse;
-import static Biblioteca.LogicClasses.Matematicas.modulo;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.transform.Rotate;
+import static Biblioteca.LogicClasses.Ymathematics.yModulo;
+import static Biblioteca.LogicClasses.Ymathematics.yHypotenuse;
+import static Biblioteca.LogicClasses.Ymathematics.yCalculateAngle;
 
 /**
  * This class is an upgrade of Oracle's polygon class.
  * Note that it is highly recommended that the points be in clock-wise order and that the figure
  * is not a complex polygon (self-intersecting) because of border and angle calculations.
  */
-public class Poligono extends Polygon implements Yshape, YcoolBindings{
+public class Ypolygon extends Polygon implements Yshape, YcoolBindings{
     private YEventsHandler yEvents_Handler = new YEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
     
@@ -39,11 +39,11 @@ public class Poligono extends Polygon implements Yshape, YcoolBindings{
     public DoubleProperty yUp_Y = new SimpleDoubleProperty(0);
     public DoubleProperty yDown_Y = new SimpleDoubleProperty(0);
     
-    /*public Poligono(int sides){
+    /*public Ypolygon(int sides){
         
     }*/
     
-    public Poligono(double... points){
+    public Ypolygon(double... points){
         super(points);
 
         if(points.length % 2 != 0)
@@ -352,7 +352,7 @@ public class Poligono extends Polygon implements Yshape, YcoolBindings{
             Point2D p0 = new Point2D(cPoints.get(i), cPoints.get(i+1));
             Point2D p1 = new Point2D(cPoints.get(i+2), cPoints.get(i+3));
             Point2D array[] = new Point2D[4];
-            double angle = calculate_angle(pN1, p0, p1);
+            double angle = yCalculateAngle(pN1, p0, p1);
             boolean nulo = false;
             
             if(angle >= 11.475){
@@ -366,7 +366,7 @@ public class Poligono extends Polygon implements Yshape, YcoolBindings{
                             nulo = true;
                     }
                 }
-                if(!nulo && modulo(angle - 180) < 90){//<90 because in 90º the 4 points forms a perfect square.
+                if(!nulo && yModulo(angle - 180) < 90){//<90 because in 90º the 4 points forms a perfect square.
                     double distance = 0;
                     int index1 = 0;
                     int index2 = 1;
@@ -383,9 +383,9 @@ public class Poligono extends Polygon implements Yshape, YcoolBindings{
                 }
             }else{
                 Point2D nP = new Point2D((pN1.getX() + p1.getX())/2, (pN1.getY() + p1.getY())/2);
-                double height = modulo(nP.getY() - p0.getY());
-                double width = modulo(nP.getX() - p0.getX());
-                double hypotenuse = hypotenuse(width, height);
+                double height = yModulo(nP.getY() - p0.getY());
+                double width = yModulo(nP.getX() - p0.getX());
+                double hypotenuse = yHypotenuse(width, height);
                 double widS = height / hypotenuse * YshapeHandler.yGetStrokeOcupation(this);
                 double heigS = width / hypotenuse * YshapeHandler.yGetStrokeOcupation(this);
                 

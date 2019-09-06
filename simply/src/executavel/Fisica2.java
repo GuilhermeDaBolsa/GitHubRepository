@@ -1,6 +1,6 @@
 package executavel;
 
-import Biblioteca.OrganizadoresDeNodos.BarraDeslisante;
+import Biblioteca.OrganizadoresDeNodos.YslidingBar;
 import Biblioteca.OrganizadoresDeNodos.MathGrid;
 import Biblioteca.OrganizadoresDeNodos.YBox;
 import static executavel.CriadorMenu.largura_menu;
@@ -41,7 +41,7 @@ public class Fisica2 extends Application {
         botao_menu.setTranslateX(botao_menu.box.getStrokeWidth());
         
         grade = new MathGrid(200, 200);
-        //barra_escala = new BarraDeslisante(160, 0, 1, 100, 50, 2);
+        //barra_escala = new YslidingBar(160, 0, 1, 100, 50, 2);
         
         //barra_escala.translateXProperty().bind(pane_principal.widthProperty().subtract(196));
         //barra_escala.translateYProperty().bind(pane_principal.heightProperty().subtract(30));

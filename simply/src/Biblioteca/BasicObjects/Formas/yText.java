@@ -21,7 +21,7 @@ import javafx.scene.transform.Rotate;
 //QUANDO VEM COM UM \n NO FIM ELE SE PERDEU (pelo menos parece q é isso)
 //O TEXTO GUARDA SEMPRE UM ESPAÇO PROS ACENTOS (E PRA SEPARA AS LINHAS), dai a primeira linha é mais alta;
 
-public class Texto extends Text implements Yshape, YcoolBindings{
+public class yText extends Text implements Yshape, YcoolBindings{
     private YEventsHandler yEvents_Handler = new YEventsHandler(this);
     public ySimpleMap<String, ObservableValue> yWeak_listeners = new ySimpleMap();
     
@@ -39,11 +39,11 @@ public class Texto extends Text implements Yshape, YcoolBindings{
     private DoubleProperty height = new SimpleDoubleProperty(0);
     public double line_height;
     
-    public Texto(String texto) {
+    public yText(String texto) {
         this(texto, null, null);
     }
 
-    public Texto(String texto, Font fonte, Color cor) {
+    public yText(String texto, Font fonte, Color cor) {
         super(texto);
         this.texto = texto;
         ySetMineText(texto);

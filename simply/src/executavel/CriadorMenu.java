@@ -138,7 +138,7 @@ public class CriadorMenu {
         adicionar.yAddContent(btn_confirm);
         adicionar.yAddContent(cor);
 
-        adicionar.realocar_conteudos(0.0, 0.0);
+        adicionar.yRealocateContent(0.0, 0.0);
         Node content[] = adicionar.yGetContent();
         
         content[0].setTranslateX(10);

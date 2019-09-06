@@ -1,10 +1,10 @@
 package executavel;
 
-import Biblioteca.BasicObjects.Formas.Circulo;
-import Biblioteca.BasicObjects.Formas.Texto;
-import Biblioteca.Midia.Audio;
-import Biblioteca.Midia.VisualizadorImagemEgif;
-import Biblioteca.Midia.VisualizadorVideo;
+import Biblioteca.BasicObjects.Formas.Ycircle;
+import Biblioteca.BasicObjects.Formas.yText;
+import Biblioteca.Midia.Yaudio;
+import Biblioteca.Midia.Yimage;
+import Biblioteca.Midia.YvideoViwer;
 import Biblioteca.OrganizadoresDeNodos.YBox;
 import Biblioteca.OrganizadoresDeNodos.MathGrid;
 import Biblioteca.OrganizadoresDeNodos.Tabela;
@@ -30,7 +30,7 @@ public class teste extends Application {
         Tabela vem = new Tabela(5, 5, 5, 5, true, true);
         vem.ySetCellConfig(2.0, Color.CADETBLUE, null);
         
-        vem.yAdd(new Texto("aaaa"), 0, 0);
+        vem.yAdd(new yText("aaaa"), 0, 0);
         MathGrid aaaa = new MathGrid(80, 80);
         aaaa.bind_rodinha_mouse();
         aaaa.bind_tela_movel();
@@ -46,20 +46,20 @@ public class teste extends Application {
         testeTabela.yAdd(grade, 0, 2);
         
         
-        VisualizadorImagemEgif portal = new VisualizadorImagemEgif("assets/ac.png", 150, 100);
-        VisualizadorImagemEgif chara = new VisualizadorImagemEgif("assets/chara.jpg", 130, 200);
-        VisualizadorImagemEgif dados = new VisualizadorImagemEgif("assets/dados.png", 50, 50);
-        VisualizadorImagemEgif gif = new VisualizadorImagemEgif("assets/giphy.gif", 200, 200);
-        VisualizadorVideo video = new VisualizadorVideo("assets/sample.mp4", 150, 100);
-        Audio musica = new Audio("assets/teste.mp3");
+        Yimage portal = new Yimage("assets/ac.png", 150, 100);
+        Yimage chara = new Yimage("assets/chara.jpg", 130, 200);
+        Yimage dados = new Yimage("assets/dados.png", 50, 50);
+        Yimage gif = new Yimage("assets/giphy.gif", 200, 200);
+        YvideoViwer video = new YvideoViwer("assets/sample.mp4", 150, 100);
+        Yaudio musica = new Yaudio("assets/teste.mp3");
         
-        testeTabela.yAdd(new Circulo(50, Color.CORNFLOWERBLUE), 2, 1);
-        testeTabela.yAdd(new Circulo(5, Color.CORNFLOWERBLUE), 3, 2);
+        testeTabela.yAdd(new Ycircle(50, Color.CORNFLOWERBLUE), 2, 1);
+        testeTabela.yAdd(new Ycircle(5, Color.CORNFLOWERBLUE), 3, 2);
         testeTabela.yAdd(new Rectangle(80, 80, Color.LAVENDER), 1, 2);
         testeTabela.yAdd(dados, 3, 0);
         testeTabela.yAdd(chara, 2, 2);
         YBox cc = new YBox(40, 45, Color.WHITE, 1, Color.BLACK);
-        cc.yAddContent(new Circulo(5, Color.CORNFLOWERBLUE));
+        cc.yAddContent(new Ycircle(5, Color.CORNFLOWERBLUE));
         cc.yAlignContents(0.5, 0.5, 0.5, 0.5);
         testeTabela.yAdd(cc, 0, 0);
         testeTabela.yAdd(portal, 2, 0);

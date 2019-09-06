@@ -1,10 +1,10 @@
 package Biblioteca.OrganizadoresDeNodos;
 
 import Biblioteca.BasicObjects.YvisibleScene;
-import Biblioteca.BasicObjects.Formas.Linha;
-import Biblioteca.BasicObjects.Formas.Texto;
+import Biblioteca.BasicObjects.Formas.Yline;
+import Biblioteca.BasicObjects.Formas.yText;
 import Biblioteca.Lists.yCircularArray;
-import Biblioteca.LogicClasses.Matematicas;
+import Biblioteca.LogicClasses.Ymathematics;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.beans.property.DoubleProperty;
@@ -14,10 +14,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
-public class BarraDeslisante extends YvisibleScene {
+/**
+ * Class to create a sliding bar with any desired shape, some problems are that it does not let a trail behind and the text that shows the
+ * curret value/percentage of the slider is messy positioned.
+ */
+public class YslidingBar extends YvisibleScene {
     private Shape path;
     public YBox slider;
-    public Texto text;
+    public yText text;
     
     private PathTransition path_animation;
     public yCircularArray<Point2D> PATH_POINT_LIST;
@@ -42,7 +46,7 @@ public class BarraDeslisante extends YvisibleScene {
     //AO INVEZ DO USUARIO PASSAR O NUMERO DE FRAMES ELE PASSA O INCREMENTO, E BASEADO NISSO TU CALCULA O NUMERO DE FRAMES
     //CADE O TRAILL QUE O SLIDER DEIXA AO PASSAR AAAAAAAAAAAA
     
-    public BarraDeslisante(Shape path, YBox slider, int FRAMES, double MIN, double MAX, boolean cyclic) {
+    public YslidingBar(Shape path, YBox slider, int FRAMES, double MIN, double MAX, boolean cyclic) {
         this.path = path;
         this.slider = slider;
         this.FRAMES = FRAMES;
@@ -84,16 +88,20 @@ public class BarraDeslisante extends YvisibleScene {
             }while(sucess);
         });
         
-        text = new Texto("");
+        text = new yText("");
         ySetValue(MIN);
         
         getChildren().addAll(path, this.slider);
     }
     
-    public BarraDeslisante(double endX, double endY, double stroke_width, Color line_color, YBox slider, int FRAMES, double MIN, double MAX) {
-        this(new Linha(endX, endY, stroke_width, line_color), slider, FRAMES, MIN, MAX, false);
+    public YslidingBar(double endX, double endY, double stroke_width, Color line_color, YBox slider, int FRAMES, double MIN, double MAX) {
+        this(new Yline(endX, endY, stroke_width, line_color), slider, FRAMES, MIN, MAX, false);
     }
     
+    /**
+     * Sets a new path to the slider.
+     * @param path The new path.
+     */
     public void ySetSliderPath(Shape path){
         path_animation = new PathTransition();
         path_animation.setDuration(Duration.seconds(FRAMES));
@@ -223,7 +231,7 @@ public class BarraDeslisante extends YvisibleScene {
         }
         
         //if the minor distance is smaller than the distance between the curent frame and the mouse, the smaller one will be the next frame
-        if(minor_distance < Matematicas.hypotenuse(pX - PATH_POINT_LIST.get(CURRENT_POSITION_INDEX).getX(), pY - PATH_POINT_LIST.get(CURRENT_POSITION_INDEX).getY())){
+        if(minor_distance < Ymathematics.yHypotenuse(pX - PATH_POINT_LIST.get(CURRENT_POSITION_INDEX).getX(), pY - PATH_POINT_LIST.get(CURRENT_POSITION_INDEX).getY())){
             ySetValueByPercentage(PATH_POINT_LIST.lenght()-1 != 0 ? ((double) PATH_POINT_LIST.get_real_index(index % FRAMES)) / (PATH_POINT_LIST.lenght()-1) : 0);
             syncTextValue();
             
@@ -239,6 +247,6 @@ public class BarraDeslisante extends YvisibleScene {
      * @return The distance between a frame and a point using pythagoras.
      */
     private double distanceToNextPoint(int frame_index, double pX, double pY){
-        return Matematicas.hypotenuse(pX - PATH_POINT_LIST.get(frame_index).getX(), pY - PATH_POINT_LIST.get(frame_index).getY());
+        return Ymathematics.yHypotenuse(pX - PATH_POINT_LIST.get(frame_index).getX(), pY - PATH_POINT_LIST.get(frame_index).getY());
     }
 }

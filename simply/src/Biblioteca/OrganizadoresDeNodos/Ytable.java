@@ -12,7 +12,10 @@ import javafx.scene.shape.StrokeType;
 
 //FAZER OS ITENS CABEÇALHOS (QUE CATEGORIZAM AQUELA LINHA OU COLUNA, EX: DIA)
 
-public class Tabela extends YvisibleScene{
+/**
+ * Creates a generic table where you can add elements in the desired positions.
+ */
+public class Ytable extends YvisibleScene{
     public ArrayList<Node> elementos = new ArrayList();
     private ArrayList<Point2D> posicoes = new ArrayList();
     
@@ -68,7 +71,7 @@ public class Tabela extends YvisibleScene{
      * @param show_horizontal_lines Show line divisions in the X axis.
      * @param show_vertical_lines Show line divisions in the Y axis.
      */
-    public Tabela(double min_paddingX, double min_paddingY, double cells_X_distance,
+    public Ytable(double min_paddingX, double min_paddingY, double cells_X_distance,
             double cells_Y_distance, boolean show_horizontal_lines, boolean show_vertical_lines){
         this.min_paddingX = min_paddingX;
         this.min_paddingY = min_paddingY;
@@ -83,29 +86,35 @@ public class Tabela extends YvisibleScene{
     }
     
     /**
-     * Muda a aparencia das linhas que separam as linhas (linhas em X).
-     * @param grossura Grossura da linha.
-     * @param cor Cor da linha.
+     * Configurate the horizontal lines of the table.
+     * @param width Line stroke width.
+     * @param color Color line.
      */
-    public void ySetXlines(Double grossura, Paint cor){
-        if(grossura != null)
-            this.lineX_stroke_width = grossura;
-        if(cor != null)
-            this.lineX_stroke_color = cor;
+    public void ySetXlines(Double width, Paint color){
+        if(width != null)
+            this.lineX_stroke_width = width;
+        if(color != null)
+            this.lineX_stroke_color = color;
     }
     
     /**
-     * Muda a aparencia das linhas que separam as colunas (linhas em Y).
-     * @param grossura Grossura da linha.
-     * @param cor Cor da linha.
+     * Configurate the vertical lines of the table.
+     * @param width Line stroke width.
+     * @param color Color line.
      */
-    public void ySetYlines(Double grossura, Paint cor){
-        if(grossura != null)
-            this.lineY_stroke_width = grossura;
-        if(cor != null)
-            this.lineY_stroke_color = cor;
+    public void ySetYlines(Double width, Paint color){
+        if(width != null)
+            this.lineY_stroke_width = width;
+        if(color != null)
+            this.lineY_stroke_color = color;
     }
     
+    /**
+     * Configurates the Table's cells
+     * @param stroke_width The with of the stroke.
+     * @param stroke_color The color of the stroke.
+     * @param background_color The background color.
+     */
     public void ySetCellConfig(Double stroke_width, Paint stroke_color, Paint background_color){
         if(stroke_width != null)
             this.cell_stroke_width = stroke_width;
@@ -116,7 +125,7 @@ public class Tabela extends YvisibleScene{
     }
     
     /**
-     * Monta a tabela, calculando tamanho, posição e número de linhas e as posições dos objetos.
+     * Refreshes the table.
      */
     public void yRefresh(){
         this.getChildren().clear();
@@ -178,8 +187,7 @@ public class Tabela extends YvisibleScene{
     }
     
     /**
-     * Encontra a maior largura e altura entre todas de todos os elementos.
-     * @return Uma tupla Point2D cujo X é a maior largura e Y a maior altura.
+     * @return The greater width and height on the table.
      */
     private Point2D yBiggestSizeInTable(){
         double width = 0;
@@ -195,6 +203,9 @@ public class Tabela extends YvisibleScene{
         return new Point2D(width, height);
     }
     
+    /**
+     * @return The farest elemento on the table.
+     */
     private Point2D yFarestsPositionsInTable(){
         int X = 0;
         int Y = 0;
@@ -216,10 +227,10 @@ public class Tabela extends YvisibleScene{
     }
     
     /**
-     * Adiciona um objeto à tabela. (se ja existir um elemento naquele lugar ver o que fazer, por enquanto substitui)
-     * @param object É o objeto a ser adicionado.
-     * @param positionInTableX Posição X na tabela.
-     * @param positionInTableY Posição Y na tabela.
+     * Adds an object to the table. (if there is an object in the position already it will be removed)
+     * @param object Object to be added.
+     * @param positionInTableX X position on the table.
+     * @param positionInTableY Y position on the table.
      */
     public void yAdd(Node object, int positionInTableX, int positionInTableY){
         boolean elementInSamePosition = false;
@@ -237,6 +248,10 @@ public class Tabela extends YvisibleScene{
         }
     }
     
+    /**
+     * Remove an object from the table.
+     * @param object The object to be removed.
+     */
     public void yRemove(Node object){
         int index = elementos.indexOf(object);
         elementos.remove(index);

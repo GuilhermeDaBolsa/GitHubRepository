@@ -6,8 +6,8 @@ import Biblioteca.Midia.Yaudio;
 import Biblioteca.Midia.Yimage;
 import Biblioteca.Midia.YvideoViwer;
 import Biblioteca.OrganizadoresDeNodos.YBox;
-import Biblioteca.OrganizadoresDeNodos.MathGrid;
-import Biblioteca.OrganizadoresDeNodos.Tabela;
+import Biblioteca.OrganizadoresDeNodos.YmathGrid;
+import Biblioteca.OrganizadoresDeNodos.Ytable;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -22,27 +22,27 @@ public class teste extends Application {
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
         
-        Tabela testeTabela = new Tabela(5, 5, 5, 5, true, true);
+        Ytable testeTabela = new Ytable(5, 5, 5, 5, true, true);
         testeTabela.ySetCellConfig(2.0, Color.BROWN, null);
         testeTabela.ySetXlines(1.0, Color.LIGHTBLUE);
         testeTabela.ySetYlines(1.0, Color.LIGHTBLUE);
         
-        Tabela vem = new Tabela(5, 5, 5, 5, true, true);
+        Ytable vem = new Ytable(5, 5, 5, 5, true, true);
         vem.ySetCellConfig(2.0, Color.CADETBLUE, null);
         
         vem.yAdd(new yText("aaaa"), 0, 0);
-        MathGrid aaaa = new MathGrid(80, 80);
-        aaaa.bind_rodinha_mouse();
-        aaaa.bind_tela_movel();
+        YmathGrid aaaa = new YmathGrid(80, 80);
+        aaaa.yBindMouseScrollZoom();
+        aaaa.yBindMouseMoveble();
         vem.yAdd(aaaa, 1, 1);
         
         
         testeTabela.yAdd(vem, 3, 1);
         
-        MathGrid grade = new MathGrid(200,200);
-        grade.bind_rodinha_mouse();
-        grade.bind_tela_movel();
-        //grade.binda_tamanho(testeTabela., altura);
+        YmathGrid grade = new YmathGrid(200,200);
+        grade.yBindMouseScrollZoom();
+        grade.yBindMouseMoveble();
+        //grade.yBindSize(testeTabela., altura);
         testeTabela.yAdd(grade, 0, 2);
         
         

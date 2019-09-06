@@ -1,7 +1,7 @@
 package executavel;
 
 import Biblioteca.OrganizadoresDeNodos.YslidingBar;
-import Biblioteca.OrganizadoresDeNodos.MathGrid;
+import Biblioteca.OrganizadoresDeNodos.YmathGrid;
 import Biblioteca.OrganizadoresDeNodos.YBox;
 import static executavel.CriadorMenu.largura_menu;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import Biblioteca.BasicObjects.YcoolBindings;
 public class Fisica2 extends Application {
     public static Pane pane_principal = new Pane();
     public static YBox caixa_adicionar_carga;
-    public static MathGrid grade;
+    public static YmathGrid grade;
     public static ArrayList<Entidade> cargas = new ArrayList();
     //BarraDeslisante barra_escala;
     
@@ -40,7 +40,7 @@ public class Fisica2 extends Application {
         YBox botao_menu = CriadorMenu.cria_botao_menu(menu);
         botao_menu.setTranslateX(botao_menu.box.getStrokeWidth());
         
-        grade = new MathGrid(200, 200);
+        grade = new YmathGrid(200, 200);
         //barra_escala = new YslidingBar(160, 0, 1, 100, 50, 2);
         
         //barra_escala.translateXProperty().bind(pane_principal.widthProperty().subtract(196));
@@ -48,9 +48,9 @@ public class Fisica2 extends Application {
         
         pane_principal.getChildren().addAll(grade, menu, botao_menu, caixa_adicionar_carga);
         
-        grade.binda_tamanho(primaryStage.widthProperty(), primaryStage.heightProperty());
-        grade.bind_rodinha_mouse();
-        grade.bind_tela_movel();
+        grade.yBindSize(primaryStage.widthProperty(), primaryStage.heightProperty());
+        grade.yBindMouseScrollZoom();
+        grade.yBindMouseMoveble();
         
         Scene cena = new Scene(pane_principal, 800, 640);
         primaryStage.setTitle("Física 0.65");

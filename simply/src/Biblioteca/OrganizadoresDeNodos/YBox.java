@@ -183,6 +183,14 @@ public class YBox extends YvisibleScene {
                 ((Yshape) box).yGetTranslateY(0) + ((Yshape) box).yGetHeight(false) * boxYpivo - yGetContentHeight() * elementYpivo);
     }
     
+    /**
+     * Change box size moving the objects.
+     * @param width New width
+     * @param height New Height
+     * @param strokeX_included If stroke will be included in new width
+     * @param strokeY_included If stroke will be included in new height
+     * @param correct_location Correct location if needed.
+     */
     public void ySetBoxSize(double width, double height, boolean strokeX_included, boolean strokeY_included, boolean correct_location){
         double content_delta_positionX = content.getTranslateX() - this.getTranslateX();
         double content_delta_positionY = content.getTranslateY() - this.getTranslateY();
@@ -197,6 +205,10 @@ public class YBox extends YvisibleScene {
         yMoveContents(-content_delta_positionX/this.yGetWidth()*deltaWidth, -content_delta_positionY/this.yGetHeight()*deltaHeight);
     }
     
+    /**
+     * Sets box size based on its content.
+     * @see #ySetBoxSize(double, double, boolean, boolean, boolean) 
+     */
     public void ySetBoxSizeWithItsContent(boolean strokeX_included, boolean strokeY_included, boolean correct_location, boolean proportion){
         double largura = yGetContentWidth();
         double altura = yGetContentHeight();
@@ -213,6 +225,11 @@ public class YBox extends YvisibleScene {
         ySetBoxSize(largura, altura, strokeX_included, strokeY_included, correct_location);
     }
     
+    /**
+     * Scales the box based on its content.
+     * Almost like ySetBixSuzeWithItsContent, but scaling
+     * @see #ySetBoxSize(double, double, boolean, boolean, boolean) 
+     */
     public void yScaleBoxWithItsContent(boolean strokeX_included, boolean strokeY_included, boolean correct_location, boolean proportion){ //FAZER O TESTE DE ONDE TAVA PRA MEXER NO CONTEUDO JUNTO
         double largura = yGetContentWidth();
         double altura = yGetContentHeight();

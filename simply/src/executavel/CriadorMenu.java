@@ -2,7 +2,7 @@ package executavel;
 
 import Biblioteca.Interactions.YLinkElements;
 import Biblioteca.Animacoes;
-import Biblioteca.OrganizadoresDeNodos.TabelaMenu;
+import Biblioteca.OrganizadoresDeNodos.YmenuTable;
 import Biblioteca.OrganizadoresDeNodos.YBox;
 import java.util.ArrayList;
 import javafx.geometry.Pos;
@@ -37,7 +37,7 @@ public class CriadorMenu {
         YBox btn_config = new YBox(largura_menu * porcentagem_btn, largura_menu * porcentagem_btn, Color.DARKGRAY, 1, Color.BLACK);
         btn_config.yGetEventsHandler().onMouseClicked().addHandleble((event) -> {
             /*for (int i = -150; i < 151; i++) {
-                Fisica2.grade.adicionar_objeto(new Entidade(6, 12, Color.AQUA, i + ", " + i), i, i);
+                Fisica2.grade.yAdd(new Entidade(6, 12, Color.AQUA, i + ", " + i), i, i);
             }*/
         });
         botoes.add(btn_config);
@@ -51,7 +51,7 @@ public class CriadorMenu {
             System.out.println("Used memory in MB: " + memory / 1024 / 1024);
         });
         
-        TabelaMenu tabela = new TabelaMenu(0, 50, 0, 25, 0, 0, 0, false, false);
+        YmenuTable tabela = new YmenuTable(0, 50, 0, 25, 0, 0, 0, false, false);
         tabela.yAddElements(btn_add, btn_config, btn_remove);
         
         YLinkElements junta = new YLinkElements(btn_add, btn_config, btn_remove);
@@ -129,7 +129,7 @@ public class CriadorMenu {
             Entidade corpo_eletrico = new Entidade(6, carga, cor.getValue(), X+", "+Y); // TEM QUE COLORIR MELHOR ISSO AQUI...//
             Entidade.numero_entidades++;
 
-            Fisica2.grade.adicionar_objeto(corpo_eletrico, X, Y);
+            Fisica2.grade.yAdd(corpo_eletrico, X, Y);
         });
 
         adicionar.yAddContent(nome);

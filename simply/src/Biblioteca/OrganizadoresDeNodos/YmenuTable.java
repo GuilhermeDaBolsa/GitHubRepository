@@ -4,7 +4,11 @@ import Biblioteca.BasicObjects.YvisibleScene;
 import Biblioteca.Interactions.Yhandlebles;
 import java.util.ArrayList;
 
-public class TabelaMenu extends YvisibleScene{
+/**
+ * Creates a table where it's elements follow a pattern positioning.
+ * This table have a limit action, that is modifieble. This action is executed when the countDownLimit reaches 0.
+ */
+public class YmenuTable extends YvisibleScene{
     public ArrayList<YBox> elementos = new ArrayList();
     private double positionPaternX;
     private double positionPaternY;
@@ -25,12 +29,13 @@ public class TabelaMenu extends YvisibleScene{
     //E MUDAR O POSITION PATTERN PRA TIPO PODE SER 1px e SE O ESPAÇO ENTRE ELEMENTOS FOR MAIOR VAI O ESPAÇO ENTRE ELEMENTOS, EU ACHO
     
     /**
-     * Faz na mão, independente de outros objetos.
-     * @param positionPaternX É a medida padrão de distância entre os elementos (eixo X).
-     * @param positionPaternY É a medida padrão de distância entre os elementos (eixo Y).
-     * @param contDownLimit When contDownLimit reaches 0, acaoLimite will be executed.
+     * Creates a table with it configuration.
+     * @see #ySetPositionPatern(java.lang.Double, java.lang.Double) 
+     * @see #ySetSpaceBetweenElements(java.lang.Double, java.lang.Double) 
+     * @see #ySetPatternAsBoxBounds(java.lang.Boolean, java.lang.Boolean) 
+     * @see #ySetNewCountDown(java.lang.Integer, java.lang.Double, java.lang.Double) 
      */
-    public TabelaMenu(double positionPaternX, double positionPaternY, double espacoElementosX, double espacoElementosY,//TIRAR OS POSITION PATERN E TENTAR PEGA ELES NA MÃO?
+    public YmenuTable(double positionPaternX, double positionPaternY, double espacoElementosX, double espacoElementosY,//TIRAR OS POSITION PATERN E TENTAR PEGA ELES NA MÃO?
             int contDownLimit, double spaceInCountDownX, double spaceInCountDownY, boolean patternXasBounds, boolean patternYasBounds) {
         ySetNewCountDown(contDownLimit, spaceInCountDownX, spaceInCountDownY);
         ySetPositionPatern(positionPaternX, positionPaternY);
@@ -39,8 +44,8 @@ public class TabelaMenu extends YvisibleScene{
     }
 
     /**
-     * Adiciona um novo elemento em uma nova posição desejada e, apartir daí, será seguido o padrão de posicionamento.
-     * @param elemento É o novo elemento.
+     * Adds a new element to the table.
+     * @param elemento The new element to be added.
      */
     public void yAddElement(YBox elemento){
         elementos.add(elemento);
@@ -48,26 +53,37 @@ public class TabelaMenu extends YvisibleScene{
     }
     
     /**
-     * Adiciona vários elementos seguindo os padrões de posicionamento.
-     * @param elemento São os novos elemento.
+     * Adds several elements to the table.
+     * @param elements The elements to be added.
      */
-    public void yAddElements(YBox... elemento){
-        for (YBox elemento1 : elemento) {
+    public void yAddElements(YBox... elements){
+        for (YBox elemento1 : elements) {
             yAddElement(elemento1);
         }
     }
     
+    /**
+     * Remove an element from the table by it's index.
+     * @param index Index of the element
+     */
     public void yRemove(int index){
         elementos.remove(index);//VER SE QUANDO REMOVE AQUI ELE REMOVE DO PANE, ACHO Q NAO :)
         yRefresh();
     }
     
+    /**
+     * Remove an element from the table.
+     * @param element The element to be removed.
+     */
     public void yRemove(YBox element){
         int index = elementos.indexOf(element);
         if(index != -1)
             yRemove(index);
     }
     
+    /**
+     * Refreshes the table
+     */
     public void yRefresh(){
         getChildren().clear();
         
@@ -109,10 +125,9 @@ public class TabelaMenu extends YvisibleScene{
     }
     
     /**
-     * Muda a medida padrão de distância entre os elementos.
-     * (OBS: se o valor de algum dos espaços for null, o valor não será alterado)
-     * @param positionPaternX É a medida padrão de distância entre os elementos (eixo X).
-     * @param positionPaternY É a medida padrão de distância entre os elementos (eixo Y).
+     * Set position pattern between elements.
+     * @param positionPaternX Position pattern in X.
+     * @param positionPaternY Position pattern in Y.
      */
     public void ySetPositionPatern(Double positionPaternX, Double positionPaternY){
         if(positionPaternX != null)
@@ -122,10 +137,9 @@ public class TabelaMenu extends YvisibleScene{
     }
     
     /**
-     * Muda o espaço entre os elementos.
-     * (OBS: se o valor de algum dos espaços for null, o valor não será alterado)
-     * @param spaceBetweenElementsX É o espaço entre os elementos (em X), para eles não ficarem grudados um no outro.
-     * @param spaceBetweenElementsY É o espaço entre os elementos (em Y), para eles não ficarem grudados um no outro.
+     * Set space between elemtens.
+     * @param spaceBetweenElementsX Space in X.
+     * @param spaceBetweenElementsY Space in Y.
      */
     public void ySetSpaceBetweenElements(Double spaceBetweenElementsX, Double spaceBetweenElementsY){
         if(spaceBetweenElementsX != null)
@@ -134,6 +148,13 @@ public class TabelaMenu extends YvisibleScene{
             this.spaceBetweenElementsY = spaceBetweenElementsY;
     }
     
+    /**
+     * Count down is the number of elements that can still be added without alerting the limit and activating
+     * the actionsLimit action.
+     * @param limit New count down.
+     * @param distanceX If you want to move the limit cell to an expecific place in X inform it here.
+     * @param distanceY If you want to move the limit cell to an expecific place in Y inform it here. 
+     */
     public void ySetNewCountDown(Integer limit, Double distanceX, Double distanceY){
         if(limit != null)
             countDownLimit = limit;
@@ -143,6 +164,11 @@ public class TabelaMenu extends YvisibleScene{
             countDownY = distanceY;
     }
     
+    /**
+     * If you want the position patter to be the box size inform true in the paramaters.
+     * @param X Box size pattern in X (box's width)
+     * @param Y Box size pattern in Y (box's height)
+     */
     public void ySetPatternAsBoxBounds(Boolean X, Boolean Y){
         if(X != null)
             patternXisBoxBounds = X;

@@ -1,7 +1,7 @@
 package Biblioteca.OrganizadoresDeNodos;
 
 import Biblioteca.BasicObjects.YvisibleScene;
-import Biblioteca.Interactions.Runnables;
+import Biblioteca.Interactions.Yhandlebles;
 import java.util.ArrayList;
 
 public class TabelaMenu extends YvisibleScene{
@@ -14,7 +14,7 @@ public class TabelaMenu extends YvisibleScene{
     private double countDownX;
     private double countDownY;
     private int countDownLimit;
-    public Runnables acaoLimite;
+    public Yhandlebles acaoLimite;
     
     private boolean patternXisBoxBounds;
     private boolean patternYisBoxBounds;

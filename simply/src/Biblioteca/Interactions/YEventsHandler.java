@@ -1,44 +1,52 @@
 package Biblioteca.Interactions;
 
-import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 /**
- * Class created to 
+ * Class created to handle with events that occured in objects.
  */
 public class YEventsHandler {
+    /**
+     * The object where the events occur.
+     */
     public Node object;
     
-    private Runnables<MouseEvent> onMouseEntered;
-    private Runnables<MouseEvent> onMouseExited;
-    private Runnables<MouseEvent> onMousePressed;
-    private Runnables<MouseEvent> onMouseReleased;
-    private Runnables<MouseEvent> onMouseClicked;
-    private Runnables<MouseEvent> onMouseDragged;
-    private Runnables<MouseEvent> actionCleaner;
+    private Yhandlebles<MouseEvent> onMouseEntered;
+    private Yhandlebles<MouseEvent> onMouseExited;
+    private Yhandlebles<MouseEvent> onMousePressed;
+    private Yhandlebles<MouseEvent> onMouseReleased;
+    private Yhandlebles<MouseEvent> onMouseClicked;
+    private Yhandlebles<MouseEvent> onMouseDragged;
+    private Yhandlebles<MouseEvent> actionCleaner;
     //KEYBORD RUNNABLE || TODO
     
     public boolean is_focused;
     public boolean is_selected;
 
+    /**
+     * Instantiates the handlebles.
+     * @param objeto 
+     */
     public YEventsHandler(Node objeto) {
         this.object = objeto;
-        onMouseClicked = new Runnables();
-        onMouseReleased = new Runnables();
-        onMousePressed = new Runnables();
-        onMouseEntered = new Runnables();
-        onMouseExited = new Runnables();
-        onMouseDragged = new Runnables();
-        actionCleaner = new Runnables();
+        onMouseClicked = new Yhandlebles();
+        onMouseReleased = new Yhandlebles();
+        onMousePressed = new Yhandlebles();
+        onMouseEntered = new Yhandlebles();
+        onMouseExited = new Yhandlebles();
+        onMouseDragged = new Yhandlebles();
+        actionCleaner = new Yhandlebles();
         //KEYBORD RUNNABLE || TODO
         
         is_focused = false;
         is_selected = false;
     }
     
-    public Runnables<MouseEvent> onMouseEntered(){
+    /**
+     * @return The handler to mouse entered events.
+     */
+    public Yhandlebles<MouseEvent> onMouseEntered(){
         if(onMouseEntered.size() == 0){//activates this action
             object.setOnMouseEntered((event) -> {
                 onMouseEntered.run(event);
@@ -48,7 +56,10 @@ public class YEventsHandler {
         return onMouseEntered;
     }
     
-    public Runnables<MouseEvent> onMouseExited(){
+    /**
+     * @return The handler to mouse exited events.
+     */
+    public Yhandlebles<MouseEvent> onMouseExited(){
         if(onMouseExited.size() == 0){//activates this action
             object.setOnMouseExited((event) -> {
                 onMouseExited.run(event);
@@ -58,7 +69,10 @@ public class YEventsHandler {
         return onMouseExited;
     }
     
-    public Runnables<MouseEvent> onMousePressed(){
+    /**
+     * @return The handler to mouse pressed events.
+     */
+    public Yhandlebles<MouseEvent> onMousePressed(){
         if(onMousePressed.size() == 0){//activates this action
             object.setOnMousePressed((event) -> {
                 onMousePressed.run(event);
@@ -68,7 +82,10 @@ public class YEventsHandler {
         return onMousePressed;
     }
     
-    public Runnables<MouseEvent> onMouseReleased(){
+    /**
+     * @return The handler to mouse released events.
+     */
+    public Yhandlebles<MouseEvent> onMouseReleased(){
         if(onMouseReleased.size() == 0){//activates this action
             object.setOnMouseReleased((event) -> {
                 onMouseReleased.run(event);
@@ -78,7 +95,10 @@ public class YEventsHandler {
         return onMouseReleased;
     }
     
-    public Runnables<MouseEvent> onMouseClicked(){
+    /**
+     * @return The handler to mouse clicked (pressed and released) events.
+     */
+    public Yhandlebles<MouseEvent> onMouseClicked(){
         if(onMouseClicked.size() == 0){//activates this action
             object.setOnMouseClicked((event) -> {
                 onMouseClicked.run(event);
@@ -88,7 +108,10 @@ public class YEventsHandler {
         return onMouseClicked;
     }
     
-    public Runnables<MouseEvent> onMouseDragged(){
+    /**
+     * @return The handler to mouse dragged events.
+     */
+    public Yhandlebles<MouseEvent> onMouseDragged(){
         if(onMouseDragged.size() == 0){//activates this action
             object.setOnMouseDragged((event) -> {
                 onMouseDragged.run(event);
@@ -98,10 +121,17 @@ public class YEventsHandler {
         return onMouseDragged;
     }
     
-    public Runnables<MouseEvent> actionCleaner(){
+    /**
+     * @return The handler to cleaner events (meant to clean something when it is deactivated or something like it).
+     */
+    public Yhandlebles<MouseEvent> actionCleaner(){
         return actionCleaner;
     }
     
+    /**
+     * Remove an event from all kinds of events (pressed, release, clicked......) by the events name.
+     * @param name 
+     */
     public void removeFromAll(String name){
         onMouseEntered.removeHandleble(name);
         onMouseExited.removeHandleble(name);
@@ -112,6 +142,9 @@ public class YEventsHandler {
         actionCleaner.removeHandleble(name);
     }
     
+    /**
+     * Clear all events.
+     */
     public void clearEvents(){
         onMouseEntered.clear();
         onMouseExited.clear();
@@ -120,6 +153,7 @@ public class YEventsHandler {
         onMouseDragged.clear();
     }
     
+    /*
     public void setOnKeyEMouseAction(EventHandler<? super MouseEvent> value) {
         //this.ActionPressed.addRunnable(value); //FAZER A CLASSE EVENTHANDLES PRA ESSES CASO AQUI QUE USA EVENTOS DE MOUSE E TECLADO
         object.setOnMousePressed(value);
@@ -143,5 +177,5 @@ public class YEventsHandler {
     
     public void moveOnClickAndDrag(){
         //FAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZZZZZZZZZZZZZZZZZZZZZZZZzz
-    }
+    }*/
 }

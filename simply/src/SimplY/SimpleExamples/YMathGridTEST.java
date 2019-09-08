@@ -1,9 +1,9 @@
-package simpleExamples;
+package SimplY.SimpleExamples;
 
 import SimplY.NodeManager.YSlidingBar;
 import SimplY.NodeManager.YMathGrid;
 import SimplY.NodeManager.YBox;
-import static simpleExamples.MenuCreator.largura_menu;
+import static SimplY.SimpleExamples.MenuCreator.largura_menu;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.scene.Scene;

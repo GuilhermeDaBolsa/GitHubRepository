@@ -1,8 +1,7 @@
-package simpleExamples;
+package SimplY.SimpleExamples;
 
 import SimplY.BasicObjects.Shapes.YCircle;
 import SimplY.BasicObjects.Shapes.YLine;
-import SimplY.BasicObjects.Shapes.YPolygon;
 import SimplY.BasicObjects.Shapes.YRectangle;
 import SimplY.BasicObjects.Shapes.YText;
 import SimplY.NodeManager.YSlidingBar;
@@ -26,44 +25,44 @@ import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
-public class YRotationTEST extends Application {
+public class YSlidingBarTEST extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        double X = 405;
-        double Y = 405;
-        
         Pane teste = new Pane();
         
-        YCircle p = new YCircle(3, Color.RED);
-        p.ySetTranslateX(X, 0.5);
-        p.ySetTranslateY(Y, 0.5);
+        Circle a = new Circle(2, Color.RED);
+        a.setDisable(true);
+        YText b = new YText("AAA q saco mano");
         
-        YPolygon r = new YPolygon(
-                150, 100,
-                200, 200,
-                400, 400
-        );
-        YLine l = new YLine(60, 0, 10, Color.BLUEVIOLET);
-        l.ySetTranslateX(X, 0.5);
-        l.ySetTranslateY(390, 0);
+        YSlidingBar k = new YSlidingBar(new Circle(50), new YBox(10, 10, Color.WHITE, 2, Color.BLACK), 50, 0, 250, true);
         
-        teste.widthProperty().addListener((observable, oldValue, newValue) -> {
-            int inc = 1;
-            if(newValue.doubleValue() < oldValue.doubleValue())
-                inc = -1;
-            
-            r.yRotateBy(inc * 3, X, Y);
-            l.yRotateBy(inc * 5, X, Y);
-        });
+        k.ySetTranslateX(400, 0);
+        k.ySetTranslateY(400, 0);
         
         
-        teste.getChildren().addAll(r, l, p);
+        //ver p faz esse baguiu do bind text 
+        k.yDisplayValue(false);
+        k.text.yBindTranslateX("SliderTextTranslationX", k.sliderXposition, 0);
+        k.text.yBindTranslateY("SliderTextTranslationY", k.sliderYposition, 0);
+        k.text.setDisable(true);
+        a.layoutXProperty().bind(k.sliderXposition.add(400));
+        a.layoutYProperty().bind(k.sliderYposition.add(400));
+        
+        b.ySetTranslateX(0, 0);
+        b.ySetTranslateY(0, 0);
+        b.layoutXProperty().bind(k.sliderXposition);
+        b.layoutYProperty().bind(k.sliderYposition);
+
+        
+        teste.getChildren().addAll(k, a, b);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");
         primaryStage.setScene(scene);
         primaryStage.show();
+        k.ySetValue(100);
+        
     }
 
     public static void main(String[] args) {

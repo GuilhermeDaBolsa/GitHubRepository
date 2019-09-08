@@ -1,4 +1,4 @@
-package simpleExamples;
+package SimplY.SimpleExamples;
 
 import SimplY.Interactions.YLinkElements;
 import SimplY.YAnimations;

@@ -1,4 +1,4 @@
-package simpleExamples;
+package SimplY.SimpleExamples;
 
 import SimplY.BasicObjects.YVisibleScene;
 import SimplY.BasicObjects.Shapes.YCircle;

@@ -124,8 +124,6 @@ public class YPolygon extends Polygon implements YShape, YCoolBindings{
     @Override
     public void ySetWidth(double width, boolean stroke_included, boolean correct_location) {
         width = YShapeHandler.ySizeControler(width, stroke_included, yOutsideStrokeOcupation.WIDTH, yMax_width.get());
-        
-        double pivo = yGetWidth(false)/2;
         double increment = width - yGetWidth(stroke_included);
         
         for (int i = 0; i < getPoints().size(); i+=2) {
@@ -138,8 +136,6 @@ public class YPolygon extends Polygon implements YShape, YCoolBindings{
     @Override
     public void ySetHeight(double height, boolean stroke_included, boolean correct_location) { 
         height = YShapeHandler.ySizeControler(height, stroke_included, yOutsideStrokeOcupation.HEIGHT, yMax_height.get());
-        
-        double pivo = yGetHeight(false)/2;
         double increment = height - yGetHeight(stroke_included);
         
         for (int i = 1; i < getPoints().size(); i+=2) {

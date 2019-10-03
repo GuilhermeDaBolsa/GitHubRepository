@@ -21,8 +21,8 @@ public abstract class YShapeHandler{
      * @param shape The shape to be translated.
      * @see YShape#ySetTranslateX(double, double) 
      */
-    public static void setTranslateX(Shape shape, double X, double pivo){
-        shape.setTranslateX(X - ((YShape) shape).yGetWidth(true) * pivo);
+    public static void setTranslateX(Shape shape, double X, double pivo){//-0.5 because it works with object's scale
+        shape.setTranslateX(X - ((YShape) shape).yGetWidth(true) * (pivo - 0.5));
     }
     
     /**
@@ -30,7 +30,7 @@ public abstract class YShapeHandler{
      * @see YShape#ySetTranslateY(double, double) 
      */
     public static void setTranslateY(Shape shape, double Y, double pivo){
-        shape.setTranslateY(Y - ((YShape) shape).yGetHeight(true) * pivo);
+        shape.setTranslateY(Y - ((YShape) shape).yGetHeight(true) * (pivo - 0.5));//-0.5 pois eu trabalho com a escala do objeto
     }
     
     /**

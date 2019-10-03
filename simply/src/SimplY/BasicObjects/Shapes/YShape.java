@@ -126,7 +126,7 @@ public interface YShape extends YAbstractInterface{
     public void ySetStroke(Double stroke_width, Paint stroke_color, StrokeType stroke_type, boolean correct_location);
     
     /**
-     * @return The outside stroke ocupation handler.
+     * @return The outside stroke ocupation handler (DOES NOT INCLUDE SCALE).
      */
     public YStrokeOcupation yGetStrokeOcupation();
     

@@ -11,7 +11,7 @@ public abstract class YVisibleObjectHandler{
      * @return The width that the entire shape (with all effects and attributes) occupies in the scene.
      */
     public static double yGetWidth(Node nodo){
-        return nodo.getBoundsInLocal().getWidth()*nodo.getScaleX();//VER ESSE NEGOCIO DO SCALE AQUI EM... ACHO Q SE DEIXAR SEPARADO É MELHOR EM.......
+        return nodo.getBoundsInLocal().getWidth()*nodo.getScaleX();
     }
     
     /**

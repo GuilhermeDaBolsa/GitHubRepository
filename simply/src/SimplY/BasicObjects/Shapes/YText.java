@@ -17,6 +17,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.transform.Rotate;
 import SimplY.BasicObjects.YCoolBindings;
+import SimplY.BasicObjects.YVisibleObjectHandler;
 
 //QUANDO VEM COM UM \n NO FIM ELE SE PERDEU (pelo menos parece q é isso)
 //O TEXTO GUARDA SEMPRE UM ESPAÇO PROS ACENTOS (E PRA SEPARA AS LINHAS), dai a primeira linha é mais alta;
@@ -105,7 +106,7 @@ public class YText extends Text implements YShape, YCoolBindings{
         if (!plusStroke) {
             width -= yOutsideStrokeOcupation.WIDTH;
         }
-        return width;
+        return width * getScaleX();
     }
 
     @Override
@@ -114,17 +115,17 @@ public class YText extends Text implements YShape, YCoolBindings{
         if (!plusStroke) {
             height -= yOutsideStrokeOcupation.HEIGHT;
         }
-        return height;
+        return height * getScaleY();
     }
 
     @Override
     public double yGetWidth() {
-        return getBoundsInLocal().getWidth();
+        return YVisibleObjectHandler.yGetWidth(this);
     }
 
     @Override
     public double yGetHeight() {
-        return getBoundsInLocal().getHeight();
+        return YVisibleObjectHandler.yGetHeight(this);
     }
 
     /**
@@ -206,22 +207,22 @@ public class YText extends Text implements YShape, YCoolBindings{
     
     @Override
     public double yGetTranslateX(double pivo) {
-        return getTranslateX() + yGetWidth(true) * pivo;
+        return getTranslateX() + this.width.get()/2 + yGetWidth(true) * (pivo - 0.5);
     }
 
     @Override
     public double yGetTranslateY(double pivo) {
-        return getTranslateY() - line_height + yGetHeight(true) * pivo;
+        return getTranslateY() - line_height + this.height.get()/2 + yGetHeight(true) * (pivo - 0.5);
     }
 
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        YShapeHandler.setTranslateX(this, position, pivo);
+        YShapeHandler.setTranslateX(this, position - this.width.get()/2, pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {
-        YShapeHandler.setTranslateY(this, position + line_height, pivo);
+        YShapeHandler.setTranslateY(this, position + line_height - this.height.get()/2, pivo);
     }
 
     @Override

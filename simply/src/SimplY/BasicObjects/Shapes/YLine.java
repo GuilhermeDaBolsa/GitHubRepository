@@ -98,7 +98,7 @@ public class YLine extends Line implements YShape, YCoolBindings{
         if(plusStroke)
             delta += yOutsideStrokeOcupation.WIDTH;
         
-        return delta;
+        return delta * getScaleX();
     }
     
     /**
@@ -110,7 +110,7 @@ public class YLine extends Line implements YShape, YCoolBindings{
         if(plusStroke)
             delta += yOutsideStrokeOcupation.HEIGHT;
         
-        return delta;
+        return delta * getScaleY();
     }
 
     @Override
@@ -146,22 +146,22 @@ public class YLine extends Line implements YShape, YCoolBindings{
     
     @Override
     public double yGetTranslateX(double pivo) {
-        return getTranslateX() - yOutsideStrokeOcupation.LEFT + getStartX() + yGetWidth(true) * pivo;
+        return (getTranslateX() + getStartX() + YMath.yModulo(getEndX() - getStartX())/2) + yGetWidth(true) * (pivo - 0.5);
     }
 
     @Override
     public double yGetTranslateY(double pivo) {
-        return getTranslateY() - yOutsideStrokeOcupation.UP + getStartY() + yGetHeight(true) * pivo;
+        return (getTranslateY() + getStartY() + YMath.yModulo(getEndY() - getStartY())/2) + yGetHeight(true) * (pivo - 0.5);
     }
     
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        YShapeHandler.setTranslateX(this, position - getStartX() + yOutsideStrokeOcupation.LEFT, pivo);
+        YShapeHandler.setTranslateX(this, position - getStartX() - YMath.yModulo(getEndX() - getStartX())/2, pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {
-        YShapeHandler.setTranslateY(this, position - getStartY() + yOutsideStrokeOcupation.UP, pivo);
+        YShapeHandler.setTranslateY(this, position - getStartY() - YMath.yModulo(getEndY() - getStartY())/2, pivo);
     }
     
     @Override

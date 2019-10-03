@@ -96,7 +96,7 @@ public class YPolygon extends Polygon implements YShape, YCoolBindings{
         if(plusStroke)
             width += yOutsideStrokeOcupation.WIDTH;
         
-        return width;
+        return width * getScaleX();
     }
     
     /**
@@ -108,7 +108,7 @@ public class YPolygon extends Polygon implements YShape, YCoolBindings{
         if(plusStroke)
             height += yOutsideStrokeOcupation.HEIGHT;
         
-        return height;
+        return height * getScaleY();
     }
 
     @Override
@@ -151,22 +151,22 @@ public class YPolygon extends Polygon implements YShape, YCoolBindings{
     
     @Override
     public double yGetTranslateX(double pivo) {
-        return getTranslateX() - yOutsideStrokeOcupation.LEFT + yLeft_X.get() + yGetWidth(true) * pivo;
+        return getTranslateX() + yLeft_X.get() - yOutsideStrokeOcupation.LEFT + (yRight_X.get() - yLeft_X.get() + yOutsideStrokeOcupation.WIDTH)/2 + yGetWidth(true) * (pivo - 0.5);
     }
 
     @Override
     public double yGetTranslateY(double pivo) {
-        return getTranslateY() - yOutsideStrokeOcupation.UP + yUp_Y.get() + yGetHeight(true) * pivo;
+        return getTranslateY() + yUp_Y.get() - yOutsideStrokeOcupation.UP + (yDown_Y.get() - yUp_Y.get() + yOutsideStrokeOcupation.HEIGHT)/2 + yGetHeight(true) * (pivo - 0.5);
     }
     
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        YShapeHandler.setTranslateX(this, position - yLeft_X.get() + yOutsideStrokeOcupation.LEFT, pivo);
+        YShapeHandler.setTranslateX(this, position - yLeft_X.get() + yOutsideStrokeOcupation.LEFT - (yRight_X.get() - yLeft_X.get() + yOutsideStrokeOcupation.WIDTH)/2, pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {
-        YShapeHandler.setTranslateY(this, position - yUp_Y.get() + yOutsideStrokeOcupation.UP, pivo);
+        YShapeHandler.setTranslateY(this, position - yUp_Y.get() + yOutsideStrokeOcupation.UP - (yDown_Y.get() - yUp_Y.get() + yOutsideStrokeOcupation.HEIGHT)/2, pivo);
     }
     
     @Override

@@ -69,7 +69,7 @@ public class YCircle extends Circle implements YShape, YCoolBindings{
         if(plusStroke)
             width += yOutsideStrokeOcupation.WIDTH;
         
-        return width;
+        return width * getScaleX();
     }
     
     @Override
@@ -78,7 +78,7 @@ public class YCircle extends Circle implements YShape, YCoolBindings{
         if(plusStroke)
             height += yOutsideStrokeOcupation.HEIGHT;
         
-        return height;
+        return height * getScaleY();
     }
 
     @Override
@@ -128,13 +128,13 @@ public class YCircle extends Circle implements YShape, YCoolBindings{
     }
 
     @Override
-    public void ySetTranslateX(double X, double pivo) {//-0.5 pois o ponto de pivo do circulo é no meio dele
-        YShapeHandler.setTranslateX(this, X, pivo - 0.5);
+    public void ySetTranslateX(double X, double pivo) {
+        YShapeHandler.setTranslateX(this, X, pivo);
     }
 
     @Override
-    public void ySetTranslateY(double Y, double pivo) {//-0.5 pois o ponto de pivo do circulo é no meio dele
-        YShapeHandler.setTranslateY(this, Y, pivo - 0.5);
+    public void ySetTranslateY(double Y, double pivo) {
+        YShapeHandler.setTranslateY(this, Y, pivo);
     }
     
     @Override

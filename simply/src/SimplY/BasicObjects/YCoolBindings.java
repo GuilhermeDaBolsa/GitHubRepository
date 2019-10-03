@@ -4,7 +4,7 @@ import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ObservableValue;
 
 /**
- * Some short but interesting binds some object could have.
+ * Some short but interesting binds some object could have. (DOES NOT WORK WITH SHAPE'S SCALE
  */
 public interface YCoolBindings {
     /**

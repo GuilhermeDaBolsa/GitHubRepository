@@ -58,7 +58,7 @@ public class YRectangle extends Rectangle implements YShape, YCoolBindings{
         if(plusStroke)
             width += yOutsideStrokeOcupation.WIDTH;
         
-        return width;
+        return width * getScaleX();
     }
     
     @Override
@@ -67,7 +67,7 @@ public class YRectangle extends Rectangle implements YShape, YCoolBindings{
         if(plusStroke)
             height += yOutsideStrokeOcupation.HEIGHT;
         
-        return height;
+        return height * getScaleY();
     }
     
     @Override
@@ -100,22 +100,22 @@ public class YRectangle extends Rectangle implements YShape, YCoolBindings{
     
     @Override
     public double yGetTranslateX(double pivo) {
-        return getTranslateX() - yOutsideStrokeOcupation.LEFT + yGetWidth(true) * pivo;
+        return getTranslateX() + getWidth()/2 + yGetWidth(true) * (pivo - 0.5);
     }
 
     @Override
     public double yGetTranslateY(double pivo) {
-        return getTranslateY() - yOutsideStrokeOcupation.UP + yGetHeight(true) * pivo;
+        return getTranslateY() + getHeight()/2 + yGetHeight(true) * (pivo - 0.5);
     }
     
     @Override
     public void ySetTranslateX(double position, double pivo) {
-        YShapeHandler.setTranslateX(this, position + yOutsideStrokeOcupation.LEFT, pivo);
+        YShapeHandler.setTranslateX(this, position - getWidth()/2, pivo);
     }
 
     @Override
     public void ySetTranslateY(double position, double pivo) {
-        YShapeHandler.setTranslateY(this, position + yOutsideStrokeOcupation.UP, pivo);
+        YShapeHandler.setTranslateY(this, position - getHeight()/2, pivo);
     }
     
     @Override

@@ -210,22 +210,24 @@ public class YBox extends YVisibleScene {
     
     /**
      * Sets box size based on its content.
+     * @param paddingX Its a padding meant to boost resize coding.
+     * @param paddingY Its a padding meant to boost resize coding.
      * @see #ySetBoxSize(double, double, boolean, boolean, boolean) 
      */
-    public void ySetBoxSizeWithItsContent(boolean strokeX_included, boolean strokeY_included, boolean correct_location, boolean proportion){
-        double largura = yGetContentWidth();
-        double altura = yGetContentHeight();
+    public void ySetBoxSizeWithItsContent(double paddingX, double paddingY, boolean strokeX_included, boolean strokeY_included, boolean correct_location, boolean proportion){
+        double width = yGetContentWidth();
+        double height = yGetContentHeight();
         
         if(proportion){
-            if(largura > altura){
-                double multiplier = altura / yGetBoxHeight();
-                largura = yGetBoxWidth() * multiplier;
+            if(width > height){
+                double multiplier = height / yGetBoxHeight();
+                width = yGetBoxWidth() * multiplier;
             }else{
-                double multiplier = largura / yGetBoxWidth();
-                altura = yGetBoxHeight() * multiplier;
+                double multiplier = width / yGetBoxWidth();
+                height = yGetBoxHeight() * multiplier;
             }
         }
-        ySetBoxSize(largura, altura, strokeX_included, strokeY_included, correct_location);
+        ySetBoxSize(width + paddingX, height + paddingY, strokeX_included, strokeY_included, correct_location);
     }
     
     /**

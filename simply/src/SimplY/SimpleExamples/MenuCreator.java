@@ -84,6 +84,8 @@ public class MenuCreator {
                 YAnimations.animacaoMovimento(btn_menu, tempo_animacao_menu, largura_menu + btn_menu.box.getStrokeWidth(), null);
                 YAnimations.animacaoMovimento(menu, tempo_animacao_menu, 0.0, null);
             } else {
+                int positionX = 0;
+                int positionY = 0;
                 btn_menu.ySetStroke(null, Color.BLACK, StrokeType.CENTERED, true);
                 btn_menu.box.setFill(Color.WHITE);
                 YAnimations.animacaoMovimento(btn_menu, tempo_animacao_menu, 0 + btn_menu.box.getStrokeWidth(), null);

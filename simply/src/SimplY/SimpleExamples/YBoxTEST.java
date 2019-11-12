@@ -25,44 +25,28 @@ import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
-public class YSlidingBarTEST extends Application {
+public class YBoxTEST extends Application {
 
     @Override
     public void start(Stage primaryStage) {
         Pane teste = new Pane();
         
-        Circle a = new Circle(2, Color.RED);
-        a.setDisable(true);
-        YText b = new YText("AAA q saco mano");
+        YBox caixa = new YBox(Color.WHITE, 6, Color.gray(0.4));
+        YText texto = new YText("Olá", new Font(16), Color.gray(0.1));
         
-        YSlidingBar k = new YSlidingBar(new Circle(50), new YBox(10, 10, Color.WHITE, 2, Color.BLACK), 50, 0, 250, true);
+        caixa.yAddContent(texto);
+        caixa.ySetBoxSizeWithItsContent(60, 30, false, false, true, false);
+        caixa.yAlignContents(0.5, 0.5, 0.5, 0.5);
         
-        k.ySetTranslateX(400, 0);
-        k.ySetTranslateY(400, 0);
+        caixa.ySetTranslateX(100, 0);
+        caixa.ySetTranslateY(100, 0);
         
-        
-        //ver p faz esse baguiu do bind text 
-        k.yDisplayValue(false);
-        k.text.yBindTranslateX("SliderTextTranslationX", k.sliderXposition, 0);
-        k.text.yBindTranslateY("SliderTextTranslationY", k.sliderYposition, 0);
-        k.text.setDisable(true);
-        a.layoutXProperty().bind(k.sliderXposition.add(400));
-        a.layoutYProperty().bind(k.sliderYposition.add(400));
-        
-        b.ySetTranslateX(0, 0);
-        b.ySetTranslateY(0, 0);
-        b.layoutXProperty().bind(k.sliderXposition);
-        b.layoutYProperty().bind(k.sliderYposition);
-
-        
-        teste.getChildren().addAll(k, a, b);
+        teste.getChildren().addAll(caixa);
         
         Scene scene = new Scene(teste, 1440, 900);
         primaryStage.setTitle("Física 0.65");
         primaryStage.setScene(scene);
         primaryStage.show();
-        k.ySetValue(100);
-        
     }
 
     public static void main(String[] args) {

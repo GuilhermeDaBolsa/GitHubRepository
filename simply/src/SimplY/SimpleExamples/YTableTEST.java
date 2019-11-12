@@ -71,7 +71,7 @@ public class YTableTEST extends Application {
         
         YBox envolocro = new YBox(13.5, 10, Color.WHITE, 8, Color.DIMGRAY);
         envolocro.yAddContent(testeTabela);
-        envolocro.ySetBoxSizeWithItsContent(false, false, true, false);
+        envolocro.ySetBoxSizeWithItsContent(0, 0, false, false, true, false);
         envolocro.ySetStroke(null, null, StrokeType.OUTSIDE, true);
         envolocro.yAlignContents(0.5, 0.5, 0.5, 0.5);
         

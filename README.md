@@ -1,4 +1,4 @@
-![Logo](https://lh4.googleusercontent.com/xq_wBOdUJ5HRTrN19TZfLioV5Kvp9Nwi4iqh678lRPsUHC1cVigjpDjlgcmE1WAQsrKNfZK9F2Gc0yHXmscc=w1399-h756)
+![Logo](https://lh4.googleusercontent.com/hDLZcDgCAcOEa7QadUjdn3c0SULbqQGUyALbMNt9pMwR7h5WEqWjiiJFPEOVxf9XpUpDIAYgTn6pV2yCZdkh=w1399-h756)
 
 ## What is Simply? **/** What is it's pourpose? **/** etc... or just ALMOST EVERY THING YOU NEED TO KNOW ABOUT IT! :D
 

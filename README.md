@@ -1,4 +1,4 @@
-![title image](https://lh4.googleusercontent.com/hDLZcDgCAcOEa7QadUjdn3c0SULbqQGUyALbMNt9pMwR7h5WEqWjiiJFPEOVxf9XpUpDIAYgTn6pV2yCZdkh=w1399-h756)
+![title image](https://i.imgur.com/xSMrXZu.png)
 
 ## What is Simply? **/** What is it's pourpose? **/** etc... or just ALMOST EVERY THING YOU NEED TO KNOW ABOUT IT! :D
 

@@ -35,3 +35,8 @@ All basics shapes were standardized and improved in this library, for example:
 * **YSlidingBar**: It is a sliding bar that holds almost every kind of path for its slider.
 
 * **YMathGrid**: It is a math grid, like the name sugests, where it is possible to add elements in determined coordinates.
+
+
+# More:
+
+I have not mencioned all things you can do with this library, so there are more things. There are also unfinished classes and methods and the JAVADOC is 95% completed. If you want to know more about this library, you can acess my article HERE(WAIT THE LINK) and my presentation (WAIT LINK AGAIN), but these are in Portuguese (Brazil) sorry :/
